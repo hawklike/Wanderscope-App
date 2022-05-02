@@ -18,6 +18,6 @@ inline fun <reified T> performCall(
     when (val apiResult = safeApiCall(serializer, call = networkCall)) {
         is ApiResult.Success -> emit(Result.Success(apiResult.payload))
         is ApiResult.Failure -> emit(Result.Failure(apiResult.error))
-        null -> emit(Result.Failure(Error(Status.INTERNAL_ERROR, "Something went wrong.")))
+        null -> emit(Result.Failure(Error(Status.INTERNAL_ERROR, null)))
     }
 }

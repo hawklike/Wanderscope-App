@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="cz.cvut.fit.steuejan.wanderscope.auth.login.LoginVM" />
+            type="cz.cvut.fit.steuejan.wanderscope.auth.login.LoginFragmentVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,6 +24,7 @@
             android:layout_marginTop="100dp"
             android:autofillHints="emailAddress"
             android:hint="@string/email"
+            android:text="@={vm.email}"
             android:inputType="textEmailAddress"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,8 +35,19 @@
             android:layout_marginTop="30dp"
             android:autofillHints="password"
             android:hint="@string/password"
+            android:text="@={vm.password}"
             android:inputType="textPassword"
             app:layout_constraintTop_toBottomOf="@id/loginEmail" />
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:onClick="@{() -> vm.login()}"
+            android:text="@string/login"
+            app:layout_constraintTop_toBottomOf="@id/loginPassword" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

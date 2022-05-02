@@ -16,6 +16,13 @@ fun CoroutineScope.launchIO(
     return launch(context, start, block)
 }
 
+suspend fun <T> withIO(
+    context: CoroutineContext = Dispatchers.IO,
+    block: suspend CoroutineScope.() -> T
+): T {
+    return withContext(context, block)
+}
+
 suspend inline fun <T> Flow<Result<T>>.safeCollect(
     scope: CoroutineScope,
     collectDispatcher: CoroutineDispatcher = Dispatchers.Main,
@@ -27,4 +34,8 @@ suspend inline fun <T> Flow<Result<T>>.safeCollect(
             action.invoke(it)
         }
     }
+}
+
+suspend inline fun <T> Flow<Result<T>>.fireAndForget(scope: CoroutineScope) {
+    safeCollect(scope, action = {})
 }

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import cz.cvut.fit.steuejan.wanderscope.app.nav.WithBottomNavigationBar
 import cz.cvut.fit.steuejan.wanderscope.app.toolbar.WithToolbar
 import cz.cvut.fit.steuejan.wanderscope.app.util.runOrLogException
+import cz.cvut.fit.steuejan.wanderscope.auth.WithLogin
 
 abstract class BaseFragment : Fragment() {
 
@@ -38,6 +39,14 @@ abstract class BaseFragment : Fragment() {
         runOrLogException {
             findNavController().navigate(action)
         }
+    }
+
+    protected fun login() {
+        (activity as? WithLogin)?.login()
+    }
+
+    protected fun logout() {
+        (activity as? WithLogin)?.logout()
     }
 
     private fun handleBottomNavigation() {
