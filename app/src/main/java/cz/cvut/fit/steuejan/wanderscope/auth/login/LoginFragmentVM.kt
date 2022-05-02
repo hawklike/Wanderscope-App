@@ -19,7 +19,7 @@ class LoginFragmentVM(private val authRepository: AuthRepository) : BaseViewMode
         viewModelScope.launchIO {
             multipleLet(email.value, password.value) { email, password ->
                 val request = LoginRequest(email, password)
-                // TODO: failure, loading
+                // TODO: failure, loading, success
                 authRepository.login(request).safeCollect(this) {
                     when (it) {
                         is Result.Cache -> TODO()

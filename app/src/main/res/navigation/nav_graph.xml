@@ -8,26 +8,26 @@
     <fragment
         android:id="@+id/introFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.auth.intro.IntroFragment"
-        tools:layout="@layout/fragment_intro"></fragment>
+        tools:layout="@layout/fragment_intro" />
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.auth.login.LoginFragment"
         android:label="@string/login"
-        tools:layout="@layout/fragment_login"></fragment>
+        tools:layout="@layout/fragment_login" />
 
 
     <fragment
         android:id="@+id/registerFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.auth.register.RegisterFragment"
         android:label="@string/register"
-        tools:layout="@layout/fragment_register"></fragment>
+        tools:layout="@layout/fragment_register" />
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="cz.cvut.fit.steuejan.wanderscope.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:name="cz.cvut.fit.steuejan.wanderscope.home.HomeFragment"
+        android:label="@string/your_trip"
+        tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"

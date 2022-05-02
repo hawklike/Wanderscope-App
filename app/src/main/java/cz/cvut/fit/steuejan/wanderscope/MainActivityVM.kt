@@ -1,5 +1,6 @@
 package cz.cvut.fit.steuejan.wanderscope
 
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.auth.repository.AuthRepository
@@ -12,4 +13,6 @@ class MainActivityVM(private val authRepository: AuthRepository) : BaseViewModel
             authRepository.logout()
         }
     }
+
+    fun shouldLogoutUser() = authRepository.shouldLogoutUser().asLiveData()
 }

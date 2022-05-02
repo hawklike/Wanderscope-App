@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.app.retrofit
 
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.ApiResult
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Status
 import cz.cvut.fit.steuejan.wanderscope.app.serialization.MoshiSerializer
 import cz.cvut.fit.steuejan.wanderscope.app.serialization.Serializer
 import cz.cvut.fit.steuejan.wanderscope.app.serialization.fromJson
@@ -20,6 +21,9 @@ suspend inline fun <reified T> safeApiCall(
                 ApiResult.Success(body)
             } else {
                 val error = serializer.fromJson<Error>(errorBody()!!.source())
+                if (error?.status == Status.UNAUTHORIZED) {
+
+                }
                 ApiResult.Failure(error!!)
             }
         }

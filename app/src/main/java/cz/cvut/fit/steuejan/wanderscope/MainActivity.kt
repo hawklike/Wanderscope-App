@@ -32,6 +32,16 @@ class MainActivity : MvvmActivity<ActivityMainBinding, MainActivityVM>(
         val mainFragments = setOf(R.id.FirstFragment, R.id.SecondFragment, R.id.loginFragment)
         val appBarConfiguration = AppBarConfiguration(mainFragments)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        observeLogout()
+    }
+
+    private fun observeLogout() {
+        viewModel.shouldLogoutUser().safeObserve { shouldLogout ->
+            if (shouldLogout) {
+                logout()
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -76,6 +76,7 @@ ext {
     security_crypto_version = '1.1.0-alpha03'
     chucker_version = '3.5.2'
     lifecycle_version = '2.4.1'
+    datastore_preferences_version = '1.0.0'
 }
 
 dependencies {
@@ -93,6 +94,9 @@ dependencies {
 
     //Jetpack Security
     implementation "androidx.security:security-crypto-ktx:$security_crypto_version"
+
+    //Jetpack Preferences Datastore
+    implementation "androidx.datastore:datastore-preferences:$datastore_preferences_version"
 
     //Koin
     implementation "io.insert-koin:koin-android:$koin_version"

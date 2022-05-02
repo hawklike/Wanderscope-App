@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.account.api
 
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 data class DateRequest(
@@ -20,4 +21,7 @@ interface AccountApi {
 
     @POST("/time")
     suspend fun postDate(@Body date: DateRequest): Response<DateResponse>
+
+    @GET("/expiration")
+    suspend fun getExpiration(): Response<String>
 }

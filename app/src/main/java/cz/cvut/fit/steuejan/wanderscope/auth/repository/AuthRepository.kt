@@ -14,6 +14,11 @@ class AuthRepository(
     private val sessionManager: SessionManager,
     private val authApi: AuthApi
 ) {
+
+    fun shouldLogoutUser(): Flow<Boolean> {
+        return sessionManager.shouldLogoutUser()
+    }
+
     suspend fun logout() {
         withIO {
             sessionManager.saveAccessToken(null)
@@ -30,9 +35,15 @@ class AuthRepository(
     suspend fun login(loginRequest: LoginRequest): Flow<Result<AuthResponse>> {
         return performCall { authApi.login(loginRequest) }.onEach {
             if (it is Result.Success) {
-                sessionManager.saveAccessToken(it.data.accessToken)
-                sessionManager.saveRefreshToken(it.data.refreshToken)
+                saveTokens(it.data)
             }
+        }
+    }
+
+    private suspend fun saveTokens(tokens: AuthResponse) {
+        withIO {
+            sessionManager.saveAccessToken(tokens.accessToken)
+            sessionManager.saveRefreshToken(tokens.refreshToken)
         }
     }
 }
