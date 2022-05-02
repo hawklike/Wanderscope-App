@@ -27,6 +27,10 @@ class SessionManagerImpl(context: Context) : SessionManager {
         return refreshTokenPref.getString(REFRESH_TOKEN_KEY, null)
     }
 
+    override fun isUserLoggedIn(): Boolean {
+        return getAccessToken() != null
+    }
+
     private val accessTokenPref = context.getSharedPreferences(ACCESS_TOKEN_SHARED_PREF, Context.MODE_PRIVATE)
 
     private val refreshTokenPref = EncryptedSharedPreferences.create(

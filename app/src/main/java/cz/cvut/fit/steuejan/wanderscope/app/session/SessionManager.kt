@@ -5,4 +5,5 @@ interface SessionManager {
     fun getAccessToken(): String?
     fun saveRefreshToken(token: String?)
     fun getRefreshToken(): String?
+    fun isUserLoggedIn(): Boolean
 }

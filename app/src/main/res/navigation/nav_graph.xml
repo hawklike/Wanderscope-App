@@ -1,19 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/nav_graph"
-        app:startDestination="@id/FirstFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/FirstFragment">
+
+    <navigation
+        android:id="@+id/registration_navigation"
+        app:startDestination="@id/loginFragment">
+
+        <fragment
+            android:id="@+id/loginFragment"
+            android:name="cz.cvut.fit.steuejan.wanderscope.auth.login.LoginFragment"
+            android:label="@string/login_fragment_label"
+            tools:layout="@layout/fragment_login">
+
+        </fragment>
+
+
+        <fragment
+            android:id="@+id/registerFragment"
+            android:name="cz.cvut.fit.steuejan.wanderscope.auth.register.RegisterFragment"
+            android:label="@string/register_fragment_label"
+            tools:layout="@layout/fragment_register">
+
+        </fragment>
+
+    </navigation>
 
     <fragment
-            android:id="@+id/FirstFragment"
-            android:name="cz.cvut.fit.steuejan.wanderscope.FirstFragment"
-            android:label="@string/first_fragment_label"
-            tools:layout="@layout/fragment_first">
+        android:id="@+id/FirstFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.FirstFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_first">
 
         <action
-                android:id="@+id/action_FirstFragment_to_SecondFragment"
-                app:destination="@id/SecondFragment" />
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
+
+        <action
+            android:id="@+id/action_FirstFragment_to_registration_navigation"
+            app:destination="@id/registration_navigation" />
+
+
     </fragment>
     <fragment
             android:id="@+id/SecondFragment"
