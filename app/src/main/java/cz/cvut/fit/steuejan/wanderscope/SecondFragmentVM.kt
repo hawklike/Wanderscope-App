@@ -21,7 +21,7 @@ class SecondFragmentVM(private val api: AccountApi) : BaseViewModel() {
             performCall { api.postDate(date) }.safeCollect(this) {
                 text.value = when (it) {
                     is Result.Cache -> TODO()
-                    is Result.Failure -> it.error.status.name
+                    is Result.Failure -> it.error.reason?.status?.name
                     is Result.Loading -> "loading..."
                     is Result.Success -> it.data.time
                 }

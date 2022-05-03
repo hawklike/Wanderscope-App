@@ -6,8 +6,10 @@ import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.app.util.performCall
 import cz.cvut.fit.steuejan.wanderscope.auth.api.AuthApi
 import cz.cvut.fit.steuejan.wanderscope.auth.api.request.LoginRequest
+import cz.cvut.fit.steuejan.wanderscope.auth.api.request.RefreshTokenRequest
 import cz.cvut.fit.steuejan.wanderscope.auth.api.response.AuthResponse
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onEach
 
 class AuthRepository(
@@ -19,11 +21,16 @@ class AuthRepository(
         return sessionManager.shouldLogoutUser()
     }
 
-    suspend fun logout() {
+    suspend fun logout(): Flow<Result<Unit>> {
+        var refreshToken: String? = null
         withIO {
+            refreshToken = sessionManager.getRefreshToken()
             sessionManager.saveAccessToken(null)
             sessionManager.saveRefreshToken(null)
         }
+        return refreshToken?.let {
+            performCall { authApi.logout(RefreshTokenRequest(it)) }
+        } ?: flowOf(Result.Failure())
     }
 
     suspend fun isUserLoggedIn(): Boolean {

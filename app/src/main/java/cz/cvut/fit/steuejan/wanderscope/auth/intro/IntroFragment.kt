@@ -31,6 +31,6 @@ class IntroFragment : MvvmFragment<FragmentIntroBinding, IntroFragmentVM>(
 
     private fun goToHomeScreen() {
         findNavController().popBackStack(R.id.introFragment, true)
-        navigateTo(R.id.FirstFragment)
+        navigateTo(R.id.homeFragment)
     }
 }

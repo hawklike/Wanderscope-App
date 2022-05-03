@@ -17,6 +17,9 @@ interface AuthApi {
         @Query("flow") flow: AuthFlow = AuthFlow.EMAIL
     ): Response<AuthResponse>
 
+    @POST("/auth/logout")
+    suspend fun logout(@Body request: RefreshTokenRequest): Response<Unit>
+
     @POST("/auth/refresh")
     suspend fun refreshToken(@Body request: RefreshTokenRequest): Response<AuthResponse>
 }

@@ -14,7 +14,13 @@
         android:id="@+id/loginFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.auth.login.LoginFragment"
         android:label="@string/login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 
     <fragment
@@ -24,7 +30,7 @@
         tools:layout="@layout/fragment_register" />
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/homeFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.home.HomeFragment"
         android:label="@string/your_trip"
         tools:layout="@layout/fragment_home">
@@ -42,6 +48,6 @@
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

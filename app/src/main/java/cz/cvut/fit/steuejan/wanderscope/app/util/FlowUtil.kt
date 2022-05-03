@@ -2,7 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.app.util
 
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.ApiResult
-import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.UnspecifiedError
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.safeApiCall
 import cz.cvut.fit.steuejan.wanderscope.app.serialization.MoshiSerializer
 import cz.cvut.fit.steuejan.wanderscope.app.serialization.Serializer
@@ -17,6 +17,6 @@ inline fun <reified T> performCall(
     when (val apiResult = safeApiCall(serializer, call = networkCall)) {
         is ApiResult.Success -> emit(Result.Success(apiResult.payload))
         is ApiResult.Failure -> emit(Result.Failure(apiResult.error))
-        null -> emit(Result.Failure(Error()))
+        null -> emit(Result.Failure(UnspecifiedError))
     }
 }

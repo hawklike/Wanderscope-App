@@ -6,6 +6,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
+import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.auth.api.request.LoginRequest
 import cz.cvut.fit.steuejan.wanderscope.auth.repository.AuthRepository
@@ -25,7 +26,9 @@ class LoginFragmentVM(private val authRepository: AuthRepository) : BaseViewMode
                         is Result.Cache -> TODO()
                         is Result.Failure -> {}
                         is Result.Loading -> {}
-                        is Result.Success -> {}
+                        is Result.Success -> navigateTo(
+                            Action(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
+                        )
                     }
                 }
             }
