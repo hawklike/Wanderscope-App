@@ -65,7 +65,7 @@ class MainActivity : MvvmActivity<ActivityMainBinding, MainActivityVM>(
     }
 
     override fun login() {
-        navController.popBackStack(R.id.introFragment, true)
+        navController.popBackStack(R.id.nav_graph, true)
         navigateTo(R.id.loginFragment)
     }
 

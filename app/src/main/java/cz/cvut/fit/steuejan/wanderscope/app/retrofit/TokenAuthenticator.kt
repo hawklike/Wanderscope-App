@@ -19,6 +19,11 @@ class TokenAuthenticator(
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
+        return authenticateWithRefreshToken(response)
+    }
+
+    @Synchronized
+    private fun authenticateWithRefreshToken(response: Response): Request? {
         return runBlocking {
             val result = refreshToken()
             val accessToken: String
@@ -30,11 +35,14 @@ class TokenAuthenticator(
                 sessionManager.requestLogout()
                 return@runBlocking null
             }
-
-            response.request().newBuilder().header(
-                AuthInterceptor.AUTH_HEADER, AuthInterceptor.bearerToken(accessToken)
-            ).build()
+            createNewRequest(response, accessToken)
         }
+    }
+
+    private fun createNewRequest(response: Response, accessToken: String): Request {
+        return response.request().newBuilder().header(
+            AuthInterceptor.AUTH_HEADER, AuthInterceptor.bearerToken(accessToken)
+        ).build()
     }
 
     private suspend fun refreshToken(): ApiResult<AuthResponse, Error> {
