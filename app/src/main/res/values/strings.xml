@@ -17,9 +17,24 @@
     <string name="forgot_password">Forgot password</string>
     <string name="forgot_password_email">Please check your email account</string>
 
-    <string name="validation_empty">Cannot be empty</string>
-    <string name="validation_username_short">Min length is 8 characters</string>
+    <string name="validation_email_blank">Email cannot be blank</string>
+    <string name="validation_email_long">Email should have 254 or less characters</string>
+    <string name="validation_email_invalid">The email address has an invalid format</string>
 
+    <string name="validation_password_blank">Password cannot be blank</string>
+    <string name="validation_password_short">Password should have at least 8 characters</string>
+    <string name="validation_password_long">Password should have 50 or less characters</string>
+    <string name="validation_password_not_match">Passwords don\'t match</string>
+
+    <string name="validation_username_blank">Username cannot be blank</string>
+    <string name="validation_username_short">Username should have at least 3 characters</string>
+    <string name="validation_username_long">Username should have 30 or less characters</string>
+    <string name="validation_username_invalid">Username cannot contain newline, \'~\' and \';\' characters</string>
+
+    <string name="validation_displayname_blank">Display name cannot be blank</string>
+    <string name="validation_displayname_short">Display name should have at least 3 characters</string>
+    <string name="validation_displayname_long">Display name should have 30 or less characters</string>
+    <string name="validation_displayname_invalid">Display name cannot contain newline, \'~\' and \';\' characters</string>
 
     <string name="next">Next</string>
     <string name="previous">Previous</string>

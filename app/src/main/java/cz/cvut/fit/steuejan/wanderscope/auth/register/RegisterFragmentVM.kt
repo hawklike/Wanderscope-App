@@ -2,27 +2,43 @@ package cz.cvut.fit.steuejan.wanderscope.auth.register
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMediator
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
-import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
 
-class RegisterFragmentVM : BaseViewModel() {
+class RegisterFragmentVM(private val validator: InputValidator) : BaseViewModel() {
 
     val username = MutableLiveData<String>()
+    val email = MutableLiveData<String>()
+    val password = MutableLiveData<String>()
+    val confirmPassword = MutableLiveData<String>()
 
     val validateUsername = username.switchMapSuspend {
-        validateUsername(it)
+        validator.validateUsername(it)
     }
 
-    private suspend fun validateUsername(username: String) = withDefault {
-        when {
-            username.isBlank() -> R.string.validation_empty
-            username.length < 8 -> R.string.validation_username_short
-            else -> null
+    val validateEmail = email.switchMapSuspend {
+        validator.validateEmail(it)
+    }
+
+    val validatePassword = password.switchMapSuspend {
+        validator.validatePassword(it)
+    } as MutableLiveData<Int>
+
+    val validateConfirmPassword = confirmPassword.switchMapSuspend {
+        validator.validateConfirmPassword(password.value, it).also { error ->
+            validatePassword.value = error
         }
     }
+
+    val enabled = ValidationMediator(
+        validateUsername,
+        validateEmail,
+        validatePassword,
+        validateConfirmPassword
+    )
 
     fun register() {
         viewModelScope.launchIO {

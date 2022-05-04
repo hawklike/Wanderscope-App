@@ -36,35 +36,62 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/registerEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:autofillHints="emailAddress"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            app:layout_constraintTop_toBottomOf="@id/registerUsername" />
+            app:errorEnabled="true"
+            app:errorText="@{vm.validateEmail}"
+            app:layout_constraintTop_toBottomOf="@id/registerUsername">
 
-        <EditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="emailAddress"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:text="@={vm.email}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/registerPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:autofillHints="password"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            app:layout_constraintTop_toBottomOf="@id/registerEmail" />
+            app:errorEnabled="true"
+            app:errorText="@{vm.validatePassword}"
+            app:layout_constraintTop_toBottomOf="@id/registerEmail">
 
-        <EditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="password"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:text="@={vm.password}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/registerConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:autofillHints="password"
-            android:hint="@string/confirm_password"
-            android:inputType="textPassword"
-            app:layout_constraintTop_toBottomOf="@id/registerPassword" />
+            app:errorEnabled="true"
+            app:errorText="@{vm.validateConfirmPassword}"
+            app:layout_constraintTop_toBottomOf="@id/registerPassword">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="password"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:text="@={vm.confirmPassword}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/registerButton"
@@ -73,6 +100,7 @@
             android:layout_marginTop="30dp"
             android:onClick="@{() -> vm.register()}"
             android:text="@string/register"
+            android:enabled="@{vm.enabled}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/registerConfirmPassword" />
 
