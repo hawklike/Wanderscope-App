@@ -15,7 +15,9 @@
     <string name="username">Username</string>
     <string name="confirm_password">Confirm password</string>
     <string name="forgot_password">Forgot password</string>
-    <string name="forgot_password_email">Please check your email account</string>
+    <string name="forgot_password_email">Check your email account please</string>
+    <string name="forgot_password_email_wrong">Enter valid email please</string>
+    <string name="login_failed">The email or password is incorrect</string>
 
     <string name="validation_email_blank">Email cannot be blank</string>
     <string name="validation_email_long">Email should have 254 or less characters</string>

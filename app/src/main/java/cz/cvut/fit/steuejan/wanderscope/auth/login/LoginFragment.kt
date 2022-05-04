@@ -8,7 +8,5 @@ class LoginFragment : MvvmFragment<FragmentLoginBinding, LoginFragmentVM>(
     R.layout.fragment_login,
     LoginFragmentVM::class
 ) {
-
     override val hasBottomNavigation: Boolean = false
-
 }

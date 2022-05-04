@@ -17,45 +17,64 @@
         android:layout_marginHorizontal="30dp"
         tools:context=".auth.login.LoginFragment">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/loginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:autofillHints="emailAddress"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:text="@={vm.email}"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:errorEnabled="true"
+            app:errorText="@{vm.validateEmail}"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="emailAddress"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:text="@={vm.email}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/loginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:autofillHints="password"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:text="@={vm.password}"
-            app:layout_constraintTop_toBottomOf="@id/loginEmail" />
+            app:errorEnabled="true"
+            app:errorText="@{vm.validatePassword}"
+            app:layout_constraintTop_toBottomOf="@id/loginEmail">
 
-        <Button
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="password"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:text="@={vm.password}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/loginButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:enabled="@{vm.enableLogin}"
             android:onClick="@{() -> vm.login()}"
             android:text="@string/login"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/loginPassword" />
+            app:layout_constraintTop_toBottomOf="@id/loginPassword"
+            app:showProgress="@{vm.loginLoading}"
+            app:textAfter="@{@string/login}" />
 
         <Button
             android:id="@+id/loginRegisterButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="@string/register"
             android:onClick="@{() -> vm.register()}"
+            android:text="@string/register"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/loginButton" />
 
@@ -64,8 +83,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="@string/forgot_password"
             android:onClick="@{() -> vm.forgotPassword()}"
+            android:text="@string/forgot_password"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/loginRegisterButton" />
 

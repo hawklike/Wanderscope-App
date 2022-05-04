@@ -7,12 +7,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.google.android.material.snackbar.Snackbar
-import cz.cvut.fit.steuejan.wanderscope.app.event.SingleLiveEvent
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 abstract class BaseViewModel(
     protected open val state: SavedStateHandle? = null
-) : ViewModel(), LifecycleObserver {
+) : ViewModel(), LifecycleObserver, KoinComponent {
+
+    protected val validator: InputValidator by inject()
 
     val navigateEvent = SingleLiveEvent<NavigationEvent>()
     val toastEvent = SingleLiveEvent<ToastInfo>()
