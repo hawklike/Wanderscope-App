@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.BR
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseFragment
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
@@ -40,6 +41,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         super.onViewCreated(view, savedInstanceState)
         listenToNavigate()
         listenToToast()
+        listenToSnackbar()
     }
 
     override fun onDestroy() {
@@ -59,6 +61,12 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
     private fun listenToToast() {
         viewModel.toastEvent.safeObserve { toast ->
             Toast.makeText(requireContext(), toast.message, toast.lenght).show()
+        }
+    }
+
+    private fun listenToSnackbar() {
+        viewModel.snackbarEvent.safeObserve { snackbar ->
+            Snackbar.make(binding.root, snackbar.message, snackbar.length).show()
         }
     }
 }

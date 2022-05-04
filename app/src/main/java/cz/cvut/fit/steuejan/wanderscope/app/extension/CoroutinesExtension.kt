@@ -23,6 +23,13 @@ suspend fun <T> withIO(
     return withContext(context, block)
 }
 
+suspend fun <T> withDefault(
+    context: CoroutineContext = Dispatchers.Default,
+    block: suspend CoroutineScope.() -> T
+): T {
+    return withContext(context, block)
+}
+
 suspend inline fun <T> Flow<Result<T>>.safeCollect(
     scope: CoroutineScope,
     collectDispatcher: CoroutineDispatcher = Dispatchers.Main,

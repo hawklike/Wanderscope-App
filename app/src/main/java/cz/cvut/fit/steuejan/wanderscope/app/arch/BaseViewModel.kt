@@ -1,10 +1,12 @@
 package cz.cvut.fit.steuejan.wanderscope.app.arch
 
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.app.event.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 
@@ -14,6 +16,7 @@ abstract class BaseViewModel(
 
     val navigateEvent = SingleLiveEvent<NavigationEvent>()
     val toastEvent = SingleLiveEvent<ToastInfo>()
+    val snackbarEvent = SingleLiveEvent<SnackbarInfo>()
 
     fun navigateTo(event: NavigationEvent, onBackground: Boolean = false) {
         if (onBackground) {
@@ -31,6 +34,14 @@ abstract class BaseViewModel(
         }
     }
 
+    fun showSnackbar(snackbar: SnackbarInfo, onBackground: Boolean = false) {
+        if (onBackground) {
+            snackbarEvent.postValue(snackbar)
+        } else {
+            snackbarEvent.value = snackbar
+        }
+    }
+
     fun <T> setStateData(paramName: String, data: T) {
         state?.set(paramName, data)
     }
@@ -43,5 +54,6 @@ abstract class BaseViewModel(
         return state?.getLiveData(paramName)
     }
 
-    data class ToastInfo(val message: String, val lenght: Int = Toast.LENGTH_SHORT)
+    data class ToastInfo(@StringRes val message: Int, val lenght: Int = Toast.LENGTH_SHORT)
+    data class SnackbarInfo(@StringRes val message: Int, val length: Int = Snackbar.LENGTH_SHORT)
 }

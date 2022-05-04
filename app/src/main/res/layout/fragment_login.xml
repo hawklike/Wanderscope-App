@@ -24,8 +24,8 @@
             android:layout_marginTop="100dp"
             android:autofillHints="emailAddress"
             android:hint="@string/email"
-            android:text="@={vm.email}"
             android:inputType="textEmailAddress"
+            android:text="@={vm.email}"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
@@ -35,8 +35,8 @@
             android:layout_marginTop="30dp"
             android:autofillHints="password"
             android:hint="@string/password"
-            android:text="@={vm.password}"
             android:inputType="textPassword"
+            android:text="@={vm.password}"
             app:layout_constraintTop_toBottomOf="@id/loginEmail" />
 
         <Button
@@ -44,10 +44,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            app:layout_constraintStart_toStartOf="parent"
             android:onClick="@{() -> vm.login()}"
             android:text="@string/login"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/loginPassword" />
+
+        <Button
+            android:id="@+id/loginRegisterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/register"
+            android:onClick="@{() -> vm.register()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginButton" />
+
+        <Button
+            android:id="@+id/loginForgotPasswordButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/forgot_password"
+            android:onClick="@{() -> vm.forgotPassword()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginRegisterButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
