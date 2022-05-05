@@ -1,6 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="app_clickable_text_size">16sp</dimen>
     <dimen name="app_text_input_text_size">16sp</dimen>
     <dimen name="app_text_input_label_text_size">18sp</dimen>
     <dimen name="app_button_text_size">16sp</dimen>
@@ -11,7 +12,16 @@
     <dimen name="app_layout_main_horizontal_padding">32dp</dimen>
     <dimen name="app_button_vertical_padding">15dp</dimen>
 
+    <dimen name="padding_8">8dp</dimen>
+    <dimen name="padding_16">16dp</dimen>
+
     <dimen name="app_text_input_label_margin">8dp</dimen>
     <dimen name="app_text_input_bottom_margin">16dp</dimen>
     <dimen name="app_layout_first_item_margin">24dp</dimen>
+    <dimen name="app_layout_solitery_item_margin">24dp</dimen>
+    <dimen name="app_layout_last_item_margin">24dp</dimen>
+    <dimen name="app_space_margin">4dp</dimen>
+
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
 </resources>

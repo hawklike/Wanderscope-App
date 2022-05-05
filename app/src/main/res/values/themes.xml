@@ -53,6 +53,19 @@
         <item name="cornerRadius">@dimen/app_button_corner_radius</item>
     </style>
 
+    <style name="TextAppearance.Wanderscope.Regular" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_clickable_text_size</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.Regular.LessImportant">
+        <item name="android:textColor">@color/colorTextLessImportant</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.Regular.Clickable">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
     <style name="Widget.Wanderscope.Label" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">@dimen/app_text_input_label_text_size</item>
         <item name="android:textStyle">bold</item>

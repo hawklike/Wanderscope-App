@@ -35,6 +35,7 @@ private fun MaterialButton.inProgress() {
     iconPadding = 0
     iconGravity = MaterialButton.ICON_GRAVITY_TEXT_START
     isClickable = false
+    setBackgroundColor(ContextCompat.getColor(context, R.color.colorSecondary))
 }
 
 private fun MaterialButton.afterProgress(textAfterProgress: String) {
