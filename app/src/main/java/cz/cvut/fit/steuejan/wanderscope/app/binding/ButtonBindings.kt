@@ -13,7 +13,7 @@ fun MaterialButton.setShowProgress(showProgress: Boolean?, textAfter: String) {
     if (showProgress == true) {
         icon = CircularProgressDrawable(context).apply {
             setStyle(CircularProgressDrawable.DEFAULT)
-            setColorSchemeColors(ContextCompat.getColor(context, R.color.purple_500))
+            setColorSchemeColors(ContextCompat.getColor(context, R.color.colorPrimary))
             start()
         }
         icon.callback = object : Drawable.Callback {

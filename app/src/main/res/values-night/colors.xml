@@ -10,5 +10,4 @@
     <color name="colorSurface">@color/colorSecondary</color>
     <color name="colorText">#000000</color>
     <color name="colorError">#ffff4444</color>
-    <color name="colorTextError">#EF3F3F</color>
 </resources>
