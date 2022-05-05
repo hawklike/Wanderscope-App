@@ -9,4 +9,15 @@ class LoginFragment : MvvmFragment<FragmentLoginBinding, LoginFragmentVM>(
     LoginFragmentVM::class
 ) {
     override val hasBottomNavigation: Boolean = false
+    override val hasToolbar: Boolean = false
+
+    override fun onStart() {
+        super.onStart()
+        setStatusBarColor(R.color.colorPrimary)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        setStatusBarColor(R.color.colorBackground)
+    }
 }

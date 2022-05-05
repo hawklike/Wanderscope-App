@@ -9,12 +9,17 @@
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorText</item>
+        <!-- Status bar color. -->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:navigationBarColor">@color/colorBackground</item>
+        <item name="android:statusBarColor">@color/colorBackground</item>
+        <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
 
         <item name="textInputStyle">@style/Widget.Wanderscope.TextInput</item>
+        <item name="materialButtonStyle">@style/Widget.Wanderscope.Button</item>
     </style>
 
     <style name="Theme.Wanderscope.NoActionBar">
@@ -36,5 +41,25 @@
         <item name="hintEnabled">false</item>
         <item name="errorIconTint">@color/colorError</item>
         <item name="errorTextColor">@color/colorTextError</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.TextInput</item>
+        <item name="android:textSize">@dimen/app_text_input_text_size</item>
+    </style>
+
+    <style name="Widget.Wanderscope.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:paddingVertical">@dimen/app_button_vertical_padding</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">@dimen/app_button_text_size</item>
+        <item name="cornerRadius">@dimen/app_button_corner_radius</item>
+    </style>
+
+    <style name="Widget.Wanderscope.Label" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_text_input_label_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Wanderscope.TextInput" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/app_text_input_corner_size</item>
     </style>
 </resources>

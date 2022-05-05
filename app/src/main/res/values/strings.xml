@@ -9,7 +9,7 @@
 
 
     <string name="register">Register</string>
-    <string name="login">Login</string>
+    <string name="sign_in">Sign in with email</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
@@ -37,6 +37,10 @@
     <string name="validation_displayname_short">Display name should have at least 3 characters</string>
     <string name="validation_displayname_long">Display name should have 30 or less characters</string>
     <string name="validation_displayname_invalid">Display name cannot contain newline, \'~\' and \';\' characters</string>
+
+    <string name="login_email_hint">Your email</string>
+    <string name="login_password_hint">Your password</string>
+
 
     <string name="next">Next</string>
     <string name="previous">Previous</string>

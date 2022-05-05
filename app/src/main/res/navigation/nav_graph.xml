@@ -13,7 +13,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.auth.login.LoginFragment"
-        android:label="@string/login"
+        android:label="@string/sign_in"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"

@@ -2,8 +2,11 @@ package cz.cvut.fit.steuejan.wanderscope.app.arch
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
@@ -47,6 +50,14 @@ abstract class BaseFragment : Fragment() {
 
     protected fun logout() {
         (activity as? WithLogin)?.logout()
+    }
+
+    protected fun setStatusBarColor(@ColorRes color: Int) {
+        if (lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED)) {
+            requireActivity().window.apply {
+                statusBarColor = ContextCompat.getColor(requireContext(), color)
+            }
+        }
     }
 
     private fun handleBottomNavigation() {

@@ -8,8 +8,8 @@ import com.google.android.material.button.MaterialButton
 import cz.cvut.fit.steuejan.wanderscope.R
 
 //https://stackoverflow.com/a/68347420/9723204
-@BindingAdapter(value = ["showProgress", "textAfter"], requireAll = true)
-fun MaterialButton.setShowProgress(showProgress: Boolean?, textAfter: String) {
+@BindingAdapter(value = ["showProgress", "textAfterProgress"], requireAll = true)
+fun MaterialButton.setShowProgress(showProgress: Boolean?, textAfterProgress: String) {
     if (showProgress == true) {
         icon = CircularProgressDrawable(context).apply {
             setStyle(CircularProgressDrawable.DEFAULT)
@@ -24,13 +24,34 @@ fun MaterialButton.setShowProgress(showProgress: Boolean?, textAfter: String) {
             override fun scheduleDrawable(p0: Drawable, p1: Runnable, p2: Long) {}
             override fun unscheduleDrawable(p0: Drawable, p1: Runnable) {}
         }
-        text = null
-        iconPadding = 0
-        iconGravity = MaterialButton.ICON_GRAVITY_TEXT_START
-        isEnabled = false
+        inProgress()
     } else if (showProgress == false) {
-        icon = null
-        isEnabled = true
-        text = textAfter
+        afterProgress(textAfterProgress)
+    }
+}
+
+private fun MaterialButton.inProgress() {
+    text = null
+    iconPadding = 0
+    iconGravity = MaterialButton.ICON_GRAVITY_TEXT_START
+    isClickable = false
+}
+
+private fun MaterialButton.afterProgress(textAfterProgress: String) {
+    icon = null
+    isClickable = true
+    alpha = 1f
+    setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
+    text = textAfterProgress
+}
+
+@BindingAdapter("enabled")
+fun MaterialButton.enable(enable: Boolean?) {
+    if (enable == true) {
+        isClickable = true
+        alpha = 1f
+    } else {
+        isClickable = false
+        alpha = 0.5f
     }
 }
