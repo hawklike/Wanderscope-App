@@ -24,14 +24,22 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
-    </fragment>
 
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/registerFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.auth.register.RegisterFragment"
         android:label="@string/register"
         tools:layout="@layout/fragment_register" />
+
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.auth.forgot_password.ForgotPasswordFragment"
+        tools:layout="@layout/fragment_forgot_password" />
 
     <fragment
         android:id="@+id/homeFragment"

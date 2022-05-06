@@ -7,6 +7,7 @@
     <string name="your_trip">Your Trip</string>
     <string name="second_fragment_label">Second Fragment</string>
 
+    <string name="unexpected_error">Something didn\'t work. Please try again</string>
 
     <string name="register">Register</string>
     <string name="sign_in">Sign in with email</string>
@@ -14,7 +15,6 @@
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="confirm_password">Confirm password</string>
-    <string name="forgot_password">Forgot password</string>
     <string name="forgot_password_email">Check your email account please</string>
     <string name="forgot_password_email_wrong">Enter valid email please</string>
     <string name="login_failed">The email or password is incorrect</string>
@@ -41,13 +41,15 @@
     <string name="login_email_hint">Your email</string>
     <string name="login_password_hint">Your password</string>
 
+    <string name="login_password_forgot">Forgot password?</string>
 
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="login_password_forgot">Forgot password?</string>
     <string name="new_to_wanderscope">New to Wanderscope?</string>
+    <string name="forgot_password_subtitle">Don\'t worry! It happens. Please enter the address associated with your account.</string>
+    <string name="submit">Submit</string>
 
 </resources>

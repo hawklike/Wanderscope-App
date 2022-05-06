@@ -12,7 +12,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.LoadingMutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
-import cz.cvut.fit.steuejan.wanderscope.auth.api.request.ForgotPasswordRequest
 import cz.cvut.fit.steuejan.wanderscope.auth.api.request.LoginRequest
 import cz.cvut.fit.steuejan.wanderscope.auth.repository.AuthRepository
 
@@ -78,20 +77,6 @@ class LoginFragmentVM(private val authRepository: AuthRepository) : BaseViewMode
     }
 
     fun forgotPassword() {
-        viewModelScope.launchIO {
-            if (validateEmail.value == OK) {
-                val request = ForgotPasswordRequest(email.value ?: return@launchIO)
-                authRepository.forgotPassword(request).safeCollect(this) {
-                    when (it) {
-                        is Result.Cache -> TODO()
-                        is Result.Failure -> TODO()
-                        is Result.Loading -> {} //todo
-                        is Result.Success -> showSnackbar(SnackbarInfo(R.string.forgot_password_email))
-                    }
-                }
-            } else {
-                validateEmail.postValue(R.string.forgot_password_email_wrong)
-            }
-        }
+        navigateTo(Action(LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment()))
     }
 }

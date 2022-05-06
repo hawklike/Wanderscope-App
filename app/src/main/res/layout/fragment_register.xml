@@ -100,7 +100,7 @@
             android:layout_marginTop="30dp"
             android:onClick="@{() -> vm.register()}"
             android:text="@string/register"
-            app:enabled="@{vm.enabled}"
+            app:isEnabled="@{vm.enabled}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/registerConfirmPassword" />
 

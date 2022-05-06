@@ -5,6 +5,7 @@
     <dimen name="app_text_input_text_size">16sp</dimen>
     <dimen name="app_text_input_label_text_size">18sp</dimen>
     <dimen name="app_button_text_size">16sp</dimen>
+    <dimen name="app_h1_text_size">28sp</dimen>
 
     <dimen name="app_text_input_corner_size">8dp</dimen>
     <dimen name="app_button_corner_radius">24dp</dimen>
@@ -24,4 +25,5 @@
 
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_16">16dp</dimen>
+    <dimen name="status_bar_height">24dp</dimen>
 </resources>

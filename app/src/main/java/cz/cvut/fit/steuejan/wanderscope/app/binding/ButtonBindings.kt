@@ -46,7 +46,7 @@ private fun MaterialButton.afterProgress(textAfterProgress: String) {
     text = textAfterProgress
 }
 
-@BindingAdapter("enabled")
+@BindingAdapter("isEnabled")
 fun MaterialButton.enable(enable: Boolean?) {
     if (enable == true) {
         isClickable = true
