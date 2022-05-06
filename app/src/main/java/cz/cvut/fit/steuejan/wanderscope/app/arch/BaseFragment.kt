@@ -19,6 +19,8 @@ abstract class BaseFragment : Fragment() {
 
     open val hasBottomNavigation = true
     open val hasToolbar = true
+    open val hasTitle = true
+    open val title: String? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -74,5 +76,15 @@ abstract class BaseFragment : Fragment() {
         } else {
             (activity as? WithToolbar)?.hideToolbar()
         }
+
+        if (!hasTitle) {
+            setTitle(null)
+        }
+
+        title?.let(::setTitle)
+    }
+
+    private fun setTitle(title: String?) {
+        (activity as? WithToolbar)?.setTitle(title)
     }
 }

@@ -9,4 +9,5 @@ class RegisterFragment : MvvmFragment<FragmentRegisterBinding, RegisterFragmentV
     RegisterFragmentVM::class
 ) {
     override val hasBottomNavigation = false
+    override val hasTitle = false
 }

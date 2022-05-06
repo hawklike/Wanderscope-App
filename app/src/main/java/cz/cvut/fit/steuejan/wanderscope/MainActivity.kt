@@ -64,6 +64,10 @@ class MainActivity : MvvmActivity<ActivityMainBinding, MainActivityVM>(
         binding.toolbar.visibility = GONE
     }
 
+    override fun setTitle(title: String?) {
+        binding.toolbar.title = title
+    }
+
     override fun login() {
         navController.popBackStack(R.id.nav_graph, true)
         navigateTo(R.id.loginFragment)
