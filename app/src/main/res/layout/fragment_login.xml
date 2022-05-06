@@ -19,13 +19,13 @@
 
         <ImageView
             android:id="@+id/loginLogo"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/login_logo_horizontal_margin"
             android:layout_marginBottom="@dimen/status_bar_height"
-            android:background="@drawable/ic_logo_with_text"
-            android:backgroundTint="@color/colorBackground"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
+            android:adjustViewBounds="true"
+            android:maxHeight="200dp"
+            android:src="@drawable/ic_logo_with_text_as_background"
             app:layout_constraintBottom_toTopOf="@id/loginMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/app_text_input_label_margin"
-                android:layout_marginBottom="@dimen/app_text_input_bottom_margin"
+                android:layout_marginBottom="@dimen/app_text_input_margin"
                 app:errorText="@{vm.validateEmail}"
                 app:layout_constraintBottom_toTopOf="@id/loginPasswordLabel">
 
@@ -105,7 +105,7 @@
                 style="@style/Widget.Wanderscope.ClickableText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/app_text_input_bottom_margin"
+                android:layout_marginBottom="@dimen/app_text_input_margin"
                 android:onClick="@{() -> vm.forgotPassword()}"
                 android:text="@string/login_password_forgot"
                 app:layout_constraintBottom_toTopOf="@id/loginButton"
@@ -150,7 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/app_space_margin"
-                    android:text="@string/register"
+                    android:text="@string/sign_up"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/loginRegisterText" />
 

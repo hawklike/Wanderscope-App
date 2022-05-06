@@ -32,7 +32,7 @@ class RegisterFragmentVM : BaseViewModel() {
         }
     }
 
-    val enabled = ValidationMediator(
+    val enableSignUp = ValidationMediator(
         validateUsername,
         validateEmail,
         validatePassword,

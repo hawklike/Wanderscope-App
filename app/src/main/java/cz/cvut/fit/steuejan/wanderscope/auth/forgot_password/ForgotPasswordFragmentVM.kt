@@ -42,7 +42,7 @@ class ForgotPasswordFragmentVM(private val authRepository: AuthRepository) : Bas
 
     private fun forgotPasswordSuccess() {
         forgotPasswordLoading.value = false
-        showSnackbar(BaseViewModel.SnackbarInfo(R.string.forgot_password_email))
+        showSnackbar(SnackbarInfo(R.string.forgot_password_email))
     }
 
     private fun forgotPasswordFailure() {
