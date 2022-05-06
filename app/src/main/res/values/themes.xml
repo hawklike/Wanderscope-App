@@ -5,19 +5,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
         <item name="colorOnPrimary">@color/colorBackground</item>
+        <item name="android:textColor">@color/colorText</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
-        <item name="android:textColor">@color/colorText</item>
-        <!-- Status bar color. -->
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
-        <item name="android:navigationBarColor">@color/colorBackground</item>
+        <!-- Status and navigation bar color. -->
         <item name="android:statusBarColor">@color/colorBackground</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/colorBackground</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <!-- Customize your theme here. -->
-
+        <item name="fontFamily">@font/source_sans_pro</item>
         <item name="textInputStyle">@style/Widget.Wanderscope.TextInput</item>
         <item name="materialButtonStyle">@style/Widget.Wanderscope.Button</item>
     </style>
@@ -27,7 +27,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Wanderscope.Toolbar" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.Wanderscope.Toolbar" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="Theme.Wanderscope.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
@@ -61,12 +63,12 @@
         <item name="android:textColor">@color/colorTextLessImportant</item>
     </style>
 
-    <style name="TextAppearance.Wanderscope.Regular.Clickable">
+    <style name="Widget.Wanderscope.ClickableText" parent="TextAppearance.Wanderscope.Regular">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="Widget.Wanderscope.Label" parent="Widget.MaterialComponents.TextView">
+    <style name="TextAppearance.Wanderscope.Label" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">@dimen/app_text_input_label_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>

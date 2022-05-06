@@ -42,12 +42,12 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/loginEmailLabel"
-                style="@style/Widget.Wanderscope.Label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/app_layout_first_item_margin"
                 android:layout_marginBottom="@dimen/app_text_input_label_margin"
                 android:text="@string/email"
+                android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                 app:layout_constraintBottom_toTopOf="@id/loginEmail"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -73,11 +73,11 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/loginPasswordLabel"
-                style="@style/Widget.Wanderscope.Label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/app_text_input_label_margin"
                 android:text="@string/password"
+                android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                 app:layout_constraintBottom_toTopOf="@id/loginPassword"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -102,7 +102,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/loginForgotPassword"
-                style="@style/TextAppearance.Wanderscope.Regular.Clickable"
+                style="@style/Widget.Wanderscope.ClickableText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/app_text_input_bottom_margin"
@@ -129,9 +129,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/app_layout_last_item_margin"
                 android:onClick="@{() -> vm.register()}"
+                android:paddingVertical="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:paddingVertical="@dimen/margin_8"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -145,7 +145,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/loginRegister"
-                    style="@style/TextAppearance.Wanderscope.Regular.Clickable"
+                    style="@style/Widget.Wanderscope.ClickableText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/app_space_margin"
