@@ -30,6 +30,10 @@ suspend fun <T> withDefault(
     return withContext(context, block)
 }
 
+/**
+ * It is safe to post changes to MutableLiveData via *.value*
+ * because the [action] runs in the Main Dispatcher.
+ */
 suspend inline fun <T> Flow<Result<T>>.safeCollect(
     scope: CoroutineScope,
     collectDispatcher: CoroutineDispatcher = Dispatchers.Main,

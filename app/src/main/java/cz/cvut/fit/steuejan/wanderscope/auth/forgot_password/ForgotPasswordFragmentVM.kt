@@ -47,6 +47,6 @@ class ForgotPasswordFragmentVM(private val authRepository: AuthRepository) : Bas
 
     private fun forgotPasswordFailure() {
         forgotPasswordLoading.value = false
-        validateEmail.value = R.string.unexpected_error
+        unexpectedError()
     }
 }

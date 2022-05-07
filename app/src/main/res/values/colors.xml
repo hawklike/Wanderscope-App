@@ -12,4 +12,6 @@
     <color name="colorError">#ffff4444</color>
     <color name="colorTextError">#EF3F3F</color>
     <color name="colorTextLessImportant">#747d90</color>
+    <color name="colorSnackbar">#000000</color>
+    <color name="colorSnackbarText">#ffffff</color>
 </resources>

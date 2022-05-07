@@ -3,7 +3,7 @@
 
     <dimen name="status_bar_height">24dp</dimen>
 
-    <dimen name="app_clickable_text_size">16sp</dimen>
+    <dimen name="app_default_text_size">16sp</dimen>
     <dimen name="app_text_input_text_size">16sp</dimen>
     <dimen name="app_text_input_label_text_size">18sp</dimen>
     <dimen name="app_button_text_size">16sp</dimen>

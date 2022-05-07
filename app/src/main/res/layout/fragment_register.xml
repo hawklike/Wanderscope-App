@@ -178,7 +178,9 @@
             android:onClick="@{() -> vm.register()}"
             android:text="@string/sign_up"
             app:isEnabled="@{vm.enableSignUp}"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:showProgress="@{vm.signupLoading}"
+            app:textAfterProgress="@{@string/sign_up}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

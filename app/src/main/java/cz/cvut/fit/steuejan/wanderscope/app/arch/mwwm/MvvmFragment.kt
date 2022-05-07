@@ -66,7 +66,13 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
 
     private fun listenToSnackbar() {
         viewModel.snackbarEvent.safeObserve { snackbar ->
-            Snackbar.make(binding.root, snackbar.message, snackbar.length).show()
+            Snackbar.make(binding.root, snackbar.message, snackbar.length).apply {
+                snackbar.action?.let { action ->
+                    setAction(snackbar.actionText) {
+                        action.invoke(this)
+                    }
+                }
+            }.show()
         }
     }
 }
