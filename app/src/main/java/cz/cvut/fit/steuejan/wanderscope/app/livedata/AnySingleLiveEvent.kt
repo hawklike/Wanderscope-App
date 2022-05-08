@@ -1,4 +1,4 @@
-package cz.cvut.fit.steuejan.wanderscope.app.event
+package cz.cvut.fit.steuejan.wanderscope.app.livedata
 
 class AnySingleLiveEvent : SingleLiveEvent<Any>() {
 

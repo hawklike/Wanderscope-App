@@ -9,9 +9,14 @@ class AuthInterceptor(private val sessionManager: SessionManager) : Interceptor 
     override fun intercept(chain: Interceptor.Chain): Response {
         val authRequest = chain.request().newBuilder().apply {
             sessionManager.getAccessToken()?.let {
-                header("Authorization", "Bearer $it")
+                header(AUTH_HEADER, bearerToken(it))
             }
         }.build()
         return chain.proceed(authRequest)
+    }
+
+    companion object {
+        const val AUTH_HEADER = "Authorization"
+        fun bearerToken(token: String) = "Bearer $token"
     }
 }

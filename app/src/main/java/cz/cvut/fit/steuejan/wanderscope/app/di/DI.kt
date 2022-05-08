@@ -13,6 +13,8 @@ fun initKoin(appContext: Context) {
 
 private val allModules = listOf(
     serializerModule,
+    bussinessModule,
     networkModule,
+    repositoryModule,
     viewModelModule
 )

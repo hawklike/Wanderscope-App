@@ -16,6 +16,24 @@ fun CoroutineScope.launchIO(
     return launch(context, start, block)
 }
 
+suspend fun <T> withIO(
+    context: CoroutineContext = Dispatchers.IO,
+    block: suspend CoroutineScope.() -> T
+): T {
+    return withContext(context, block)
+}
+
+suspend fun <T> withDefault(
+    context: CoroutineContext = Dispatchers.Default,
+    block: suspend CoroutineScope.() -> T
+): T {
+    return withContext(context, block)
+}
+
+/**
+ * It is safe to post changes to MutableLiveData via *.value*
+ * because the [action] runs in the Main Dispatcher.
+ */
 suspend inline fun <T> Flow<Result<T>>.safeCollect(
     scope: CoroutineScope,
     collectDispatcher: CoroutineDispatcher = Dispatchers.Main,
@@ -27,4 +45,8 @@ suspend inline fun <T> Flow<Result<T>>.safeCollect(
             action.invoke(it)
         }
     }
+}
+
+suspend inline fun <T> Flow<Result<T>>.fireAndForget(scope: CoroutineScope) {
+    safeCollect(scope, action = {})
 }

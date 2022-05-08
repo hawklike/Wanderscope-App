@@ -1,13 +1,18 @@
 package cz.cvut.fit.steuejan.wanderscope.app.serialization
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okio.BufferedSource
+import org.joda.time.DateTime
 
 class MoshiSerializer : Serializer<Moshi> {
 
     private val moshi: Moshi by lazy {
-        Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+        Moshi.Builder()
+            .add(DateTime::class.java, Rfc3339DateJsonAdapter().nullSafe())
+            .addLast(KotlinJsonAdapterFactory())
+            .build()
     }
 
     override fun getSerializer() = moshi

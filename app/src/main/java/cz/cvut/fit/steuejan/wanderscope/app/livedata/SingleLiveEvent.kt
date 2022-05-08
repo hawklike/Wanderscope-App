@@ -1,4 +1,4 @@
-package cz.cvut.fit.steuejan.wanderscope.app.event
+package cz.cvut.fit.steuejan.wanderscope.app.livedata
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner

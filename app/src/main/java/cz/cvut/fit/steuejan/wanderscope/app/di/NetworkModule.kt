@@ -7,6 +7,7 @@ import com.squareup.moshi.Moshi
 import cz.cvut.fit.steuejan.wanderscope.BuildConfig
 import cz.cvut.fit.steuejan.wanderscope.account.api.AccountApi
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.AuthInterceptor
+import cz.cvut.fit.steuejan.wanderscope.app.retrofit.TokenAuthenticator
 import cz.cvut.fit.steuejan.wanderscope.app.serialization.Serializer
 import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManagerImpl
@@ -32,13 +33,15 @@ val networkModule = module {
     singleOf(::provideRetrofitBuilder)
     singleOf(::provideOkHttpClientBuilder)
 
-    singleOf(::provideOkHttpClientWithAuth)
     single(named(WITHOUT_AUTH)) { provideOkHttpClientBuilder(get()).build() }
-
-    singleOf(::provideRetrofit)
     single(named(WITHOUT_AUTH)) { provideRetrofit(get(named(WITHOUT_AUTH)), get()) }
 
     single { provideApi<AuthApi>(get(named(WITHOUT_AUTH))) }
+
+    singleOf(::TokenAuthenticator)
+    singleOf(::provideOkHttpClientWithAuth)
+    singleOf(::provideRetrofit)
+
     single { provideApi<AccountApi>(get()) }
 }
 
@@ -73,10 +76,12 @@ fun provideOkHttpClientBuilder(chucker: ChuckerInterceptor?): OkHttpClient.Build
 
 fun provideOkHttpClientWithAuth(
     okHttpBuilder: OkHttpClient.Builder,
-    authInterceptor: AuthInterceptor
+    authInterceptor: AuthInterceptor,
+    tokenAuthenticator: TokenAuthenticator
 ): OkHttpClient {
     return okHttpBuilder
         .addInterceptor(authInterceptor)
+        .authenticator(tokenAuthenticator)
         .build()
 }
 
