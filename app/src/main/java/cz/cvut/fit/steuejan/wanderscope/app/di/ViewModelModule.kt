@@ -3,7 +3,6 @@ package cz.cvut.fit.steuejan.wanderscope.app.di
 import cz.cvut.fit.steuejan.wanderscope.AccountFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.MainActivityVM
 import cz.cvut.fit.steuejan.wanderscope.auth.forgot_password.ForgotPasswordFragmentVM
-import cz.cvut.fit.steuejan.wanderscope.auth.intro.IntroFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.auth.login.LoginFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.auth.register.RegisterFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.home.HomeFragmentVM
@@ -15,7 +14,6 @@ val viewModelModule = module {
     viewModelOf(::MainActivityVM)
     viewModelOf(::HomeFragmentVM)
     viewModelOf(::AccountFragmentVM)
-    viewModelOf(::IntroFragmentVM)
     viewModelOf(::LoginFragmentVM)
     viewModelOf(::RegisterFragmentVM)
     viewModelOf(::ForgotPasswordFragmentVM)
