@@ -8,4 +8,5 @@ class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
     R.layout.fragment_trips,
     TripsFragmentVM::class
 ) {
+    override val hasToolbar = false
 }

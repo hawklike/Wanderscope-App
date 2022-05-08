@@ -13,32 +13,29 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
         tools:context=".trips.TripsFragment">
 
-        <EditText
-            android:id="@+id/foo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@{vm.text}"
-            app:layout_constraintTop_toBottomOf="@id/foo" />
-
-        <Button
-            android:id="@+id/fooBar"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tripsUpcomingTripsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:onClick="@{() -> vm.click()}"
-            android:text="click"
+            android:layout_marginTop="@dimen/app_no_toolbar_first_item"
+            android:text="@string/upcoming_trips"
+            android:textAppearance="@style/TextAppearance.Wanderscope.H2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bar" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tripsUpcomingTrips"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/app_layout_first_item_margin"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tripsUpcomingTripsLabel"
+            app:recyclerItems="@{vm.upcomingTrips}"
+            tools:listitem="@layout/item_trip_overview" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

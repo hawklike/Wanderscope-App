@@ -74,6 +74,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextAppearance.Wanderscope.H2" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_h2_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextAppearance.Wanderscope.Bold" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">@dimen/app_default_text_size</item>
         <item name="android:textStyle">bold</item>
@@ -100,5 +105,12 @@
     <style name="ShapeAppearanceOverlay.Wanderscope.TextInput" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/app_text_input_corner_size</item>
+    </style>
+
+    <style name="Widget.Wanderscope.CardView.RecyclerItem" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/colorSurface</item>
+        <item name="cardCornerRadius">@dimen/app_recycler_item_corner_radius</item>
+        <item name="cardElevation">0dp</item>
+        <item name="android:layout_marginBottom">@dimen/app_recycler_item_bottom_margin</item>
     </style>
 </resources>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="cz.cvut.fit.steuejan.wanderscope.trips.TripOverviewItem" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Wanderscope.CardView.RecyclerItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingEnd="@dimen/app_recycler_item_end_padding"
+            tools:ignore="RtlSymmetry">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/tripOverviewItemImage"
+                android:layout_width="@dimen/app_trip_overview_image_size"
+                android:layout_height="@dimen/app_trip_overview_image_size"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_trip_overview_placeholder"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearance="@style/ShapeAppearanceOverlay.Wanderscope.TextInput" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tripOverviewItemName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_12"
+                android:layout_marginTop="@dimen/app_recycler_item_margin"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{item.name}"
+                android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tripOverviewItemImage"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Portugal and Spain 2021" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tripOverviewItemDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_12"
+                android:layout_marginTop="@dimen/app_recycler_item_margin"
+                android:text="8.11.2021 - 13.11.2021"
+                android:textColor="@color/colorText"
+                app:layout_constraintStart_toEndOf="@id/tripOverviewItemImage"
+                app:layout_constraintTop_toBottomOf="@id/tripOverviewItemName" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tripOverviewItemDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_12"
+                android:layout_marginTop="@dimen/app_recycler_item_margin"
+                android:drawableStart="@drawable/ic_clock"
+                android:drawablePadding="4dp"
+                android:drawableTint="@color/colorTextLessImportant"
+                android:text="4 days"
+                android:textColor="@color/colorTextLessImportant"
+                app:layout_constraintBottom_toBottomOf="@id/tripOverviewItemImage"
+                app:layout_constraintStart_toEndOf="@id/tripOverviewItemImage"
+                app:layout_constraintTop_toBottomOf="@id/tripOverviewItemDate" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>
