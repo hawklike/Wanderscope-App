@@ -7,11 +7,11 @@ import android.view.MenuItem
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
-import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentSecondBinding
+import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentAccountBinding
 
-class SecondFragment : MvvmFragment<FragmentSecondBinding, SecondFragmentVM>(
-    R.layout.fragment_second,
-    SecondFragmentVM::class
+class AccountFragment : MvvmFragment<FragmentAccountBinding, AccountFragmentVM>(
+    R.layout.fragment_account,
+    AccountFragmentVM::class
 ) {
 
     override fun onCreate(savedInstanceState: Bundle?) {

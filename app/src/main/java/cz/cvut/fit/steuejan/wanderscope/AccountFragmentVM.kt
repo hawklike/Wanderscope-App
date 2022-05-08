@@ -10,7 +10,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.util.performCall
 
-class SecondFragmentVM(private val api: AccountApi) : BaseViewModel() {
+class AccountFragmentVM(private val api: AccountApi) : BaseViewModel() {
 
     val text = MutableLiveData<String>()
 

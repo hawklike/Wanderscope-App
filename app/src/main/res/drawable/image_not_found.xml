@@ -4,7 +4,7 @@
     android:width="200dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <path
-        android:fillColor="@color/colorPrimary"
+        android:fillColor="@color/colorSurface"
         android:fillType="nonZero"
         android:pathData="m723.37,2333.88c0,-0 -347.05,-279.65 -223.34,-673.11 90.95,-289.25 373.3,-459.58 768.26,-392.66 368.05,62.36 767.78,-2.98 1111.86,-459.55C2781.69,275.73 3691.06,598.99 3575.41,1228.42 3499.27,1642.79 4084.98,1662.24 3768.3,2334.72l-3044.94,-0.84"
         android:strokeColor="#00000000" />

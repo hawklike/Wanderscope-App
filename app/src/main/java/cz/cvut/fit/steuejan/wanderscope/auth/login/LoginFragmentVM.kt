@@ -32,14 +32,17 @@ class LoginFragmentVM(private val authRepository: AuthRepository) : BaseViewMode
         validator.validatePassword(it)
     }
 
-    val enableLogin = ValidationMediator(
+    private val allValidations = arrayOf(
         validateEmail,
         validatePassword
     )
 
+    val enableLogin = ValidationMediator(*allValidations)
+
     val loginLoading = LoadingMutableLiveData()
 
     fun login() {
+        clearAllValidations()
         viewModelScope.launchIO {
             val request = LoginRequest(email.value ?: return@launchIO, password.value ?: return@launchIO)
             authRepository.login(request).safeCollect(this) {
@@ -78,5 +81,11 @@ class LoginFragmentVM(private val authRepository: AuthRepository) : BaseViewMode
 
     fun forgotPassword() {
         navigateTo(Action(LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment()))
+    }
+
+    private fun clearAllValidations() {
+        allValidations.forEach {
+            it.value = OK
+        }
     }
 }

@@ -48,6 +48,12 @@
         tools:layout="@layout/fragment_forgot_password" />
 
     <fragment
+        android:id="@+id/tripsFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.trips.TripsFragment"
+        android:label="@string/trips_label"
+        tools:layout="@layout/fragment_trips" />
+
+    <fragment
         android:id="@+id/homeFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.home.HomeFragment"
         android:label="@string/your_trip"
@@ -55,14 +61,14 @@
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            app:destination="@id/accountFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="cz.cvut.fit.steuejan.wanderscope.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/accountFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.AccountFragment"
+        android:label="@string/account"
+        tools:layout="@layout/fragment_account">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"

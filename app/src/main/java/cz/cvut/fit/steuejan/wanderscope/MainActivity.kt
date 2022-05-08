@@ -29,7 +29,7 @@ class MainActivity : MvvmActivity<ActivityMainBinding, MainActivityVM>(
 
         setSupportActionBar(binding.toolbar)
 
-        val mainFragments = setOf(R.id.homeFragment, R.id.SecondFragment, R.id.loginFragment)
+        val mainFragments = setOf(R.id.homeFragment, R.id.accountFragment, R.id.loginFragment, R.id.tripsFragment)
         val appBarConfiguration = AppBarConfiguration(mainFragments)
         setupActionBarWithNavController(navController, appBarConfiguration)
 

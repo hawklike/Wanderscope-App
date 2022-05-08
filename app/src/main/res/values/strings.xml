@@ -57,4 +57,8 @@
     <string name="register_confirm_password_hint">Confirm new password</string>
     <string name="register_email_already_exists">An account with this email already exists.</string>
     <string name="register_username_already_exists">An account with this username already exists.</string>
+    <string name="home">Home</string>
+    <string name="trips_label">Your trips</string>
+    <string name="trips">Trips</string>
+    <string name="account">Account</string>
 </resources>

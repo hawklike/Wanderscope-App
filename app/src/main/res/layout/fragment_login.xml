@@ -25,7 +25,7 @@
             android:layout_marginBottom="@dimen/status_bar_height"
             android:adjustViewBounds="true"
             android:maxHeight="200dp"
-            android:src="@drawable/ic_logo_with_text_as_background"
+            android:src="@drawable/image_logo_with_text_as_background"
             app:layout_constraintBottom_toTopOf="@id/loginMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
