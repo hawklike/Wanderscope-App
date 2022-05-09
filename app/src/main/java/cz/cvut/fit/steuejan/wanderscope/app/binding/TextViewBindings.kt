@@ -3,10 +3,10 @@ package cz.cvut.fit.steuejan.wanderscope.app.binding
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import cz.cvut.fit.steuejan.wanderscope.R
-import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationItem
+import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationInItem
 
 @BindingAdapter("duration")
-fun TextView.setDuration(duration: DurationItem?) {
+fun TextView.setDuration(duration: DurationInItem?) {
     duration ?: return
     text = context.getString(R.string.duration_between_two_dates, duration.startDate, duration.endDate)
 }

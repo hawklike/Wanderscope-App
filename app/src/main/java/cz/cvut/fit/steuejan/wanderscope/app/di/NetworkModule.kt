@@ -13,6 +13,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManagerImpl
 import cz.cvut.fit.steuejan.wanderscope.app.util.isDebuggable
 import cz.cvut.fit.steuejan.wanderscope.auth.api.AuthApi
+import cz.cvut.fit.steuejan.wanderscope.trips.api.TripsApi
 import okhttp3.OkHttpClient
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
@@ -43,6 +44,7 @@ val networkModule = module {
     singleOf(::provideRetrofit)
 
     single { provideApi<AccountApi>(get()) }
+    single { provideApi<TripsApi>(get()) }
 }
 
 private fun provideRetrofitBuilder(converterFactory: retrofit2.Converter.Factory): Retrofit.Builder {

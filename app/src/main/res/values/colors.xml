@@ -4,7 +4,7 @@
     <color name="colorPrimaryVariant">@color/colorPrimary</color>
     <color name="colorOnPrimary">@color/colorBackground</color>
     <color name="colorSecondary">#f4f6f8</color>
-    <color name="colorSecondaryVariant">#dce2e8</color>
+    <color name="colorSecondaryVariant">#F0F2F5</color>
     <color name="colorOnSecondary">#c7ccd9</color>
     <color name="colorBackground">#ffffff</color>
     <color name="colorSurface">@color/colorSecondary</color>

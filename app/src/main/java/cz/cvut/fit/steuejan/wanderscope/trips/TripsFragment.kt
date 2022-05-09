@@ -17,6 +17,7 @@ class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleTripsRecycler()
+        viewModel.getTrips()
     }
 
     private fun handleTripsRecycler() {

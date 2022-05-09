@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="@dimen/app_recycler_item_end_padding"
+            tools:background="@color/colorSurface"
             tools:ignore="RtlSymmetry">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -38,6 +39,7 @@
                 android:layout_marginStart="@dimen/margin_12"
                 android:layout_marginTop="@dimen/app_recycler_item_margin"
                 android:ellipsize="end"
+                android:inputType="textCapCharacters"
                 android:maxLines="2"
                 android:text="@{item.name}"
                 android:textAppearance="@style/TextAppearance.Wanderscope.Label"
