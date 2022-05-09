@@ -10,31 +10,30 @@
             type="cz.cvut.fit.steuejan.wanderscope.trips.TripsFragmentVM" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorBackground">
+            tools:visibility="gone">
 
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:visibility="gone">
+            <include layout="@layout/layout_shimmer_placeholder" />
 
-                <include layout="@layout/layout_shimmer_placeholder" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
-            </com.facebook.shimmer.ShimmerFrameLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
-                tools:context=".trips.TripsFragment">
+                android:background="@color/colorBackground"
+                android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tripsUpcomingTripsLabel"
@@ -82,8 +81,18 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-    </androidx.core.widget.NestedScrollView>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/app_fab_margin"
+            android:layout_marginBottom="@dimen/app_fab_margin"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

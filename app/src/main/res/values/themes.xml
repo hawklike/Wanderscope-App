@@ -20,6 +20,7 @@
         <item name="fontFamily">@font/source_sans_pro</item>
         <item name="textInputStyle">@style/Widget.Wanderscope.TextInput</item>
         <item name="materialButtonStyle">@style/Widget.Wanderscope.Button</item>
+        <item name="floatingActionButtonStyle">@style/Widget.Wanderscope.FloatingActionButton</item>
 
         <item name="snackbarStyle">@style/Widget.Wanderscope.Snackbar</item>
         <item name="snackbarTextViewStyle">@style/Widget.Wandercope.SnackbarText</item>
@@ -118,6 +119,14 @@
         <item name="cardBackgroundColor">@color/colorBackground</item>
         <item name="strokeColor">@color/colorSecondaryVariant</item>
         <item name="strokeWidth">1dp</item>
+    </style>
+
+    <style name="Widget.Wanderscope.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="borderWidth">0dp</item>
+        <item name="elevation">2dp</item>
+        <item name="tint">@color/colorBackground</item>
+        <item name="fabSize">normal</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
     </style>
 
 </resources>

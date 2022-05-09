@@ -9,6 +9,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.trips.api.response.TripsResponse
 import cz.cvut.fit.steuejan.wanderscope.trips.model.TripsScope
 import cz.cvut.fit.steuejan.wanderscope.trips.repository.TripsRepository
@@ -21,6 +22,7 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
     val pastTrips = MutableLiveData<List<RecyclerItem>>()
 
     fun getTrips() {
+        showLoading()
         viewModelScope.launchIO { getUpcomingTrips(this) }
         viewModelScope.launchIO { getPastTrips(this) }
     }
@@ -30,7 +32,7 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
             when (it) {
                 is Result.Cache -> TODO()
                 is Result.Failure -> tripsFailure(it.error)
-                is Result.Loading -> showLoading()
+                is Result.Loading -> doNothing
                 is Result.Success -> upcomingTripsSuccess(it.data)
             }
         }
@@ -61,7 +63,7 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
             when (it) {
                 is Result.Cache -> TODO()
                 is Result.Failure -> tripsFailure(it.error)
-                is Result.Loading -> showLoading()
+                is Result.Loading -> doNothing
                 is Result.Success -> pastTripsSuccess(it.data)
             }
         }
