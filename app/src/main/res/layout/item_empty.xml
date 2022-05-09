@@ -18,25 +18,25 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/padding_8"
-            android:paddingBottom="@dimen/padding_8"
-            tools:background="@color/colorSurface">
+            android:padding="@dimen/padding_16">
 
             <ImageView
                 android:id="@+id/emptyItemImage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@drawable/image_not_found"
+                app:imageResource="@{item.image}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.75" />
+                app:layout_constraintWidth_percent="0.8"
+                tools:src="@drawable/image_not_found" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/emptyItemTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@{item.title}"
                 android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -48,14 +48,14 @@
                 android:id="@+id/emptyItemSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/app_subtitle_margin"
+                android:layout_marginTop="@dimen/app_recycler_item_margin"
+                android:gravity="center"
                 android:text="@{item.subtitle}"
                 android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/emptyItemTitle"
-                tools:text="Never mind. Just add one." />
-
+                tools:text="@string/no_past_trips_subtitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
