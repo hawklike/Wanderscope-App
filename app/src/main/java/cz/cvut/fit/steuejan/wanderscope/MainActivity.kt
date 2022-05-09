@@ -46,6 +46,12 @@ class MainActivity : MvvmActivity<ActivityMainBinding, MainActivityVM>(
                 return@setKeepOnScreenCondition show
             }
         }
+
+        viewModel.splashScreenAfterProcessDeath.safeObserve { show ->
+            if (show == false) {
+                viewModel.hideSplashScreen()
+            }
+        }
     }
 
     private fun observeLogout() {

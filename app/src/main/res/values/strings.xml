@@ -62,4 +62,11 @@
     <string name="trips">Trips</string>
     <string name="account">Account</string>
     <string name="upcoming_trips">Upcoming trips</string>
+    <string name="duration_between_two_dates" translatable="false">%1$s - %2$s</string>
+    <string name="past_trips">Where you\'ve been</string>
+
+    <plurals name="days_between_two_dates">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
 </resources>

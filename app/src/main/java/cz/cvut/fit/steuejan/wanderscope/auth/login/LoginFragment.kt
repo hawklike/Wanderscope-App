@@ -1,7 +1,5 @@
 package cz.cvut.fit.steuejan.wanderscope.auth.login
 
-import android.os.Bundle
-import android.view.View
 import cz.cvut.fit.steuejan.wanderscope.MainActivityVM
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
@@ -17,8 +15,8 @@ class LoginFragment : MvvmFragment<FragmentLoginBinding, LoginFragmentVM>(
 
     private val mainVM by sharedViewModel<MainActivityVM>()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         mainVM.hideSplashScreen()
     }
 

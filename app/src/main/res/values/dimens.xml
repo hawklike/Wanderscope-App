@@ -31,8 +31,8 @@
     <dimen name="app_space_margin">4dp</dimen>
     <dimen name="app_subtitle_margin">12dp</dimen>
     <dimen name="app_button_bottom_margin">12dp</dimen>
-    <dimen name="app_no_toolbar_first_item">30dp</dimen>
-    <dimen name="app_recycler_item_bottom_margin">12dp</dimen>
+    <dimen name="app_no_toolbar_first_item">32dp</dimen>
+    <dimen name="app_recycler_item_bottom_margin">16dp</dimen>
     <dimen name="login_logo_horizontal_margin">64dp</dimen>
     <dimen name="app_recycler_item_margin">4dp</dimen>
 
@@ -40,4 +40,6 @@
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_12">12dp</dimen>
     <dimen name="margin_16">16dp</dimen>
+    <dimen name="app_item_after_recycler_margin">16dp</dimen>
+    <dimen name="app_h2_bottom_margin">24dp</dimen>
 </resources>

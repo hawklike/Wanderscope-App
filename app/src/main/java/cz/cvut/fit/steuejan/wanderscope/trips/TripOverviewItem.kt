@@ -2,12 +2,13 @@ package cz.cvut.fit.steuejan.wanderscope.trips
 
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
-import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
+import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationItem
 
 data class TripOverviewItem(
     val id: Int,
     val name: String,
-    val duration: Duration,
+    val duration: DurationItem?,
+    val days: Int?,
     val imageUrl: String?
 ) : RecyclerItem {
 
