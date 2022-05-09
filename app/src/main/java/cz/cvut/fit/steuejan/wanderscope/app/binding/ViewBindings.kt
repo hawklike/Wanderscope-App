@@ -6,3 +6,7 @@ fun View.visibleOrGone(any: Any?): Any? {
     visibility = if (any != null) View.VISIBLE else View.GONE
     return any
 }
+
+fun View.showLoading(show: Boolean) {
+
+}

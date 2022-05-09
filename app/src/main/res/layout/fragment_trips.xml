@@ -17,50 +17,70 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
-            tools:context=".trips.TripsFragment">
+            android:background="@color/colorBackground">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tripsUpcomingTripsLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/app_no_toolbar_first_item"
-                android:text="@string/upcoming_trips"
-                android:textAppearance="@style/TextAppearance.Wanderscope.H2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tripsUpcomingTrips"
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/app_h2_bottom_margin"
-                android:nestedScrollingEnabled="true"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/tripsUpcomingTripsLabel"
-                app:recyclerItems="@{vm.upcomingTrips}"
-                tools:listitem="@layout/item_trip_overview" />
+                android:layout_height="match_parent"
+                tools:visibility="gone">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tripsPastTripsLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/app_item_after_recycler_margin"
-                android:text="@string/past_trips"
-                android:textAppearance="@style/TextAppearance.Wanderscope.H2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tripsUpcomingTrips" />
+                <include layout="@layout/layout_shimmer_placeholder" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tripsPastTrips"
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/content"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/app_h2_bottom_margin"
-                android:nestedScrollingEnabled="true"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/tripsPastTripsLabel"
-                app:recyclerItems="@{vm.pastTrips}"
-                tools:listitem="@layout/item_trip_overview" />
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
+                tools:context=".trips.TripsFragment">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tripsUpcomingTripsLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_no_toolbar_first_item"
+                    android:text="@string/upcoming_trips"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tripsUpcomingTrips"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/app_h2_bottom_margin"
+                    android:nestedScrollingEnabled="true"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/tripsUpcomingTripsLabel"
+                    app:recyclerItems="@{vm.upcomingTrips}"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_trip_overview" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tripsPastTripsLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_item_after_recycler_margin"
+                    android:text="@string/past_trips"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tripsUpcomingTrips" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tripsPastTrips"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/app_h2_bottom_margin"
+                    android:nestedScrollingEnabled="true"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/tripsPastTripsLabel"
+                    app:recyclerItems="@{vm.pastTrips}"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_trip_overview" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

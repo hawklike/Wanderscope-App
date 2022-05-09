@@ -30,7 +30,7 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
             when (it) {
                 is Result.Cache -> TODO()
                 is Result.Failure -> tripsFailure(it.error)
-                is Result.Loading -> {} //todo
+                is Result.Loading -> showLoading()
                 is Result.Success -> upcomingTripsSuccess(it.data)
             }
         }
@@ -38,6 +38,7 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
 
     private suspend fun upcomingTripsSuccess(data: TripsResponse) {
         upcomingTrips.value = tripsSuccess(data, EmptyItem.upcomingTrips())
+        hideLoading()
     }
 
     private suspend fun tripsSuccess(data: TripsResponse, emptyItem: EmptyItem): List<RecyclerItem> {
@@ -60,7 +61,7 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
             when (it) {
                 is Result.Cache -> TODO()
                 is Result.Failure -> tripsFailure(it.error)
-                is Result.Loading -> {} //todo
+                is Result.Loading -> showLoading()
                 is Result.Success -> pastTripsSuccess(it.data)
             }
         }
