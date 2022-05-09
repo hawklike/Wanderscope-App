@@ -3,6 +3,8 @@ package cz.cvut.fit.steuejan.wanderscope
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -19,7 +21,9 @@ class MainActivity : MvvmActivity<ActivityMainBinding, MainActivityVM>(
 ), WithBottomNavigationBar, WithToolbar, WithLogin {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+        handleSplashScreen(splashScreen)
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.navHostFragment) as? NavHostFragment ?: return
@@ -29,11 +33,25 @@ class MainActivity : MvvmActivity<ActivityMainBinding, MainActivityVM>(
 
         setSupportActionBar(binding.toolbar)
 
-        val mainFragments = setOf(R.id.homeFragment, R.id.SecondFragment, R.id.loginFragment)
+        val mainFragments = setOf(R.id.homeFragment, R.id.accountFragment, R.id.loginFragment, R.id.tripsFragment)
         val appBarConfiguration = AppBarConfiguration(mainFragments)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         observeLogout()
+    }
+
+    private fun handleSplashScreen(splashScreen: SplashScreen) {
+        viewModel.showSplashScreen.safeObserve { show ->
+            splashScreen.setKeepOnScreenCondition {
+                return@setKeepOnScreenCondition show
+            }
+        }
+
+        viewModel.splashScreenAfterProcessDeath.safeObserve { show ->
+            if (show == false) {
+                viewModel.hideSplashScreen()
+            }
+        }
     }
 
     private fun observeLogout() {
@@ -69,7 +87,8 @@ class MainActivity : MvvmActivity<ActivityMainBinding, MainActivityVM>(
     }
 
     override fun login() {
-        navController.popBackStack(R.id.nav_graph, true)
+        val startDestination = navController.graph.startDestinationId
+        navController.popBackStack(startDestination, true)
         navigateTo(R.id.loginFragment)
     }
 

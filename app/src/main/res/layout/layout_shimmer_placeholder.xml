@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
+
+    <View
+        android:id="@+id/shimmer1"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_marginTop="@dimen/app_layout_first_item_margin"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/shimmer2"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer1"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <View
+        android:id="@+id/shimmer3"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer2"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <View
+        android:id="@+id/shimmer4"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer3"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <View
+        android:id="@+id/shimmer5"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer4"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <View
+        android:id="@+id/shimmer6"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer5"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <View
+        android:id="@+id/shimmer7"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer6"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <View
+        android:id="@+id/shimmer8"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintTop_toBottomOf="@id/shimmer7" />
+
+    <View
+        android:id="@+id/shimmer9"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer8"
+        app:layout_constraintWidth_percent="0.6" />
+
+    <View
+        android:id="@+id/shimmer10"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer9"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <View
+        android:id="@+id/shimmer11"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer10"
+        app:layout_constraintWidth_percent="0.6" />
+
+    <View
+        android:id="@+id/shimmer12"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer11"
+        app:layout_constraintWidth_percent="1" />
+
+    <View
+        android:id="@+id/shimmer13"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer12"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <View
+        android:id="@+id/shimmer14"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer13"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <View
+        android:id="@+id/shimmer16"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer14"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <View
+        android:id="@+id/shimmer17"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer16"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <View
+        android:id="@+id/shimmer18"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shimmer17"
+        app:layout_constraintWidth_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -57,4 +57,20 @@
     <string name="register_confirm_password_hint">Confirm new password</string>
     <string name="register_email_already_exists">An account with this email already exists.</string>
     <string name="register_username_already_exists">An account with this username already exists.</string>
+    <string name="home">Home</string>
+    <string name="trips_label">Your trips</string>
+    <string name="trips">Trips</string>
+    <string name="account">Account</string>
+    <string name="upcoming_trips">Upcoming trips</string>
+    <string name="duration_between_two_dates" translatable="false">%1$s - %2$s</string>
+    <string name="past_trips">Where you\'ve been</string>
+    <string name="no_past_trips_title">You\'ve been nowhere yet</string>
+    <string name="no_past_trips_subtitle">Never mind, just add a new trip and set out.</string>
+    <string name="no_upcoming_trips_title">You have no upcoming trips yet</string>
+    <string name="no_upcoming_trips_subtitle">Start a new adventure by adding a new trip.</string>
+
+    <plurals name="days_between_two_dates">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
 </resources>

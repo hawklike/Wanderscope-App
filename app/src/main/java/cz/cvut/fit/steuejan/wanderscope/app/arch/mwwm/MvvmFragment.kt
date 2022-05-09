@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.BR
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseFragment
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import kotlin.reflect.KClass
@@ -42,6 +43,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         listenToNavigate()
         listenToToast()
         listenToSnackbar()
+        listenToLoading()
     }
 
     override fun onDestroy() {
@@ -73,6 +75,14 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
                     }
                 }
             }.show()
+        }
+    }
+
+    private fun listenToLoading() {
+        viewModel.showLoading.safeObserve { show ->
+            if (this is WithLoading) {
+                if (show) showLoading() else hideLoading()
+            }
         }
     }
 }

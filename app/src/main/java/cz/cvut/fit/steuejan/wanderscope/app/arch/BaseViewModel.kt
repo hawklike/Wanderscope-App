@@ -24,6 +24,7 @@ abstract class BaseViewModel(
     val navigateEvent = SingleLiveEvent<NavigationEvent>()
     val toastEvent = SingleLiveEvent<ToastInfo>()
     val snackbarEvent = SingleLiveEvent<SnackbarInfo>()
+    val showLoading = SingleLiveEvent<Boolean>()
 
     protected fun navigateTo(event: NavigationEvent, onBackground: Boolean = false) {
         if (onBackground) {
@@ -46,6 +47,22 @@ abstract class BaseViewModel(
             snackbarEvent.postValue(snackbar)
         } else {
             snackbarEvent.value = snackbar
+        }
+    }
+
+    protected fun showLoading(onBackground: Boolean = false) {
+        if (onBackground) {
+            showLoading.postValue(true)
+        } else {
+            showLoading.value = true
+        }
+    }
+
+    protected fun hideLoading(onBackground: Boolean = false) {
+        if (onBackground) {
+            showLoading.postValue(false)
+        } else {
+            showLoading.value = false
         }
     }
 

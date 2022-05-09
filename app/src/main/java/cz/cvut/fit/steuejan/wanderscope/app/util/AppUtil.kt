@@ -18,3 +18,5 @@ inline fun <T1 : Any, T2 : Any, R : Any> multipleLet(p1: T1?, p2: T2?, block: (T
 fun isDebuggable(): Boolean {
     return BuildConfig.DEBUG && BuildConfig.FLAVOR == Flavor.STAGING.env
 }
+
+val doNothing = {}

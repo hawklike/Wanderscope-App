@@ -1,33 +1,35 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Wanderscope" parent="Theme.MaterialComponents.Light">
-        <!-- Primary brand color. -->
+    <style name="Theme.Wanderscope" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary color customization -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
         <item name="colorOnPrimary">@color/colorBackground</item>
         <item name="android:textColor">@color/colorText</item>
-        <!-- Secondary brand color. -->
+        <!-- Secondary color customization -->
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
-        <!-- Status and navigation bar color. -->
+        <!-- Status and navigation bar color -->
         <item name="android:statusBarColor">@color/colorBackground</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@color/colorBackground</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <!-- Customize your theme here. -->
+        <!-- Customize your theme here -->
         <item name="fontFamily">@font/source_sans_pro</item>
         <item name="textInputStyle">@style/Widget.Wanderscope.TextInput</item>
         <item name="materialButtonStyle">@style/Widget.Wanderscope.Button</item>
+        <item name="floatingActionButtonStyle">@style/Widget.Wanderscope.FloatingActionButton</item>
 
         <item name="snackbarStyle">@style/Widget.Wanderscope.Snackbar</item>
         <item name="snackbarTextViewStyle">@style/Widget.Wandercope.SnackbarText</item>
     </style>
 
-    <style name="Theme.Wanderscope.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="Theme.Wanderscope.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/colorPrimary</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/image_logo_splashscreen</item>
+        <item name="postSplashScreenTheme">@style/Theme.Wanderscope</item>
     </style>
 
     <style name="Theme.Wanderscope.Toolbar" parent="ThemeOverlay.AppCompat.Light">
@@ -73,6 +75,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextAppearance.Wanderscope.H2" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_h2_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextAppearance.Wanderscope.Bold" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">@dimen/app_default_text_size</item>
         <item name="android:textStyle">bold</item>
@@ -100,4 +107,26 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/app_text_input_corner_size</item>
     </style>
+
+    <style name="Widget.Wanderscope.CardView.RecyclerItem" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/colorSurface</item>
+        <item name="cardCornerRadius">@dimen/app_recycler_item_corner_radius</item>
+        <item name="cardElevation">0dp</item>
+        <item name="android:layout_marginBottom">@dimen/app_recycler_item_bottom_margin</item>
+    </style>
+
+    <style name="Widget.Wanderscope.CardView.RecyclerItem.Empty">
+        <item name="cardBackgroundColor">@color/colorBackground</item>
+        <item name="strokeColor">@color/colorSecondaryVariant</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <style name="Widget.Wanderscope.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="borderWidth">0dp</item>
+        <item name="elevation">2dp</item>
+        <item name="tint">@color/colorBackground</item>
+        <item name="fabSize">normal</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+    </style>
+
 </resources>

@@ -80,6 +80,7 @@ ext {
     apache_commons_validator_version = '1.7'
     apache_commons_email_version= '1.5'
     joda_time_version = '2.10.14'
+    splashscreen_version = '1.0.0-beta02'
 }
 
 dependencies {
@@ -133,6 +134,11 @@ dependencies {
 
     //Apache Commons Validator
     implementation "commons-validator:commons-validator:$apache_commons_validator_version"
+
+    //Splash Screen
+    implementation "androidx.core:core-splashscreen:$splashscreen_version"
+
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

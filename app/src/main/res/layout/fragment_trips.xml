@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="cz.cvut.fit.steuejan.wanderscope.trips.TripsFragmentVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:visibility="gone">
+
+            <include layout="@layout/layout_shimmer_placeholder" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBackground"
+                android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tripsUpcomingTripsLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_no_toolbar_first_item"
+                    android:text="@string/upcoming_trips"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tripsUpcomingTrips"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/app_h2_bottom_margin"
+                    android:nestedScrollingEnabled="true"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/tripsUpcomingTripsLabel"
+                    app:recyclerItems="@{vm.upcomingTrips}"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_trip_overview" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tripsPastTripsLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_item_after_recycler_margin"
+                    android:text="@string/past_trips"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tripsUpcomingTrips" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tripsPastTrips"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/app_h2_bottom_margin"
+                    android:nestedScrollingEnabled="true"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/tripsPastTripsLabel"
+                    app:recyclerItems="@{vm.pastTrips}"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_trip_overview" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/app_fab_margin"
+            android:layout_marginBottom="@dimen/app_fab_margin"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
