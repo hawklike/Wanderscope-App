@@ -15,4 +15,5 @@
     <color name="colorTextLessImportant">#747d90</color>
     <color name="colorSnackbar">#000000</color>
     <color name="colorSnackbarText">#ffffff</color>
+    <color name="colorTextInputIcon">#80747D90</color>
 </resources>

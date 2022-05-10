@@ -7,17 +7,21 @@ import org.joda.time.Days
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 
-fun Duration.getDays(): Int? {
-    return multipleLet(startDate, endDate) { s, e ->
-        Days.daysBetween(s.toLocalDate(), e.toLocalDate()).days + 1
+suspend fun Duration.getDays(): Int? {
+    return withDefault {
+        multipleLet(startDate, endDate) { s, e ->
+            Days.daysBetween(s.toLocalDate(), e.toLocalDate()).days + 1
+        }
     }
 }
 
-fun Duration.toDurationItem(formatter: DateTimeFormatter = DateTimeFormat.mediumDate()): DurationInItem? {
+suspend fun Duration.toDurationItem(formatter: DateTimeFormatter = DateTimeFormat.mediumDate()): DurationInItem? {
     if (startDate == null && endDate == null) {
         return null
     }
-    val startDate = startDate?.toString(formatter) ?: "???"
-    val endDate = endDate?.toString(formatter) ?: "???"
-    return DurationInItem(startDate, endDate)
+    return withDefault {
+        val startDate = startDate?.toString(formatter) ?: "???"
+        val endDate = endDate?.toString(formatter) ?: "???"
+        DurationInItem(startDate, endDate)
+    }
 }

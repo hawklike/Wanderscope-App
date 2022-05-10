@@ -6,6 +6,8 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator
@@ -25,6 +27,7 @@ abstract class BaseViewModel(
     val toastEvent = SingleLiveEvent<ToastInfo>()
     val snackbarEvent = SingleLiveEvent<SnackbarInfo>()
     val showLoading = SingleLiveEvent<Boolean>()
+    val datePickerEvent = SingleLiveEvent<DatePickerInfo>()
 
     protected fun navigateTo(event: NavigationEvent, onBackground: Boolean = false) {
         if (onBackground) {
@@ -66,6 +69,14 @@ abstract class BaseViewModel(
         }
     }
 
+    protected fun showDatePicker(initialDate: DatePickerInfo, onBackground: Boolean = false) {
+        if (onBackground) {
+            datePickerEvent.postValue(initialDate)
+        } else {
+            datePickerEvent.value = initialDate
+        }
+    }
+
     protected open fun unexpectedError(retry: () -> Unit = {}) {
         showSnackbar(
             SnackbarInfo(
@@ -95,4 +106,16 @@ abstract class BaseViewModel(
         val actionText: Int = android.R.string.ok,
         val action: ((Snackbar) -> Unit)? = null
     )
+
+    data class DatePickerInfo(
+        @StringRes val title: Int? = R.string.datepicker_title_default,
+        val initialDate: Long? = today,
+        val constraints: CalendarConstraints.Builder? = null,
+        val customDatePicker: MaterialDatePicker<Long>? = null,
+        val onPickedDate: (Long) -> Unit
+    ) {
+        companion object {
+            val today = MaterialDatePicker.todayInUtcMilliseconds()
+        }
+    }
 }

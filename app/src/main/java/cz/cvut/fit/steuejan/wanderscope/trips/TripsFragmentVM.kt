@@ -8,6 +8,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
+import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.trips.api.response.TripsResponse
@@ -25,6 +26,10 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
         showLoading()
         viewModelScope.launchIO { getUpcomingTrips(this) }
         viewModelScope.launchIO { getPastTrips(this) }
+    }
+
+    fun addTrip() {
+        navigateTo(Action(TripsFragmentDirections.actionTripsFragmentToAddTripFragment()))
     }
 
     private suspend fun getUpcomingTrips(scope: CoroutineScope) {

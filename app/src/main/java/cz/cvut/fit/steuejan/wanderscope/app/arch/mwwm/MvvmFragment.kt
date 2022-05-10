@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.BR
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseFragment
@@ -44,6 +45,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         listenToToast()
         listenToSnackbar()
         listenToLoading()
+        listenToDatePicker()
     }
 
     override fun onDestroy() {
@@ -82,6 +84,21 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         viewModel.showLoading.safeObserve { show ->
             if (this is WithLoading) {
                 if (show) showLoading() else hideLoading()
+            }
+        }
+    }
+
+    private fun listenToDatePicker() {
+        viewModel.datePickerEvent.safeObserve { date ->
+            val datePicker = date.customDatePicker ?: MaterialDatePicker.Builder.datePicker()
+                .setSelection(date.initialDate)
+                .setTitleText(date.title ?: 0)
+                .setCalendarConstraints(date.constraints?.build())
+                .build()
+
+            datePicker.apply {
+                addOnPositiveButtonClickListener(date.onPickedDate)
+                show(this@MvvmFragment.parentFragmentManager, "datePicker")
             }
         }
     }

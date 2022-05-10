@@ -68,6 +68,7 @@
     <string name="no_past_trips_subtitle">Never mind, just add a new trip and set out.</string>
     <string name="no_upcoming_trips_title">You have no upcoming trips yet</string>
     <string name="no_upcoming_trips_subtitle">Start a new adventure by adding a new trip.</string>
+    <string name="datepicker_title_default">Select date</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
