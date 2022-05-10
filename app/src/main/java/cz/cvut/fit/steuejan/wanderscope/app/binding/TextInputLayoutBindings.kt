@@ -19,6 +19,7 @@ fun TextInputLayout.cancellable(allowed: Boolean) {
     if (allowed) {
         this.setEndIconOnClickListener {
             this.editText?.text = null
+            this.error = null
         }
     }
 }

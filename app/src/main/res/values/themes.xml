@@ -21,6 +21,7 @@
         <item name="textInputStyle">@style/Widget.Wanderscope.TextInput</item>
         <item name="materialButtonStyle">@style/Widget.Wanderscope.Button</item>
         <item name="floatingActionButtonStyle">@style/Widget.Wanderscope.FloatingActionButton</item>
+        <item name="materialCalendarTheme">@style/Widget.Wanderscope.DatePicker</item>
 
         <item name="snackbarStyle">@style/Widget.Wanderscope.Snackbar</item>
         <item name="snackbarTextViewStyle">@style/Widget.Wandercope.SnackbarText</item>
@@ -114,6 +115,11 @@
         <item name="cornerSize">@dimen/app_text_input_corner_size</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.Wanderscope.DatePicker" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/app_date_picker_corner_size</item>
+    </style>
+
     <style name="Widget.Wanderscope.CardView.RecyclerItem" parent="Widget.MaterialComponents.CardView">
         <item name="cardBackgroundColor">@color/colorSurface</item>
         <item name="cardCornerRadius">@dimen/app_recycler_item_corner_radius</item>
@@ -155,6 +161,10 @@
         <item name="android:focusable">false</item>
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:textAppearance">@style/TextAppearance.Wanderscope.Regular</item>
+    </style>
+
+    <style name="Widget.Wanderscope.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.DatePicker</item>
     </style>
 
 </resources>

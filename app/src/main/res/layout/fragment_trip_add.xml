@@ -53,14 +53,16 @@
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:counterEnabled="true"
                     app:counterMaxLength="@integer/name_max_len"
+                    app:errorText="@{vm.validateName}"
                     app:layout_constraintTop_toBottomOf="@id/addTripNameLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Name your trip"
+                        android:hint="Name your trip (mandatory)"
                         android:inputType="textCapSentences"
-                        android:maxLength="@integer/name_max_len" />
+                        android:maxLength="@integer/name_max_len"
+                        android:text="@={vm.name}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,6 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:cancellable="@{true}"
+                    app:errorText="@{vm.validateDates}"
                     app:layout_constraintTop_toBottomOf="@id/addTripStartDateLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -89,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:hint="When your trip starts"
                         android:onClick="@{() -> vm.startDatePicker()}"
-                        android:text="@{vm.startDate}" />
+                        android:text="@={vm.startDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,13 +113,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:cancellable="@{true}"
+                    app:errorText="@{vm.validateDates}"
                     app:layout_constraintTop_toBottomOf="@id/addTripEndDateLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/Widget.Wanderscope.EditText.DatePicker"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="When your trip ends" />
+                        android:hint="When your trip ends"
+                        android:onClick="@{() -> vm.endDatePicker()}"
+                        android:text="@={vm.endDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -158,6 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/app_button_bottom_margin"
             android:text="@string/submit"
+            app:isEnabled="@{vm.enableSubmit}"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

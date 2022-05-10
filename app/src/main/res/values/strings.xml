@@ -37,6 +37,8 @@
     <string name="validation_displayname_long">Display name should have 30 or less characters</string>
     <string name="validation_displayname_invalid">Display name cannot contain newline, \'~\' and \';\' characters</string>
 
+    <string name="validation_blank">The field cannot be blank</string>
+
     <string name="login_email_hint">Your email</string>
     <string name="login_password_hint">Your password</string>
 
@@ -69,6 +71,8 @@
     <string name="no_upcoming_trips_title">You have no upcoming trips yet</string>
     <string name="no_upcoming_trips_subtitle">Start a new adventure by adding a new trip.</string>
     <string name="datepicker_title_default">Select date</string>
+
+    <string name="enddate_before_startdate">End date cannot be before start date</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

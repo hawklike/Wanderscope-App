@@ -12,6 +12,7 @@
 
     <dimen name="app_recycler_item_corner_radius">8dp</dimen>
     <dimen name="app_text_input_corner_size">8dp</dimen>
+    <dimen name="app_date_picker_corner_size">8dp</dimen>
     <dimen name="app_button_corner_radius">24dp</dimen>
 
     <dimen name="app_layout_main_horizontal_padding">32dp</dimen>

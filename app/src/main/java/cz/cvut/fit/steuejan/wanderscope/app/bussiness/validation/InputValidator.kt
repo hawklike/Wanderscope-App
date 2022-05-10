@@ -3,14 +3,13 @@ package cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
+import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import org.apache.commons.validator.routines.EmailValidator
-import timber.log.Timber
 
 
 class InputValidator {
 
     suspend fun validatePassword(password: String) = withDefault {
-        Timber.d(password.length.toString())
         when {
             password.isBlank() -> R.string.validation_password_blank
             password.length < Constants.PASSWORD_MIN_LENGTH -> R.string.validation_password_short
@@ -53,6 +52,16 @@ class InputValidator {
             !displayName.isNameAllowed() -> R.string.validation_displayname_invalid
             else -> OK
         }
+    }
+
+    suspend fun validateIfNotEmpty(text: String) = withDefault {
+        if (text.isBlank()) R.string.validation_blank else OK
+    }
+
+    fun validateDates(startDate: Long?, endDate: Long?): Int {
+        return multipleLet(startDate, endDate) { startMillis, endMillis ->
+            if (endMillis < startMillis) R.string.enddate_before_startdate else OK
+        } ?: OK
     }
 
     private fun String.isNameAllowed(): Boolean {
