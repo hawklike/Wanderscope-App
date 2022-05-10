@@ -16,4 +16,5 @@
     <color name="colorSnackbar">#000000</color>
     <color name="colorSnackbarText">#ffffff</color>
     <color name="colorTextInputIcon">#80747D90</color>
+    <color name="colorShimmer">#DADEEA</color>
 </resources>

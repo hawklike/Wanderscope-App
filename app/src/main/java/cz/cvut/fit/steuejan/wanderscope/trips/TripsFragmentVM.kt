@@ -30,7 +30,7 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
         upcomingTripsLoading,
         pastTripsLoading
     ).switchMapSuspend {
-        delay(200)
+        delay(250) //load items in recycler view
         it
     }
 

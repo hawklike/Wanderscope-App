@@ -22,9 +22,9 @@
         <item name="materialButtonStyle">@style/Widget.Wanderscope.Button</item>
         <item name="floatingActionButtonStyle">@style/Widget.Wanderscope.FloatingActionButton</item>
         <item name="materialCalendarTheme">@style/Widget.Wanderscope.DatePicker</item>
-
         <item name="snackbarStyle">@style/Widget.Wanderscope.Snackbar</item>
         <item name="snackbarTextViewStyle">@style/Widget.Wandercope.SnackbarText</item>
+        <item name="tabStyle">@style/Widget.Wanderscope.TabLayout</item>
     </style>
 
     <style name="Theme.Wanderscope.SplashScreen" parent="Theme.SplashScreen">
@@ -165,6 +165,20 @@
 
     <style name="Widget.Wanderscope.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.DatePicker</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabBackground">@drawable/tab_background_selector</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabMode">scrollable</item>
+        <item name="tabRippleColor">@null</item>
+        <item name="tabPaddingStart">@dimen/app_tab_layout_padding</item>
+        <item name="tabPaddingEnd">@dimen/app_tab_layout_padding</item>
+        <item name="tabTextAppearance">@style/TextAppearance.Wanderscope.TabLayout</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.TabLayout" parent="TextAppearance.Wanderscope.Regular">
+        <item name="textAllCaps">false</item>
     </style>
 
 </resources>

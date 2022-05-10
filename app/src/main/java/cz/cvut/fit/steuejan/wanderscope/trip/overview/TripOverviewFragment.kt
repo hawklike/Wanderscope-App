@@ -9,8 +9,6 @@ class TripOverviewFragment : MvvmFragment<FragmentTripOverviewBinding, TripOverv
     TripOverviewFragmentVM::class
 ) {
 
-    override val hasBottomNavigation = false
-
     companion object {
         fun newInstance(): TripOverviewFragment {
             return TripOverviewFragment()

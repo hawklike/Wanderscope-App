@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="28dp"
         android:layout_marginTop="@dimen/app_layout_first_item_margin"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -18,7 +18,7 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginTop="@dimen/margin_16"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer1"
         app:layout_constraintWidth_percent="0.5" />
@@ -28,7 +28,7 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginTop="@dimen/margin_16"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer2"
         app:layout_constraintWidth_percent="0.7" />
@@ -38,7 +38,7 @@
         android:layout_width="0dp"
         android:layout_height="28dp"
         android:layout_marginTop="40dp"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer3"
         app:layout_constraintWidth_percent="0.8" />
@@ -48,7 +48,7 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginTop="@dimen/margin_16"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer4"
         app:layout_constraintWidth_percent="0.4" />
@@ -58,7 +58,7 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginTop="@dimen/margin_16"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer5"
         app:layout_constraintWidth_percent="0.3" />
@@ -68,7 +68,7 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginTop="@dimen/margin_16"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer6"
         app:layout_constraintWidth_percent="0.7" />
@@ -78,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="32dp"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintTop_toBottomOf="@id/shimmer7" />
 
     <View
@@ -86,7 +86,7 @@
         android:layout_width="0dp"
         android:layout_height="28dp"
         android:layout_marginTop="32dp"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer8"
         app:layout_constraintWidth_percent="0.6" />
@@ -96,7 +96,7 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginTop="@dimen/margin_16"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer9"
         app:layout_constraintWidth_percent="0.8" />
@@ -106,7 +106,7 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginTop="@dimen/margin_16"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer10"
         app:layout_constraintWidth_percent="0.6" />
@@ -116,7 +116,7 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginTop="@dimen/margin_16"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer11"
         app:layout_constraintWidth_percent="1" />
@@ -126,7 +126,7 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginTop="@dimen/margin_16"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer12"
         app:layout_constraintWidth_percent="0.7" />
@@ -136,7 +136,7 @@
         android:layout_width="0dp"
         android:layout_height="28dp"
         android:layout_marginTop="40dp"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer13"
         app:layout_constraintWidth_percent="0.9" />
@@ -146,7 +146,7 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginTop="@dimen/margin_16"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer14"
         app:layout_constraintWidth_percent="0.8" />
@@ -156,7 +156,7 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginTop="@dimen/margin_16"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer16"
         app:layout_constraintWidth_percent="0.4" />
@@ -166,7 +166,7 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginTop="@dimen/margin_16"
-        android:background="@color/colorOnSecondary"
+        android:background="@color/colorShimmer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shimmer17"
         app:layout_constraintWidth_percent="0.5" />

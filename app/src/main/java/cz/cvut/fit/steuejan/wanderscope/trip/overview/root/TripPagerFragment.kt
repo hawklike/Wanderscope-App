@@ -17,6 +17,8 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
     TripPagerFragmentVM::class
 ) {
 
+    override val hasBottomNavigation: Boolean = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
