@@ -1,4 +1,4 @@
-package cz.cvut.fit.steuejan.wanderscope.trip.add_edit
+package cz.cvut.fit.steuejan.wanderscope.trip.crud
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope

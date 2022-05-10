@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="cz.cvut.fit.steuejan.wanderscope.trip.add_edit.AddEditTripFragmentVM" />
+            type="cz.cvut.fit.steuejan.wanderscope.trip.crud.AddEditTripFragmentVM" />
 
     </data>
 
@@ -31,7 +31,7 @@
                     android:id="@+id/addTripTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/app_title_empty_toolbar_margin"
                     android:text="@{vm.title}"
                     android:textAppearance="@style/TextAppearance.Wanderscope.H1"
                     app:layout_constraintStart_toStartOf="parent"

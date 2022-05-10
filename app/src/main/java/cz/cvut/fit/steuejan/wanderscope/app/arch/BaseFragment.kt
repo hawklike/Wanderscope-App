@@ -36,18 +36,23 @@ abstract class BaseFragment : Fragment() {
 
     protected fun navigateTo(@IdRes destinationId: Int, bundle: Bundle? = null) {
         runOrLogException {
-            findNavController().navigate(destinationId, bundle)
+            parentFragment?.findNavController()?.navigate(destinationId, bundle)
+                ?: findNavController().navigate(destinationId, bundle)
         }
     }
 
     protected fun navigateTo(action: NavDirections) {
         runOrLogException {
-            findNavController().navigate(action)
+            parentFragment?.findNavController()?.navigate(action)
+                ?: findNavController().navigate(action)
         }
     }
 
     protected fun navigateBack() {
-        findNavController().popBackStack()
+        runOrLogException {
+            parentFragment?.findNavController()?.popBackStack()
+                ?: findNavController().popBackStack()
+        }
     }
 
     protected fun login() {

@@ -51,13 +51,27 @@
         <action
             android:id="@+id/action_tripsFragment_to_addTripFragment"
             app:destination="@id/addTripFragment" />
+        <action
+            android:id="@+id/action_tripsFragment_to_tripPagerFragment"
+            app:destination="@id/tripPagerFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/addTripFragment"
-        android:name="cz.cvut.fit.steuejan.wanderscope.trip.add_edit.AddTripFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.trip.crud.AddEditTripFragment"
         android:label=""
-        tools:layout="@layout/fragment_trip_add" />
+        tools:layout="@layout/fragment_trip_add_edit" />
+
+    <fragment
+        android:id="@+id/tripPagerFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragment"
+        android:label=""
+        tools:layout="@layout/fragment_trip_pager">
+        <action
+            android:id="@+id/action_tripPagerFragment_to_accountFragment"
+            app:destination="@id/accountFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/homeFragment"

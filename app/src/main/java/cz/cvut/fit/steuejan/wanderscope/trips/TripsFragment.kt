@@ -2,7 +2,6 @@ package cz.cvut.fit.steuejan.wanderscope.trips
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import com.facebook.shimmer.ShimmerFrameLayout
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
@@ -29,7 +28,7 @@ class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
     private fun handleTripsRecycler() {
         setAdapterListener(binding.tripsUpcomingTrips) { item, _ ->
             if (item is TripOverviewItem) {
-                Toast.makeText(requireContext(), item.id.toString(), Toast.LENGTH_SHORT).show()
+                navigateTo(TripsFragmentDirections.actionTripsFragmentToTripPagerFragment())
             }
         }
     }

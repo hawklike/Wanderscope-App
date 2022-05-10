@@ -37,6 +37,7 @@
     <dimen name="app_fab_margin">16dp</dimen>
     <dimen name="app_item_after_recycler_margin">16dp</dimen>
     <dimen name="app_h2_bottom_margin">24dp</dimen>
+    <dimen name="app_title_empty_toolbar_margin">6dp</dimen>
 
     <dimen name="margin_4">4dp</dimen>
     <dimen name="margin_8">8dp</dimen>

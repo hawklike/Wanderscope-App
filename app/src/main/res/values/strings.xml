@@ -83,6 +83,10 @@
     <string name="description">Description</string>
     <string name="describe_your_trip">Describe your trip</string>
 
+    <string name="trip_overview_overview">Overview</string>
+    <string name="trip_overview_itinerary">Itinerary</string>
+    <string name="trip_overview_expenses">Expenses</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
