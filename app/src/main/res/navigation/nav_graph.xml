@@ -55,7 +55,7 @@
 
     <fragment
         android:id="@+id/addTripFragment"
-        android:name="cz.cvut.fit.steuejan.wanderscope.trip.AddTripFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.trip.add_edit.AddTripFragment"
         android:label=""
         tools:layout="@layout/fragment_trip_add" />
 

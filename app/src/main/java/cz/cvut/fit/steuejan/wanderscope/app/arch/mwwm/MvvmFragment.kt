@@ -1,5 +1,6 @@
 package cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -58,6 +59,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
             when (it) {
                 is NavigationEvent.Action -> navigateTo(it.action)
                 is NavigationEvent.Destination -> navigateTo(it.destinationId, it.bundle)
+                is NavigationEvent.Back -> navigateBack()
             }
         }
     }
@@ -68,11 +70,16 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         }
     }
 
+    @SuppressLint("ShowToast")
     private fun listenToSnackbar() {
         viewModel.snackbarEvent.safeObserve { snackbar ->
-            Snackbar.make(binding.root, snackbar.message, snackbar.length).apply {
+            val snack = snackbar.backendMessage?.let {
+                Snackbar.make(binding.root, it, snackbar.length)
+            } ?: Snackbar.make(binding.root, snackbar.message, snackbar.length)
+
+            snack.apply {
                 snackbar.action?.let { action ->
-                    setAction(snackbar.actionText) {
+                    snack.setAction(snackbar.actionText) {
                         action.invoke(this)
                     }
                 }

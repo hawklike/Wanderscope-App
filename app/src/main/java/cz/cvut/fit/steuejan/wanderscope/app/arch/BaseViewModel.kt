@@ -14,8 +14,11 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
+import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import timber.log.Timber
+
 
 abstract class BaseViewModel(
     protected open val state: SavedStateHandle? = null
@@ -77,12 +80,18 @@ abstract class BaseViewModel(
         }
     }
 
-    protected open fun unexpectedError(retry: () -> Unit = {}) {
+    protected open fun unexpectedError(error: Error? = null, retry: () -> Unit = {}) {
+        error?.reason?.let {
+            Timber.e(it.message)
+        }
+
         showSnackbar(
             SnackbarInfo(
                 R.string.unexpected_error,
+                backendMessage = error?.reason?.message,
                 length = Constants.UNEXPECTED_ERROR_SNACKBAR_LENGTH,
-                action = { retry.invoke() })
+                action = { retry.invoke() }
+            )
         )
     }
 
@@ -102,6 +111,7 @@ abstract class BaseViewModel(
 
     data class SnackbarInfo(
         @StringRes val message: Int,
+        val backendMessage: String? = null,
         val length: Int = Snackbar.LENGTH_LONG,
         val actionText: Int = android.R.string.ok,
         val action: ((Snackbar) -> Unit)? = null

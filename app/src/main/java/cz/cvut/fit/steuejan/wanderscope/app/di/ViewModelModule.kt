@@ -6,8 +6,9 @@ import cz.cvut.fit.steuejan.wanderscope.auth.forgot_password.ForgotPasswordFragm
 import cz.cvut.fit.steuejan.wanderscope.auth.login.LoginFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.auth.register.RegisterFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.home.HomeFragmentVM
-import cz.cvut.fit.steuejan.wanderscope.trip.AddTripFragmentVM
+import cz.cvut.fit.steuejan.wanderscope.trip.add_edit.AddEditTripFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trips.TripsFragmentVM
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -19,5 +20,5 @@ val viewModelModule = module {
     viewModelOf(::RegisterFragmentVM)
     viewModelOf(::ForgotPasswordFragmentVM)
     viewModelOf(::TripsFragmentVM)
-    viewModelOf(::AddTripFragmentVM)
+    viewModel { params -> AddEditTripFragmentVM(title = params.get(), purpose = params.get(), tripRepository = get()) }
 }

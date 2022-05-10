@@ -46,6 +46,10 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
+    protected fun navigateBack() {
+        findNavController().popBackStack()
+    }
+
     protected fun login() {
         (activity as? WithLogin)?.login()
     }

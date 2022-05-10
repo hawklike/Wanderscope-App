@@ -73,6 +73,15 @@
     <string name="datepicker_title_default">Select date</string>
 
     <string name="enddate_before_startdate">End date cannot be before start date</string>
+    <string name="add_trip">Add trip</string>
+    <string name="name">Name</string>
+    <string name="name_your_trip_mandatory">Name your trip (mandatory)</string>
+    <string name="start_date">Start date</string>
+    <string name="when_your_trip_starts">When your trip starts</string>
+    <string name="end_date">End date</string>
+    <string name="when_your_trip_ends">When your trip ends</string>
+    <string name="description">Description</string>
+    <string name="describe_your_trip">Describe your trip</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

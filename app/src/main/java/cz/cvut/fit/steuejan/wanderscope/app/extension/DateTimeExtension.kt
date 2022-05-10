@@ -6,3 +6,7 @@ import org.joda.time.DateTimeZone
 suspend inline infix fun Long.isBefore(other: Long) = withDefault {
     DateTime(this@isBefore, DateTimeZone.UTC).isBefore(DateTime(other, DateTimeZone.UTC))
 }
+
+suspend fun Long.toDateTime() = withDefault {
+    DateTime(this@toDateTime, DateTimeZone.UTC)
+}
