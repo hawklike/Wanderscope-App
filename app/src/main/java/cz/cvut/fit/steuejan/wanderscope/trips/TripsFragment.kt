@@ -8,6 +8,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripsBinding
+import timber.log.Timber
 
 class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
     R.layout.fragment_trips,
@@ -22,7 +23,18 @@ class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleTripsRecycler()
+        retrieveTrips()
+    }
+
+    private fun retrieveTrips() {
+        showLoading()
         viewModel.getTrips()
+        viewModel.loading.safeObserve { loading ->
+            Timber.d(loading.toString())
+            if (!loading) {
+                hideLoading()
+            }
+        }
     }
 
     private fun handleTripsRecycler() {
