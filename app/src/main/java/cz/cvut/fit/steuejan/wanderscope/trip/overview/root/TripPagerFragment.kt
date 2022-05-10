@@ -3,6 +3,7 @@ package cz.cvut.fit.steuejan.wanderscope.trip.overview.root
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import cz.cvut.fit.steuejan.wanderscope.R
@@ -19,13 +20,16 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
 
     override val hasBottomNavigation: Boolean = false
 
+    private val args: TripPagerFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.tripPagerTitle.text = args.tripName
 
         val viewPager = binding.tripPagerViewPager
         val tabLayout = binding.tripPagerTabLayout
 
-        val adapter = TripPagerAdapter(this)
+        val adapter = TripPagerAdapter(this, args.tripId)
         viewPager.adapter = adapter
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -33,16 +37,19 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
         }.attach()
     }
 
-    class TripPagerAdapter(private val fragment: Fragment) : FragmentStateAdapter(fragment) {
+    class TripPagerAdapter(
+        private val fragment: Fragment,
+        private val tripId: Int
+    ) : FragmentStateAdapter(fragment) {
 
         override fun getItemCount() = 3
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                0 -> TripOverviewFragment.newInstance()
+                0 -> TripOverviewFragment.newInstance(tripId)
                 1 -> TripItineraryFragment.newInstance()
                 2 -> TripExpensesFragment.newInstance()
-                else -> TripOverviewFragment.newInstance()
+                else -> TripOverviewFragment.newInstance(tripId)
             }
         }
 

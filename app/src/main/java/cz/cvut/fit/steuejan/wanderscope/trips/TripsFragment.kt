@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.facebook.shimmer.ShimmerFrameLayout
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
@@ -37,9 +38,21 @@ class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
 
     private fun handleTripsRecycler() {
         setAdapterListener(binding.tripsUpcomingTrips) { item, _ ->
-            if (item is TripOverviewItem) {
-                navigateTo(TripsFragmentDirections.actionTripsFragmentToTripPagerFragment())
-            }
+            goToTrip(item)
+        }
+        setAdapterListener(binding.tripsPastTrips) { item, _ ->
+            goToTrip(item)
+        }
+    }
+
+    private fun goToTrip(trip: RecyclerItem) {
+        if (trip is TripOverviewItem) {
+            navigateTo(
+                TripsFragmentDirections.actionTripsFragmentToTripPagerFragment(
+                    trip.id,
+                    trip.name
+                )
+            )
         }
     }
 }

@@ -71,6 +71,12 @@
             android:id="@+id/action_tripPagerFragment_to_accountFragment"
             app:destination="@id/accountFragment"
             app:popUpTo="@id/homeFragment" />
+        <argument
+            android:name="tripId"
+            app:argType="integer" />
+        <argument
+            android:name="tripName"
+            app:argType="string" />
     </fragment>
 
     <fragment
