@@ -3,9 +3,9 @@
     <color name="colorPrimary">#2b54ef</color>
     <color name="colorPrimaryVariant">@color/colorPrimary</color>
     <color name="colorOnPrimary">@color/colorBackground</color>
-    <color name="colorSecondary">#f4f6f8</color>
-    <color name="colorSecondaryVariant">#F0F2F5</color>
-    <color name="colorOnSecondary">#c7ccd9</color>
+    <color name="colorSecondary">#F9FBFD</color>
+    <color name="colorSecondaryVariant">#F2F7FB</color>
+    <color name="colorOnSecondary">#CFD4E4</color>
     <color name="colorBackground">#ffffff</color>
     <color name="colorSurface">@color/colorSecondary</color>
     <color name="colorText">#000000</color>
@@ -15,4 +15,5 @@
     <color name="colorTextLessImportant">#747d90</color>
     <color name="colorSnackbar">#000000</color>
     <color name="colorSnackbarText">#ffffff</color>
+    <color name="colorTextInputIcon">#80747D90</color>
 </resources>

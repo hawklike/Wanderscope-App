@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -8,163 +7,153 @@
 
         <variable
             name="vm"
-            type="cz.cvut.fit.steuejan.wanderscope.auth.register.RegisterFragmentVM" />
+            type="cz.cvut.fit.steuejan.wanderscope.trip.add_edit.AddEditTripFragmentVM" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
-        tools:context=".auth.forgot_password.ForgotPasswordFragment">
+        android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/app_text_input_margin"
-            app:layout_constraintBottom_toTopOf="@id/registerButton"
+            app:layout_constraintBottom_toTopOf="@id/addTripButton"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/registerImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/image_sign_up"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/registerTitle"
+                    android:id="@+id/addTripTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sign_up"
+                    android:layout_marginTop="8dp"
+                    android:text="@{vm.title}"
                     android:textAppearance="@style/TextAppearance.Wanderscope.H1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/registerImage" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/add_trip" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/registerSubtitle"
-                    style="@style/Widget.Wanderscope.LessImportantText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_subtitle_margin"
-                    android:text="@string/register_subtitle"
-                    app:layout_constraintTop_toBottomOf="@id/registerTitle" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/registerEmailLabel"
+                    android:id="@+id/addTripNameLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_layout_first_item_margin"
-                    android:text="@string/email"
+                    android:text="@string/name"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/registerSubtitle" />
+                    app:layout_constraintTop_toBottomOf="@id/addTripTitle" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/registerEmail"
+                    android:id="@+id/addTripName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:errorText="@{vm.validateEmail}"
-                    app:layout_constraintTop_toBottomOf="@id/registerEmailLabel">
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/name_max_len"
+                    app:errorText="@{vm.validateName}"
+                    app:layout_constraintTop_toBottomOf="@id/addTripNameLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:autofillHints="emailAddress"
-                        android:hint="@string/login_email_hint"
-                        android:inputType="textEmailAddress"
-                        android:text="@={vm.email}" />
+                        android:hint="@string/name_your_trip_mandatory"
+                        android:inputType="textCapSentences"
+                        android:maxLength="@integer/name_max_len"
+                        android:text="@={vm.name}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/registerUsernameLabel"
+                    android:id="@+id/addTripStartDateLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/username"
+                    android:text="@string/start_date"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/registerEmail" />
+                    app:layout_constraintTop_toBottomOf="@id/addTripName" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/registerUsername"
+                    android:id="@+id/addTripStartDate"
+                    style="@style/Widget.Wanderscope.TextInput.DatePicker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:errorText="@{vm.validateUsername}"
-                    app:layout_constraintTop_toBottomOf="@id/registerUsernameLabel">
+                    app:cancellable="@{true}"
+                    app:errorText="@{vm.validateDates}"
+                    app:layout_constraintTop_toBottomOf="@id/addTripStartDateLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Wanderscope.EditText.DatePicker"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:autofillHints="username"
-                        android:hint="@string/register_username_hint"
-                        android:inputType="text"
-                        android:text="@={vm.username}" />
+                        android:hint="@string/when_your_trip_starts"
+                        android:onClick="@{() -> vm.startDatePicker()}"
+                        android:text="@={vm.startDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/registerPasswordLabel"
+                    android:id="@+id/addTripEndDateLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/password"
+                    android:text="@string/end_date"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/registerUsername" />
+                    app:layout_constraintTop_toBottomOf="@id/addTripStartDate" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/registerPassword"
-                    style="@style/Widget.Wanderscope.TextInput.Password"
+                    android:id="@+id/addTripEndDate"
+                    style="@style/Widget.Wanderscope.TextInput.DatePicker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:errorText="@{vm.validatePassword}"
-                    app:layout_constraintTop_toBottomOf="@id/registerPasswordLabel">
+                    app:cancellable="@{true}"
+                    app:errorText="@{vm.validateDates}"
+                    app:layout_constraintTop_toBottomOf="@id/addTripEndDateLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Wanderscope.EditText.DatePicker"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:autofillHints="password"
-                        android:hint="@string/register_password_hint"
-                        android:inputType="textPassword"
-                        android:text="@={vm.password}" />
+                        android:hint="@string/when_your_trip_ends"
+                        android:onClick="@{() -> vm.endDatePicker()}"
+                        android:text="@={vm.endDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/registerConfirmPasswordLabel"
+                    android:id="@+id/addTripDescriptionLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/confirm_password"
+                    android:text="@string/description"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/registerPassword" />
+                    app:layout_constraintTop_toBottomOf="@id/addTripEndDate" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/registerConfirmPassword"
-                    style="@style/Widget.Wanderscope.TextInput.Password"
+                    android:id="@+id/addTripDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:errorText="@{vm.validateConfirmPassword}"
-                    app:layout_constraintTop_toBottomOf="@id/registerConfirmPasswordLabel">
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/description_max_len"
+                    app:layout_constraintTop_toBottomOf="@id/addTripDescriptionLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Wanderscope.EditText.MultiLine"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:autofillHints="password"
-                        android:hint="@string/register_confirm_password_hint"
-                        android:inputType="textPassword"
-                        android:text="@={vm.confirmPassword}" />
+                        android:hint="@string/describe_your_trip"
+                        android:maxLength="@integer/description_max_len"
+                        android:text="@={vm.description}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -173,16 +162,16 @@
         </ScrollView>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/registerButton"
+            android:id="@+id/addTripButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/app_button_bottom_margin"
-            android:onClick="@{() -> vm.register()}"
-            android:text="@string/sign_up"
-            app:isEnabled="@{vm.enableSignUp}"
+            android:onClick="@{() -> vm.submit()}"
+            android:text="@string/submit"
+            app:isEnabled="@{vm.enableSubmit}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:showProgress="@{vm.signupLoading}"
-            app:textAfterProgress="@{@string/sign_up}" />
+            app:showProgress="@{vm.submitLoading}"
+            app:textAfterProgress="@{@string/submit}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

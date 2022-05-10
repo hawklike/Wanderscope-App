@@ -8,13 +8,12 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
-import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.trips.api.response.TripsResponse
 import cz.cvut.fit.steuejan.wanderscope.trips.model.TripsScope
 import cz.cvut.fit.steuejan.wanderscope.trips.repository.TripsRepository
 import kotlinx.coroutines.CoroutineScope
-import timber.log.Timber
 
 class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewModel() {
 
@@ -27,11 +26,15 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
         viewModelScope.launchIO { getPastTrips(this) }
     }
 
+    fun addTrip() {
+        navigateTo(Action(TripsFragmentDirections.actionTripsFragmentToAddTripFragment()))
+    }
+
     private suspend fun getUpcomingTrips(scope: CoroutineScope) {
         tripsRepository.getTrips(TripsScope.UPCOMING).safeCollect(scope) {
             when (it) {
                 is Result.Cache -> TODO()
-                is Result.Failure -> tripsFailure(it.error)
+                is Result.Failure -> unexpectedError(it.error)
                 is Result.Loading -> doNothing
                 is Result.Success -> upcomingTripsSuccess(it.data)
             }
@@ -51,18 +54,11 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
         }
     }
 
-    private fun tripsFailure(error: Error) {
-        error.reason?.let {
-            Timber.e(it.message)
-        }
-        unexpectedError()
-    }
-
     private suspend fun getPastTrips(scope: CoroutineScope) {
         tripsRepository.getTrips(TripsScope.PAST).safeCollect(scope) {
             when (it) {
                 is Result.Cache -> TODO()
-                is Result.Failure -> tripsFailure(it.error)
+                is Result.Failure -> unexpectedError(it.error)
                 is Result.Loading -> doNothing
                 is Result.Success -> pastTripsSuccess(it.data)
             }

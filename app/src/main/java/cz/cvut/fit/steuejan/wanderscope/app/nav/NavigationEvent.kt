@@ -7,5 +7,6 @@ import androidx.navigation.NavDirections
 sealed class NavigationEvent {
     class Action(val action: NavDirections) : NavigationEvent()
     class Destination(@IdRes val destinationId: Int, val bundle: Bundle? = null) : NavigationEvent()
+    object Back : NavigationEvent()
 }
 

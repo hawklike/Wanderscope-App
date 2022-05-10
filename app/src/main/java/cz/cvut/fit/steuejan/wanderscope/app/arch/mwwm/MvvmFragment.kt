@@ -1,5 +1,6 @@
 package cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.BR
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseFragment
@@ -44,6 +46,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         listenToToast()
         listenToSnackbar()
         listenToLoading()
+        listenToDatePicker()
     }
 
     override fun onDestroy() {
@@ -56,6 +59,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
             when (it) {
                 is NavigationEvent.Action -> navigateTo(it.action)
                 is NavigationEvent.Destination -> navigateTo(it.destinationId, it.bundle)
+                is NavigationEvent.Back -> navigateBack()
             }
         }
     }
@@ -66,11 +70,16 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         }
     }
 
+    @SuppressLint("ShowToast")
     private fun listenToSnackbar() {
         viewModel.snackbarEvent.safeObserve { snackbar ->
-            Snackbar.make(binding.root, snackbar.message, snackbar.length).apply {
+            val snack = snackbar.backendMessage?.let {
+                Snackbar.make(binding.root, it, snackbar.length)
+            } ?: Snackbar.make(binding.root, snackbar.message, snackbar.length)
+
+            snack.apply {
                 snackbar.action?.let { action ->
-                    setAction(snackbar.actionText) {
+                    snack.setAction(snackbar.actionText) {
                         action.invoke(this)
                     }
                 }
@@ -82,6 +91,21 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         viewModel.showLoading.safeObserve { show ->
             if (this is WithLoading) {
                 if (show) showLoading() else hideLoading()
+            }
+        }
+    }
+
+    private fun listenToDatePicker() {
+        viewModel.datePickerEvent.safeObserve { date ->
+            val datePicker = date.customDatePicker ?: MaterialDatePicker.Builder.datePicker()
+                .setSelection(date.initialDate)
+                .setTitleText(date.title ?: 0)
+                .setCalendarConstraints(date.constraints?.build())
+                .build()
+
+            datePicker.apply {
+                addOnPositiveButtonClickListener(date.onPickedDate)
+                show(this@MvvmFragment.parentFragmentManager, "datePicker")
             }
         }
     }

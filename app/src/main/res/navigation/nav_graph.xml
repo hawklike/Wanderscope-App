@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.auth.login.LoginFragment"
-        android:label="@string/sign_in"
+        android:label=""
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
@@ -28,7 +28,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.auth.register.RegisterFragment"
-        android:label="@string/register"
+        android:label=""
         tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_homeFragment"
@@ -40,13 +40,24 @@
     <fragment
         android:id="@+id/forgotPasswordFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.auth.forgot_password.ForgotPasswordFragment"
+        android:label=""
         tools:layout="@layout/fragment_forgot_password" />
 
     <fragment
         android:id="@+id/tripsFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.trips.TripsFragment"
-        android:label="@string/trips_label"
-        tools:layout="@layout/fragment_trips" />
+        android:label=""
+        tools:layout="@layout/fragment_trips">
+        <action
+            android:id="@+id/action_tripsFragment_to_addTripFragment"
+            app:destination="@id/addTripFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addTripFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.trip.add_edit.AddTripFragment"
+        android:label=""
+        tools:layout="@layout/fragment_trip_add" />
 
     <fragment
         android:id="@+id/homeFragment"
