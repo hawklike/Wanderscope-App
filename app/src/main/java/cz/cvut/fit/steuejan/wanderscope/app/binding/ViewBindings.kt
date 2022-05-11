@@ -13,5 +13,5 @@ fun View.visibleOrGone(any: Any?): Any? {
 
 @BindingAdapter("backgroundTintResource")
 fun View.setBackgroundTint(@ColorRes tintColor: Int) {
-    backgroundTintList = ContextCompat.getColorStateList(context, tintColor)
+    background.setTint(ContextCompat.getColor(context, tintColor))
 }

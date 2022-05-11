@@ -33,14 +33,14 @@
 
                 <ImageView
                     android:id="@+id/itemTripOverviewIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:background="@drawable/ic_airplane"
-                    android:backgroundTint="@color/colorPrimary"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    app:imageResource="@{item.icon}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:background="@drawable/ic_light_aircraft" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -51,6 +51,7 @@
                 android:layout_marginTop="16dp"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:text="@{item.name}"
                 android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                 app:layout_constraintTop_toBottomOf="@id/itemTripOverviewIconHolder"
                 tools:text="Praha-Ostrava" />
@@ -80,10 +81,11 @@
                     android:layout_marginStart="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
+                    android:text="@{item.startDate}"
                     android:textColor="@color/colorText"
                     app:layout_constraintStart_toEndOf="@id/itemTripOverviewStartDateLabel"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="12.12. 2022" />
+                    tools:text="12.12.2022" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/itemTripOverviewEndDateLabel"
@@ -103,10 +105,11 @@
                     android:layout_marginTop="2dp"
                     android:ellipsize="end"
                     android:maxLines="1"
+                    android:text="@{item.endDate}"
                     android:textColor="@color/colorText"
                     app:layout_constraintStart_toEndOf="@id/itemTripOverviewStartDateLabel"
                     app:layout_constraintTop_toBottomOf="@id/itemTripOverviewStartDate"
-                    tools:text="18.12. 2022" />
+                    tools:text="18.12.2022" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

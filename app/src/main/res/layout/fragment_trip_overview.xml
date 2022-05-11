@@ -83,27 +83,52 @@
                     tools:text="This meta description generator uses machine learning (specifically GPT-3 from Open AI) to generate short description ideas for your articles. It has been trained specifically for pages with long content and is best suited for guides, how-to articles, articles with bulleted lists, etc." />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tripOverviewTravellersLabel"
+                    android:id="@+id/tripOverviewTransportLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
                     android:layout_marginTop="@dimen/app_no_toolbar_first_item"
-                    android:text="Travellers"
+                    android:text="Transport"
                     android:textAppearance="@style/TextAppearance.Wanderscope.H3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tripOverviewDescription" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/tripOverviewTravellers"
+                    android:id="@+id/tripOverviewTransport"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/app_layout_main_horizontal_padding"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/app_h3_bottom_margin"
                     android:nestedScrollingEnabled="true"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/tripOverviewTravellersLabel"
-                    app:recyclerItems="@{vm.users}"
+                    app:layout_constraintTop_toBottomOf="@id/tripOverviewTransportLabel"
+                    app:recyclerItems="@{vm.transport}"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_trip_point_overview" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tripOverviewAccommodationLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+                    android:layout_marginTop="@dimen/app_item_after_recycler_margin"
+                    android:text="Accommodation"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tripOverviewTransport" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tripOverviewAccommodation"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/app_layout_main_horizontal_padding"
+                    android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                    android:nestedScrollingEnabled="true"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/tripOverviewAccommodationLabel"
+                    app:recyclerItems="@{vm.accommodation}"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_trip_point_overview" />
 

@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.trip.overview
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
@@ -22,7 +23,8 @@ class TripOverviewFragmentVM(private val tripRepository: TripRepository) : BaseV
     val duration = MutableLiveData<DurationString>()
     val description = MutableLiveData<String?>()
 
-    val users = MutableLiveData<List<RecyclerItem>>()
+    val transport = MutableLiveData<List<RecyclerItem>>()
+    val accommodation = MutableLiveData<List<RecyclerItem>>()
 
     private val tripOverviewLoading = MutableLiveData<Boolean>()
 
@@ -59,11 +61,28 @@ class TripOverviewFragmentVM(private val tripRepository: TripRepository) : BaseV
     }
 
     private suspend fun getUsers(tripId: Int, scope: CoroutineScope) {
-        val users = mutableListOf<RecyclerItem>()
-        repeat(7) {
-            users.add(TripPointOverviewItem(1, "", null, null, 1))
-        }
-        this.users.postValue(users)
+        val transport = mutableListOf<RecyclerItem>(
+            TripPointOverviewItem(1, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_light_aircraft),
+            TripPointOverviewItem(2, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_bike),
+            TripPointOverviewItem(3, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_car),
+            TripPointOverviewItem(4, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_bus),
+            TripPointOverviewItem(5, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_train),
+            TripPointOverviewItem(6, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_boat),
+            TripPointOverviewItem(7, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_public_transport),
+            TripPointOverviewItem(8, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_hiking),
+        )
+
+        val accommodation = mutableListOf<RecyclerItem>(
+            TripPointOverviewItem(1, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_hotel),
+            TripPointOverviewItem(2, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_hostel),
+            TripPointOverviewItem(3, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_pension),
+            TripPointOverviewItem(4, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_camp),
+            TripPointOverviewItem(5, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_outdoor),
+            TripPointOverviewItem(6, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_airbnb),
+        )
+
+        this.transport.postValue(transport)
+        this.accommodation.postValue(accommodation)
     }
 
 }
