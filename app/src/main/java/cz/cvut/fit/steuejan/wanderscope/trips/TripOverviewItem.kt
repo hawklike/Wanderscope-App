@@ -1,23 +1,17 @@
 package cz.cvut.fit.steuejan.wanderscope.trips
 
-import android.os.Parcelable
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
-import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
-import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationInItem
+import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import kotlinx.parcelize.IgnoredOnParcel
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class TripOverviewItem(
     val id: Int,
     val name: String,
-    val duration: DurationInItem?,
+    val duration: DurationString?,
     val days: Int?,
-    val imageUrl: String?,
-    val userRole: UserRole,
-    val description: String?
-) : RecyclerItem, Parcelable {
+    val imageUrl: String?
+) : RecyclerItem {
 
     @IgnoredOnParcel
     override val layoutId = R.layout.item_trip_overview
@@ -27,10 +21,6 @@ data class TripOverviewItem(
     }
 
     override fun hasSameContent(other: RecyclerItem): Boolean {
-        return other is TripOverviewItem &&
-                name == other.name &&
-                duration == other.duration &&
-                days == other.days &&
-                imageUrl == other.imageUrl
+        return other is TripOverviewItem && this == other
     }
 }

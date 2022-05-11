@@ -87,6 +87,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextAppearance.Wanderscope.H3" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_h3_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextAppearance.Wanderscope.Bold" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">@dimen/app_default_text_size</item>
         <item name="android:textStyle">bold</item>

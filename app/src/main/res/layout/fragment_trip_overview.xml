@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,6 +13,101 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/tripOverviewShimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            tools:visibility="gone">
+
+            <include layout="@layout/layout_shimmer_placeholder" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tripOverviewContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tripOverviewDurationLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+                    android:layout_marginTop="@dimen/app_layout_first_item_margin"
+                    android:text="@string/duration"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:visibleOrGone="@{vm.duration}" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tripOverviewDuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                    app:duration="@{vm.duration}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tripOverviewDurationLabel"
+                    tools:text="12.12.2021 - 18.12.2021" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tripOverviewDescriptionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/description"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tripOverviewDuration"
+                    app:visibleOrGone="@{vm.description}" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tripOverviewDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tripOverviewDescriptionLabel"
+                    app:textOrGone="@{vm.description}"
+                    tools:text="This meta description generator uses machine learning (specifically GPT-3 from Open AI) to generate short description ideas for your articles. It has been trained specifically for pages with long content and is best suited for guides, how-to articles, articles with bulleted lists, etc." />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tripOverviewTravellersLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+                    android:layout_marginTop="@dimen/app_no_toolbar_first_item"
+                    android:text="Travellers"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tripOverviewDescription" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/app_fab_margin"
+            android:layout_marginBottom="@dimen/app_fab_margin"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

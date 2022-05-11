@@ -18,20 +18,23 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
     TripPagerFragmentVM::class
 ) {
 
-    override val hasBottomNavigation: Boolean = false
+    override val hasBottomNavigation: Boolean by lazy { args.hasBottomNavigation }
 
     private val args: TripPagerFragmentArgs by navArgs()
-    private val trip by lazy { args.tripOverview }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tripPagerTitle.text = trip.name
+        binding.tripPagerTitle.text = args.title
 
         val viewPager = binding.tripPagerViewPager
         val tabLayout = binding.tripPagerTabLayout
 
-        val adapter = TripPagerAdapter(this, trip.id)
-        viewPager.adapter = adapter
+        val adapter = TripPagerAdapter(this, args.id)
+
+        viewPager.apply {
+            isUserInputEnabled = false
+            this.adapter = adapter
+        }
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = adapter.getTitle(position)

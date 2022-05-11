@@ -72,8 +72,14 @@
             app:destination="@id/accountFragment"
             app:popUpTo="@id/homeFragment" />
         <argument
-            android:name="tripOverview"
-            app:argType="cz.cvut.fit.steuejan.wanderscope.trips.TripOverviewItem" />
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="hasBottomNavigation"
+            app:argType="boolean" />
     </fragment>
 
     <fragment

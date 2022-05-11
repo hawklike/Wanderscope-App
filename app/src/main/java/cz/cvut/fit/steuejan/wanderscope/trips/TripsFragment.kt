@@ -17,8 +17,8 @@ class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
 
     override val hasToolbar = false
 
-    override val content: View get() = binding.content
-    override val shimmer: ShimmerFrameLayout get() = binding.shimmer
+    override val content: View get() = binding.tripsContent
+    override val shimmer: ShimmerFrameLayout get() = binding.tripsShimmer
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,7 +48,11 @@ class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
     private fun goToTrip(trip: RecyclerItem) {
         if (trip is TripOverviewItem) {
             navigateTo(
-                TripsFragmentDirections.actionTripsFragmentToTripPagerFragment(trip)
+                TripsFragmentDirections.actionTripsFragmentToTripPagerFragment(
+                    trip.id,
+                    trip.name,
+                    hasBottomNavigation = false
+                )
             )
         }
     }

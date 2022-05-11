@@ -9,6 +9,7 @@
     <dimen name="app_button_text_size">16sp</dimen>
     <dimen name="app_h1_text_size">28sp</dimen>
     <dimen name="app_h2_text_size">24sp</dimen>
+    <dimen name="app_h3_text_size">22sp</dimen>
 
     <dimen name="app_recycler_item_corner_radius">8dp</dimen>
     <dimen name="app_text_input_corner_size">8dp</dimen>

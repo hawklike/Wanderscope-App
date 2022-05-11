@@ -5,7 +5,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.extension.capitalize
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getDays
-import cz.cvut.fit.steuejan.wanderscope.app.extension.toDurationItem
+import cz.cvut.fit.steuejan.wanderscope.app.extension.toDurationString
 import cz.cvut.fit.steuejan.wanderscope.trips.TripOverviewItem
 
 data class TripOverviewResponse(
@@ -18,17 +18,13 @@ data class TripOverviewResponse(
     @Json(name = "duration")
     val duration: Duration,
     @Json(name = "imageUrl")
-    val imageUrl: String?,
-    @Json(name = "description")
-    val description: String?
+    val imageUrl: String?
 ) {
     suspend fun toItem() = TripOverviewItem(
         id,
         name.capitalize(),
-        duration.toDurationItem(),
+        duration.toDurationString(),
         duration.getDays(),
-        imageUrl,
-        role,
-        description
+        imageUrl
     )
 }
