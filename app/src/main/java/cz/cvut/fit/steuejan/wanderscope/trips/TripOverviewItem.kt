@@ -3,7 +3,6 @@ package cz.cvut.fit.steuejan.wanderscope.trips
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
-import kotlinx.parcelize.IgnoredOnParcel
 
 data class TripOverviewItem(
     val id: Int,
@@ -13,7 +12,6 @@ data class TripOverviewItem(
     val imageUrl: String?
 ) : RecyclerItem {
 
-    @IgnoredOnParcel
     override val layoutId = R.layout.item_trip_overview
 
     override fun isSameItem(other: RecyclerItem): Boolean {

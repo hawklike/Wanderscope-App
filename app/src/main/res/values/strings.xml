@@ -87,6 +87,8 @@
     <string name="trip_overview_itinerary">Itinerary</string>
     <string name="trip_overview_expenses">Expenses</string>
     <string name="duration">Duration</string>
+    <string name="starts">Starts:</string>
+    <string name="ends">Ends:</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

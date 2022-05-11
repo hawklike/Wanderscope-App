@@ -27,7 +27,7 @@
                 android:layout_width="@dimen/app_trip_overview_image_size"
                 android:layout_height="@dimen/app_trip_overview_image_size"
                 android:scaleType="centerCrop"
-                android:src="@drawable/image_trip_overview_placeholder"
+                android:src="@drawable/image_trip_placeholder"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearance="@style/ShapeAppearanceOverlay.Wanderscope.TextInput" />

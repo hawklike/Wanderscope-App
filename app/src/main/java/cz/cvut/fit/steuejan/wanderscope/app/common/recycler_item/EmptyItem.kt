@@ -31,7 +31,7 @@ data class EmptyItem(
         fun pastTrips() = EmptyItem(
             R.string.no_past_trips_title,
             R.string.no_past_trips_subtitle,
-            R.drawable.image_add_trip
+            R.drawable.image_been_nowhere
         )
     }
 }
