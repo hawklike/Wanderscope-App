@@ -48,10 +48,7 @@ class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
     private fun goToTrip(trip: RecyclerItem) {
         if (trip is TripOverviewItem) {
             navigateTo(
-                TripsFragmentDirections.actionTripsFragmentToTripPagerFragment(
-                    trip.id,
-                    trip.name
-                )
+                TripsFragmentDirections.actionTripsFragmentToTripPagerFragment(trip)
             )
         }
     }

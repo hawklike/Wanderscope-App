@@ -18,13 +18,17 @@ data class TripOverviewResponse(
     @Json(name = "duration")
     val duration: Duration,
     @Json(name = "imageUrl")
-    val imageUrl: String?
+    val imageUrl: String?,
+    @Json(name = "description")
+    val description: String?
 ) {
     suspend fun toItem() = TripOverviewItem(
         id,
         name.capitalize(),
         duration.toDurationItem(),
         duration.getDays(),
-        imageUrl
+        imageUrl,
+        role,
+        description
     )
 }
