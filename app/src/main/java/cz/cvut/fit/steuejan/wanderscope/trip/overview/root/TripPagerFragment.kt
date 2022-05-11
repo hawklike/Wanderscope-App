@@ -8,6 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
+import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.WithViewPager
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripPagerBinding
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.TripOverviewFragment
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.TripExpensesFragment
@@ -16,7 +17,7 @@ import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.TripItineraryFra
 class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragmentVM>(
     R.layout.fragment_trip_pager,
     TripPagerFragmentVM::class
-) {
+), WithViewPager {
 
     override val hasBottomNavigation: Boolean by lazy { args.hasBottomNavigation }
 
@@ -65,5 +66,9 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
                 else -> fragment.getString(R.string.trip_overview_overview)
             }
         }
+    }
+
+    override fun setTitle(title: String?) {
+        binding.tripPagerTitle.text = title
     }
 }

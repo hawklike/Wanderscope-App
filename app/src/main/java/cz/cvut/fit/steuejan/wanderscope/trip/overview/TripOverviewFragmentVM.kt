@@ -43,6 +43,7 @@ class TripOverviewFragmentVM(private val tripRepository: TripRepository) : BaseV
     }
 
     private suspend fun getTripOverviewSuccess(data: TripResponse) {
+        title.value = data.name
         duration.value = data.duration.toDurationString()
         description.value = data.description
         tripOverviewLoading.value = false
