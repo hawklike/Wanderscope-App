@@ -27,12 +27,13 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
+            android:fillViewport="true"
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/tripOverviewContent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tripOverviewDurationLabel"
@@ -132,6 +133,55 @@
                     tools:itemCount="3"
                     tools:listitem="@layout/item_trip_point_overview" />
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tripOverviewPlaceLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+                    android:layout_marginTop="@dimen/app_item_after_recycler_margin"
+                    android:text="Places"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tripOverviewAccommodation" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tripOverviewPlace"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/app_layout_main_horizontal_padding"
+                    android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                    android:nestedScrollingEnabled="true"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/tripOverviewPlaceLabel"
+                    app:recyclerItems="@{vm.places}"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_trip_point_overview" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tripOverviewActivityLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+                    android:layout_marginTop="@dimen/app_item_after_recycler_margin"
+                    android:text="Activities"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tripOverviewPlace" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tripOverviewActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/app_layout_main_horizontal_padding"
+                    android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                    android:nestedScrollingEnabled="true"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/tripOverviewActivityLabel"
+                    app:recyclerItems="@{vm.activities}"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_trip_point_overview" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

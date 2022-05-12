@@ -25,6 +25,8 @@ class TripOverviewFragmentVM(private val tripRepository: TripRepository) : BaseV
 
     val transport = MutableLiveData<List<RecyclerItem>>()
     val accommodation = MutableLiveData<List<RecyclerItem>>()
+    val places = MutableLiveData<List<RecyclerItem>>()
+    val activities = MutableLiveData<List<RecyclerItem>>()
 
     private val tripOverviewLoading = MutableLiveData<Boolean>()
 
@@ -77,12 +79,32 @@ class TripOverviewFragmentVM(private val tripRepository: TripRepository) : BaseV
             TripPointOverviewItem(2, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_hostel),
             TripPointOverviewItem(3, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_pension),
             TripPointOverviewItem(4, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_camp),
-            TripPointOverviewItem(5, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_outdoor),
+            TripPointOverviewItem(5, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_sleeping_bag),
             TripPointOverviewItem(6, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_airbnb),
+        )
+
+        val places = mutableListOf<RecyclerItem>(
+            TripPointOverviewItem(1, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_outdoor),
+            TripPointOverviewItem(2, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_place),
+            TripPointOverviewItem(3, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_parking),
+            TripPointOverviewItem(4, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_food),
+        )
+
+        val activities = mutableListOf<RecyclerItem>(
+            TripPointOverviewItem(1, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_hiking),
+            TripPointOverviewItem(2, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_bike),
+            TripPointOverviewItem(3, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_kayak),
+            TripPointOverviewItem(4, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_skiing),
+            TripPointOverviewItem(5, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_swimming),
+            TripPointOverviewItem(6, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_running),
+            TripPointOverviewItem(7, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_climbing),
+            TripPointOverviewItem(8, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_trophy),
         )
 
         this.transport.postValue(transport)
         this.accommodation.postValue(accommodation)
+        this.places.postValue(places)
+        this.activities.postValue(activities)
     }
 
 }
