@@ -7,7 +7,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
-import cz.cvut.fit.steuejan.wanderscope.app.extension.delayAndReturn
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
@@ -28,7 +27,7 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
     val loading = LoadingMediator(
         upcomingTripsLoading,
         pastTripsLoading
-    ).delayAndReturn()
+    )
 
     fun getTrips() {
         viewModelScope.launchIO { getUpcomingTrips(this) }
@@ -51,8 +50,8 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
     }
 
     private suspend fun upcomingTripsSuccess(data: TripsResponse) {
-        upcomingTripsLoading.value = false
         upcomingTrips.value = tripsSuccess(data, EmptyItem.upcomingTrips())
+        upcomingTripsLoading.value = false
     }
 
     private fun upcomingTripsFailure(error: Error) {
@@ -85,7 +84,7 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
     }
 
     private suspend fun pastTripsSuccess(data: TripsResponse) {
-        pastTripsLoading.value = false
         pastTrips.value = tripsSuccess(data, EmptyItem.pastTrips())
+        pastTripsLoading.value = false
     }
 }

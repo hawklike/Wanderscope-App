@@ -4,5 +4,5 @@ import com.squareup.moshi.Json
 
 data class TransportsResponse(
     @Json(name = "transports")
-    val transports: List<TransportsResponse>
+    val transports: List<TransportResponse>
 )

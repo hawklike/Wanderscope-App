@@ -90,6 +90,11 @@
     <string name="starts">Starts:</string>
     <string name="ends">Ends:</string>
 
+    <string name="accommodation_empty">You haven\'t add any accommodation yet</string>
+    <string name="activities_empty">You haven\'t add any activity yet</string>
+    <string name="transport_empty">You haven\'t add any transport yet</string>
+    <string name="places_empty">You haven\'t add any place yet</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>

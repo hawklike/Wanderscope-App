@@ -50,11 +50,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/app_recycler_item_margin"
                 android:gravity="center"
-                android:text="@{item.subtitle}"
                 android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/emptyItemTitle"
+                app:textResOrGone="@{item.subtitle}"
                 tools:text="@string/no_past_trips_subtitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

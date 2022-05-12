@@ -1,6 +1,7 @@
 package cz.cvut.fit.steuejan.wanderscope.app.binding
 
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.databinding.BindingAdapter
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
@@ -21,4 +22,10 @@ fun TextView.setDays(days: Int?) {
 fun TextView.setTextOrGone(text: String?) {
     visibleOrGone(text) ?: return
     this.text = text
+}
+
+@BindingAdapter("textResOrGone")
+fun TextView.setTextOrGone(@StringRes text: Int?) {
+    visibleOrGone(text) ?: return
+    this.setText(text!!)
 }
