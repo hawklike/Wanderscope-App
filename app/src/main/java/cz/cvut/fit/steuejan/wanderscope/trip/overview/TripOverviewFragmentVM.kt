@@ -71,7 +71,7 @@ class TripOverviewFragmentVM(private val tripRepository: TripRepository) : BaseV
             TripPointOverviewItem(5, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_train),
             TripPointOverviewItem(6, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_boat),
             TripPointOverviewItem(7, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_public_transport),
-            TripPointOverviewItem(8, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_hiking),
+            TripPointOverviewItem(8, "Ostrava-Praha", "12.12.2022", "18.12.2022", R.drawable.ic_walking),
         )
 
         val accommodation = mutableListOf<RecyclerItem>(

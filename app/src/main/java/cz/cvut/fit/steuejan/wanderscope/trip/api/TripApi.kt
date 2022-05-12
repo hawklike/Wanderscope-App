@@ -16,4 +16,6 @@ interface TripApi {
 
     @GET("/trip/{id}")
     suspend fun getTrip(@Path("id") id: Int): Response<TripResponse>
+
+
 }
