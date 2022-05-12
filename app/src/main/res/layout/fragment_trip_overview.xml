@@ -27,8 +27,8 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:fillViewport="true"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/tripOverviewContent"
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
                     android:layout_marginTop="@dimen/app_no_toolbar_first_item"
-                    android:text="Transport"
+                    android:text="@string/transport"
                     android:textAppearance="@style/TextAppearance.Wanderscope.H3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tripOverviewDescription" />
@@ -104,6 +104,9 @@
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/tripOverviewTransportLabel"
+                    app:marginEndNormalRes="@{@dimen/margin_0}"
+                    app:marginEndRes="@{@dimen/app_layout_main_horizontal_padding}"
+                    app:marginEndWhenOneItem="@{vm.transport}"
                     app:recyclerItems="@{vm.transport}"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_trip_point_overview" />
@@ -114,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
                     android:layout_marginTop="@dimen/app_item_after_recycler_margin"
-                    android:text="Accommodation"
+                    android:text="@string/accommodation"
                     android:textAppearance="@style/TextAppearance.Wanderscope.H3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tripOverviewTransport" />
@@ -129,6 +132,9 @@
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/tripOverviewAccommodationLabel"
+                    app:marginEndNormalRes="@{@dimen/margin_0}"
+                    app:marginEndRes="@{@dimen/app_layout_main_horizontal_padding}"
+                    app:marginEndWhenOneItem="@{vm.accommodation}"
                     app:recyclerItems="@{vm.accommodation}"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_trip_point_overview" />
@@ -139,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
                     android:layout_marginTop="@dimen/app_item_after_recycler_margin"
-                    android:text="Places"
+                    android:text="@string/places"
                     android:textAppearance="@style/TextAppearance.Wanderscope.H3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tripOverviewAccommodation" />
@@ -154,6 +160,9 @@
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/tripOverviewPlaceLabel"
+                    app:marginEndNormalRes="@{@dimen/margin_0}"
+                    app:marginEndRes="@{@dimen/app_layout_main_horizontal_padding}"
+                    app:marginEndWhenOneItem="@{vm.places}"
                     app:recyclerItems="@{vm.places}"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_trip_point_overview" />
@@ -164,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
                     android:layout_marginTop="@dimen/app_item_after_recycler_margin"
-                    android:text="Activities"
+                    android:text="@string/activities"
                     android:textAppearance="@style/TextAppearance.Wanderscope.H3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tripOverviewPlace" />
@@ -179,6 +188,9 @@
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/tripOverviewActivityLabel"
+                    app:marginEndNormalRes="@{@dimen/margin_0}"
+                    app:marginEndRes="@{@dimen/app_layout_main_horizontal_padding}"
+                    app:marginEndWhenOneItem="@{vm.activities}"
                     app:recyclerItems="@{vm.activities}"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_trip_point_overview" />
