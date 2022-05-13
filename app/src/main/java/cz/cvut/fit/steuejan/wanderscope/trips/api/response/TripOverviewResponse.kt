@@ -3,7 +3,6 @@ package cz.cvut.fit.steuejan.wanderscope.trips.api.response
 import com.squareup.moshi.Json
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
-import cz.cvut.fit.steuejan.wanderscope.app.extension.capitalize
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getDays
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toDurationString
 import cz.cvut.fit.steuejan.wanderscope.trips.TripOverviewItem
@@ -22,7 +21,7 @@ data class TripOverviewResponse(
 ) {
     suspend fun toItem() = TripOverviewItem(
         id,
-        name.capitalize(),
+        name,
         duration.toDurationString(),
         duration.getDays(),
         imageUrl

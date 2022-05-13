@@ -2,7 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.common
 
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toNiceString
-import cz.cvut.fit.steuejan.wanderscope.trip.overview.TripPointOverviewItem
+import cz.cvut.fit.steuejan.wanderscope.points.TripPointOverviewItem
 
 abstract class AbstractTripPointResponse {
     abstract val id: Int

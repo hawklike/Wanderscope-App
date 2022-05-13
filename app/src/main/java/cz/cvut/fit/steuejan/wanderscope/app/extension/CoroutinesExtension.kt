@@ -30,6 +30,13 @@ suspend fun <T> withDefault(
     return withContext(context, block)
 }
 
+suspend fun <T> withMain(
+    context: CoroutineContext = Dispatchers.Main,
+    block: suspend CoroutineScope.() -> T
+): T {
+    return withContext(context, block)
+}
+
 /**
  * It is safe to post changes to MutableLiveData via *.value*
  * because the [action] runs in the Main Dispatcher.

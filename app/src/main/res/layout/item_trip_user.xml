@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="cz.cvut.fit.steuejan.wanderscope.user.UserItem" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Wanderscope.CardView.RecyclerItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/app_trip_user_item_bottom_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/app_trip_overview_item_padding"
+            android:paddingStart="@dimen/app_trip_overview_item_padding"
+            tools:background="@color/colorSurface"
+            tools:ignore="RtlSymmetry">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/itemTripUserIconHolder"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/colorDrawableBackground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/itemTripUserAcronym"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    app:acronym="@{item.name}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="M" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{item.name}"
+                android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/itemTripUserRole"
+                app:layout_constraintStart_toEndOf="@id/itemTripUserIconHolder"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="melmen" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/itemTripUserRole"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/app_trip_overview_item_padding"
+                android:background="@drawable/shape_rounded_8"
+                android:backgroundTint="@color/colorDrawableBackground"
+                android:paddingHorizontal="@dimen/padding_8"
+                android:paddingVertical="@dimen/padding_4"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/itemTripUserMenu"
+                app:layout_constraintTop_toTopOf="parent"
+                app:userRole="@{item.role}"
+                tools:text="Admin" />
+
+            <ImageButton
+                android:id="@+id/itemTripUserMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/app_trip_overview_item_padding"
+                android:background="@drawable/ic_menu"
+                android:backgroundTint="@color/colorOnSecondary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:visibleOrGone="@{item.hasMenu}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

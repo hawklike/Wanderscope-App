@@ -11,6 +11,11 @@ fun View.visibleOrGone(any: Any?): Any? {
     return any
 }
 
+@BindingAdapter("visibleOrGone")
+fun View.visibleOrGone(visible: Boolean) {
+    visibility = if (visible) View.VISIBLE else View.GONE
+}
+
 @BindingAdapter("backgroundTintResource")
 fun View.setBackgroundTint(@ColorRes tintColor: Int) {
     background.setTint(ContextCompat.getColor(context, tintColor))

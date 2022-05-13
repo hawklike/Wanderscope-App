@@ -4,7 +4,9 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.databinding.BindingAdapter
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
+import cz.cvut.fit.steuejan.wanderscope.app.extension.capitalize
 
 @BindingAdapter("duration")
 fun TextView.setDuration(duration: DurationString?) {
@@ -28,4 +30,19 @@ fun TextView.setTextOrGone(text: String?) {
 fun TextView.setTextOrGone(@StringRes text: Int?) {
     visibleOrGone(text) ?: return
     this.setText(text!!)
+}
+
+@BindingAdapter("capitalize")
+fun TextView.capitalize(text: String) {
+    this.text = text.capitalize()
+}
+
+@BindingAdapter("acronym")
+fun TextView.setAcronym(name: String) {
+    this.text = name.firstOrNull()?.toString()?.capitalize()
+}
+
+@BindingAdapter("userRole")
+fun TextView.setUserRole(userRole: UserRole) {
+    this.setText(userRole.toStringRes())
 }

@@ -1,10 +1,12 @@
-package cz.cvut.fit.steuejan.wanderscope.trip.api.response.users
+package cz.cvut.fit.steuejan.wanderscope.user.response
 
 import com.squareup.moshi.Json
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.AccountType
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
+import cz.cvut.fit.steuejan.wanderscope.app.util.getName
+import cz.cvut.fit.steuejan.wanderscope.user.UserItem
 
-data class TripUserResponse(
+data class UserResponse(
     @Json(name = "id")
     val id: Int,
     @Json(name = "username")
@@ -17,4 +19,11 @@ data class TripUserResponse(
     val accountType: AccountType,
     @Json(name = "role")
     val role: UserRole
-)
+) {
+    fun toItem(hasMenu: Boolean) = UserItem(
+        id,
+        getName(username, displayName),
+        role,
+        hasMenu
+    )
+}

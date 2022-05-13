@@ -1,4 +1,4 @@
-package cz.cvut.fit.steuejan.wanderscope.trip.overview
+package cz.cvut.fit.steuejan.wanderscope.points
 
 import androidx.annotation.DrawableRes
 import cz.cvut.fit.steuejan.wanderscope.R

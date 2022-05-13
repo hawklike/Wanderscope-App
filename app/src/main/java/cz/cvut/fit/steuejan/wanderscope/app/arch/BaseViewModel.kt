@@ -1,6 +1,7 @@
 package cz.cvut.fit.steuejan.wanderscope.app.arch
 
 import android.widget.Toast
+import androidx.annotation.MainThread
 import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
@@ -95,14 +96,17 @@ abstract class BaseViewModel(
         )
     }
 
+    @MainThread
     protected fun <T> setStateData(paramName: String, data: T) {
         state?.set(paramName, data)
     }
 
+    @MainThread
     protected fun <T> getStateData(paramName: String): T? {
         return state?.get<T>(paramName)
     }
 
+    @MainThread
     protected fun <T> getStateLiveData(paramName: String): LiveData<T>? {
         return state?.getLiveData(paramName)
     }

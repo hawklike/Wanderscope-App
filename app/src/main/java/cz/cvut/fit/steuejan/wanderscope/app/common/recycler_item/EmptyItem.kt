@@ -53,5 +53,10 @@ data class EmptyItem(
             R.string.places_empty,
             R.drawable.image_been_nowhere
         )
+
+        fun documents() = EmptyItem(
+            R.string.documents_empty,
+            R.drawable.image_document_not_found
+        )
     }
 }
