@@ -1,41 +1,38 @@
-package cz.cvut.fit.steuejan.wanderscope.trip.add_edit
+package cz.cvut.fit.steuejan.wanderscope.trip.crud
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.DatePickerInfo.Companion.today
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
-import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
-import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
-import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
-import cz.cvut.fit.steuejan.wanderscope.app.extension.toDateTime
+import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.LoadingMutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Back
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
-import cz.cvut.fit.steuejan.wanderscope.app.util.getDateFromDatePicker
+import cz.cvut.fit.steuejan.wanderscope.app.util.getDateFromMillis
 import cz.cvut.fit.steuejan.wanderscope.trip.api.request.TripRequest
+import cz.cvut.fit.steuejan.wanderscope.trip.crud.bundle.EditTripBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
 import kotlinx.coroutines.launch
 
 class AddEditTripFragmentVM(
-    title: Int,
-    private val purpose: Purpose,
     private val tripRepository: TripRepository
 ) : BaseViewModel() {
 
     val title = MutableLiveData<Int>()
 
-    init {
-        this.title.value = title
-    }
+    private var purpose: Purpose? = null
+    private var tripId: Int? = null
 
     val name = MutableLiveData<String>()
     val startDate = MutableLiveData<String?>(null)
     val endDate = MutableLiveData<String?>(null)
-    val description = MutableLiveData<String>()
+    val description = MutableLiveData<String?>()
 
     val submitLoading = LoadingMutableLiveData()
 
@@ -43,7 +40,13 @@ class AddEditTripFragmentVM(
         validator.validateIfNotEmpty(it)
     }
 
+    private var shouldValidateDates = true
+
     val validateDates = PairMediatorLiveData(startDate, endDate).switchMapSuspend { (start, end) ->
+        if (!shouldValidateDates) {
+            return@switchMapSuspend OK
+        }
+
         if (start.isNullOrBlank()) {
             startDateInMillis = null
         }
@@ -61,13 +64,42 @@ class AddEditTripFragmentVM(
     private var startDateInMillis: Long? = null
     private var endDateInMillis: Long? = null
 
+    init {
+        title.value = R.string.add_trip
+        purpose = Purpose.CREATE
+    }
+
+    fun setupEditTrip(trip: EditTripBundle) {
+        this.title.value = R.string.edit_trip
+        purpose = Purpose.EDIT
+        tripId = trip.id
+        populateFields(trip)
+    }
+
+    private fun populateFields(trip: EditTripBundle) {
+        viewModelScope.launch {
+            shouldValidateDates = false
+            name.value = trip.name
+            startDate.value = trip.startDate?.millis?.let {
+                startDateInMillis = it
+                getDateFromMillis(it)
+            }
+            endDate.value = trip.endDate?.millis?.let {
+                endDateInMillis = it
+                getDateFromMillis(it)
+            }
+            description.value = trip.description
+            shouldValidateDates = true
+        }
+    }
+
     fun startDatePicker() {
         showDatePicker(DatePickerInfo(
             initialDate = startDateInMillis ?: endDateInMillis ?: today
         ) { dateInMillis ->
             viewModelScope.launch {
                 startDateInMillis = dateInMillis
-                startDate.value = getDateFromDatePicker(dateInMillis)
+                startDate.value = getDateFromMillis(dateInMillis)
             }
         })
     }
@@ -78,7 +110,7 @@ class AddEditTripFragmentVM(
         ) { dateInMillis ->
             viewModelScope.launch {
                 endDateInMillis = dateInMillis
-                endDate.value = getDateFromDatePicker(dateInMillis)
+                endDate.value = getDateFromMillis(dateInMillis)
             }
         })
     }
@@ -86,15 +118,18 @@ class AddEditTripFragmentVM(
     fun submit() {
         viewModelScope.launchIO {
             val tripRequest = TripRequest(
-                name.value ?: return@launchIO,
-                Duration(startDateInMillis?.toDateTime(), endDateInMillis?.toDateTime()),
-                description.value,
-                null
+                name = name.value ?: return@launchIO,
+                duration = Duration(startDateInMillis?.toDateTime(), endDateInMillis?.toDateTime()),
+                description = description.value.getOrNullIfBlank(),
+                imageUrl = null
             )
+
             val result = when (purpose) {
                 Purpose.CREATE -> tripRepository.createTrip(tripRequest)
-                Purpose.EDIT -> TODO()
+                Purpose.EDIT -> tripRepository.editTrip(tripId ?: return@launchIO, tripRequest)
+                null -> return@launchIO
             }
+
             result.safeCollect(this) {
                 when (it) {
                     is Result.Cache -> TODO()

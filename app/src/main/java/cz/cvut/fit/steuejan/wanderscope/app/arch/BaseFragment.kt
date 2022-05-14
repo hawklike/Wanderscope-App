@@ -8,12 +8,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import cz.cvut.fit.steuejan.wanderscope.MainActivityVM
 import cz.cvut.fit.steuejan.wanderscope.app.nav.WithBottomNavigationBar
 import cz.cvut.fit.steuejan.wanderscope.app.toolbar.WithToolbar
 import cz.cvut.fit.steuejan.wanderscope.app.util.runOrLogException
 import cz.cvut.fit.steuejan.wanderscope.auth.WithLogin
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 abstract class BaseFragment : Fragment() {
 
@@ -22,10 +25,33 @@ abstract class BaseFragment : Fragment() {
     open val hasTitle = true
     open val title: String? = null
 
+    protected open val sharedViewModel: SharedViewModel by sharedViewModel<MainActivityVM>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleBottomNavigation()
         handleToolbar()
+    }
+
+    protected open fun setSharedData(data: Any?, onBackground: Boolean = false) {
+        if (onBackground) {
+            sharedViewModel.sharedData.postValue(data)
+        } else {
+            sharedViewModel.sharedData.value = data
+        }
+    }
+
+    protected open fun clearSharedData(onBackground: Boolean = false) {
+        setSharedData(null, onBackground)
+    }
+
+    protected open fun <T> getSharedData(): LiveData<T?> {
+        return sharedViewModel.sharedData.map {
+            runOrLogException {
+                @Suppress("UNCHECKED_CAST")
+                it as T
+            }
+        }
     }
 
     protected inline fun <T> LiveData<T>.safeObserve(crossinline callback: (T) -> Unit) {
@@ -36,18 +62,23 @@ abstract class BaseFragment : Fragment() {
 
     protected fun navigateTo(@IdRes destinationId: Int, bundle: Bundle? = null) {
         runOrLogException {
-            findNavController().navigate(destinationId, bundle)
+            parentFragment?.findNavController()?.navigate(destinationId, bundle)
+                ?: findNavController().navigate(destinationId, bundle)
         }
     }
 
     protected fun navigateTo(action: NavDirections) {
         runOrLogException {
-            findNavController().navigate(action)
+            parentFragment?.findNavController()?.navigate(action)
+                ?: findNavController().navigate(action)
         }
     }
 
     protected fun navigateBack() {
-        findNavController().popBackStack()
+        runOrLogException {
+            parentFragment?.findNavController()?.popBackStack()
+                ?: findNavController().popBackStack()
+        }
     }
 
     protected fun login() {

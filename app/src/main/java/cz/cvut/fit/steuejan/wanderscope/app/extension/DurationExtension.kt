@@ -1,7 +1,7 @@
 package cz.cvut.fit.steuejan.wanderscope.app.extension
 
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
-import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationInItem
+import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import org.joda.time.Days
 import org.joda.time.format.DateTimeFormat
@@ -15,15 +15,15 @@ suspend inline fun Duration.getDays(): Int? {
     }
 }
 
-suspend inline fun Duration.toDurationItem(
+suspend inline fun Duration.toDurationString(
     formatter: DateTimeFormatter = DateTimeFormat.mediumDate()
-): DurationInItem? {
+): DurationString? {
     if (startDate == null && endDate == null) {
         return null
     }
     return withDefault {
         val startDate = startDate?.toString(formatter) ?: "???"
         val endDate = endDate?.toString(formatter) ?: "???"
-        DurationInItem(startDate, endDate)
+        DurationString(startDate, endDate)
     }
 }

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="cz.cvut.fit.steuejan.wanderscope.points.TripPointOverviewItem" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Wanderscope.CardView.RecyclerItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/app_trip_overview_item_end_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:padding="@dimen/app_trip_overview_item_padding"
+            tools:background="@color/colorSurface">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/itemTripOverviewIconHolder"
+                android:layout_width="@dimen/app_trip_overview_item_image_holder_size"
+                android:layout_height="@dimen/app_trip_overview_item_image_holder_size"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/colorDrawableBackground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/itemTripOverviewIcon"
+                    android:layout_width="@dimen/app_trip_overview_item_image_size"
+                    android:layout_height="@dimen/app_trip_overview_item_image_size"
+                    app:imageResource="@{item.icon}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:background="@drawable/ic_light_aircraft" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/itemTripOverviewTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/app_trip_overview_item_title_margin"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{item.name}"
+                android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                app:layout_constraintTop_toBottomOf="@id/itemTripOverviewIconHolder"
+                tools:text="Praha-Ostrava" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="@dimen/margin_8"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/itemTripOverviewTitle">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/itemTripOverviewStartDateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/starts"
+                    android:textColor="@color/colorText"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="@id/itemTripOverviewStartDate"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/itemTripOverviewStartDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{item.startDate}"
+                    android:textColor="@color/colorText"
+                    app:layout_constraintStart_toEndOf="@id/itemTripOverviewStartDateLabel"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="12.12.2022" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/itemTripOverviewEndDateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ends"
+                    android:textColor="@color/colorText"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="@id/itemTripOverviewEndDateDate"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/itemTripOverviewEndDateDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{item.endDate}"
+                    android:textColor="@color/colorText"
+                    app:layout_constraintStart_toEndOf="@id/itemTripOverviewStartDateLabel"
+                    app:layout_constraintTop_toBottomOf="@id/itemTripOverviewStartDate"
+                    tools:text="18.12.2022" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</layout>

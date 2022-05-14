@@ -83,6 +83,36 @@
     <string name="description">Description</string>
     <string name="describe_your_trip">Describe your trip</string>
 
+    <string name="trip_overview_overview">Overview</string>
+    <string name="trip_overview_itinerary">Itinerary</string>
+    <string name="trip_overview_expenses">Expenses</string>
+    <string name="duration">Duration</string>
+    <string name="starts">Starts:</string>
+    <string name="ends">Ends:</string>
+
+    <string name="accommodation_empty">You haven\'t add any accommodation yet</string>
+    <string name="activities_empty">You haven\'t add any activity yet</string>
+    <string name="transport_empty">You haven\'t add any transport yet</string>
+    <string name="places_empty">You haven\'t add any place yet</string>
+    <string name="documents_empty">You haven\'t add any document yet</string>
+
+
+    <string name="activities">Activities</string>
+    <string name="transport">Transport</string>
+    <string name="accommodation">Accommodation</string>
+    <string name="places">Places</string>
+    <string name="documents">Documents</string>
+
+    <string name="admin">Admin</string>
+    <string name="editor">Editor</string>
+    <string name="viewer">Viewer</string>
+    <string name="travellers">Travellers</string>
+    <string name="manage">Manage</string>
+    <string name="delete_trip">Delete trip</string>
+    <string name="edit_trip">Edit trip</string>
+    <string name="save_to_calendar">Save to calendar</string>
+    <string name="please_wait">Please wait…</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>

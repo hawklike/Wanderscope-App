@@ -7,3 +7,5 @@ fun String.capitalize(locale: Locale = Locale.getDefault()): String {
         if (it.isLowerCase()) it.titlecase(locale) else it.toString()
     }
 }
+
+fun String?.getOrNullIfBlank() = takeUnless { it.isNullOrBlank() }

@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope
 
 import androidx.lifecycle.*
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
+import cz.cvut.fit.steuejan.wanderscope.app.arch.SharedViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.extension.fireAndForget
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withIO
@@ -11,9 +12,11 @@ import kotlinx.coroutines.launch
 class MainActivityVM(
     private val authRepository: AuthRepository,
     savedStateHandle: SavedStateHandle
-) : BaseViewModel(savedStateHandle) {
+) : BaseViewModel(savedStateHandle), SharedViewModel {
 
     val showSplashScreen = MutableLiveData(true)
+
+    override val sharedData = MutableLiveData<Any?>()
 
     val splashScreenAfterProcessDeath = liveData {
         val splashScreenState = withIO {

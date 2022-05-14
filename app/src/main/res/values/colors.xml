@@ -16,4 +16,13 @@
     <color name="colorSnackbar">#000000</color>
     <color name="colorSnackbarText">#ffffff</color>
     <color name="colorTextInputIcon">#80747D90</color>
+    <color name="colorShimmer">#DADEEA</color>
+    <color name="colorDrawableBackground">#ECEFFA</color>
+
+
+    <color name="colorUser0">#332B54EF</color>
+    <color name="colorUser1">#331E5CA7</color>
+    <color name="colorUser2">#33523FEF</color>
+    <color name="colorUser3">#332BEFB4</color>
+    <color name="colorUser4">#331EA77E</color>
 </resources>

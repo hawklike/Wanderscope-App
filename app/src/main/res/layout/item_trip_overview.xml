@@ -27,7 +27,7 @@
                 android:layout_width="@dimen/app_trip_overview_image_size"
                 android:layout_height="@dimen/app_trip_overview_image_size"
                 android:scaleType="centerCrop"
-                android:src="@drawable/image_trip_overview_placeholder"
+                android:src="@drawable/image_trip_placeholder"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearance="@style/ShapeAppearanceOverlay.Wanderscope.TextInput" />
@@ -41,8 +41,8 @@
                 android:ellipsize="end"
                 android:inputType="textCapCharacters"
                 android:maxLines="2"
-                android:text="@{item.name}"
                 android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                app:capitalize="@{item.name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tripOverviewItemImage"
                 app:layout_constraintTop_toTopOf="parent"
