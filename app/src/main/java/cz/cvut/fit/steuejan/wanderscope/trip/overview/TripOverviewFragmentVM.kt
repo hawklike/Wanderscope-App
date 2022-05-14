@@ -1,13 +1,11 @@
 package cz.cvut.fit.steuejan.wanderscope.trip.overview
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
-import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
@@ -25,9 +23,8 @@ import cz.cvut.fit.steuejan.wanderscope.user.response.UsersResponse
 import kotlinx.coroutines.CoroutineScope
 
 class TripOverviewFragmentVM(
-    private val tripRepository: TripRepository,
-    savedStateHandle: SavedStateHandle
-) : BaseViewModel(savedStateHandle) {
+    private val tripRepository: TripRepository
+) : BaseViewModel() {
 
     val title = MutableLiveData<String>()
     val duration = MutableLiveData<DurationString>()
@@ -40,7 +37,7 @@ class TripOverviewFragmentVM(
     val documents = MutableLiveData<List<RecyclerItem>>()
     val travellers = MutableLiveData<List<RecyclerItem>>()
 
-    val userRole = getStateLiveData<UserRole>(USER_ROLE)
+    val tripOverview = MutableLiveData<TripResponse>()
 
     private val tripOverviewLoading = MutableLiveData<Boolean>()
     private val accommodationLoading = MutableLiveData<Boolean>()
@@ -82,7 +79,7 @@ class TripOverviewFragmentVM(
     }
 
     private suspend fun getTripOverviewSuccess(data: TripResponse) {
-        setStateData(USER_ROLE, data.userRole)
+        tripOverview.value = data
         title.value = data.name
         duration.value = data.duration.toDurationString()
         description.value = data.description

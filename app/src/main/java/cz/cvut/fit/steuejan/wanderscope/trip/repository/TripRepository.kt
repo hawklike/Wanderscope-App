@@ -3,6 +3,7 @@ package cz.cvut.fit.steuejan.wanderscope.trip.repository
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.app.util.performCall
+import cz.cvut.fit.steuejan.wanderscope.app.util.toUnitIfSuccess
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.response.ActivitiesResponse
@@ -18,6 +19,10 @@ class TripRepository(private val tripApi: TripApi) {
 
     suspend fun createTrip(request: TripRequest): Flow<Result<CreatedResponse>> {
         return performCall { tripApi.createTrip(request) }
+    }
+
+    suspend fun editTrip(id: Int, request: TripRequest): Flow<Result<Unit>> {
+        return performCall { tripApi.editTrip(id, request) }.toUnitIfSuccess()
     }
 
     suspend fun getTrip(id: Int): Flow<Result<TripResponse>> {

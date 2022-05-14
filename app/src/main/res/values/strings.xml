@@ -108,6 +108,10 @@
     <string name="viewer">Viewer</string>
     <string name="travellers">Travellers</string>
     <string name="manage">Manage</string>
+    <string name="delete_trip">Delete trip</string>
+    <string name="edit_trip">Edit trip</string>
+    <string name="save_to_calendar">Save to calendar</string>
+    <string name="please_wait">Please wait…</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

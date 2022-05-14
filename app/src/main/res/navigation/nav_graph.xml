@@ -50,17 +50,23 @@
         tools:layout="@layout/fragment_trips">
         <action
             android:id="@+id/action_tripsFragment_to_addTripFragment"
-            app:destination="@id/addTripFragment" />
+            app:destination="@id/addEditTripFragment" />
         <action
             android:id="@+id/action_tripsFragment_to_tripPagerFragment"
             app:destination="@id/tripPagerFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/addTripFragment"
+        android:id="@+id/addEditTripFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.trip.crud.AddEditTripFragment"
         android:label=""
-        tools:layout="@layout/fragment_trip_add_edit" />
+        tools:layout="@layout/fragment_trip_add_edit">
+        <argument
+            android:name="editTrip"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.trip.crud.bundle.EditTripBundle"
+            android:defaultValue="@null"
+            app:nullable="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/tripPagerFragment"
@@ -72,8 +78,17 @@
             app:destination="@id/accountFragment"
             app:popUpTo="@id/homeFragment" />
         <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
             android:name="hasBottomNavigation"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_tripPagerFragment_to_addTripFragment"
+            app:destination="@id/addEditTripFragment" />
     </fragment>
 
     <fragment

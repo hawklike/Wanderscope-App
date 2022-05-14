@@ -10,10 +10,7 @@ import cz.cvut.fit.steuejan.wanderscope.trip.api.request.TripRequest
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
 import cz.cvut.fit.steuejan.wanderscope.user.response.UsersResponse
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface TripApi {
 
@@ -22,6 +19,9 @@ interface TripApi {
 
     @GET("/trip/{id}")
     suspend fun getTrip(@Path("id") id: Int): Response<TripResponse>
+
+    @PUT("/trip/{id}")
+    suspend fun editTrip(@Path("id") id: Int, @Body request: TripRequest): Response<Unit>
 
     @GET("/trip/{id}/transports")
     suspend fun getTransports(@Path("id") id: Int): Response<TransportsResponse>

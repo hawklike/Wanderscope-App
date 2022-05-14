@@ -9,7 +9,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripsBinding
-import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragment
 
 class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
     R.layout.fragment_trips,
@@ -48,9 +47,10 @@ class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
 
     private fun goToTrip(trip: RecyclerItem) {
         if (trip is TripOverviewItem) {
-            setSharedData(TripPagerFragment.Arguments(trip.id, trip.name))
             navigateTo(
                 TripsFragmentDirections.actionTripsFragmentToTripPagerFragment(
+                    trip.id,
+                    trip.name,
                     hasBottomNavigation = false
                 )
             )

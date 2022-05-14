@@ -25,21 +25,12 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        retrieveArguments()
-    }
+        binding.tripPagerTitle.text = args.title
 
-    private fun retrieveArguments() {
-        getSharedData<Arguments>()?.safeObserve {
-            binding.tripPagerTitle.text = it.title
-            setViewPager(it.id)
-        }
-    }
-
-    private fun setViewPager(tripId: Int) {
         val viewPager = binding.tripPagerViewPager
         val tabLayout = binding.tripPagerTabLayout
 
-        val adapter = TripPagerAdapter(this, tripId)
+        val adapter = TripPagerAdapter(this, args.id)
 
         viewPager.apply {
             isUserInputEnabled = false
@@ -80,9 +71,4 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
     override fun setTitle(title: String?) {
         binding.tripPagerTitle.text = title
     }
-
-    data class Arguments(
-        val id: Int,
-        val title: String
-    )
 }
