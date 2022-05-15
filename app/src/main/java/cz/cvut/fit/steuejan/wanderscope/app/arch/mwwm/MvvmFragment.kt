@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import cz.cvut.fit.steuejan.wanderscope.BR
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseFragment
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
@@ -47,6 +50,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         listenToSnackbar()
         listenToLoading()
         listenToDatePicker()
+        listenToTimePicker()
     }
 
     override fun onDestroy() {
@@ -106,6 +110,31 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
             datePicker.apply {
                 addOnPositiveButtonClickListener(date.onPickedDate)
                 show(this@MvvmFragment.parentFragmentManager, "datePicker")
+            }
+        }
+    }
+
+    private fun listenToTimePicker() {
+        viewModel.timePickerEvent.safeObserve { time ->
+            val clockFormat = if (DateFormat.is24HourFormat(requireContext())) {
+                TimeFormat.CLOCK_24H
+            } else {
+                TimeFormat.CLOCK_12H
+            }
+
+            val timePicker = time.customTimePicker
+                ?: MaterialTimePicker.Builder().apply {
+                    setTimeFormat(time.timeFormat ?: clockFormat)
+                    setTitleText(time.title ?: 0)
+                    time.hour?.let { setHour(it) }
+                    time.minute?.let { setMinute(it) }
+                }.build()
+
+            timePicker.apply {
+                addOnPositiveButtonClickListener {
+                    time.onPickerTime.invoke(timePicker.hour, timePicker.minute)
+                }
+                show(this@MvvmFragment.parentFragmentManager, "timePicker")
             }
         }
     }

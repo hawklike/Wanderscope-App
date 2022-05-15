@@ -60,10 +60,10 @@
                         style="@style/Widget.Wanderscope.EditText.OnClick"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={vm.search}"
                         android:hint="Find your accommodation"
                         android:inputType="textCapSentences"
-                        android:onClick="@{() -> vm.findAccommodation()}" />
+                        android:onClick="@{() -> vm.find()}"
+                        android:text="@={vm.search}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -141,6 +141,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:cancellable="@{true}"
+                    app:errorText="@{vm.validateDates}"
                     app:layout_constraintTop_toBottomOf="@id/addAccommodationStartDateLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -148,6 +149,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="When will you arrive"
+                        android:onClick="@{() -> vm.startTimePicker()}"
                         android:text="@={vm.startDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -169,6 +171,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:cancellable="@{true}"
+                    app:errorText="@{vm.validateDates}"
                     app:layout_constraintTop_toBottomOf="@id/addAccommodationEndDateLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -176,6 +179,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="When will you leave"
+                        android:onClick="@{() -> vm.endTimePicker()}"
                         android:text="@={vm.endDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>

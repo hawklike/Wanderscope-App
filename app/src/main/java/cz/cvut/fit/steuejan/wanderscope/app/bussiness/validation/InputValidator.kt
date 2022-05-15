@@ -62,9 +62,15 @@ class InputValidator {
         if (text.isBlank()) R.string.validation_blank else OK
     }
 
-    fun validateDates(startDate: Long?, endDate: Long?): Int {
+    fun validateDates(startDate: Long?, endDate: Long?, checkIn: Boolean = false): Int {
         return multipleLet(startDate, endDate) { startMillis, endMillis ->
-            if (endMillis < startMillis) R.string.enddate_before_startdate else OK
+            if (endMillis < startMillis) {
+                if (checkIn) {
+                    R.string.checkout_before_checkin
+                } else {
+                    R.string.enddate_before_startdate
+                }
+            } else OK
         } ?: OK
     }
 

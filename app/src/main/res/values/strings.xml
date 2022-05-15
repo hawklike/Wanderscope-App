@@ -72,8 +72,10 @@
     <string name="no_upcoming_trips_title">You have no upcoming trips yet</string>
     <string name="no_upcoming_trips_subtitle">Start a new adventure by adding a new trip.</string>
     <string name="datepicker_title_default">Select date</string>
+    <string name="timepicker_title_default">Select time</string>
 
-    <string name="enddate_before_startdate">End date cannot be before start date</string>
+    <string name="enddate_before_startdate">End date cannot be prior to start date</string>
+    <string name="checkout_before_checkin">Check-out cannot be prior to check-in</string>
     <string name="add_trip">Add trip</string>
     <string name="name">Name</string>
     <string name="name_your_trip_mandatory">Name your trip (mandatory)</string>

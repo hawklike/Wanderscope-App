@@ -25,6 +25,7 @@
         <item name="snackbarStyle">@style/Widget.Wanderscope.Snackbar</item>
         <item name="snackbarTextViewStyle">@style/Widget.Wandercope.SnackbarText</item>
         <item name="tabStyle">@style/Widget.Wanderscope.TabLayout</item>
+        <item name="materialTimePickerTheme">@style/Widget.Wanderscope.TimePicker</item>
     </style>
 
     <style name="Theme.Wanderscope.SplashScreen" parent="Theme.SplashScreen">
@@ -170,6 +171,20 @@
 
     <style name="Widget.Wanderscope.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.DatePicker</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TimePicker" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.DatePicker</item>
+        <item name="materialClockStyle">@style/Widget.Wanderscope.TimePicker.Clock</item>
+        <item name="chipStyle">@style/Widget.Wanderscope.TimePicker.Chip</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TimePicker.Clock" parent="Widget.MaterialComponents.TimePicker.Clock">
+        <item name="clockFaceBackgroundColor">@color/colorSurface</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TimePicker.Chip" parent="Widget.MaterialComponents.TimePicker.Display">
+        <item name="android:backgroundTint">@color/timepicker_chip_color</item>
     </style>
 
     <style name="Widget.Wanderscope.TabLayout" parent="Widget.MaterialComponents.TabLayout">
