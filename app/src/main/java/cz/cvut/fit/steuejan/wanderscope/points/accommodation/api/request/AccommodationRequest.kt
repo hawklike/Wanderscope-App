@@ -5,6 +5,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Contact
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.model.AccommodationType
+import cz.cvut.fit.steuejan.wanderscope.points.common.api.request.PointRequest
 
 data class AccommodationRequest(
     @Json(name = "name")
@@ -19,4 +20,4 @@ data class AccommodationRequest(
     val contact: Contact?,
     @Json(name = "description")
     val description: String?
-)
+) : PointRequest

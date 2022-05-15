@@ -328,9 +328,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/app_button_bottom_margin"
+            android:onClick="@{() -> vm.submit()}"
             android:text="@string/submit"
             app:isEnabled="@{vm.enableSubmit}"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:showProgress="@{vm.submitLoading}"
+            app:textAfterProgress="@{@string/submit}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

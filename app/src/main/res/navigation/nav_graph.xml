@@ -120,6 +120,10 @@
         android:id="@+id/accommodationAddEditFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.points.accommodation.crud.AccommodationAddEditFragment"
         android:label=""
-        tools:layout="@layout/fragment_point_accommodation_add_edit" />
+        tools:layout="@layout/fragment_point_accommodation_add_edit">
+        <argument
+            android:name="tripId"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

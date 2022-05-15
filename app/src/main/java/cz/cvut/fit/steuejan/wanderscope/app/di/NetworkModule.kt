@@ -13,6 +13,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManagerImpl
 import cz.cvut.fit.steuejan.wanderscope.app.util.isDebuggable
 import cz.cvut.fit.steuejan.wanderscope.auth.api.AuthApi
+import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.AccommodationApi
 import cz.cvut.fit.steuejan.wanderscope.trip.api.TripApi
 import cz.cvut.fit.steuejan.wanderscope.trips.api.TripsApi
 import okhttp3.OkHttpClient
@@ -47,6 +48,7 @@ val networkModule = module {
     single { provideApi<AccountApi>(get()) }
     single { provideApi<TripsApi>(get()) }
     single { provideApi<TripApi>(get()) }
+    single { provideApi<AccommodationApi>(get()) }
 }
 
 private fun provideRetrofitBuilder(converterFactory: retrofit2.Converter.Factory): Retrofit.Builder {

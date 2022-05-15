@@ -1,6 +1,7 @@
 package cz.cvut.fit.steuejan.wanderscope.trip.overview
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
@@ -25,8 +26,9 @@ import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 import kotlinx.coroutines.CoroutineScope
 
 class TripOverviewFragmentVM(
-    private val tripRepository: TripRepository
-) : BaseViewModel() {
+    private val tripRepository: TripRepository,
+    savedStateHandle: SavedStateHandle
+) : BaseViewModel(savedStateHandle) {
 
     val title = MutableLiveData<String>()
     val duration = MutableLiveData<DurationString>()
@@ -60,6 +62,7 @@ class TripOverviewFragmentVM(
     )
 
     fun getTrip(tripId: Int) {
+        setStateData(TRIP_ID, tripId)
         viewModelScope.launchIO { getTripOverview(tripId, this) }
         viewModelScope.launchIO { getAccommodation(tripId, this) }
         viewModelScope.launchIO { getTransport(tripId, this) }
@@ -195,10 +198,12 @@ class TripOverviewFragmentVM(
     }
 
     fun addTripPoint() {
-        navigateTo(Action(TripPagerFragmentDirections.actionTripPagerFragmentToAccommodationAddEditFragment()))
+        getStateData<Int>(TRIP_ID)?.let {
+            navigateTo(Action(TripPagerFragmentDirections.actionTripPagerFragmentToAccommodationAddEditFragment(it)))
+        }
     }
 
     companion object {
-        const val USER_ROLE = "userRole"
+        const val TRIP_ID = "tripId"
     }
 }

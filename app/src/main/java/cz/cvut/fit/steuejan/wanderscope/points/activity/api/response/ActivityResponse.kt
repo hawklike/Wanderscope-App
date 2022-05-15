@@ -5,7 +5,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.points.activity.model.ActivityType
-import cz.cvut.fit.steuejan.wanderscope.points.common.AbstractTripPointResponse
+import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 
 data class ActivityResponse(
     @Json(name = "id")
@@ -26,4 +26,4 @@ data class ActivityResponse(
     val mapLink: String?,
     @Json(name = "description")
     val description: String?
-) : AbstractTripPointResponse()
+) : PointResponse()

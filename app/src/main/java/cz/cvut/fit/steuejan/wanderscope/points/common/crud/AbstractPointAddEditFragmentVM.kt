@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.common.crud
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
@@ -9,24 +10,38 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.DatePickerInfo.Co
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
+import cz.cvut.fit.steuejan.wanderscope.app.common.Result
+import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
+import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toNiceString
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.LoadingMutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveData
+import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Back
+import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
-import cz.cvut.fit.steuejan.wanderscope.trip.crud.AddEditTripFragmentVM
+import cz.cvut.fit.steuejan.wanderscope.points.common.api.request.PointRequest
+import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
+import cz.cvut.fit.steuejan.wanderscope.points.common.repository.PointRepository
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 
-abstract class AbstractPointAddEditFragmentVM(@StringRes titleRes: Int) : BaseViewModel() {
+abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest, out Response : PointResponse>(
+    protected val pointRepository: PointRepository<Request, Response>,
+    savedStateHandle: SavedStateHandle
+) : BaseViewModel(savedStateHandle) {
 
     val title = MutableLiveData<Int>()
 
-    private var purpose: AddEditTripFragmentVM.Purpose? = null
+    protected var purpose: Purpose? = null
+    protected var tripId: Int? = null
+    protected var pointId: Int? = null
 
-    init {
-        title.value = titleRes
-        purpose = AddEditTripFragmentVM.Purpose.CREATE
+    fun init(tripId: Int, @StringRes title: Int) {
+        purpose = Purpose.CREATE
+        this.title.value = title
+        this.tripId = tripId
     }
 
     val findAccommodationEvent = SingleLiveEvent<String?>()
@@ -37,6 +52,8 @@ abstract class AbstractPointAddEditFragmentVM(@StringRes titleRes: Int) : BaseVi
     val startDate = MutableLiveData<String?>(null)
     val endDate = MutableLiveData<String?>(null)
     val description = MutableLiveData<String?>()
+
+    val submitLoading = LoadingMutableLiveData()
 
     protected var shouldValidateDates = true
     protected var startDateTime: DateTime? = null
@@ -86,6 +103,10 @@ abstract class AbstractPointAddEditFragmentVM(@StringRes titleRes: Int) : BaseVi
         findAccommodationEvent.value = search.value
     }
 
+    open fun placeFound(place: Place) {
+        setStateData(PLACE_ID, place.id)
+    }
+
     fun startTimePicker() {
         val datePickerInfo = DatePickerInfo(
             initialDate = startDateTime?.millis ?: endDateTime?.millis ?: today
@@ -122,10 +143,35 @@ abstract class AbstractPointAddEditFragmentVM(@StringRes titleRes: Int) : BaseVi
         }
     }
 
-    abstract fun placeFound(place: Place)
+    fun submit(request: Request) {
+        viewModelScope.launchIO {
+            val result = when (purpose) {
+                Purpose.CREATE -> pointRepository.createPoint(tripId ?: return@launchIO, request)
+                Purpose.EDIT -> TODO()
+                null -> return@launchIO
+            }
+
+            result.safeCollect(this) {
+                when (it) {
+                    is Result.Cache -> TODO()
+                    is Result.Failure -> handleFailure(it.error)
+                    is Result.Loading -> submitLoading.value = true
+                    is Result.Success -> navigateTo(Back)
+                }
+            }
+        }
+    }
+
+    private fun handleFailure(error: Error) {
+        submitLoading.value = false
+        unexpectedError(error)
+    }
 
     enum class Purpose {
         CREATE, EDIT
     }
 
+    companion object {
+        const val PLACE_ID = "placeId"
+    }
 }
