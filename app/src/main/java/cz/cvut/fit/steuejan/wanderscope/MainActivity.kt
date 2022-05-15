@@ -9,6 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.libraries.places.api.Places
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmActivity
 import cz.cvut.fit.steuejan.wanderscope.app.nav.WithBottomNavigationBar
 import cz.cvut.fit.steuejan.wanderscope.app.toolbar.WithToolbar
@@ -37,6 +38,7 @@ class MainActivity : MvvmActivity<ActivityMainBinding, MainActivityVM>(
         val appBarConfiguration = AppBarConfiguration(mainFragments)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+        Places.initialize(applicationContext, BuildConfig.MAPS_API_KEY)
         observeLogout()
     }
 

@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-parcelize'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 apply plugin: 'kotlin-android'
@@ -83,6 +84,7 @@ ext {
     joda_time_version = '2.10.14'
     splashscreen_version = '1.0.0-beta02'
     shimmer_version = '0.5.0'
+    places_sdk_version = '2.6.0'
 }
 
 dependencies {
@@ -142,6 +144,9 @@ dependencies {
 
     //Shimmer
     implementation "com.facebook.shimmer:shimmer:$shimmer_version"
+
+    //Places SDK
+    implementation "com.google.android.libraries.places:places:$places_sdk_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -63,8 +63,8 @@
         tools:layout="@layout/fragment_trip_add_edit">
         <argument
             android:name="editTrip"
-            app:argType="cz.cvut.fit.steuejan.wanderscope.trip.crud.bundle.EditTripBundle"
             android:defaultValue="@null"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.trip.crud.bundle.EditTripBundle"
             app:nullable="true" />
     </fragment>
 
@@ -89,6 +89,9 @@
         <action
             android:id="@+id/action_tripPagerFragment_to_addTripFragment"
             app:destination="@id/addEditTripFragment" />
+        <action
+            android:id="@+id/action_tripPagerFragment_to_accommodationAddEditFragment"
+            app:destination="@id/accommodationAddEditFragment" />
     </fragment>
 
     <fragment
@@ -112,4 +115,11 @@
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/accommodationAddEditFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.accommodation.AccommodationAddEditFragment"
+        android:label=""
+        tools:layout="@layout/fragment_point_accommodation_add_edit" />
+
 </navigation>

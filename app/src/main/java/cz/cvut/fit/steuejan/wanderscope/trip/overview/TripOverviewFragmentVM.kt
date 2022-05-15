@@ -11,6 +11,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toDurationString
+import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.response.MultipleAccommodationResponse
@@ -18,6 +19,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.activity.response.ActivitiesRespo
 import cz.cvut.fit.steuejan.wanderscope.points.place.response.PlacesResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.response.TransportsResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
 import cz.cvut.fit.steuejan.wanderscope.user.response.UsersResponse
 import kotlinx.coroutines.CoroutineScope
@@ -190,6 +192,10 @@ class TripOverviewFragmentVM(
     private fun usersSuccess(data: UsersResponse) {
         travellers.value = data.users.map { it.toItem(false) }
         travellersLoading.value = false
+    }
+
+    fun addTripPoint() {
+        navigateTo(Action(TripPagerFragmentDirections.actionTripPagerFragmentToAccommodationAddEditFragment()))
     }
 
     companion object {
