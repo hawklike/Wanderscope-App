@@ -38,6 +38,7 @@
     <string name="validation_displayname_invalid">Display name cannot contain newline, \'~\' and \';\' characters</string>
 
     <string name="validation_blank">The field cannot be blank</string>
+    <string name="validation_too_long">Maximum length exceeded</string>
 
     <string name="login_email_hint">Your email</string>
     <string name="login_password_hint">Your password</string>
@@ -112,6 +113,7 @@
     <string name="edit_trip">Edit trip</string>
     <string name="save_to_calendar">Save to calendar</string>
     <string name="please_wait">Please wait…</string>
+    <string name="add_accommodation">Add accommodation</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

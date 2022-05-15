@@ -41,12 +41,13 @@ class AddEditTripFragmentVM(
     }
 
     private var shouldValidateDates = true
+    private var startDateInMillis: Long? = null
+    private var endDateInMillis: Long? = null
 
     val validateDates = PairMediatorLiveData(startDate, endDate).switchMapSuspend { (start, end) ->
         if (!shouldValidateDates) {
             return@switchMapSuspend OK
         }
-
         if (start.isNullOrBlank()) {
             startDateInMillis = null
         }
@@ -60,9 +61,6 @@ class AddEditTripFragmentVM(
         validateName,
         validateDates
     )
-
-    private var startDateInMillis: Long? = null
-    private var endDateInMillis: Long? = null
 
     init {
         title.value = R.string.add_trip

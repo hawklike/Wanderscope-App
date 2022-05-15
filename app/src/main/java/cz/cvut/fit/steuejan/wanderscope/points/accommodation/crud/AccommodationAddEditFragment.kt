@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package cz.cvut.fit.steuejan.wanderscope.accommodation
+package cz.cvut.fit.steuejan.wanderscope.points.accommodation.crud
 
 import android.app.Activity
 import android.content.Intent
@@ -26,15 +26,26 @@ class AccommodationAddEditFragment : MvvmFragment<
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.clickEvent.safeObserve {
-            showPlacesAutocomplete()
+        findAccommodation()
+    }
+
+    private fun findAccommodation() {
+        viewModel.findAccommodationEvent.safeObserve {
+            showPlacesAutocomplete(it)
         }
     }
 
-    private fun showPlacesAutocomplete() {
-        val fields = listOf(Place.Field.ID, Place.Field.NAME)
+    private fun showPlacesAutocomplete(query: String?) {
+        val fields = listOf(
+            Place.Field.ID,
+            Place.Field.NAME,
+            Place.Field.ADDRESS,
+            Place.Field.PHONE_NUMBER,
+            Place.Field.WEBSITE_URI
+        )
         val intent = Autocomplete
             .IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+            .setInitialQuery(query)
             .build(requireContext())
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
     }
@@ -46,14 +57,13 @@ class AccommodationAddEditFragment : MvvmFragment<
                 Activity.RESULT_OK -> {
                     data?.let {
                         val place = Autocomplete.getPlaceFromIntent(data)
-                        Timber.d("Place: ${place.name}, ${place.id}")
+                        viewModel.placeFound(place)
                     }
                 }
                 AutocompleteActivity.RESULT_ERROR -> {
-                    // TODO: Handle the error.
                     data?.let {
                         val status = Autocomplete.getStatusFromIntent(data)
-                        Timber.d(status.statusMessage ?: "")
+                        Timber.e(status.statusMessage)
                     }
                 }
                 Activity.RESULT_CANCELED -> {

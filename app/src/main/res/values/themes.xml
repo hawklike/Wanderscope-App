@@ -153,14 +153,14 @@
         <item name="android:textAppearance">@style/TextAppearance.Wanderscope.Regular</item>
     </style>
 
-    <style name="Widget.Wanderscope.TextInput.DatePicker">
+    <style name="Widget.Wanderscope.TextInput.Cancellable">
         <item name="endIconMode">custom</item>
         <item name="errorIconDrawable">@null</item>
         <item name="endIconTint">@color/colorTextInputIcon</item>
         <item name="endIconDrawable">@drawable/ic_close_16</item>
     </style>
 
-    <style name="Widget.Wanderscope.EditText.DatePicker" parent="Widget.MaterialComponents.TextView">
+    <style name="Widget.Wanderscope.EditText.OnClick" parent="Widget.MaterialComponents.TextView">
         <item name="android:clickable">false</item>
         <item name="android:cursorVisible">false</item>
         <item name="android:focusable">false</item>

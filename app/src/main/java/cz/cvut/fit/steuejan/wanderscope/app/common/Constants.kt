@@ -14,4 +14,7 @@ object Constants {
     const val DISPLAY_NAME_MIN_LENGTH = 3
     const val DISPLAY_NAME_MAX_LENGTH = 30
 
+    const val PHONE_MAX_LEN = 31
+
+    const val OTHER_MAX_LEN = 1000
 }

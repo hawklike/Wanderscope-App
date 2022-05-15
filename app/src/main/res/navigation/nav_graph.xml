@@ -118,7 +118,7 @@
 
     <fragment
         android:id="@+id/accommodationAddEditFragment"
-        android:name="cz.cvut.fit.steuejan.wanderscope.accommodation.AccommodationAddEditFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.points.accommodation.crud.AccommodationAddEditFragment"
         android:label=""
         tools:layout="@layout/fragment_point_accommodation_add_edit" />
 

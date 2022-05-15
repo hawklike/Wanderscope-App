@@ -54,6 +54,10 @@ class InputValidator {
         }
     }
 
+    fun validateIfNotTooLong(text: String, maxLength: Int): Int {
+        return if (text.length > maxLength) R.string.validation_too_long else OK
+    }
+
     suspend fun validateIfNotEmpty(text: String) = withDefault {
         if (text.isBlank()) R.string.validation_blank else OK
     }
