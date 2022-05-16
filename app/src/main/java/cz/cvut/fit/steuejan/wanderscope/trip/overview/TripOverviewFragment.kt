@@ -6,7 +6,12 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.leinardi.android.speeddial.SpeedDialActionItem
+import com.leinardi.android.speeddial.SpeedDialView
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
@@ -37,10 +42,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         super.onViewCreated(view, savedInstanceState)
         setTitle()
         retrieveTripOverview()
-    }
-
-    private fun foo() {
-        binding.tripOverviewAccommodation.adapter?.itemCount
+        prepareActionButton()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -117,6 +119,51 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             setTitle(it)
         }
     }
+
+    private fun prepareActionButton() {
+        val actionButton = binding.tripOverviewAddButton
+        actionButton.apply {
+            createActionItem(R.id.add_point_transport, R.drawable.ic_outline_plane, R.string.add_transport)
+            createActionItem(R.id.add_point_accommodation, R.drawable.ic_outline_house, R.string.add_accommodation)
+            createActionItem(R.id.add_point_place, R.drawable.ic_outline_location, R.string.add_place)
+            createActionItem(R.id.add_point_activity, R.drawable.ic_outline_hiking, R.string.add_activity)
+        }
+
+        actionButton.apply {
+            setOnActionSelectedListener {
+                when (it.id) {
+                    R.id.add_point_accommodation -> onClick(::addAccommodation)
+                    else -> onClick(doNothing)
+                }
+                false
+            }
+        }
+    }
+
+    private fun SpeedDialView.onClick(action: () -> Unit): Boolean {
+        action.invoke()
+        close()
+        return false
+    }
+
+    private fun addAccommodation() {
+        arguments?.getInt(TRIP_ID)?.let {
+            navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToAccommodationAddEditFragment(it))
+        }
+    }
+
+    private fun SpeedDialView.createActionItem(
+        @IdRes id: Int,
+        @DrawableRes icon: Int,
+        @StringRes title: Int
+    ) = addActionItem(
+        SpeedDialActionItem.Builder(id, icon)
+            .setFabImageTintColor(requireContext().getColor(R.color.colorBackground))
+            .setLabel(title)
+            .setLabelColor(requireContext().getColor(R.color.colorBackground))
+            .setLabelBackgroundColor(requireContext().getColor(R.color.colorPrimary))
+            .create()
+    )
 
     private fun retrieveTripOverview() {
         showLoading()

@@ -91,7 +91,6 @@
             android:layout_marginBottom="@dimen/app_fab_margin"
             android:src="@drawable/ic_add"
             android:onClick="@{() -> vm.addTrip()}"
-            app:backgroundTint="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

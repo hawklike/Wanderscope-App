@@ -2,7 +2,6 @@ package cz.cvut.fit.steuejan.wanderscope.trip.overview
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
@@ -14,7 +13,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toDurationString
-import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
@@ -22,15 +20,13 @@ import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesR
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlacesResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportsResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
-import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
 import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 import kotlinx.coroutines.CoroutineScope
 
 class TripOverviewFragmentVM(
-    private val tripRepository: TripRepository,
-    savedStateHandle: SavedStateHandle
-) : BaseViewModel(savedStateHandle) {
+    private val tripRepository: TripRepository
+) : BaseViewModel() {
 
     val title = MutableLiveData<String>()
     val duration = MutableLiveData<DurationString>()
@@ -64,7 +60,6 @@ class TripOverviewFragmentVM(
     )
 
     fun getTrip(tripId: Int) {
-        setStateData(TRIP_ID, tripId)
         viewModelScope.launchIO { getTripOverview(tripId, this) }
         viewModelScope.launchIO { getAccommodation(tripId, this) }
         viewModelScope.launchIO { getTransport(tripId, this) }
@@ -105,6 +100,7 @@ class TripOverviewFragmentVM(
     ) {
         val actualSize = actualItems.size
         val previousSize = previousItems?.size ?: 0
+
         if (actualSize >= previousSize && previousItems?.first() is EmptyItem) {
             showToast(ToastInfo(message))
             return
@@ -221,15 +217,5 @@ class TripOverviewFragmentVM(
         travellers.value = items
         showUpdateToast(items, travellers.value, R.string.travellers_updated)
         travellersLoading.value = false
-    }
-
-    fun addTripPoint() {
-        getStateData<Int>(TRIP_ID)?.let {
-            navigateTo(Action(TripPagerFragmentDirections.actionTripPagerFragmentToAccommodationAddEditFragment(it)))
-        }
-    }
-
-    companion object {
-        const val TRIP_ID = "tripId"
     }
 }

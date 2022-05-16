@@ -115,7 +115,11 @@
     <string name="edit_trip">Edit trip</string>
     <string name="save_to_calendar">Save to calendar</string>
     <string name="please_wait">Please wait…</string>
+
     <string name="add_accommodation">Add accommodation</string>
+    <string name="add_transport">Add transport</string>
+    <string name="add_place">Add place</string>
+    <string name="add_activity">Add activity</string>
 
     <string name="accommodation_updated">Accommodation updated</string>
     <string name="transport_updated">Transport updated</string>
