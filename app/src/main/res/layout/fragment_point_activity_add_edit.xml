@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="cz.cvut.fit.steuejan.wanderscope.points.accommodation.crud.AccommodationAddEditFragmentVM" />
+            type="cz.cvut.fit.steuejan.wanderscope.points.activity.crud.ActivityAddEditFragmentVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -207,7 +207,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/select_the_type"
-                        android:text="@={vm.type}"
                         android:inputType="none"
                         app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
                         android:popupElevation="1dp" />
@@ -236,8 +235,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/phone_number"
                         android:inputType="phone"
-                        android:maxLength="@integer/phone_max_len"
-                        android:text="@={vm.phone}" />
+                        android:maxLength="@integer/phone_max_len" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -256,15 +254,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:errorText="@{vm.validateEmail}"
                     app:layout_constraintTop_toBottomOf="@id/addAccommodationEmailLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email_address"
-                        android:inputType="textEmailAddress"
-                        android:text="@={vm.email}" />
+                        android:inputType="textEmailAddress" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -290,8 +286,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/website"
                         android:inputType="text"
-                        android:maxLength="@integer/other_max_len"
-                        android:text="@={vm.website}" />
+                        android:maxLength="@integer/other_max_len" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -333,7 +328,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/app_button_bottom_margin"
-            android:onClick="@{() -> vm.submit()}"
             android:text="@string/submit"
             app:isEnabled="@{vm.enableSubmit}"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -92,6 +92,9 @@
         <action
             android:id="@+id/action_tripPagerFragment_to_accommodationAddEditFragment"
             app:destination="@id/accommodationAddEditFragment" />
+        <action
+            android:id="@+id/action_tripPagerFragment_to_activityAddEditFragment"
+            app:destination="@id/activityAddEditFragment" />
     </fragment>
 
     <fragment
@@ -121,6 +124,16 @@
         android:name="cz.cvut.fit.steuejan.wanderscope.points.accommodation.crud.AccommodationAddEditFragment"
         android:label=""
         tools:layout="@layout/fragment_point_accommodation_add_edit">
+        <argument
+            android:name="tripId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/activityAddEditFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.points.activity.crud.ActivityAddEditFragment"
+        android:label=""
+        tools:layout="@layout/fragment_point_activity_add_edit">
         <argument
             android:name="tripId"
             app:argType="integer" />

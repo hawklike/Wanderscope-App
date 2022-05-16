@@ -22,13 +22,12 @@ import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Back
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.request.PointRequest
-import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.repository.PointRepository
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 
-abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest, out Response : PointResponse>(
-    protected val pointRepository: PointRepository<Request, Response>,
+abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
+    protected val pointRepository: PointRepository<Request, *>,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel(savedStateHandle) {
 

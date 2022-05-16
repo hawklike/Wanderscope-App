@@ -127,6 +127,21 @@
     <string name="activities_updated">Activities updated</string>
     <string name="documents_updated">Documents updated</string>
     <string name="travellers_updated">Travellers updated</string>
+    <string name="search">Search</string>
+    <string name="find_your_accommodation">Find your accommodation</string>
+    <string name="name_your_stay_mandatory">Name your stay (mandatory)</string>
+    <string name="address">Address</string>
+    <string name="where_will_you_stay">Where will you stay</string>
+    <string name="check_in">Check-in</string>
+    <string name="when_will_you_arrive">When will you arrive</string>
+    <string name="check_out">Check-out</string>
+    <string name="when_will_you_leave">When will you leave</string>
+    <string name="type">Type</string>
+    <string name="select_the_type">Select the type</string>
+    <string name="phone">Phone</string>
+    <string name="phone_number">Phone number</string>
+    <string name="email_address">Email address</string>
+    <string name="website">Website</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

@@ -12,7 +12,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
 import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.request.AccommodationRequest
-import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.AccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.model.AccommodationType
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.repository.AccommodationRepository
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
@@ -21,7 +20,7 @@ import kotlinx.coroutines.launch
 class AccommodationAddEditFragmentVM(
     repository: AccommodationRepository,
     savedStateHandle: SavedStateHandle
-) : AbstractPointAddEditFragmentVM<AccommodationRequest, AccommodationResponse>(
+) : AbstractPointAddEditFragmentVM<AccommodationRequest>(
     repository,
     savedStateHandle
 ) {

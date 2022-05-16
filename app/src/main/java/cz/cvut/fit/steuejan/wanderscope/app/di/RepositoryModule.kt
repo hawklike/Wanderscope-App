@@ -3,6 +3,7 @@ package cz.cvut.fit.steuejan.wanderscope.app.di
 import cz.cvut.fit.steuejan.wanderscope.account.repository.AccountRepository
 import cz.cvut.fit.steuejan.wanderscope.auth.repository.AuthRepository
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.repository.AccommodationRepository
+import cz.cvut.fit.steuejan.wanderscope.points.activity.repository.ActivityRepository
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
 import cz.cvut.fit.steuejan.wanderscope.trips.repository.TripsRepository
 import org.koin.core.module.dsl.singleOf
@@ -14,4 +15,5 @@ val repositoryModule = module {
     singleOf(::TripsRepository)
     singleOf(::TripRepository)
     singleOf(::AccommodationRepository)
+    singleOf(::ActivityRepository)
 }

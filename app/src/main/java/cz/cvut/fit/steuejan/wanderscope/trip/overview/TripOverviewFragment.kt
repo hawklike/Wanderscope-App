@@ -133,6 +133,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             setOnActionSelectedListener {
                 when (it.id) {
                     R.id.add_point_accommodation -> onClick(::addAccommodation)
+                    R.id.add_point_activity -> onClick(::addActivity)
                     else -> onClick(doNothing)
                 }
                 false
@@ -149,6 +150,12 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     private fun addAccommodation() {
         arguments?.getInt(TRIP_ID)?.let {
             navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToAccommodationAddEditFragment(it))
+        }
+    }
+
+    private fun addActivity() {
+        arguments?.getInt(TRIP_ID)?.let {
+            navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToActivityAddEditFragment(it))
         }
     }
 
