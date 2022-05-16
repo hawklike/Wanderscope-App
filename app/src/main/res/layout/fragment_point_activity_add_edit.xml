@@ -62,8 +62,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/find_your_accommodation"
                         android:inputType="textCapSentences"
-                        android:onClick="@{() -> vm.find()}"
-                        android:text="@={vm.search}" />
+                        android:onClick="@{() -> vm.find()}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

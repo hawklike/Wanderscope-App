@@ -27,6 +27,13 @@ abstract class AbstractPointAddEditFragment<B : ViewDataBinding, VM : BaseViewMo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
+        hideKeyboard()
+    }
+
+    override fun hideKeyboard() {
+        (viewModel as? AbstractPointAddEditFragmentVM<*>)?.hideKeyboardEvent?.safeObserve {
+            super.hideKeyboard()
+        }
     }
 
     protected abstract fun initViewModel()

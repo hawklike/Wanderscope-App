@@ -38,32 +38,31 @@
                     tools:text="Add accommodation" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationSearchLabel"
+                    android:id="@+id/addAccommodationAddressLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_layout_first_item_margin"
-                    android:text="@string/search"
+                    android:text="@string/address"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/addAccommodationTitle" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationSearch"
-                    style="@style/Widget.Wanderscope.TextInput.Cancellable"
+                    android:id="@+id/addAccommodationAddress"
+                    style="@style/Widget.Wanderscope.TextInput.Search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:cancellable="@{true}"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationSearchLabel">
+                    app:onEndDrawableClick="@{() -> vm.find()}"
+                    app:errorText="@{vm.validateAddress}"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationAddressLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        style="@style/Widget.Wanderscope.EditText.OnClick"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/find_your_accommodation"
-                        android:inputType="textCapSentences"
-                        android:onClick="@{() -> vm.find()}"
-                        android:text="@={vm.search}" />
+                        android:hint="Search by clicking on the icon"
+                        android:inputType="text"
+                        android:text="@={vm.address}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +74,7 @@
                     android:text="@string/name"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationSearch" />
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationAddress" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/addAccommodationName"
@@ -98,33 +97,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationAddressLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/address"
-                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationName" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:errorText="@{vm.validateAddress}"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationAddressLabel">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/where_will_you_stay"
-                        android:inputType="text"
-                        android:text="@={vm.address}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/addAccommodationStartDateLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -132,7 +104,7 @@
                     android:text="@string/check_in"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationAddress" />
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationName" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/addAccommodationStartDate"
@@ -207,10 +179,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/select_the_type"
-                        android:text="@={vm.type}"
                         android:inputType="none"
-                        app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
-                        android:popupElevation="1dp" />
+                        android:popupElevation="1dp"
+                        android:text="@={vm.type}"
+                        app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

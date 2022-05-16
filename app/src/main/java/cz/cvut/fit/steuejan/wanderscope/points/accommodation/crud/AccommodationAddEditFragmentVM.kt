@@ -53,13 +53,11 @@ class AccommodationAddEditFragmentVM(
 
     override fun placeFound(place: Place) {
         super.placeFound(place)
-        place.name?.let {
-            name.value = it
-            search.value = it
-        }
+        place.name?.let { name.value = it }
         place.address?.let { address.value = it }
         place.phoneNumber?.let { phone.value = it }
         place.websiteUri?.let { website.value = it.toString() }
+        hideKeyboardEvent.publish()
     }
 
     fun submit() {

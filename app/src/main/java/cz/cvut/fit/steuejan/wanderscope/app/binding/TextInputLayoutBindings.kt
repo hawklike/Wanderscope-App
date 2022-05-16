@@ -1,5 +1,6 @@
 package cz.cvut.fit.steuejan.wanderscope.app.binding
 
+import android.view.View
 import androidx.annotation.StringRes
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
@@ -22,4 +23,9 @@ fun TextInputLayout.cancellable(allowed: Boolean) {
             this.error = null
         }
     }
+}
+
+@BindingAdapter("onEndDrawableClick")
+fun TextInputLayout.onEndDrawableClick(listener: View.OnClickListener) {
+    this.setEndIconOnClickListener(listener)
 }

@@ -15,6 +15,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toNiceString
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.LoadingMutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveData
@@ -43,9 +44,11 @@ abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
         this.tripId = tripId
     }
 
-    val findAccommodationEvent = SingleLiveEvent<String?>()
+    val hideKeyboardEvent = AnySingleLiveEvent()
 
-    val search = MutableLiveData<String>()
+    val findAccommodationEvent = SingleLiveEvent<String?>()
+    protected var placeName: String? = null
+
     val name = MutableLiveData<String>()
     val address = MutableLiveData<String?>(null)
     val startDate = MutableLiveData<String?>(null)
@@ -63,6 +66,9 @@ abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
     }
 
     val validateAddress = address.switchMapSuspend {
+        if (it.isNullOrBlank()) {
+            placeName = null
+        }
         validateAddress(it)
     }
 
@@ -99,11 +105,12 @@ abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
     )
 
     open fun find() {
-        findAccommodationEvent.value = search.value
+        findAccommodationEvent.value = placeName
     }
 
     open fun placeFound(place: Place) {
         setStateData(PLACE_ID, place.id)
+        placeName = place.name
     }
 
     fun startTimePicker() {
