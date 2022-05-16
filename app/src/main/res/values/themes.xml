@@ -54,6 +54,21 @@
         <item name="android:textSize">@dimen/app_text_input_text_size</item>
     </style>
 
+    <style name="Widget.Wanderscope.TextInput.DropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxBackgroundColor">@color/colorSurface</item>
+        <item name="errorEnabled">true</item>
+        <item name="errorIconDrawable">@drawable/ic_error</item>
+        <item name="android:textColorHint">@color/colorOnSecondary</item>
+        <item name="hintEnabled">false</item>
+        <item name="errorIconTint">@color/colorError</item>
+        <item name="errorTextColor">@color/colorTextError</item>
+        <item name="endIconTint">@color/colorTextInputIcon</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.TextInput</item>
+        <item name="android:textSize">@dimen/app_text_input_text_size</item>
+    </style>
+
     <style name="Widget.Wanderscope.TextInput.Password">
         <item name="passwordToggleEnabled">true</item>
         <item name="passwordToggleTint">@color/colorTextInputIcon</item>

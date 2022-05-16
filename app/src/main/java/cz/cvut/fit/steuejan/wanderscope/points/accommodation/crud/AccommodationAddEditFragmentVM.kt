@@ -10,6 +10,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.data.Contact
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
+import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.request.AccommodationRequest
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.AccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.model.AccommodationType
@@ -25,9 +26,10 @@ class AccommodationAddEditFragmentVM(
     savedStateHandle
 ) {
 
-    val phone = MutableLiveData<String?>(null)
+    val phone = MutableLiveData<String?>()
+    val website = MutableLiveData<String?>()
     val email = MutableLiveData<String?>(null)
-    val website = MutableLiveData<String?>(null)
+    val type = MutableLiveData<String>()
 
     val validateEmail = email.switchMapSuspend {
         if (it.isNullOrBlank()) OK else validator.validateEmail(it)
@@ -66,10 +68,14 @@ class AccommodationAddEditFragmentVM(
             val name = name.value ?: return@launch
             submitLoading.value = true
 
+            val type = runOrNull {
+                type.value?.let { AccommodationType.valueOf(it.uppercase()) }
+            } ?: AccommodationType.OTHER
+
             val request = AccommodationRequest(
                 name = name,
                 duration = Duration(startDateTime, endDateTime),
-                type = AccommodationType.CAMP,
+                type = type,
                 address = Address(getStateData(PLACE_ID), address.value.getOrNullIfBlank()),
                 contact = Contact(
                     phone.value.getOrNullIfBlank(),

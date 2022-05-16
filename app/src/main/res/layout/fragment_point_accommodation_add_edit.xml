@@ -196,16 +196,21 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/addAccommodationType"
+                    style="@style/Widget.Wanderscope.TextInput.DropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:layout_constraintTop_toBottomOf="@id/addAccommodationTypeLabel">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <AutoCompleteTextView
+                        android:id="@+id/foo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="How will you sleep"
-                        android:inputType="textCapSentences" />
+                        android:hint="Select the type"
+                        android:text="@={vm.type}"
+                        android:inputType="none"
+                        app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
+                        android:popupElevation="1dp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

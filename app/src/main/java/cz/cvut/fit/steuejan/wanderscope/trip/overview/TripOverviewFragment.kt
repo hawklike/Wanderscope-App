@@ -39,6 +39,10 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         retrieveTripOverview()
     }
 
+    private fun foo() {
+        binding.tripOverviewAccommodation.adapter?.itemCount
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.trip_overview_menu, menu)
     }

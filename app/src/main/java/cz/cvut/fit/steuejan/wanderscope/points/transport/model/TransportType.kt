@@ -4,7 +4,7 @@ import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.points.common.PointType
 
 enum class TransportType : PointType {
-    WALK, BIKE, CAR, BUS, TRAIN, FERRY, PUBLIC, PLANE;
+    WALK, BIKE, CAR, BUS, TRAIN, FERRY, PUBLIC, PLANE, OTHER;
 
     override fun toIcon(): Int {
         return when (this) {
@@ -16,6 +16,7 @@ enum class TransportType : PointType {
             FERRY -> R.drawable.ic_boat
             PUBLIC -> R.drawable.ic_public_transport
             PLANE -> R.drawable.ic_light_aircraft
+            OTHER -> R.drawable.ic_route
         }
     }
 }

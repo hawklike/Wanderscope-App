@@ -117,6 +117,13 @@
     <string name="please_wait">Please wait…</string>
     <string name="add_accommodation">Add accommodation</string>
 
+    <string name="accommodation_updated">Accommodation updated</string>
+    <string name="transport_updated">Transport updated</string>
+    <string name="places_updated">Places updated</string>
+    <string name="activities_updated">Activities updated</string>
+    <string name="documents_updated">Documents updated</string>
+    <string name="travellers_updated">Travellers updated</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>

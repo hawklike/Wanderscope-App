@@ -6,6 +6,9 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -13,9 +16,14 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
+import cz.cvut.fit.steuejan.wanderscope.app.extension.capitalize
+import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentPointAccommodationAddEditBinding
+import cz.cvut.fit.steuejan.wanderscope.points.accommodation.model.AccommodationType
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 
 class AccommodationAddEditFragment : MvvmFragment<
         FragmentPointAccommodationAddEditBinding,
@@ -32,6 +40,7 @@ class AccommodationAddEditFragment : MvvmFragment<
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
         findAccommodation()
+        prepareDropdownMenu()
     }
 
     private fun initViewModel() {
@@ -41,6 +50,20 @@ class AccommodationAddEditFragment : MvvmFragment<
     private fun findAccommodation() {
         viewModel.findAccommodationEvent.safeObserve {
             showPlacesAutocomplete(it)
+        }
+    }
+
+    private fun prepareDropdownMenu() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val items = withDefault {
+                AccommodationType.values().map {
+                    it.toString()
+                        .toLowerCase(Locale.getDefault())
+                        .capitalize()
+                }
+            }
+            val adapter = ArrayAdapter(requireContext(), R.layout.item_dropdown_menu, items)
+            (binding.addAccommodationType.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         }
     }
 

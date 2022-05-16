@@ -1,8 +1,10 @@
 package cz.cvut.fit.steuejan.wanderscope.trip.overview
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
@@ -42,6 +44,13 @@ class TripOverviewFragmentVM(
     val travellers = MutableLiveData<List<RecyclerItem>>()
 
     val tripOverview = MutableLiveData<TripResponse>()
+
+    private var accommodationItems = 0
+    private var transportItems = 0
+    private var placesItems = 0
+    private var activitiesItems = 0
+    private var documentsItems = 0
+    private var travellersItems = 0
 
     private val tripOverviewLoading = MutableLiveData<Boolean>()
     private val accommodationLoading = MutableLiveData<Boolean>()
@@ -109,8 +118,16 @@ class TripOverviewFragmentVM(
 
     private suspend fun accommodationSuccess(data: MultipleAccommodationResponse) {
         val items = data.accommodation.map { it.toOverviewItem() }
+        showUpdateToast(items.size, accommodationItems, R.string.accommodation_updated)
+        accommodationItems = items.size
         accommodation.value = items.ifEmpty { listOf(EmptyItem.accommodation()) }
         accommodationLoading.value = false
+    }
+
+    private fun showUpdateToast(actualSize: Int, previousSize: Int, @StringRes message: Int) {
+        if (actualSize > previousSize) {
+            showToast(ToastInfo(message))
+        }
     }
 
     private suspend fun getTransport(tripId: Int, scope: CoroutineScope) {
@@ -126,6 +143,8 @@ class TripOverviewFragmentVM(
 
     private suspend fun transportSuccess(data: TransportsResponse) {
         val items = data.transports.map { it.toOverviewItem() }
+        showUpdateToast(items.size, transportItems, R.string.transport_updated)
+        transportItems = items.size
         transport.value = items.ifEmpty { listOf(EmptyItem.transport()) }
         transportLoading.value = false
     }
@@ -143,6 +162,8 @@ class TripOverviewFragmentVM(
 
     private suspend fun activitiesSuccess(data: ActivitiesResponse) {
         val items = data.activities.map { it.toOverviewItem() }
+        showUpdateToast(items.size, activitiesItems, R.string.activities_updated)
+        activitiesItems = items.size
         activities.value = items.ifEmpty { listOf(EmptyItem.activities()) }
         activitiesLoading.value = false
     }
@@ -160,6 +181,8 @@ class TripOverviewFragmentVM(
 
     private suspend fun placesSuccess(data: PlacesResponse) {
         val items = data.places.map { it.toOverviewItem() }
+        showUpdateToast(items.size, placesItems, R.string.places_updated)
+        placesItems = items.size
         places.value = items.ifEmpty { listOf(EmptyItem.places()) }
         placesLoading.value = false
     }
@@ -177,6 +200,8 @@ class TripOverviewFragmentVM(
 
     private suspend fun documentsSuccess(data: DocumentsMetadataResponse) {
         val items = data.documents.map { it.toOverviewItem() }
+        showUpdateToast(items.size, documentsItems, R.string.documents_updated)
+        documentsItems = items.size
         documents.value = items.ifEmpty { listOf(EmptyItem.documents()) }
         documentsLoading.value = false
     }
@@ -193,7 +218,10 @@ class TripOverviewFragmentVM(
     }
 
     private fun usersSuccess(data: UsersResponse) {
-        travellers.value = data.users.map { it.toItem(false) }
+        val items = data.users.map { it.toItem(false) }
+        travellers.value = items
+        showUpdateToast(items.size, travellersItems, R.string.travellers_updated)
+        travellersItems = items.size
         travellersLoading.value = false
     }
 
