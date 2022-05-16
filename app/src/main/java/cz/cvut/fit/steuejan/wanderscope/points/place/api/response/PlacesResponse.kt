@@ -1,4 +1,4 @@
-package cz.cvut.fit.steuejan.wanderscope.points.place.response
+package cz.cvut.fit.steuejan.wanderscope.points.place.api.response
 
 import com.squareup.moshi.Json
 

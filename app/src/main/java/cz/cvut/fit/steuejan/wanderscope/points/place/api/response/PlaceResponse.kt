@@ -1,10 +1,10 @@
-package cz.cvut.fit.steuejan.wanderscope.points.place.response
+package cz.cvut.fit.steuejan.wanderscope.points.place.api.response
 
 import com.squareup.moshi.Json
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Contact
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
-import cz.cvut.fit.steuejan.wanderscope.points.common.AbstractTripPointResponse
+import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.place.model.PlaceType
 
 data class PlaceResponse(
@@ -28,4 +28,4 @@ data class PlaceResponse(
     val imageUrl: String?,
     @Json(name = "description")
     val description: String?
-) : AbstractTripPointResponse()
+) : PointResponse()

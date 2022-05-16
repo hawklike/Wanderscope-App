@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/add_point_accommodation"
+        android:icon="@drawable/ic_outline_house"
+        android:title="@string/accommodation" />
+
+    <item
+        android:id="@+id/add_point_transport"
+        android:icon="@drawable/ic_outline_plane"
+        android:title="@string/transport" />
+
+    <item
+        android:id="@+id/add_point_activity"
+        android:icon="@drawable/ic_outline_hiking"
+        android:title="Activity" />
+
+    <item
+        android:id="@+id/add_point_place"
+        android:icon="@drawable/ic_outline_location"
+        android:title="Place" />
+</menu>

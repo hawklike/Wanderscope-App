@@ -10,12 +10,16 @@ import androidx.lifecycle.ViewModel
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
@@ -32,6 +36,7 @@ abstract class BaseViewModel(
     val snackbarEvent = SingleLiveEvent<SnackbarInfo>()
     val showLoading = SingleLiveEvent<Boolean>()
     val datePickerEvent = SingleLiveEvent<DatePickerInfo>()
+    val timePickerEvent = SingleLiveEvent<TimePickerInfo>()
 
     protected fun navigateTo(event: NavigationEvent, onBackground: Boolean = false) {
         if (onBackground) {
@@ -73,12 +78,36 @@ abstract class BaseViewModel(
         }
     }
 
-    protected fun showDatePicker(initialDate: DatePickerInfo, onBackground: Boolean = false) {
+    protected fun showDatePicker(dateInfo: DatePickerInfo, onBackground: Boolean = false) {
         if (onBackground) {
-            datePickerEvent.postValue(initialDate)
+            datePickerEvent.postValue(dateInfo)
         } else {
-            datePickerEvent.value = initialDate
+            datePickerEvent.value = dateInfo
         }
+    }
+
+    protected fun showTimePicker(timeInfo: TimePickerInfo, onBackground: Boolean = false) {
+        if (onBackground) {
+            timePickerEvent.postValue(timeInfo)
+        } else {
+            timePickerEvent.value = timeInfo
+        }
+    }
+
+    protected fun showDateAndTimePicker(
+        dateInfo: DatePickerInfo,
+        timeInfo: TimePickerInfo,
+        onBackground: Boolean = false,
+        onResult: (DateTime) -> Unit
+    ) {
+        val dateInfoCopy = dateInfo.copy(onPickedDate = {
+            val dateTime = DateTime(it, DateTimeZone.UTC)
+            val timeInfoCopy = timeInfo.copy(onPickerTime = { hour, minute ->
+                onResult.invoke(dateTime.withHourOfDay(hour).withMinuteOfHour(minute))
+            })
+            showTimePicker(timeInfoCopy, onBackground)
+        })
+        showDatePicker(dateInfoCopy, onBackground)
     }
 
     protected open fun unexpectedError(error: Error? = null, retry: () -> Unit = {}) {
@@ -132,4 +161,13 @@ abstract class BaseViewModel(
             val today = MaterialDatePicker.todayInUtcMilliseconds()
         }
     }
+
+    data class TimePickerInfo(
+        val hour: Int? = null,
+        val minute: Int? = null,
+        @StringRes val title: Int? = R.string.timepicker_title_default,
+        @TimeFormat val timeFormat: Int? = null,
+        val customTimePicker: MaterialTimePicker? = null,
+        val onPickerTime: (hour: Int, minute: Int) -> Unit
+    )
 }

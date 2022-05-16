@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="cz.cvut.fit.steuejan.wanderscope.points.accommodation.crud.AccommodationAddEditFragmentVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/app_text_input_margin"
+            app:layout_constraintBottom_toTopOf="@id/addAccommodationButton"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addAccommodationTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_title_empty_toolbar_margin"
+                    android:text="@{vm.title}"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Add accommodation" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addAccommodationSearchLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_layout_first_item_margin"
+                    android:text="Search"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationTitle" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addAccommodationSearch"
+                    style="@style/Widget.Wanderscope.TextInput.Cancellable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:cancellable="@{true}"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationSearchLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Wanderscope.EditText.OnClick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Find your accommodation"
+                        android:inputType="textCapSentences"
+                        android:onClick="@{() -> vm.find()}"
+                        android:text="@={vm.search}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addAccommodationNameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/name"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationSearch" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addAccommodationName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/name_max_len"
+                    app:errorText="@{vm.validateName}"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationNameLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Name your stay (mandatory)"
+                        android:inputType="textCapSentences"
+                        android:maxLength="@integer/name_max_len"
+                        android:text="@={vm.name}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addAccommodationAddressLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="Address"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationName" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addAccommodationAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:errorText="@{vm.validateAddress}"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationAddressLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Where will you stay"
+                        android:inputType="text"
+                        android:text="@={vm.address}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addAccommodationStartDateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="Check-in"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationAddress" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addAccommodationStartDate"
+                    style="@style/Widget.Wanderscope.TextInput.Cancellable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:cancellable="@{true}"
+                    app:errorText="@{vm.validateDates}"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationStartDateLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Wanderscope.EditText.OnClick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="When will you arrive"
+                        android:onClick="@{() -> vm.startTimePicker()}"
+                        android:text="@={vm.startDate}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addAccommodationEndDateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="Check-out"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationStartDate" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addAccommodationEndDate"
+                    style="@style/Widget.Wanderscope.TextInput.Cancellable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:cancellable="@{true}"
+                    app:errorText="@{vm.validateDates}"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationEndDateLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Wanderscope.EditText.OnClick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="When will you leave"
+                        android:onClick="@{() -> vm.endTimePicker()}"
+                        android:text="@={vm.endDate}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addAccommodationTypeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="Type"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationEndDate" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addAccommodationType"
+                    style="@style/Widget.Wanderscope.TextInput.DropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationTypeLabel">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/foo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Select the type"
+                        android:text="@={vm.type}"
+                        android:inputType="none"
+                        app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
+                        android:popupElevation="1dp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addAccommodationPhoneLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="Phone"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationType" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addAccommodationPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationPhoneLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Phone number"
+                        android:inputType="phone"
+                        android:maxLength="@integer/phone_max_len"
+                        android:text="@={vm.phone}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addAccommodationEmailLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="Email"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationPhone" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addAccommodationEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:errorText="@{vm.validateEmail}"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationEmailLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Email address"
+                        android:inputType="textEmailAddress"
+                        android:text="@={vm.email}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addAccommodationWebsiteLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="Website"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationEmail" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addAccommodationWebsite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationWebsiteLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Website"
+                        android:inputType="text"
+                        android:maxLength="@integer/other_max_len"
+                        android:text="@={vm.website}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addAccommodationDescriptionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/description"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationWebsite" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addAccommodationDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/description_max_len"
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationDescriptionLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Wanderscope.EditText.MultiLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/describe_your_trip"
+                        android:maxLength="@integer/description_max_len"
+                        android:text="@={vm.description}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addAccommodationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/app_button_bottom_margin"
+            android:onClick="@{() -> vm.submit()}"
+            android:text="@string/submit"
+            app:isEnabled="@{vm.enableSubmit}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:showProgress="@{vm.submitLoading}"
+            app:textAfterProgress="@{@string/submit}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

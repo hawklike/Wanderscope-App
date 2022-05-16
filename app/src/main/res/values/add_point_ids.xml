@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="add_point_transport" type="id" />
+    <item name="add_point_accommodation" type="id" />
+    <item name="add_point_place" type="id" />
+    <item name="add_point_activity" type="id" />
+</resources>

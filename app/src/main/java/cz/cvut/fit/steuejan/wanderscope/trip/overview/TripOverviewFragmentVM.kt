@@ -1,7 +1,9 @@
 package cz.cvut.fit.steuejan.wanderscope.trip.overview
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
@@ -13,13 +15,13 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toDurationString
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
-import cz.cvut.fit.steuejan.wanderscope.points.accommodation.response.MultipleAccommodationResponse
-import cz.cvut.fit.steuejan.wanderscope.points.activity.response.ActivitiesResponse
-import cz.cvut.fit.steuejan.wanderscope.points.place.response.PlacesResponse
-import cz.cvut.fit.steuejan.wanderscope.points.transport.response.TransportsResponse
+import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
+import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
+import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlacesResponse
+import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportsResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
-import cz.cvut.fit.steuejan.wanderscope.user.response.UsersResponse
+import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 import kotlinx.coroutines.CoroutineScope
 
 class TripOverviewFragmentVM(
@@ -91,6 +93,24 @@ class TripOverviewFragmentVM(
         unexpectedError(error)
     }
 
+    private fun showUpdateToast(
+        actualItems: List<RecyclerItem>,
+        previousItems: List<RecyclerItem>?,
+        @StringRes message: Int
+    ) {
+        val actualSize = actualItems.size
+        val previousSize = previousItems?.size ?: 0
+
+        if (actualSize >= previousSize && previousItems?.first() is EmptyItem) {
+            showToast(ToastInfo(message))
+            return
+        }
+        if (actualSize > previousSize && previousSize != 0) {
+            showToast(ToastInfo(message))
+            return
+        }
+    }
+
     private suspend fun getAccommodation(tripId: Int, scope: CoroutineScope) {
         tripRepository.getAccommodation(tripId).safeCollect(scope) {
             when (it) {
@@ -104,6 +124,7 @@ class TripOverviewFragmentVM(
 
     private suspend fun accommodationSuccess(data: MultipleAccommodationResponse) {
         val items = data.accommodation.map { it.toOverviewItem() }
+        showUpdateToast(items, accommodation.value, R.string.accommodation_updated)
         accommodation.value = items.ifEmpty { listOf(EmptyItem.accommodation()) }
         accommodationLoading.value = false
     }
@@ -121,6 +142,7 @@ class TripOverviewFragmentVM(
 
     private suspend fun transportSuccess(data: TransportsResponse) {
         val items = data.transports.map { it.toOverviewItem() }
+        showUpdateToast(items, transport.value, R.string.transport_updated)
         transport.value = items.ifEmpty { listOf(EmptyItem.transport()) }
         transportLoading.value = false
     }
@@ -138,6 +160,7 @@ class TripOverviewFragmentVM(
 
     private suspend fun activitiesSuccess(data: ActivitiesResponse) {
         val items = data.activities.map { it.toOverviewItem() }
+        showUpdateToast(items, activities.value, R.string.activities_updated)
         activities.value = items.ifEmpty { listOf(EmptyItem.activities()) }
         activitiesLoading.value = false
     }
@@ -155,6 +178,7 @@ class TripOverviewFragmentVM(
 
     private suspend fun placesSuccess(data: PlacesResponse) {
         val items = data.places.map { it.toOverviewItem() }
+        showUpdateToast(items, places.value, R.string.places_updated)
         places.value = items.ifEmpty { listOf(EmptyItem.places()) }
         placesLoading.value = false
     }
@@ -172,6 +196,7 @@ class TripOverviewFragmentVM(
 
     private suspend fun documentsSuccess(data: DocumentsMetadataResponse) {
         val items = data.documents.map { it.toOverviewItem() }
+        showUpdateToast(items, documents.value, R.string.documents_updated)
         documents.value = items.ifEmpty { listOf(EmptyItem.documents()) }
         documentsLoading.value = false
     }
@@ -188,11 +213,9 @@ class TripOverviewFragmentVM(
     }
 
     private fun usersSuccess(data: UsersResponse) {
-        travellers.value = data.users.map { it.toItem(false) }
+        val items = data.users.map { it.toItem(false) }
+        travellers.value = items
+        showUpdateToast(items, travellers.value, R.string.travellers_updated)
         travellersLoading.value = false
-    }
-
-    companion object {
-        const val USER_ROLE = "userRole"
     }
 }

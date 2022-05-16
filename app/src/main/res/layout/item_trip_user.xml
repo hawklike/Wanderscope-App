@@ -19,8 +19,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/app_trip_overview_item_padding"
-            android:paddingStart="@dimen/app_trip_overview_item_padding"
+            android:paddingVertical="@dimen/app_trip_overview_item_padding_vertical"
+            android:paddingStart="@dimen/app_trip_overview_item_padding_vertical"
             tools:background="@color/colorSurface"
             tools:ignore="RtlSymmetry">
 
@@ -68,7 +68,7 @@
                 android:id="@+id/itemTripUserRole"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/app_trip_overview_item_padding"
+                android:layout_marginEnd="@dimen/app_trip_overview_item_padding_vertical"
                 android:background="@drawable/shape_rounded_8"
                 android:backgroundTint="@color/colorDrawableBackground"
                 android:paddingHorizontal="@dimen/padding_8"
@@ -83,7 +83,7 @@
                 android:id="@+id/itemTripUserMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/app_trip_overview_item_padding"
+                android:layout_marginEnd="@dimen/app_trip_overview_item_padding_vertical"
                 android:background="@drawable/ic_menu"
                 android:backgroundTint="@color/colorOnSecondary"
                 app:layout_constraintBottom_toBottomOf="parent"

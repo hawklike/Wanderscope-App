@@ -2,13 +2,13 @@ package cz.cvut.fit.steuejan.wanderscope.trip.api
 
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
-import cz.cvut.fit.steuejan.wanderscope.points.accommodation.response.MultipleAccommodationResponse
-import cz.cvut.fit.steuejan.wanderscope.points.activity.response.ActivitiesResponse
-import cz.cvut.fit.steuejan.wanderscope.points.place.response.PlacesResponse
-import cz.cvut.fit.steuejan.wanderscope.points.transport.response.TransportsResponse
+import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
+import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
+import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlacesResponse
+import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportsResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.api.request.TripRequest
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
-import cz.cvut.fit.steuejan.wanderscope.user.response.UsersResponse
+import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 import retrofit2.Response
 import retrofit2.http.*
 

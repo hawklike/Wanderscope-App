@@ -25,6 +25,7 @@
         <item name="snackbarStyle">@style/Widget.Wanderscope.Snackbar</item>
         <item name="snackbarTextViewStyle">@style/Widget.Wandercope.SnackbarText</item>
         <item name="tabStyle">@style/Widget.Wanderscope.TabLayout</item>
+        <item name="materialTimePickerTheme">@style/Widget.Wanderscope.TimePicker</item>
     </style>
 
     <style name="Theme.Wanderscope.SplashScreen" parent="Theme.SplashScreen">
@@ -49,6 +50,21 @@
         <item name="hintEnabled">false</item>
         <item name="errorIconTint">@color/colorError</item>
         <item name="errorTextColor">@color/colorTextError</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.TextInput</item>
+        <item name="android:textSize">@dimen/app_text_input_text_size</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TextInput.DropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxBackgroundColor">@color/colorSurface</item>
+        <item name="errorEnabled">true</item>
+        <item name="errorIconDrawable">@drawable/ic_error</item>
+        <item name="android:textColorHint">@color/colorOnSecondary</item>
+        <item name="hintEnabled">false</item>
+        <item name="errorIconTint">@color/colorError</item>
+        <item name="errorTextColor">@color/colorTextError</item>
+        <item name="endIconTint">@color/colorTextInputIcon</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.TextInput</item>
         <item name="android:textSize">@dimen/app_text_input_text_size</item>
     </style>
@@ -153,14 +169,14 @@
         <item name="android:textAppearance">@style/TextAppearance.Wanderscope.Regular</item>
     </style>
 
-    <style name="Widget.Wanderscope.TextInput.DatePicker">
+    <style name="Widget.Wanderscope.TextInput.Cancellable">
         <item name="endIconMode">custom</item>
         <item name="errorIconDrawable">@null</item>
         <item name="endIconTint">@color/colorTextInputIcon</item>
         <item name="endIconDrawable">@drawable/ic_close_16</item>
     </style>
 
-    <style name="Widget.Wanderscope.EditText.DatePicker" parent="Widget.MaterialComponents.TextView">
+    <style name="Widget.Wanderscope.EditText.OnClick" parent="Widget.MaterialComponents.TextView">
         <item name="android:clickable">false</item>
         <item name="android:cursorVisible">false</item>
         <item name="android:focusable">false</item>
@@ -170,6 +186,20 @@
 
     <style name="Widget.Wanderscope.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.DatePicker</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TimePicker" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.DatePicker</item>
+        <item name="materialClockStyle">@style/Widget.Wanderscope.TimePicker.Clock</item>
+        <item name="chipStyle">@style/Widget.Wanderscope.TimePicker.Chip</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TimePicker.Clock" parent="Widget.MaterialComponents.TimePicker.Clock">
+        <item name="clockFaceBackgroundColor">@color/colorSurface</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TimePicker.Chip" parent="Widget.MaterialComponents.TimePicker.Display">
+        <item name="android:backgroundTint">@color/timepicker_chip_color</item>
     </style>
 
     <style name="Widget.Wanderscope.TabLayout" parent="Widget.MaterialComponents.TabLayout">

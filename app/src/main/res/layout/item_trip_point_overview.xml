@@ -17,9 +17,10 @@
         android:layout_marginEnd="@dimen/app_trip_overview_item_end_margin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="180dp"
+            android:layout_width="wrap_content"
             android:layout_height="180dp"
-            android:padding="@dimen/app_trip_overview_item_padding"
+            android:paddingHorizontal="@dimen/app_trip_overview_item_padding_horizontal"
+            android:paddingVertical="@dimen/app_trip_overview_item_padding_vertical"
             tools:background="@color/colorSurface">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,6 +48,8 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/itemTripOverviewTitle"
                 android:layout_width="match_parent"
+                android:maxWidth="200dp"
+                android:minWidth="140dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/app_trip_overview_item_title_margin"
                 android:ellipsize="end"
@@ -86,7 +89,7 @@
                     android:textColor="@color/colorText"
                     app:layout_constraintStart_toEndOf="@id/itemTripOverviewStartDateLabel"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="12.12.2022" />
+                    tools:text="May 17, 2022 18:00" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/itemTripOverviewEndDateLabel"

@@ -1,11 +1,11 @@
-package cz.cvut.fit.steuejan.wanderscope.points.accommodation.response
+package cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response
 
 import com.squareup.moshi.Json
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Contact
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.model.AccommodationType
-import cz.cvut.fit.steuejan.wanderscope.points.common.AbstractTripPointResponse
+import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 
 
 data class AccommodationResponse(
@@ -25,4 +25,4 @@ data class AccommodationResponse(
     override val type: AccommodationType,
     @Json(name = "description")
     val description: String?
-) : AbstractTripPointResponse()
+) : PointResponse()

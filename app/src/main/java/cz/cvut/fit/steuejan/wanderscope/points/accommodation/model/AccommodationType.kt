@@ -4,7 +4,7 @@ import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.points.common.PointType
 
 enum class AccommodationType : PointType {
-    HOTEL, HOSTEL, PENSION, CAMP, OUTDOOR, AIRBNB;
+    HOTEL, HOSTEL, PENSION, CAMP, OUTDOOR, AIRBNB, OTHER;
 
     override fun toIcon(): Int {
         return when (this) {
@@ -14,6 +14,7 @@ enum class AccommodationType : PointType {
             CAMP -> R.drawable.ic_camp
             OUTDOOR -> R.drawable.ic_sleeping_bag
             AIRBNB -> R.drawable.ic_airbnb
+            OTHER -> R.drawable.ic_accommodation_other
         }
     }
 }

@@ -48,7 +48,8 @@
     <dimen name="margin_12">12dp</dimen>
     <dimen name="margin_16">16dp</dimen>
     <dimen name="app_tab_layout_padding">16dp</dimen>
-    <dimen name="app_trip_overview_item_padding">8dp</dimen>
+    <dimen name="app_trip_overview_item_padding_vertical">8dp</dimen>
+    <dimen name="app_trip_overview_item_padding_horizontal">16dp</dimen>
     <dimen name="app_trip_overview_item_image_holder_size">48dp</dimen>
     <dimen name="app_trip_overview_item_image_size">28dp</dimen>
     <dimen name="app_trip_overview_item_end_margin">16dp</dimen>

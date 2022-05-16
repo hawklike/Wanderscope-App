@@ -38,6 +38,7 @@
     <string name="validation_displayname_invalid">Display name cannot contain newline, \'~\' and \';\' characters</string>
 
     <string name="validation_blank">The field cannot be blank</string>
+    <string name="validation_too_long">Maximum length exceeded</string>
 
     <string name="login_email_hint">Your email</string>
     <string name="login_password_hint">Your password</string>
@@ -71,8 +72,10 @@
     <string name="no_upcoming_trips_title">You have no upcoming trips yet</string>
     <string name="no_upcoming_trips_subtitle">Start a new adventure by adding a new trip.</string>
     <string name="datepicker_title_default">Select date</string>
+    <string name="timepicker_title_default">Select time</string>
 
-    <string name="enddate_before_startdate">End date cannot be before start date</string>
+    <string name="enddate_before_startdate">End date cannot be prior to start date</string>
+    <string name="checkout_before_checkin">Check-out cannot be prior to check-in</string>
     <string name="add_trip">Add trip</string>
     <string name="name">Name</string>
     <string name="name_your_trip_mandatory">Name your trip (mandatory)</string>
@@ -112,6 +115,18 @@
     <string name="edit_trip">Edit trip</string>
     <string name="save_to_calendar">Save to calendar</string>
     <string name="please_wait">Please wait…</string>
+
+    <string name="add_accommodation">Add accommodation</string>
+    <string name="add_transport">Add transport</string>
+    <string name="add_place">Add place</string>
+    <string name="add_activity">Add activity</string>
+
+    <string name="accommodation_updated">Accommodation updated</string>
+    <string name="transport_updated">Transport updated</string>
+    <string name="places_updated">Places updated</string>
+    <string name="activities_updated">Activities updated</string>
+    <string name="documents_updated">Documents updated</string>
+    <string name="travellers_updated">Travellers updated</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

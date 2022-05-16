@@ -15,6 +15,11 @@ class ValidationMediator(
         }
     }
 
+    fun add(vararg newValidations: LiveData<Int>): ValidationMediator {
+        val allValidations = validations.toList() + newValidations
+        return ValidationMediator(*allValidations.toTypedArray())
+    }
+
     private fun othersValid(currentLiveData: LiveData<Int>): Boolean {
         return validations
             .filterNot { it == currentLiveData }
