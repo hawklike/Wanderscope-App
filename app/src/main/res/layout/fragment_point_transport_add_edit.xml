@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="cz.cvut.fit.steuejan.wanderscope.points.activity.crud.ActivityAddEditFragmentVM" />
+            type="cz.cvut.fit.steuejan.wanderscope.points.transport.crud.TransportAddEditFragmentVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

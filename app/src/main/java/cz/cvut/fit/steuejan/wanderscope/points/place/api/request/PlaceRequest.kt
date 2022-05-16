@@ -1,4 +1,4 @@
-package cz.cvut.fit.steuejan.wanderscope.points.place.api.response.request
+package cz.cvut.fit.steuejan.wanderscope.points.place.api.request
 
 import com.squareup.moshi.Json
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address

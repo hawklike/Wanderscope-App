@@ -142,6 +142,7 @@
     <string name="phone_number">Phone number</string>
     <string name="email_address">Email address</string>
     <string name="website">Website</string>
+    <string name="search_by_clicking_on_the_icon">Search by clicking on the icon</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

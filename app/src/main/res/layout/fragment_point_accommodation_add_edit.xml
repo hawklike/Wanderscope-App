@@ -60,7 +60,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Search by clicking on the icon"
+                        android:hint="@string/search_by_clicking_on_the_icon"
                         android:inputType="text"
                         android:text="@={vm.address}" />
 
