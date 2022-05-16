@@ -85,6 +85,7 @@ ext {
     splashscreen_version = '1.0.0-beta02'
     shimmer_version = '0.5.0'
     places_sdk_version = '2.6.0'
+    fab_speed_dial_version = '3.3.0'
 }
 
 dependencies {
@@ -147,6 +148,9 @@ dependencies {
 
     //Places SDK
     implementation "com.google.android.libraries.places:places:$places_sdk_version"
+
+    //FAB speed dial
+    implementation "com.leinardi.android:speed-dial:$fab_speed_dial_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
