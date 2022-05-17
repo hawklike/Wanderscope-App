@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/app_text_input_margin"
-            app:layout_constraintBottom_toTopOf="@id/addAccommodationButton"
+            app:layout_constraintBottom_toTopOf="@id/addTransportButton"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationTitle"
+                    android:id="@+id/addTransportTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_title_empty_toolbar_margin"
@@ -38,23 +38,23 @@
                     tools:text="Add accommodation" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationAddressLabel"
+                    android:id="@+id/addTransportAddressLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_layout_first_item_margin"
                     android:text="@string/address"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationTitle" />
+                    app:layout_constraintTop_toBottomOf="@id/addTransportTitle" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationAddress"
+                    android:id="@+id/addTransportAddress"
                     style="@style/Widget.Wanderscope.TextInput.Search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:errorText="@{vm.validateAddress}"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationAddressLabel"
+                    app:layout_constraintTop_toBottomOf="@id/addTransportAddressLabel"
                     app:onEndDrawableClick="@{() -> vm.find()}">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -67,24 +67,24 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationNameLabel"
+                    android:id="@+id/addTransportNameLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
                     android:text="@string/name"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationAddress" />
+                    app:layout_constraintTop_toBottomOf="@id/addTransportAddress" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationName"
+                    android:id="@+id/addTransportName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:counterEnabled="true"
                     app:counterMaxLength="@integer/name_max_len"
                     app:errorText="@{vm.validateName}"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationNameLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addTransportNameLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -97,24 +97,24 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationStartDateLabel"
+                    android:id="@+id/addTransportStartDateLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
                     android:text="@string/check_in"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationName" />
+                    app:layout_constraintTop_toBottomOf="@id/addTransportName" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationStartDate"
+                    android:id="@+id/addTransportStartDate"
                     style="@style/Widget.Wanderscope.TextInput.Cancellable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:cancellable="@{true}"
                     app:errorText="@{vm.validateDates}"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationStartDateLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addTransportStartDateLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/Widget.Wanderscope.EditText.OnClick"
@@ -127,24 +127,24 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationEndDateLabel"
+                    android:id="@+id/addTransportEndDateLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
                     android:text="@string/check_out"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationStartDate" />
+                    app:layout_constraintTop_toBottomOf="@id/addTransportStartDate" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationEndDate"
+                    android:id="@+id/addTransportEndDate"
                     style="@style/Widget.Wanderscope.TextInput.Cancellable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:cancellable="@{true}"
                     app:errorText="@{vm.validateDates}"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationEndDateLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addTransportEndDateLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/Widget.Wanderscope.EditText.OnClick"
@@ -157,22 +157,22 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationTypeLabel"
+                    android:id="@+id/addTransportTypeLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
                     android:text="@string/type"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationEndDate" />
+                    app:layout_constraintTop_toBottomOf="@id/addTransportEndDate" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationType"
+                    android:id="@+id/addTransportType"
                     style="@style/Widget.Wanderscope.TextInput.DropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationTypeLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addTransportTypeLabel">
 
                     <AutoCompleteTextView
                         android:id="@+id/foo"
@@ -186,21 +186,21 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationPhoneLabel"
+                    android:id="@+id/addTransportPhoneLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
                     android:text="@string/phone"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationType" />
+                    app:layout_constraintTop_toBottomOf="@id/addTransportType" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationPhone"
+                    android:id="@+id/addTransportPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationPhoneLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addTransportPhoneLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -212,21 +212,21 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationEmailLabel"
+                    android:id="@+id/addTransportEmailLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
                     android:text="@string/email"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationPhone" />
+                    app:layout_constraintTop_toBottomOf="@id/addTransportPhone" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationEmail"
+                    android:id="@+id/addTransportEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationEmailLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addTransportEmailLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -237,21 +237,21 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationWebsiteLabel"
+                    android:id="@+id/addTransportWebsiteLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
                     android:text="@string/website"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationEmail" />
+                    app:layout_constraintTop_toBottomOf="@id/addTransportEmail" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationWebsite"
+                    android:id="@+id/addTransportWebsite"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationWebsiteLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addTransportWebsiteLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -263,23 +263,23 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationDescriptionLabel"
+                    android:id="@+id/addTransportDescriptionLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
                     android:text="@string/description"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationWebsite" />
+                    app:layout_constraintTop_toBottomOf="@id/addTransportWebsite" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationDescription"
+                    android:id="@+id/addTransportDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:counterEnabled="true"
                     app:counterMaxLength="@integer/description_max_len"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationDescriptionLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addTransportDescriptionLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/Widget.Wanderscope.EditText.MultiLine"
@@ -296,7 +296,7 @@
         </ScrollView>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/addAccommodationButton"
+            android:id="@+id/addTransportButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/app_button_bottom_margin"

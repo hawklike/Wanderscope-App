@@ -4,4 +4,5 @@
     <integer name="description_max_len">2000</integer>
     <integer name="other_max_len">1000</integer>
     <integer name="phone_max_len">31</integer>
+    <integer name="lon_lat_max_len">15</integer>
 </resources>

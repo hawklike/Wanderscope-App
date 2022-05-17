@@ -19,4 +19,18 @@ enum class TransportType : PointType {
             OTHER -> R.drawable.ic_route
         }
     }
+
+    override fun toStringRes(): Int {
+        return when (this) {
+            WALK -> R.string.walk
+            BIKE -> R.string.bike
+            CAR -> R.string.car
+            BUS -> R.string.bus
+            TRAIN -> R.string.train
+            FERRY -> R.string.ferry
+            PUBLIC -> R.string.public_transport
+            PLANE -> R.string.plane
+            OTHER -> R.string.other
+        }
+    }
 }

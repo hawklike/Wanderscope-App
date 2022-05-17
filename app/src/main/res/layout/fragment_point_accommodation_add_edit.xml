@@ -53,9 +53,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:onEndDrawableClick="@{() -> vm.find()}"
                     app:errorText="@{vm.validateAddress}"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationAddressLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addAccommodationAddressLabel"
+                    app:onEndDrawableClick="@{() -> vm.find()}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -175,14 +175,13 @@
                     app:layout_constraintTop_toBottomOf="@id/addAccommodationTypeLabel">
 
                     <AutoCompleteTextView
-                        android:id="@+id/foo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/select_the_type"
                         android:inputType="none"
-                        android:popupElevation="1dp"
-                        android:text="@={vm.type}"
-                        app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}" />
+                        android:popupElevation="@dimen/app_autocomplete_elevation"
+                        app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
+                        app:onItemClick="@{(p, v, position, id) -> vm.selectType(position)}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -290,7 +289,7 @@
                         style="@style/Widget.Wanderscope.EditText.MultiLine"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/describe_your_trip"
+                        android:hint="@string/describe_your_accommodation"
                         android:maxLength="@integer/description_max_len"
                         android:text="@={vm.description}" />
 

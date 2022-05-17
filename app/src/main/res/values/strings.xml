@@ -143,6 +143,47 @@
     <string name="email_address">Email address</string>
     <string name="website">Website</string>
     <string name="search_by_clicking_on_the_icon">Search by clicking on the icon</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="provide_a_link_to_the_route">Provide a link to the route</string>
+    <string name="describe_your_activity">Describe your activity</string>
+    <string name="describe_your_accommodation">Describe your accommodation</string>
+    <string name="map_link">Map link</string>
+    <string name="when_will_you_finish">When will you finish</string>
+    <string name="name_your_activity_mandatory">Name your activity (mandatory)</string>
+    <string name="when_will_you_start">When will you start</string>
+    <string name="location">Location</string>
+
+    <string name="other">Other</string>
+
+    <string name="hiking">Hiking</string>
+    <string name="cycling">Cycling</string>
+    <string name="skiing">Skiing</string>
+    <string name="running">Running</string>
+    <string name="swimming">Swimming</string>
+    <string name="climbing">Climbing</string>
+    <string name="kayak">Kayak</string>
+    <string name="cross_country">Cross country</string>
+
+    <string name="hotel">Hotel</string>
+    <string name="hostel">Hostel</string>
+    <string name="pension">Pension</string>
+    <string name="camp">Camp</string>
+    <string name="outdoor">Outdoor</string>
+    <string name="airbnb">Airbnb</string>
+
+    <string name="parking">Parking</string>
+    <string name="food">Food</string>
+    <string name="nature">Nature</string>
+
+    <string name="walk">Walk</string>
+    <string name="bike">Bike</string>
+    <string name="car">Car</string>
+    <string name="bus">Bus</string>
+    <string name="train">Train</string>
+    <string name="ferry">Ferry</string>
+    <string name="plane">Plane</string>
+    <string name="public_transport">Public</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

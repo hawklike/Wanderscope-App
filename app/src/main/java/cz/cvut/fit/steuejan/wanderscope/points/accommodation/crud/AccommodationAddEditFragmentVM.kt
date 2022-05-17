@@ -28,7 +28,6 @@ class AccommodationAddEditFragmentVM(
     val phone = MutableLiveData<String?>()
     val website = MutableLiveData<String?>()
     val email = MutableLiveData<String?>(null)
-    val type = MutableLiveData<String>()
 
     val validateEmail = email.switchMapSuspend {
         if (it.isNullOrBlank()) OK else validator.validateEmail(it)
@@ -57,7 +56,6 @@ class AccommodationAddEditFragmentVM(
         place.address?.let { address.value = it }
         place.phoneNumber?.let { phone.value = it }
         place.websiteUri?.let { website.value = it.toString() }
-        hideKeyboardEvent.publish()
     }
 
     fun submit() {
@@ -66,7 +64,7 @@ class AccommodationAddEditFragmentVM(
             submitLoading.value = true
 
             val type = runOrNull {
-                type.value?.let { AccommodationType.valueOf(it.uppercase()) }
+                AccommodationType.values()[getStateData(SELECTED_TYPE) ?: -1]
             } ?: AccommodationType.OTHER
 
             val request = AccommodationRequest(

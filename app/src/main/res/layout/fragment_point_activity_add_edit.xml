@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/app_text_input_margin"
-            app:layout_constraintBottom_toTopOf="@id/addAccommodationButton"
+            app:layout_constraintBottom_toTopOf="@id/addActivityButton"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationTitle"
+                    android:id="@+id/addActivityTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_title_empty_toolbar_margin"
@@ -35,26 +35,26 @@
                     android:textAppearance="@style/TextAppearance.Wanderscope.H1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Add accommodation" />
+                    tools:text="Add activity" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationAddressLabel"
+                    android:id="@+id/addActivityAddressLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_layout_first_item_margin"
-                    android:text="@string/address"
+                    android:text="@string/location"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationTitle" />
+                    app:layout_constraintTop_toBottomOf="@id/addActivityTitle" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationAddress"
+                    android:id="@+id/addActivityAddress"
                     style="@style/Widget.Wanderscope.TextInput.Search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:errorText="@{vm.validateAddress}"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationAddressLabel"
+                    app:layout_constraintTop_toBottomOf="@id/addActivityAddressLabel"
                     app:onEndDrawableClick="@{() -> vm.find()}">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -67,29 +67,29 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationNameLabel"
+                    android:id="@+id/addActivityNameLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
                     android:text="@string/name"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationAddress" />
+                    app:layout_constraintTop_toBottomOf="@id/addActivityAddress" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationName"
+                    android:id="@+id/addActivityName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:counterEnabled="true"
                     app:counterMaxLength="@integer/name_max_len"
                     app:errorText="@{vm.validateName}"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationNameLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addActivityNameLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/name_your_stay_mandatory"
+                        android:hint="@string/name_your_activity_mandatory"
                         android:inputType="textCapSentences"
                         android:maxLength="@integer/name_max_len"
                         android:text="@={vm.name}" />
@@ -97,195 +97,197 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationStartDateLabel"
+                    android:id="@+id/addActivityStartDateLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/check_in"
+                    android:text="@string/start_date"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationName" />
+                    app:layout_constraintTop_toBottomOf="@id/addActivityName" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationStartDate"
+                    android:id="@+id/addActivityStartDate"
                     style="@style/Widget.Wanderscope.TextInput.Cancellable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:cancellable="@{true}"
                     app:errorText="@{vm.validateDates}"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationStartDateLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addActivityStartDateLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/Widget.Wanderscope.EditText.OnClick"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/when_will_you_arrive"
+                        android:hint="@string/when_will_you_start"
                         android:onClick="@{() -> vm.startTimePicker()}"
                         android:text="@={vm.startDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationEndDateLabel"
+                    android:id="@+id/addActivityEndDateLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/check_out"
+                    android:text="@string/end_date"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationStartDate" />
+                    app:layout_constraintTop_toBottomOf="@id/addActivityStartDate" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationEndDate"
+                    android:id="@+id/addActivityEndDate"
                     style="@style/Widget.Wanderscope.TextInput.Cancellable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:cancellable="@{true}"
                     app:errorText="@{vm.validateDates}"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationEndDateLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addActivityEndDateLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/Widget.Wanderscope.EditText.OnClick"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/when_will_you_leave"
+                        android:hint="@string/when_will_you_finish"
                         android:onClick="@{() -> vm.endTimePicker()}"
                         android:text="@={vm.endDate}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationTypeLabel"
+                    android:id="@+id/addActivityTypeLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
                     android:text="@string/type"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationEndDate" />
+                    app:layout_constraintTop_toBottomOf="@id/addActivityEndDate" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationType"
+                    android:id="@+id/addActivityType"
                     style="@style/Widget.Wanderscope.TextInput.DropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationTypeLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addActivityTypeLabel">
 
                     <AutoCompleteTextView
-                        android:id="@+id/foo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/select_the_type"
                         android:inputType="none"
-                        android:popupElevation="1dp"
-                        app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}" />
+                        android:popupElevation="@dimen/app_autocomplete_elevation"
+                        app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
+                        app:onItemClick="@{(p, v, position, id) -> vm.selectType(position)}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationPhoneLabel"
+                    android:id="@+id/addActivityLatitudeLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/phone"
+                    android:text="@string/latitude"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationType" />
+                    app:layout_constraintTop_toBottomOf="@id/addActivityType" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationPhone"
+                    android:id="@+id/addActivityLatitude"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationPhoneLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addActivityLatitudeLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/phone_number"
-                        android:inputType="phone"
-                        android:maxLength="@integer/phone_max_len" />
+                        android:hint="@string/latitude"
+                        android:maxLength="@integer/lon_lat_max_len"
+                        android:text="@={vm.latitude}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationEmailLabel"
+                    android:id="@+id/addActivityLongitudeLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/email"
+                    android:text="@string/longitude"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationPhone" />
+                    app:layout_constraintTop_toBottomOf="@id/addActivityLatitude" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationEmail"
+                    android:id="@+id/addActivityLongitude"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationEmailLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addActivityLongitudeLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/email_address"
-                        android:inputType="textEmailAddress" />
+                        android:hint="@string/longitude"
+                        android:maxLength="@integer/lon_lat_max_len"
+                        android:text="@={vm.longitude}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationWebsiteLabel"
+                    android:id="@+id/addActivityMapLinkLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/website"
+                    android:text="@string/map_link"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationEmail" />
+                    app:layout_constraintTop_toBottomOf="@id/addActivityLongitude" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationWebsite"
+                    android:id="@+id/addActivityMapLink"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationWebsiteLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addActivityMapLinkLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/website"
+                        android:hint="@string/provide_a_link_to_the_route"
                         android:inputType="text"
-                        android:maxLength="@integer/other_max_len" />
+                        android:maxLength="@integer/other_max_len"
+                        android:text="@={vm.mapLink}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addAccommodationDescriptionLabel"
+                    android:id="@+id/addActivityDescriptionLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
                     android:text="@string/description"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationWebsite" />
+                    app:layout_constraintTop_toBottomOf="@id/addActivityMapLink" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addAccommodationDescription"
+                    android:id="@+id/addActivityDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
                     app:counterEnabled="true"
                     app:counterMaxLength="@integer/description_max_len"
-                    app:layout_constraintTop_toBottomOf="@id/addAccommodationDescriptionLabel">
+                    app:layout_constraintTop_toBottomOf="@id/addActivityDescriptionLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/Widget.Wanderscope.EditText.MultiLine"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/describe_your_trip"
+                        android:hint="@string/describe_your_activity"
                         android:maxLength="@integer/description_max_len"
                         android:text="@={vm.description}" />
 
@@ -296,10 +298,11 @@
         </ScrollView>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/addAccommodationButton"
+            android:id="@+id/addActivityButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/app_button_bottom_margin"
+            android:onClick="@{() -> vm.submit()}"
             android:text="@string/submit"
             app:isEnabled="@{vm.enableSubmit}"
             app:layout_constraintBottom_toBottomOf="parent"

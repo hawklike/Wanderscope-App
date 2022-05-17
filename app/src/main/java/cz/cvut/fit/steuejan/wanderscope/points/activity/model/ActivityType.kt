@@ -19,4 +19,18 @@ enum class ActivityType : PointType {
             OTHER -> R.drawable.ic_trophy
         }
     }
+
+    override fun toStringRes(): Int {
+        return when (this) {
+            HIKING -> R.string.hiking
+            CYCLING -> R.string.cycling
+            SKIING -> R.string.skiing
+            RUNNING -> R.string.running
+            KAYAK -> R.string.kayak
+            SWIMMING -> R.string.swimming
+            CLIMBING -> R.string.climbing
+            CROSS_COUNTRY -> R.string.cross_country
+            OTHER -> R.string.other
+        }
+    }
 }

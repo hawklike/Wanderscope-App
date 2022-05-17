@@ -4,14 +4,19 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.lifecycleScope
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
+import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import timber.log.Timber
 import kotlin.reflect.KClass
@@ -24,19 +29,24 @@ abstract class AbstractPointAddEditFragment<B : ViewDataBinding, VM : BaseViewMo
     override val hasBottomNavigation = false
     override val hasTitle = false
 
+    protected abstract fun initViewModel()
+
+    abstract fun prepareDropdownItems(): List<String>
+    abstract val dropdownView: AutoCompleteTextView?
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
-        hideKeyboard()
+        prepareDropdownMenu()
     }
 
-    override fun hideKeyboard() {
-        (viewModel as? AbstractPointAddEditFragmentVM<*>)?.hideKeyboardEvent?.safeObserve {
-            super.hideKeyboard()
+    protected open fun prepareDropdownMenu() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            val items = withDefault { prepareDropdownItems() }
+            val adapter = ArrayAdapter(requireContext(), R.layout.item_dropdown_menu, items)
+            dropdownView?.setAdapter(adapter)
         }
     }
-
-    protected abstract fun initViewModel()
 
     @Suppress("DEPRECATION")
     protected open fun showPlacesAutocomplete(fields: List<Place.Field>, query: String?) {
