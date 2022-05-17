@@ -75,6 +75,31 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
+    private fun retrieveTripOverview() {
+        showLoading()
+        viewModel.getTrip(arguments?.getInt(TRIP_ID) ?: return)
+
+        viewModel.loading.safeObserve { loading ->
+            if (!loading) {
+                hideLoading()
+            }
+        }
+
+        viewModel.tripOverview.safeObserve {
+            tripOverview = it
+            showActionButton(it.userRole)
+        }
+    }
+
+    private fun showActionButton(userRole: UserRole) {
+        val visibility = if (userRole.canEdit()) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        binding.tripOverviewAddButton.visibility = visibility
+    }
+
     private fun editTrip(): Boolean {
         val trip = tripOverview ?: return pleaseWait()
         val arg = EditTripBundle(
@@ -185,21 +210,6 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             .setLabelBackgroundColor(requireContext().getColor(R.color.colorPrimary))
             .create()
     )
-
-    private fun retrieveTripOverview() {
-        showLoading()
-        viewModel.getTrip(arguments?.getInt(TRIP_ID) ?: return)
-
-        viewModel.loading.safeObserve { loading ->
-            if (!loading) {
-                hideLoading()
-            }
-        }
-
-        viewModel.tripOverview.safeObserve {
-            tripOverview = it
-        }
-    }
 
     companion object {
         fun newInstance(tripId: Int): TripOverviewFragment {

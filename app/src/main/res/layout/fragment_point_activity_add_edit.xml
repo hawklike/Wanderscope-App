@@ -186,58 +186,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addActivityLatitudeLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/latitude"
-                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addActivityType" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addActivityLatitude"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:layout_constraintTop_toBottomOf="@id/addActivityLatitudeLabel">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/latitude"
-                        android:maxLength="@integer/lon_lat_max_len"
-                        android:text="@={vm.latitude}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addActivityLongitudeLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/longitude"
-                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addActivityLatitude" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addActivityLongitude"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:layout_constraintTop_toBottomOf="@id/addActivityLongitudeLabel">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/longitude"
-                        android:maxLength="@integer/lon_lat_max_len"
-                        android:text="@={vm.longitude}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/addActivityMapLinkLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -245,7 +193,7 @@
                     android:text="@string/map_link"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addActivityLongitude" />
+                    app:layout_constraintTop_toBottomOf="@id/addActivityType" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/addActivityMapLink"
@@ -265,6 +213,33 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addActivityWebsiteLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/website"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addActivityMapLink" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addActivityWebsite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:layout_constraintTop_toBottomOf="@id/addActivityWebsiteLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/website"
+                        android:inputType="text"
+                        android:maxLength="@integer/other_max_len"
+                        android:text="@={vm.website}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/addActivityDescriptionLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -272,7 +247,7 @@
                     android:text="@string/description"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addActivityMapLink" />
+                    app:layout_constraintTop_toBottomOf="@id/addActivityWebsite" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/addActivityDescription"

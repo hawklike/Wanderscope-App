@@ -5,7 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
-import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
 import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
@@ -23,18 +22,14 @@ class ActivityAddEditFragmentVM(
     savedStateHandle
 ) {
 
-    val latitude = MutableLiveData<String?>()
-    val longitude = MutableLiveData<String?>()
+    val website = MutableLiveData<String?>()
     val mapLink = MutableLiveData<String?>()
 
     override fun placeFound(place: Place) {
         super.placeFound(place)
         place.name?.let { name.value = it }
         place.address?.let { address.value = it }
-        place.latLng?.let {
-            latitude.value = it.latitude.toString()
-            longitude.value = it.longitude.toString()
-        }
+        place.websiteUri?.let { website.value = it.toString() }
     }
 
     fun submit() {
@@ -51,9 +46,9 @@ class ActivityAddEditFragmentVM(
                 duration = Duration(startDateTime, endDateTime),
                 type = type,
                 address = Address(getStateData(PLACE_ID), address.value.getOrNullIfBlank()),
-                coordinates = Coordinates(longitude.value.getOrNullIfBlank(), latitude.value.getOrNullIfBlank()),
                 mapLink = mapLink.value.getOrNullIfBlank(),
-                description = description.value.getOrNullIfBlank()
+                description = description.value.getOrNullIfBlank(),
+                website = website.value.getOrNullIfBlank()
             )
             submit(request)
         }

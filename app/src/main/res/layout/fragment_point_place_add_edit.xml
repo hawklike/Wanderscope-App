@@ -35,14 +35,14 @@
                     android:textAppearance="@style/TextAppearance.Wanderscope.H1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Add accommodation" />
+                    tools:text="Add place" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/addPlaceAddressLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_layout_first_item_margin"
-                    android:text="@string/address"
+                    android:text="@string/location"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/addPlaceTitle" />
@@ -89,7 +89,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/name_your_stay_mandatory"
+                        android:hint="Name the place (mandatory)"
                         android:inputType="textCapSentences"
                         android:maxLength="@integer/name_max_len"
                         android:text="@={vm.name}" />
@@ -101,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/check_in"
+                    android:text="@string/start_date"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/addPlaceName" />
@@ -131,7 +131,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/check_out"
+                    android:text="@string/end_date"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/addPlaceStartDate" />
@@ -186,57 +186,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addPlacePhoneLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/phone"
-                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addPlaceType" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addPlacePhone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:layout_constraintTop_toBottomOf="@id/addPlacePhoneLabel">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/phone_number"
-                        android:inputType="phone"
-                        android:maxLength="@integer/phone_max_len" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/addPlaceEmailLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="@string/email"
-                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addPlacePhone" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addPlaceEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:layout_constraintTop_toBottomOf="@id/addPlaceEmailLabel">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/email_address"
-                        android:inputType="textEmailAddress" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/addPlaceWebsiteLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -244,7 +193,7 @@
                     android:text="@string/website"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addPlaceEmail" />
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceType" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/addPlaceWebsite"

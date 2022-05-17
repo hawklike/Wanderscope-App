@@ -42,7 +42,7 @@ class ActivityAddEditFragment : AbstractPointAddEditFragment<
             Place.Field.ID,
             Place.Field.NAME,
             Place.Field.ADDRESS,
-            Place.Field.LAT_LNG
+            Place.Field.WEBSITE_URI
         )
         viewModel.findAccommodationEvent.safeObserve {
             showPlacesAutocomplete(fields, it)
