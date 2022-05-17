@@ -29,3 +29,8 @@ fun TextInputLayout.cancellable(allowed: Boolean) {
 fun TextInputLayout.onEndDrawableClick(listener: View.OnClickListener) {
     this.setEndIconOnClickListener(listener)
 }
+
+@BindingAdapter("endDrawableEnabled")
+fun TextInputLayout.isEndDrawableEnabled(enable: Boolean?) {
+    this.isEndIconVisible = enable == true
+}

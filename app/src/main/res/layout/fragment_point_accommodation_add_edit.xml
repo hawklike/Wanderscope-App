@@ -177,7 +177,7 @@
                     <AutoCompleteTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/select_the_type"
+                        android:hint="@string/select_the_accommodation"
                         android:inputType="none"
                         android:popupElevation="@dimen/app_autocomplete_elevation"
                         app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"

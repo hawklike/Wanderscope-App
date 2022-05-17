@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.transport.crud
 
 import android.widget.AutoCompleteTextView
 import androidx.navigation.fragment.navArgs
+import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentPointTransportAddEditBinding
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragment
@@ -28,4 +29,10 @@ class TransportAddEditFragment : AbstractPointAddEditFragment<
 
     override val dropdownView: AutoCompleteTextView?
         get() = (binding.addTransportType.editText as? AutoCompleteTextView)
+
+    override val fields = listOf(
+        Place.Field.ID,
+        Place.Field.NAME,
+        Place.Field.ADDRESS
+    )
 }

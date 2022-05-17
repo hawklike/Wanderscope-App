@@ -54,6 +54,10 @@ class InputValidator {
         }
     }
 
+    suspend fun validateCarsAndSeats(carOrSeat: String) = withDefault {
+        if (carOrSeat.contains("\\")) R.string.car_seat_invalid else OK
+    }
+
     fun validateIfNotTooLong(text: String, maxLength: Int): Int {
         return if (text.length > maxLength) R.string.validation_too_long else OK
     }

@@ -185,6 +185,22 @@
     <string name="plane">Plane</string>
     <string name="public_transport">Public</string>
     <string name="describe_the_place">Describe the place</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="departure">Departure</string>
+    <string name="when_will_you_depart">When will you depart</string>
+    <string name="arrival">Arrival</string>
+    <string name="select_the_transport">Select the transport</string>
+    <string name="select_the_place">Select the place</string>
+    <string name="select_the_activity">Select the activity</string>
+    <string name="select_the_accommodation">Select the accommodation</string>
+    <string name="cars">Cars</string>
+    <string name="add_car_by_clicking_on_the_icon">Add car by clicking on the icon</string>
+    <string name="car_seat_invalid">Cannot contain character \\</string>
+    <string name="seats">Seats</string>
+    <string name="add_seat_by_clicking_on_the_icon">Add seat by clicking on the icon</string>
+    <string name="name_the_transport_mandatory">Name the transport (mandatory)</string>
+    <string name="describe_the_transport">Describe the transport</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

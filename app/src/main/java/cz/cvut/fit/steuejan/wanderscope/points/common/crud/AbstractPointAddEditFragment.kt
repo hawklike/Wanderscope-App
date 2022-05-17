@@ -33,11 +33,28 @@ abstract class AbstractPointAddEditFragment<B : ViewDataBinding, VM : BaseViewMo
 
     abstract fun prepareDropdownItems(): List<String>
     abstract val dropdownView: AutoCompleteTextView?
+    abstract val fields: List<Place.Field>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
         prepareDropdownMenu()
+        findPlace()
+        hideKeyboard()
+    }
+
+    protected open fun findPlace() {
+        (viewModel as? AbstractPointAddEditFragmentVM<*>)
+            ?.findAccommodationEvent?.safeObserve {
+                showPlacesAutocomplete(fields, it)
+            }
+    }
+
+    override fun hideKeyboard() {
+        (viewModel as? AbstractPointAddEditFragmentVM<*>)
+            ?.hideKeyboardEvent?.safeObserve {
+                super.hideKeyboard()
+            }
     }
 
     protected open fun prepareDropdownMenu() {

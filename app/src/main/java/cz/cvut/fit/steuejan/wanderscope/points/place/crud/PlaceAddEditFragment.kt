@@ -1,7 +1,5 @@
 package cz.cvut.fit.steuejan.wanderscope.points.place.crud
 
-import android.os.Bundle
-import android.view.View
 import android.widget.AutoCompleteTextView
 import androidx.navigation.fragment.navArgs
 import com.google.android.libraries.places.api.model.Place
@@ -19,11 +17,6 @@ class PlaceAddEditFragment : AbstractPointAddEditFragment<
 
     private val args: PlaceAddEditFragmentArgs by navArgs()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        findPlace()
-    }
-
     override fun initViewModel() {
         viewModel.init(args.tripId, R.string.add_place)
     }
@@ -37,16 +30,11 @@ class PlaceAddEditFragment : AbstractPointAddEditFragment<
     override val dropdownView: AutoCompleteTextView?
         get() = (binding.addPlaceType.editText as? AutoCompleteTextView)
 
-    private fun findPlace() {
-        val fields = listOf(
-            Place.Field.ID,
-            Place.Field.NAME,
-            Place.Field.ADDRESS,
-            Place.Field.WEBSITE_URI,
-            Place.Field.LAT_LNG
-        )
-        viewModel.findAccommodationEvent.safeObserve {
-            showPlacesAutocomplete(fields, it)
-        }
-    }
+    override val fields = listOf(
+        Place.Field.ID,
+        Place.Field.NAME,
+        Place.Field.ADDRESS,
+        Place.Field.WEBSITE_URI,
+        Place.Field.LAT_LNG
+    )
 }
