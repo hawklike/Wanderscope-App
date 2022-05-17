@@ -6,12 +6,20 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface PlaceApi {
 
     @POST("/trip/{id}/place")
     suspend fun createPlace(
         @Path("id") id: Int,
+        @Body request: PlaceRequest
+    ): Response<CreatedResponse>
+
+    @POST("/trip/{id}/place")
+    suspend fun createPlace(
+        @Path("id") id: Int,
+        @Query("wiki") wikiSearch: String,
         @Body request: PlaceRequest
     ): Response<CreatedResponse>
 }

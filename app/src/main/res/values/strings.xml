@@ -184,6 +184,7 @@
     <string name="ferry">Ferry</string>
     <string name="plane">Plane</string>
     <string name="public_transport">Public</string>
+    <string name="describe_the_place">Describe the place</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

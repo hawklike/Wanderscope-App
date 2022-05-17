@@ -36,15 +36,10 @@ class ActivityAddEditFragmentVM(
         viewModelScope.launch {
             val name = name.value ?: return@launch
             submitLoading.value = true
-
-            val type = runOrNull {
-                ActivityType.values()[getStateData(SELECTED_TYPE) ?: -1]
-            } ?: ActivityType.OTHER
-
             val request = ActivityRequest(
                 name = name,
                 duration = Duration(startDateTime, endDateTime),
-                type = type,
+                type = getTypeFromSelectedItem(),
                 address = Address(getStateData(PLACE_ID), address.value.getOrNullIfBlank()),
                 mapLink = mapLink.value.getOrNullIfBlank(),
                 description = description.value.getOrNullIfBlank(),
@@ -52,5 +47,11 @@ class ActivityAddEditFragmentVM(
             )
             submit(request)
         }
+    }
+
+    private fun getTypeFromSelectedItem(): ActivityType {
+        return runOrNull {
+            ActivityType.values()[getStateData(SELECTED_TYPE) ?: -1]
+        } ?: ActivityType.OTHER
     }
 }

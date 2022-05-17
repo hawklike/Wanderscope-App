@@ -15,4 +15,16 @@ class PlaceRepository(private val api: PlaceApi) :
     override suspend fun createPoint(tripId: Int, request: PlaceRequest): Flow<Result<CreatedResponse>> {
         return performCall { api.createPlace(tripId, request) }
     }
+
+    suspend fun createPoint(
+        tripId: Int,
+        request: PlaceRequest,
+        title: String?
+    ): Flow<Result<CreatedResponse>> {
+        return if (title == null) {
+            createPoint(tripId, request)
+        } else {
+            performCall { api.createPlace(tripId, title, request) }
+        }
+    }
 }

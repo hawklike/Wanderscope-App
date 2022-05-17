@@ -21,10 +21,6 @@ data class PlaceRequest(
     val contact: Contact?,
     @Json(name = "coordinates")
     val coordinates: Coordinates?,
-    @Json(name = "wikiBrief")
-    val wikiBrief: String?,
-    @Json(name = "wikiBriefCzech")
-    val wikiBriefCzech: String?,
     @Json(name = "imageUrl")
     val imageUrl: String?,
     @Json(name = "description")

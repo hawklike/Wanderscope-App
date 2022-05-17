@@ -19,10 +19,12 @@ import cz.cvut.fit.steuejan.wanderscope.app.livedata.LoadingMutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Back
+import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.request.PointRequest
 import cz.cvut.fit.steuejan.wanderscope.points.common.repository.PointRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 
@@ -152,10 +154,10 @@ abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
         }
     }
 
-    fun submit(request: Request) {
+    open fun submit(request: Request) {
         viewModelScope.launchIO {
             val result = when (purpose) {
-                Purpose.CREATE -> pointRepository.createPoint(tripId ?: return@launchIO, request)
+                Purpose.CREATE -> createPoint(request) ?: return@launchIO
                 Purpose.EDIT -> TODO()
                 null -> return@launchIO
             }
@@ -171,7 +173,11 @@ abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
         }
     }
 
-    private fun handleFailure(error: Error) {
+    protected open suspend fun createPoint(request: Request): Flow<Result<CreatedResponse>>? {
+        return pointRepository.createPoint(tripId ?: return null, request)
+    }
+
+    protected fun handleFailure(error: Error) {
         submitLoading.value = false
         unexpectedError(error)
     }

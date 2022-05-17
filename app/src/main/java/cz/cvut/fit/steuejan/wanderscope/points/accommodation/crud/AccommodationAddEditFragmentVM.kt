@@ -62,15 +62,10 @@ class AccommodationAddEditFragmentVM(
         viewModelScope.launch {
             val name = name.value ?: return@launch
             submitLoading.value = true
-
-            val type = runOrNull {
-                AccommodationType.values()[getStateData(SELECTED_TYPE) ?: -1]
-            } ?: AccommodationType.OTHER
-
             val request = AccommodationRequest(
                 name = name,
                 duration = Duration(startDateTime, endDateTime),
-                type = type,
+                type = getTypeFromSelectedItem(),
                 address = Address(getStateData(PLACE_ID), address.value.getOrNullIfBlank()),
                 contact = Contact(
                     phone.value.getOrNullIfBlank(),
@@ -81,5 +76,11 @@ class AccommodationAddEditFragmentVM(
             )
             submit(request)
         }
+    }
+
+    private fun getTypeFromSelectedItem(): AccommodationType {
+        return runOrNull {
+            AccommodationType.values()[getStateData(SELECTED_TYPE) ?: -1]
+        } ?: AccommodationType.OTHER
     }
 }

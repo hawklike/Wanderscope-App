@@ -175,13 +175,65 @@
                     app:layout_constraintTop_toBottomOf="@id/addPlaceTypeLabel">
 
                     <AutoCompleteTextView
-                        android:id="@+id/foo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/select_the_type"
                         android:inputType="none"
                         android:popupElevation="1dp"
-                        app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}" />
+                        app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
+                        app:onItemClick="@{(p, v, position, id) -> vm.selectType(position)}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addPlaceLatitudeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/latitude"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceType" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addPlaceLatitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceLatitudeLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/latitude"
+                        android:maxLength="@integer/lon_lat_max_len"
+                        android:text="@={vm.latitude}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addPlaceLongitudeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/longitude"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceLatitude" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addPlaceLongitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceLongitudeLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/longitude"
+                        android:maxLength="@integer/lon_lat_max_len"
+                        android:text="@={vm.longitude}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -193,7 +245,7 @@
                     android:text="@string/website"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addPlaceType" />
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceLongitude" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/addPlaceWebsite"
@@ -207,6 +259,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/website"
                         android:inputType="text"
+                        android:text="@{vm.website}"
                         android:maxLength="@integer/other_max_len" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -234,7 +287,7 @@
                         style="@style/Widget.Wanderscope.EditText.MultiLine"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/describe_your_trip"
+                        android:hint="@string/describe_the_place"
                         android:maxLength="@integer/description_max_len"
                         android:text="@={vm.description}" />
 
@@ -250,6 +303,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/app_button_bottom_margin"
             android:text="@string/submit"
+            android:onClick="@{() -> vm.submit()}"
             app:isEnabled="@{vm.enableSubmit}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:showProgress="@{vm.submitLoading}"
