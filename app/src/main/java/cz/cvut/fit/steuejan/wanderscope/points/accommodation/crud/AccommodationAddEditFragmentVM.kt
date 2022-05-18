@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.ValidateDates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Contact
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
@@ -37,17 +38,8 @@ class AccommodationAddEditFragmentVM(
         validateEmail
     )
 
-    override suspend fun validateDates(startDate: String?, endDate: String?): Int {
-        if (!shouldValidateDates) {
-            return OK
-        }
-        if (startDate.isNullOrBlank()) {
-            startDateTime = null
-        }
-        if (endDate.isNullOrBlank()) {
-            endDateTime = null
-        }
-        return validator.validateDates(startDateTime?.millis, endDateTime?.millis, checkIn = true)
+    override suspend fun validateDates(startDate: String?, endDate: String?, type: ValidateDates): Int {
+        return super.validateDates(startDate, endDate, ValidateDates.CHECKIN)
     }
 
     override fun placeFound(place: Place) {
@@ -66,7 +58,7 @@ class AccommodationAddEditFragmentVM(
                 name = name,
                 duration = Duration(startDateTime, endDateTime),
                 type = getTypeFromSelectedItem(),
-                address = Address(getStateData(PLACE_ID), address.value.getOrNullIfBlank()),
+                address = Address(placeId, address.value.getOrNullIfBlank()),
                 contact = Contact(
                     phone.value.getOrNullIfBlank(),
                     email.value.getOrNullIfBlank(),
@@ -80,7 +72,7 @@ class AccommodationAddEditFragmentVM(
 
     private fun getTypeFromSelectedItem(): AccommodationType {
         return runOrNull {
-            AccommodationType.values()[getStateData(SELECTED_TYPE) ?: -1]
+            AccommodationType.values()[selectedTypePosition ?: -1]
         } ?: AccommodationType.OTHER
     }
 }

@@ -8,6 +8,8 @@ import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.DatePickerInfo.Companion.today
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.ValidateDates
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.ValidateDates.NORMAL
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
@@ -50,6 +52,8 @@ abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
     val hideKeyboardEvent = AnySingleLiveEvent()
 
     protected var placeName: String? = null
+    protected var placeId: String? = null
+    protected var selectedTypePosition: Int? = null
 
     val name = MutableLiveData<String>()
     val address = MutableLiveData<String?>(null)
@@ -88,7 +92,7 @@ abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
         return validator.validateIfNotTooLong(address, Constants.OTHER_MAX_LEN)
     }
 
-    open suspend fun validateDates(startDate: String?, endDate: String?): Int {
+    open suspend fun validateDates(startDate: String?, endDate: String?, type: ValidateDates = NORMAL): Int {
         if (!shouldValidateDates) {
             return OK
         }
@@ -98,7 +102,7 @@ abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
         if (endDate.isNullOrBlank()) {
             endDateTime = null
         }
-        return validator.validateDates(startDateTime?.millis, endDateTime?.millis)
+        return validator.validateDates(startDateTime?.millis, endDateTime?.millis, type)
     }
 
     open val enableSubmit = ValidationMediator(
@@ -108,16 +112,17 @@ abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
     )
 
     open fun find() {
-        findAccommodationEvent.value = placeName
+        val whatToSearch = placeName ?: address.value
+        findAccommodationEvent.value = whatToSearch
     }
 
     open fun placeFound(place: Place) {
-        setStateData(PLACE_ID, place.id)
+        placeId = place.id
         placeName = place.name
     }
 
     fun selectType(position: Int) {
-        setStateData(SELECTED_TYPE, position)
+        selectedTypePosition = position
     }
 
     fun startTimePicker() {
@@ -186,10 +191,5 @@ abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
 
     enum class Purpose {
         CREATE, EDIT
-    }
-
-    companion object {
-        const val PLACE_ID = "placeId"
-        const val SELECTED_TYPE = "selectedType"
     }
 }

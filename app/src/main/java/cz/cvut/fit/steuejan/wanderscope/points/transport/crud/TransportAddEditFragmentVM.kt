@@ -2,13 +2,26 @@ package cz.cvut.fit.steuejan.wanderscope.points.transport.crud
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.ValidateDates
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMediator
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
+import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
+import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
+import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
+import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.request.TransportRequest
+import cz.cvut.fit.steuejan.wanderscope.points.transport.model.TransportType
 import cz.cvut.fit.steuejan.wanderscope.points.transport.repository.TransportRepository
+import kotlinx.coroutines.launch
 
 class TransportAddEditFragmentVM(
     repository: TransportRepository,
@@ -26,6 +39,20 @@ class TransportAddEditFragmentVM(
     val seatChip = MutableLiveData<ChipInfo?>()
     val showSeats = MutableLiveData<Boolean>()
 
+    private var findOption: FindOption? = null
+    private var fromName: String? = null
+    private var toName: String? = null
+    private var fromId: String? = null
+    private var toId: String? = null
+
+    val from = MutableLiveData<String?>(null)
+    val to = MutableLiveData<String?>(null)
+
+    val extractCarsEvent = AnySingleLiveEvent()
+    val extractSeatsEvent = AnySingleLiveEvent()
+
+    val submitEvent = SingleLiveEvent<TransportRequest>()
+
     val validateCar = car.switchMapSuspend {
         if (it.isNullOrBlank()) OK else validator.validateCarsAndSeats(it)
     }
@@ -34,25 +61,115 @@ class TransportAddEditFragmentVM(
         if (it.isNullOrBlank()) OK else validator.validateCarsAndSeats(it)
     }
 
+    val validateFrom = from.switchMapSuspend {
+        if (it.isNullOrBlank()) {
+            fromName = null
+        }
+        validateAddress(it)
+    }
+
+    val validateTo = to.switchMapSuspend {
+        if (it.isNullOrBlank()) {
+            toName = null
+        }
+        validateAddress(it)
+    }
+
     val enableAddCar = ValidationMediator(validateCar)
     val enableAddSeat = ValidationMediator(validateSeat)
 
     override val enableSubmit = super.enableSubmit.add(
+        validateFrom,
+        validateTo,
         validateCar,
         validateSeat
     )
 
+    override suspend fun validateDates(startDate: String?, endDate: String?, type: ValidateDates): Int {
+        return super.validateDates(startDate, endDate, ValidateDates.DEPARTURE)
+    }
+
     fun addCar() {
-        carChip.value = ChipInfo(car.value ?: return, true, textColor = R.color.colorPrimary)
+        val carValue = car.value
+        if (carValue.isNullOrBlank()) {
+            return
+        }
+        carChip.value = ChipInfo(carValue, true, textColor = R.color.colorPrimary)
         showCars.value = true
         hideKeyboardEvent.publish()
+        extractCarsEvent.publish()
         car.value = null
     }
 
     fun addSeat() {
-        seatChip.value = ChipInfo(seat.value ?: return, true, textColor = R.color.colorPrimary)
+        val seatValue = seat.value
+        if (seatValue.isNullOrBlank()) {
+            return
+        }
+        seatChip.value = ChipInfo(seatValue, true, textColor = R.color.colorPrimary)
         showSeats.value = true
         hideKeyboardEvent.publish()
+        extractSeatsEvent.publish()
         seat.value = null
+    }
+
+    fun findFrom() {
+        val whatToSearch = fromName ?: from.value
+        findOption = FindOption.FROM
+        findAccommodationEvent.value = whatToSearch
+    }
+
+    fun findTo() {
+        val whatToSearch = toName ?: to.value
+        findOption = FindOption.TO
+        findAccommodationEvent.value = whatToSearch
+    }
+
+    override fun placeFound(place: Place) {
+        when (findOption) {
+            FindOption.FROM -> {
+                fromName = place.name
+                fromId = place.id
+                place.address?.let { from.value = it }
+            }
+            FindOption.TO -> {
+                toName = place.name
+                toId = place.id
+                place.address?.let { to.value = it }
+            }
+            else -> doNothing
+        }
+        multipleLet(fromName, toName) { from, to ->
+            name.value = "$from – $to"
+        }
+    }
+
+    fun submit() {
+        viewModelScope.launch {
+            val name = name.value ?: return@launch
+            submitLoading.value = true
+
+            val request = TransportRequest(
+                name = name,
+                duration = Duration(startDateTime, endDateTime),
+                type = getTypeFromSelectedItem(),
+                from = Address(fromId, from.value.getOrNullIfBlank()),
+                to = Address(toId, to.value.getOrNullIfBlank()),
+                cars = null,
+                seats = null,
+                description = description.value.getOrNullIfBlank()
+            )
+            submitEvent.value = request
+        }
+    }
+
+    private fun getTypeFromSelectedItem(): TransportType {
+        return runOrNull {
+            TransportType.values()[selectedTypePosition ?: -1]
+        } ?: TransportType.OTHER
+    }
+
+    enum class FindOption {
+        FROM, TO
     }
 }

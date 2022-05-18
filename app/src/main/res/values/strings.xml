@@ -76,6 +76,7 @@
 
     <string name="enddate_before_startdate">End date cannot be prior to start date</string>
     <string name="checkout_before_checkin">Check-out cannot be prior to check-in</string>
+    <string name="arrival_before_departure">Arrival cannot be prior to departure</string>
     <string name="add_trip">Add trip</string>
     <string name="name">Name</string>
     <string name="name_your_trip_mandatory">Name your trip (mandatory)</string>

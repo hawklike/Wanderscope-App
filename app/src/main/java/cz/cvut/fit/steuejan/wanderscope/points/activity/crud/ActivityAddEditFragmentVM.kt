@@ -40,7 +40,7 @@ class ActivityAddEditFragmentVM(
                 name = name,
                 duration = Duration(startDateTime, endDateTime),
                 type = getTypeFromSelectedItem(),
-                address = Address(getStateData(PLACE_ID), address.value.getOrNullIfBlank()),
+                address = Address(placeId, address.value.getOrNullIfBlank()),
                 mapLink = mapLink.value.getOrNullIfBlank(),
                 description = description.value.getOrNullIfBlank(),
                 website = website.value.getOrNullIfBlank()
@@ -51,7 +51,7 @@ class ActivityAddEditFragmentVM(
 
     private fun getTypeFromSelectedItem(): ActivityType {
         return runOrNull {
-            ActivityType.values()[getStateData(SELECTED_TYPE) ?: -1]
+            ActivityType.values()[selectedTypePosition ?: -1]
         } ?: ActivityType.OTHER
     }
 }

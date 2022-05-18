@@ -54,7 +54,7 @@ class PlaceAddEditFragmentVM(
                 name = name,
                 duration = Duration(startDateTime, endDateTime),
                 type = getTypeFromSelectedItem(),
-                address = Address(getStateData(PLACE_ID), address.value.getOrNullIfBlank()),
+                address = Address(placeId, address.value.getOrNullIfBlank()),
                 contact = Contact(website = website.value.getOrNullIfBlank()),
                 coordinates = Coordinates(longitude.value.getOrNullIfBlank(), latitude.value.getOrNullIfBlank()),
                 description = description.value.getOrNullIfBlank(),
@@ -66,7 +66,7 @@ class PlaceAddEditFragmentVM(
 
     private fun getTypeFromSelectedItem(): PlaceType {
         return runOrNull {
-            PlaceType.values()[getStateData(SELECTED_TYPE) ?: -1]
+            PlaceType.values()[selectedTypePosition ?: -1]
         } ?: PlaceType.OTHER
     }
 }

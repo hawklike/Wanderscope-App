@@ -53,16 +53,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:errorText="@{vm.validateAddress}"
+                    app:errorText="@{vm.validateFrom}"
                     app:layout_constraintTop_toBottomOf="@id/addTransportAddressFromLabel"
-                    app:onEndDrawableClick="@{() -> vm.find()}">
+                    app:onEndDrawableClick="@{() -> vm.findFrom()}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/search_by_clicking_on_the_icon"
                         android:inputType="text"
-                        android:text="@={vm.address}" />
+                        android:text="@={vm.from}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,16 +82,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
-                    app:errorText="@{vm.validateAddress}"
+                    app:errorText="@{vm.validateTo}"
                     app:layout_constraintTop_toBottomOf="@id/addTransportAddressToLabel"
-                    app:onEndDrawableClick="@{() -> vm.find()}">
+                    app:onEndDrawableClick="@{() -> vm.findTo()}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/search_by_clicking_on_the_icon"
                         android:inputType="text"
-                        android:text="@={vm.address}" />
+                        android:text="@={vm.to}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -335,6 +335,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/app_button_bottom_margin"
             android:text="@string/submit"
+            android:onClick="@{() -> vm.submit()}"
             app:isEnabled="@{vm.enableSubmit}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:showProgress="@{vm.submitLoading}"
