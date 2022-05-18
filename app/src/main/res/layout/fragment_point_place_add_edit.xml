@@ -89,7 +89,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Name the place (mandatory)"
+                        android:hint="@string/name_the_place_mandatory"
                         android:inputType="textCapSentences"
                         android:maxLength="@integer/name_max_len"
                         android:text="@={vm.name}" />

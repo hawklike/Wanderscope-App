@@ -202,6 +202,7 @@
     <string name="add_seat_by_clicking_on_the_icon">Add seat by clicking on the icon</string>
     <string name="name_the_transport_mandatory">Name the transport (mandatory)</string>
     <string name="describe_the_transport">Describe the transport</string>
+    <string name="name_the_place_mandatory">Name the place (mandatory)</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

@@ -231,10 +231,11 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tripOverviewManageTravellers"
                         style="@style/Widget.Wanderscope.ClickableText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/app_layout_main_horizontal_padding"
+                        android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
                         android:text="@string/manage"
+                        android:gravity="end"
                         app:layout_constraintBottom_toBottomOf="@id/tripOverviewTravellersLabel"
                         app:layout_constraintEnd_toEndOf="parent" />
 
