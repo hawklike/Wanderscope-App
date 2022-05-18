@@ -14,4 +14,13 @@ enum class PlaceType : PointType {
             OTHER -> R.drawable.ic_place
         }
     }
+
+    override fun toStringRes(): Int {
+        return when (this) {
+            PARKING -> R.string.parking
+            FOOD -> R.string.food
+            NATURE -> R.string.nature
+            OTHER -> R.string.other
+        }
+    }
 }

@@ -75,6 +75,31 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
+    private fun retrieveTripOverview() {
+        showLoading()
+        viewModel.getTrip(arguments?.getInt(TRIP_ID) ?: return)
+
+        viewModel.loading.safeObserve { loading ->
+            if (!loading) {
+                hideLoading()
+            }
+        }
+
+        viewModel.tripOverview.safeObserve {
+            tripOverview = it
+            showActionButton(it.userRole)
+        }
+    }
+
+    private fun showActionButton(userRole: UserRole) {
+        val visibility = if (userRole.canEdit()) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        binding.tripOverviewAddButton.visibility = visibility
+    }
+
     private fun editTrip(): Boolean {
         val trip = tripOverview ?: return pleaseWait()
         val arg = EditTripBundle(
@@ -133,6 +158,9 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             setOnActionSelectedListener {
                 when (it.id) {
                     R.id.add_point_accommodation -> onClick(::addAccommodation)
+                    R.id.add_point_activity -> onClick(::addActivity)
+                    R.id.add_point_transport -> onClick(::addTransport)
+                    R.id.add_point_place -> onClick(::addPlace)
                     else -> onClick(doNothing)
                 }
                 false
@@ -152,6 +180,24 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
+    private fun addActivity() {
+        arguments?.getInt(TRIP_ID)?.let {
+            navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToActivityAddEditFragment(it))
+        }
+    }
+
+    private fun addTransport() {
+        arguments?.getInt(TRIP_ID)?.let {
+            navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToTransportAddEditFragment(it))
+        }
+    }
+
+    private fun addPlace() {
+        arguments?.getInt(TRIP_ID)?.let {
+            navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToPlaceAddEditFragment(it))
+        }
+    }
+
     private fun SpeedDialView.createActionItem(
         @IdRes id: Int,
         @DrawableRes icon: Int,
@@ -164,21 +210,6 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             .setLabelBackgroundColor(requireContext().getColor(R.color.colorPrimary))
             .create()
     )
-
-    private fun retrieveTripOverview() {
-        showLoading()
-        viewModel.getTrip(arguments?.getInt(TRIP_ID) ?: return)
-
-        viewModel.loading.safeObserve { loading ->
-            if (!loading) {
-                hideLoading()
-            }
-        }
-
-        viewModel.tripOverview.safeObserve {
-            tripOverview = it
-        }
-    }
 
     companion object {
         fun newInstance(tripId: Int): TripOverviewFragment {

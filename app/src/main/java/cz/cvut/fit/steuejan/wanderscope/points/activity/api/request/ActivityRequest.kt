@@ -1,28 +1,24 @@
-package cz.cvut.fit.steuejan.wanderscope.points.activity.api.response
+package cz.cvut.fit.steuejan.wanderscope.points.activity.api.request
 
 import com.squareup.moshi.Json
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.points.activity.model.ActivityType
-import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
+import cz.cvut.fit.steuejan.wanderscope.points.common.api.request.PointRequest
 
-data class ActivityResponse(
-    @Json(name = "id")
-    override val id: Int,
-    @Json(name = "tripId")
-    override val tripId: Int,
-    @Json(name = "duration")
-    override val duration: Duration,
+data class ActivityRequest(
     @Json(name = "name")
-    override val name: String,
+    val name: String,
+    @Json(name = "duration")
+    val duration: Duration?,
     @Json(name = "type")
-    override val type: ActivityType,
+    val type: ActivityType,
     @Json(name = "address")
-    val address: Address,
+    val address: Address?,
     @Json(name = "mapLink")
     val mapLink: String?,
     @Json(name = "description")
     val description: String?,
     @Json(name = "website")
     val website: String?
-) : PointResponse()
+) : PointRequest

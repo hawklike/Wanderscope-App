@@ -3,6 +3,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.place.api.response
 import com.squareup.moshi.Json
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Contact
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.place.model.PlaceType
@@ -24,8 +25,12 @@ data class PlaceResponse(
     val contact: Contact,
     @Json(name = "wikiBrief")
     val wikiBrief: String?,
+    @Json(name = "wikiBriefCzech")
+    val wikiBriefCzech: String?,
     @Json(name = "imageUrl")
     val imageUrl: String?,
     @Json(name = "description")
-    val description: String?
+    val description: String?,
+    @Json(name = "coordinates")
+    val coordinates: Coordinates
 ) : PointResponse()

@@ -1,8 +1,7 @@
 package cz.cvut.fit.steuejan.wanderscope.app.arch
 
 import android.widget.Toast
-import androidx.annotation.MainThread
-import androidx.annotation.StringRes
+import androidx.annotation.*
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
@@ -169,5 +168,16 @@ abstract class BaseViewModel(
         @TimeFormat val timeFormat: Int? = null,
         val customTimePicker: MaterialTimePicker? = null,
         val onPickerTime: (hour: Int, minute: Int) -> Unit
+    )
+
+    data class ChipInfo(
+        val text: String,
+        val isCloseIconVisible: Boolean,
+        @DrawableRes val closeIconDrawable: Int = R.drawable.ic_close,
+        @ColorRes val backgroundTint: Int = R.color.colorSurface,
+        @StyleRes val textAppearance: Int = R.style.TextAppearance_Wanderscope_Regular,
+        @ColorRes val textColor: Int = R.color.colorText,
+        @ColorRes val closeIconTint: Int = R.color.colorTextInputIcon,
+        val minHeight: Float = 96f
     )
 }

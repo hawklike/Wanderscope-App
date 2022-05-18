@@ -9,7 +9,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.Accomm
 import cz.cvut.fit.steuejan.wanderscope.points.common.repository.PointRepository
 import kotlinx.coroutines.flow.Flow
 
-class AccommodationRepository(val api: AccommodationApi) :
+class AccommodationRepository(private val api: AccommodationApi) :
     PointRepository<AccommodationRequest, AccommodationResponse> {
 
     override suspend fun createPoint(tripId: Int, request: AccommodationRequest): Flow<Result<CreatedResponse>> {

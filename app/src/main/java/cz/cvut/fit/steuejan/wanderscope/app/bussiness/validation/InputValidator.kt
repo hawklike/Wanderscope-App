@@ -1,6 +1,7 @@
 package cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation
 
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.ValidateDates.*
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
@@ -54,6 +55,10 @@ class InputValidator {
         }
     }
 
+    suspend fun validateCarsAndSeats(carOrSeat: String) = withDefault {
+        if (carOrSeat.contains("\\")) R.string.car_seat_invalid else OK
+    }
+
     fun validateIfNotTooLong(text: String, maxLength: Int): Int {
         return if (text.length > maxLength) R.string.validation_too_long else OK
     }
@@ -62,13 +67,13 @@ class InputValidator {
         if (text.isBlank()) R.string.validation_blank else OK
     }
 
-    fun validateDates(startDate: Long?, endDate: Long?, checkIn: Boolean = false): Int {
+    fun validateDates(startDate: Long?, endDate: Long?, type: ValidateDates = NORMAL): Int {
         return multipleLet(startDate, endDate) { startMillis, endMillis ->
             if (endMillis < startMillis) {
-                if (checkIn) {
-                    R.string.checkout_before_checkin
-                } else {
-                    R.string.enddate_before_startdate
+                when (type) {
+                    NORMAL -> R.string.enddate_before_startdate
+                    CHECKIN -> R.string.checkout_before_checkin
+                    DEPARTURE -> R.string.arrival_before_departure
                 }
             } else OK
         } ?: OK
@@ -81,5 +86,9 @@ class InputValidator {
 
     companion object {
         const val OK = -1
+    }
+
+    enum class ValidateDates {
+        NORMAL, CHECKIN, DEPARTURE
     }
 }

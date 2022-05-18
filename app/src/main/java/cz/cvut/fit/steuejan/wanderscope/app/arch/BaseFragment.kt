@@ -1,7 +1,9 @@
 package cz.cvut.fit.steuejan.wanderscope.app.arch
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
@@ -94,6 +96,13 @@ abstract class BaseFragment : Fragment() {
             requireActivity().window.apply {
                 statusBarColor = ContextCompat.getColor(requireContext(), color)
             }
+        }
+    }
+
+    protected open fun hideKeyboard() {
+        requireActivity().currentFocus?.let { view ->
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 

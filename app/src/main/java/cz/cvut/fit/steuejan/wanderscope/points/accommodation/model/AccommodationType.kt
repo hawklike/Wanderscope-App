@@ -17,4 +17,16 @@ enum class AccommodationType : PointType {
             OTHER -> R.drawable.ic_accommodation_other
         }
     }
+
+    override fun toStringRes(): Int {
+        return when (this) {
+            HOTEL -> R.string.hotel
+            HOSTEL -> R.string.hostel
+            PENSION -> R.string.pension
+            CAMP -> R.string.camp
+            OUTDOOR -> R.string.outdoor
+            AIRBNB -> R.string.airbnb
+            OTHER -> R.string.other
+        }
+    }
 }
