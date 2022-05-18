@@ -4,6 +4,7 @@
     <dimen name="app_trip_overview_image_size">100dp</dimen>
 
     <dimen name="app_default_text_size">16sp</dimen>
+    <dimen name="app_bigger_text_size">20sp</dimen>
     <dimen name="app_text_input_text_size">16sp</dimen>
     <dimen name="app_text_input_label_text_size">18sp</dimen>
     <dimen name="app_button_text_size">16sp</dimen>
@@ -56,4 +57,11 @@
     <dimen name="app_trip_overview_item_title_margin">16dp</dimen>
     <dimen name="app_trip_user_item_bottom_margin">8dp</dimen>
     <dimen name="app_autocomplete_elevation">1dp</dimen>
+    <dimen name="app_first_item_overview_margin">20dp</dimen>
+    <dimen name="app_point_overview_first_item_margin">12dp</dimen>
+    <dimen name="app_point_overview_address_end_margin">24dp</dimen>
+    <dimen name="app_point_overview_type_label_margin">24dp</dimen>
+    <dimen name="app_point_overview_type_label_horizontal_padding">16dp</dimen>
+    <dimen name="app_point_overview_type_label_vertical_padding">9dp</dimen>
+    <dimen name="app_point_overview_vertical_line_margin">12dp</dimen>
 </resources>

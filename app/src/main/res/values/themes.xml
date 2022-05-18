@@ -117,6 +117,11 @@
         <item name="android:textSize">@dimen/app_default_text_size</item>
     </style>
 
+    <style name="TextAppearance.Wanderscope.Item.Title" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_default_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Widget.Wanderscope.LessImportantText" parent="TextAppearance.Wanderscope.Regular">
         <item name="android:textColor">@color/colorTextLessImportant</item>
     </style>

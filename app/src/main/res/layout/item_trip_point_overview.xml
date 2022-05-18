@@ -18,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="190dp"
+            android:layout_height="180dp"
             android:paddingHorizontal="@dimen/app_trip_overview_item_padding_horizontal"
             android:paddingVertical="@dimen/app_trip_overview_item_padding_vertical"
             tools:background="@color/colorSurface">
@@ -48,14 +48,14 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/itemTripOverviewTitle"
                 android:layout_width="match_parent"
-                android:maxWidth="190dp"
-                android:minWidth="140dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/app_trip_overview_item_title_margin"
                 android:ellipsize="end"
+                android:maxWidth="170dp"
                 android:maxLines="2"
+                android:minWidth="140dp"
                 android:text="@{item.name}"
-                android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                android:textAppearance="@style/TextAppearance.Wanderscope.Item.Title"
                 app:layout_constraintTop_toBottomOf="@id/itemTripOverviewIconHolder"
                 tools:text="Praha-Ostrava" />
 

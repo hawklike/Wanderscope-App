@@ -13,12 +13,15 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
+import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripOverviewBinding
+import cz.cvut.fit.steuejan.wanderscope.points.TripPointOverviewItem
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.crud.bundle.EditTripBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
@@ -26,7 +29,7 @@ import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDire
 class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, TripOverviewFragmentVM>(
     R.layout.fragment_trip_overview,
     TripOverviewFragmentVM::class
-), WithLoading {
+), WithLoading, WithRecycler {
 
     override val content: View get() = binding.tripOverviewContent
     override val shimmer: ShimmerFrameLayout get() = binding.tripOverviewShimmer
@@ -41,6 +44,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle()
+        handlePointsRecycler()
         retrieveTripOverview()
         prepareActionButton()
     }
@@ -72,6 +76,21 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             R.id.action_trip_delete -> deleteTrip()
             R.id.action_trip_save_to_calendar -> saveToCalendar()
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun handlePointsRecycler() {
+        setAdapterListener(binding.tripOverviewTransport) { item, _ ->
+            goToTransport(item)
+        }
+    }
+
+    private fun goToTransport(item: RecyclerItem) {
+        if (item is TripPointOverviewItem) {
+            navigateTo(
+                TripPagerFragmentDirections
+                    .actionTripPagerFragmentToTransportOverviewFragment()
+            )
         }
     }
 
@@ -113,6 +132,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         return true
     }
 
+    //todo implement
     private fun deleteTrip(): Boolean {
         val trip = tripOverview ?: return pleaseWait()
         return true
