@@ -2,8 +2,10 @@ package cz.cvut.fit.steuejan.wanderscope.points.transport.api
 
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.request.TransportRequest
+import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -14,4 +16,10 @@ interface TransportApi {
         @Path("id") id: Int,
         @Body request: TransportRequest
     ): Response<CreatedResponse>
+
+    @GET("/trip/{tripId}/transport/{id}")
+    suspend fun getTransport(
+        @Path("tripId") tripId: Int,
+        @Path("id") id: Int
+    ): Response<TransportResponse>
 }

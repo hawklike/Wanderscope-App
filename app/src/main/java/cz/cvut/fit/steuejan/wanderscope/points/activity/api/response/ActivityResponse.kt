@@ -22,7 +22,7 @@ data class ActivityResponse(
     @Json(name = "mapLink")
     val mapLink: String?,
     @Json(name = "description")
-    val description: String?,
+    override val description: String?,
     @Json(name = "website")
     val website: String?
 ) : PointResponse()

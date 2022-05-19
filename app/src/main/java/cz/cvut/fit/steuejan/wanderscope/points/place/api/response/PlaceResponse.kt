@@ -30,7 +30,7 @@ data class PlaceResponse(
     @Json(name = "imageUrl")
     val imageUrl: String?,
     @Json(name = "description")
-    val description: String?,
+    override val description: String?,
     @Json(name = "coordinates")
     val coordinates: Coordinates
 ) : PointResponse()

@@ -11,6 +11,7 @@ abstract class PointResponse {
     abstract val duration: Duration
     abstract val name: String
     abstract val type: PointType
+    abstract val description: String?
 
     open suspend fun toOverviewItem() = TripPointOverviewItem(
         id,

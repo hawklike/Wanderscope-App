@@ -172,6 +172,16 @@
         android:id="@+id/transportOverviewFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.points.transport.overview.TransportOverviewFragment"
         android:label=""
-        tools:layout="@layout/fragment_point_transport_overview" />
+        tools:layout="@layout/fragment_point_transport_overview">
+        <argument
+            android:name="tripId"
+            app:argType="integer" />
+        <argument
+            android:name="transportId"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

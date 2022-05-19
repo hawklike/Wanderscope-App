@@ -2,7 +2,6 @@ package cz.cvut.fit.steuejan.wanderscope.points.place.crud
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
@@ -17,7 +16,6 @@ import cz.cvut.fit.steuejan.wanderscope.points.place.api.request.PlaceRequest
 import cz.cvut.fit.steuejan.wanderscope.points.place.model.PlaceType
 import cz.cvut.fit.steuejan.wanderscope.points.place.repository.PlaceRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 
 class PlaceAddEditFragmentVM(
     private val repository: PlaceRepository,
@@ -46,22 +44,18 @@ class PlaceAddEditFragmentVM(
         return repository.createPoint(tripId ?: return null, request, placeName)
     }
 
-    fun submit() {
-        viewModelScope.launch {
-            val name = name.value ?: return@launch
-            submitLoading.value = true
-            val request = PlaceRequest(
-                name = name,
-                duration = Duration(startDateTime, endDateTime),
-                type = getTypeFromSelectedItem(),
-                address = Address(placeId, address.value.getOrNullIfBlank()),
-                contact = Contact(website = website.value.getOrNullIfBlank()),
-                coordinates = Coordinates(longitude.value.getOrNullIfBlank(), latitude.value.getOrNullIfBlank()),
-                description = description.value.getOrNullIfBlank(),
-                imageUrl = null
-            )
-            submit(request)
-        }
+    override fun createRequest(): PlaceRequest? {
+        val name = name.value ?: return null
+        return PlaceRequest(
+            name = name,
+            duration = Duration(startDateTime, endDateTime),
+            type = getTypeFromSelectedItem(),
+            address = Address(placeId, address.value.getOrNullIfBlank()),
+            contact = Contact(website = website.value.getOrNullIfBlank()),
+            coordinates = Coordinates(longitude.value.getOrNullIfBlank(), latitude.value.getOrNullIfBlank()),
+            description = description.value.getOrNullIfBlank(),
+            imageUrl = null
+        )
     }
 
     private fun getTypeFromSelectedItem(): PlaceType {

@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -87,9 +86,15 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
 
     private fun goToTransport(item: RecyclerItem) {
         if (item is TripPointOverviewItem) {
+            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+
             navigateTo(
                 TripPagerFragmentDirections
-                    .actionTripPagerFragmentToTransportOverviewFragment()
+                    .actionTripPagerFragmentToTransportOverviewFragment(
+                        tripId = trip.id,
+                        transportId = item.id,
+                        title = item.name
+                    )
             )
         }
     }
@@ -155,7 +160,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     }
 
     private fun pleaseWait(): Boolean {
-        Toast.makeText(requireContext(), R.string.please_wait, Toast.LENGTH_SHORT).show()
+        showToast(R.string.please_wait)
         return true
     }
 

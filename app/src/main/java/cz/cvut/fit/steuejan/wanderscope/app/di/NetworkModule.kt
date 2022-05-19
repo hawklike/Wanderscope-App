@@ -13,6 +13,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManagerImpl
 import cz.cvut.fit.steuejan.wanderscope.app.util.isDebuggable
 import cz.cvut.fit.steuejan.wanderscope.auth.api.AuthApi
+import cz.cvut.fit.steuejan.wanderscope.document.api.DocumentApi
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.AccommodationApi
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.ActivityApi
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.PlaceApi
@@ -55,6 +56,7 @@ val networkModule = module {
     single { provideApi<ActivityApi>(get()) }
     single { provideApi<TransportApi>(get()) }
     single { provideApi<PlaceApi>(get()) }
+    single { provideApi<DocumentApi>(get()) }
 }
 
 private fun provideRetrofitBuilder(converterFactory: retrofit2.Converter.Factory): Retrofit.Builder {

@@ -2,7 +2,6 @@ package cz.cvut.fit.steuejan.wanderscope.points.accommodation.crud
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.ValidateDates
@@ -16,7 +15,6 @@ import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.request.Accommo
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.model.AccommodationType
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.repository.AccommodationRepository
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
-import kotlinx.coroutines.launch
 
 class AccommodationAddEditFragmentVM(
     repository: AccommodationRepository,
@@ -50,24 +48,20 @@ class AccommodationAddEditFragmentVM(
         place.websiteUri?.let { website.value = it.toString() }
     }
 
-    fun submit() {
-        viewModelScope.launch {
-            val name = name.value ?: return@launch
-            submitLoading.value = true
-            val request = AccommodationRequest(
-                name = name,
-                duration = Duration(startDateTime, endDateTime),
-                type = getTypeFromSelectedItem(),
-                address = Address(placeId, address.value.getOrNullIfBlank()),
-                contact = Contact(
-                    phone.value.getOrNullIfBlank(),
-                    email.value.getOrNullIfBlank(),
-                    website.value.getOrNullIfBlank()
-                ),
-                description = description.value.getOrNullIfBlank()
-            )
-            submit(request)
-        }
+    override fun createRequest(): AccommodationRequest? {
+        val name = name.value ?: return null
+        return AccommodationRequest(
+            name = name,
+            duration = Duration(startDateTime, endDateTime),
+            type = getTypeFromSelectedItem(),
+            address = Address(placeId, address.value.getOrNullIfBlank()),
+            contact = Contact(
+                phone.value.getOrNullIfBlank(),
+                email.value.getOrNullIfBlank(),
+                website.value.getOrNullIfBlank()
+            ),
+            description = description.value.getOrNullIfBlank()
+        )
     }
 
     private fun getTypeFromSelectedItem(): AccommodationType {

@@ -144,23 +144,29 @@ class TransportAddEditFragmentVM(
         }
     }
 
-    fun submit() {
+    override fun submit() {
+        submitLoading.value = true
         viewModelScope.launch {
-            val name = name.value ?: return@launch
-            submitLoading.value = true
-
-            val request = TransportRequest(
-                name = name,
-                duration = Duration(startDateTime, endDateTime),
-                type = getTypeFromSelectedItem(),
-                from = Address(fromId, from.value.getOrNullIfBlank()),
-                to = Address(toId, to.value.getOrNullIfBlank()),
-                cars = null,
-                seats = null,
-                description = description.value.getOrNullIfBlank()
-            )
+            val request = createRequest() ?: run {
+                submitLoading.value = false
+                return@launch
+            }
             submitEvent.value = request
         }
+    }
+
+    override fun createRequest(): TransportRequest? {
+        val name = name.value ?: return null
+        return TransportRequest(
+            name = name,
+            duration = Duration(startDateTime, endDateTime),
+            type = getTypeFromSelectedItem(),
+            from = Address(fromId, from.value.getOrNullIfBlank()),
+            to = Address(toId, to.value.getOrNullIfBlank()),
+            cars = null,
+            seats = null,
+            description = description.value.getOrNullIfBlank()
+        )
     }
 
     private fun getTypeFromSelectedItem(): TransportType {

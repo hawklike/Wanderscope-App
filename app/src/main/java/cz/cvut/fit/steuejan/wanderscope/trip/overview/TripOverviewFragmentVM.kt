@@ -1,6 +1,5 @@
 package cz.cvut.fit.steuejan.wanderscope.trip.overview
 
-import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cz.cvut.fit.steuejan.wanderscope.R
@@ -91,24 +90,6 @@ class TripOverviewFragmentVM(
     private fun failure(error: Error, loading: MutableLiveData<Boolean>) {
         loading.value = false
         unexpectedError(error)
-    }
-
-    private fun showUpdateToast(
-        actualItems: List<RecyclerItem>,
-        previousItems: List<RecyclerItem>?,
-        @StringRes message: Int
-    ) {
-        val actualSize = actualItems.size
-        val previousSize = previousItems?.size ?: 0
-
-        if (actualSize >= previousSize && previousItems?.first() is EmptyItem) {
-            showToast(ToastInfo(message))
-            return
-        }
-        if (actualSize > previousSize && previousSize != 0) {
-            showToast(ToastInfo(message))
-            return
-        }
     }
 
     private suspend fun getAccommodation(tripId: Int, scope: CoroutineScope) {

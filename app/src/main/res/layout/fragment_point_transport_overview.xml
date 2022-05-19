@@ -22,7 +22,6 @@
             android:layout_marginTop="@dimen/app_title_empty_toolbar_margin"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="Praha - Ostrava"
             android:textAppearance="@style/TextAppearance.Wanderscope.H1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/app_layout_first_item_margin"
-            android:visibility="gone"
+            android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/transportOverviewTitle"
             tools:visibility="gone">
@@ -78,13 +77,17 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/transportOverviewStartDate"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
                             android:gravity="end"
-                            android:text="May 17, 2022 18:12"
+                            android:maxLines="2"
+                            android:text="@{vm.startDate}"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                             app:layout_constraintBottom_toBottomOf="@+id/transportOverviewStartDateLabel"
-                            app:layout_constraintEnd_toEndOf="parent" />
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/transportOverviewStartDateLabel"
+                            tools:text="May 17, 2022 18:12" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/transportOverviewFrom"
@@ -93,7 +96,7 @@
                             android:layout_marginTop="@dimen/app_h3_bottom_margin"
                             android:layout_marginEnd="@dimen/app_point_overview_address_end_margin"
                             android:gravity="center_vertical"
-                            android:text="Wilsonova 80, Vinohrady, 120 00 Praha-Praha 2, Czechia"
+                            android:text="@{vm.from}"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/transportOverviewStartDateLabel"
@@ -129,7 +132,7 @@
                                 android:id="@+id/transportOverviewIcon1"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@drawable/ic_light_aircraft"
+                                app:imageResource="@{vm.icon}"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -151,12 +154,13 @@
                                 android:id="@+id/transportOverviewTravel1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="plane"
                                 android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                                 android:textColor="@color/colorPrimary"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/transportOverviewTravelLabel1"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:textResOrGone="@{vm.type}"
+                                tools:text="plane" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -172,13 +176,16 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/transportOverviewEndDate"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:gravity="end"
-                            android:text="May 17, 2022 18:12"
+                            android:maxLines="2"
+                            android:text="@{vm.endDate}"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                             app:layout_constraintBottom_toBottomOf="@+id/transportOverviewEndDateLabel"
-                            app:layout_constraintEnd_toEndOf="parent" />
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/transportOverviewEndDateLabel"
+                            tools:text="May 17, 2022 18:12" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/transportOverviewTo"
@@ -187,7 +194,7 @@
                             android:layout_marginTop="@dimen/app_h3_bottom_margin"
                             android:layout_marginEnd="@dimen/app_point_overview_address_end_margin"
                             android:gravity="center_vertical"
-                            android:text="Wilsonova 80, Vinohrady, 120 00 Praha-Praha 2, Czechia"
+                            android:text="@{vm.to}"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/transportOverviewEndDateLabel"
@@ -237,13 +244,15 @@
                             android:text="@string/description"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/transportOverviewSeats" />
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewSeats"
+                            app:visibleOrGone="@{vm.description}" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/transportOverviewDescription"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            android:text="@{vm.description}"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/transportOverviewDescriptionLabel"
@@ -271,6 +280,10 @@
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintTop_toBottomOf="@id/transportOverviewMarginLayout"
+                        app:marginEndNormalRes="@{@dimen/margin_0}"
+                        app:marginEndRes="@{@dimen/app_layout_main_horizontal_padding}"
+                        app:marginEndWhenOneItem="@{vm.documents}"
+                        app:recyclerItems="@{vm.documents}"
                         tools:itemCount="3"
                         tools:listitem="@layout/item_document_metadata" />
 

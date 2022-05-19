@@ -2,7 +2,6 @@ package cz.cvut.fit.steuejan.wanderscope.points.activity.crud
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
@@ -12,7 +11,6 @@ import cz.cvut.fit.steuejan.wanderscope.points.activity.api.request.ActivityRequ
 import cz.cvut.fit.steuejan.wanderscope.points.activity.model.ActivityType
 import cz.cvut.fit.steuejan.wanderscope.points.activity.repository.ActivityRepository
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
-import kotlinx.coroutines.launch
 
 class ActivityAddEditFragmentVM(
     repository: ActivityRepository,
@@ -32,21 +30,17 @@ class ActivityAddEditFragmentVM(
         place.websiteUri?.let { website.value = it.toString() }
     }
 
-    fun submit() {
-        viewModelScope.launch {
-            val name = name.value ?: return@launch
-            submitLoading.value = true
-            val request = ActivityRequest(
-                name = name,
-                duration = Duration(startDateTime, endDateTime),
-                type = getTypeFromSelectedItem(),
-                address = Address(placeId, address.value.getOrNullIfBlank()),
-                mapLink = mapLink.value.getOrNullIfBlank(),
-                description = description.value.getOrNullIfBlank(),
-                website = website.value.getOrNullIfBlank()
-            )
-            submit(request)
-        }
+    override fun createRequest(): ActivityRequest? {
+        val name = name.value ?: return null
+        return ActivityRequest(
+            name = name,
+            duration = Duration(startDateTime, endDateTime),
+            type = getTypeFromSelectedItem(),
+            address = Address(placeId, address.value.getOrNullIfBlank()),
+            mapLink = mapLink.value.getOrNullIfBlank(),
+            description = description.value.getOrNullIfBlank(),
+            website = website.value.getOrNullIfBlank()
+        )
     }
 
     private fun getTypeFromSelectedItem(): ActivityType {

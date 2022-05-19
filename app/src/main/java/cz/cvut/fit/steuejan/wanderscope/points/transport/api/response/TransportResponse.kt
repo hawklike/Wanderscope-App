@@ -22,7 +22,7 @@ data class TransportResponse(
     @Json(name = "to")
     val to: Address,
     @Json(name = "description")
-    val description: String?,
+    override val description: String?,
     @Json(name = "cars")
     val cars: List<String>?,
     @Json(name = "seats")

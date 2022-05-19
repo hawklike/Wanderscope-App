@@ -24,5 +24,5 @@ data class AccommodationResponse(
     @Json(name = "type")
     override val type: AccommodationType,
     @Json(name = "description")
-    val description: String?
+    override val description: String?
 ) : PointResponse()

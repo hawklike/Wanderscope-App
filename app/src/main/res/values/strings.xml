@@ -5,6 +5,7 @@
     <string name="your_trip">Your Trip</string>
     <string name="second_fragment_label">Second Fragment</string>
 
+    <string name="unexpected_error_short">Something didn\'t work</string>
     <string name="unexpected_error">Something didn\'t work. Please check your internet connection and try again</string>
     <string name="retry">Retry</string>
 
@@ -204,7 +205,7 @@
     <string name="describe_the_transport">Describe the transport</string>
     <string name="name_the_place_mandatory">Name the place (mandatory)</string>
     <string name="trip">Trip</string>
-    <string name="travel_by">Travel by</string>
+    <string name="travel_by">Travel by\u0020</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

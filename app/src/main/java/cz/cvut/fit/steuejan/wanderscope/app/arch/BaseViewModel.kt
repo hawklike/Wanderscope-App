@@ -12,8 +12,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
+import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
@@ -137,6 +139,24 @@ abstract class BaseViewModel(
     @MainThread
     protected fun <T> getStateLiveData(paramName: String): LiveData<T>? {
         return state?.getLiveData(paramName)
+    }
+
+    protected fun showUpdateToast(
+        actualItems: List<RecyclerItem>,
+        previousItems: List<RecyclerItem>?,
+        @StringRes message: Int
+    ) {
+        val actualSize = actualItems.size
+        val previousSize = previousItems?.size ?: 0
+
+        if (actualSize >= previousSize && previousItems?.first() is EmptyItem) {
+            showToast(ToastInfo(message))
+            return
+        }
+        if (actualSize > previousSize && previousSize != 0) {
+            showToast(ToastInfo(message))
+            return
+        }
     }
 
     data class ToastInfo(@StringRes val message: Int, val lenght: Int = Toast.LENGTH_SHORT)

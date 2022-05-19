@@ -6,7 +6,6 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -70,7 +69,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
 
     private fun listenToToast() {
         viewModel.toastEvent.safeObserve { toast ->
-            Toast.makeText(requireContext(), toast.message, toast.lenght).show()
+            showToast(toast)
         }
     }
 

@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 
-abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
+abstract class AbstractPointAddEditFragmentVM<Request : PointRequest>(
     protected val pointRepository: PointRepository<Request, *>,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel(savedStateHandle) {
@@ -161,6 +161,17 @@ abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
         }
     }
 
+    open fun submit() {
+        submitLoading.value = true
+        viewModelScope.launch {
+            val request = createRequest() ?: run {
+                submitLoading.value = false
+                return@launch
+            }
+            submit(request)
+        }
+    }
+
     open fun submit(request: Request) {
         viewModelScope.launchIO {
             val result = when (purpose) {
@@ -179,6 +190,8 @@ abstract class AbstractPointAddEditFragmentVM<in Request : PointRequest>(
             }
         }
     }
+
+    abstract fun createRequest(): Request?
 
     protected open suspend fun createPoint(request: Request): Flow<Result<CreatedResponse>>? {
         return pointRepository.createPoint(tripId ?: return null, request)
