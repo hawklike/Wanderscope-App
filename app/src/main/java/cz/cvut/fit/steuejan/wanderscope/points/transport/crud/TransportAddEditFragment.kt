@@ -42,7 +42,8 @@ class TransportAddEditFragment : AbstractPointAddEditFragment<
     override val fields = listOf(
         Place.Field.ID,
         Place.Field.NAME,
-        Place.Field.ADDRESS
+        Place.Field.ADDRESS,
+        Place.Field.LAT_LNG
     )
 
     private fun handleSubmit() {

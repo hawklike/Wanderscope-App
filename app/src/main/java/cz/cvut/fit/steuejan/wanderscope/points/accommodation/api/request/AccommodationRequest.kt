@@ -3,6 +3,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.request
 import com.squareup.moshi.Json
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Contact
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.model.AccommodationType
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.request.PointRequest
@@ -19,5 +20,7 @@ data class AccommodationRequest(
     @Json(name = "contact")
     val contact: Contact?,
     @Json(name = "description")
-    val description: String?
+    val description: String?,
+    @Json(name = "coordinates")
+    val coordinates: Coordinates?
 ) : PointRequest

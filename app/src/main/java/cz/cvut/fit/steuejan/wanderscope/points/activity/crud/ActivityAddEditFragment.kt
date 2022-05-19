@@ -34,6 +34,7 @@ class ActivityAddEditFragment : AbstractPointAddEditFragment<
         Place.Field.ID,
         Place.Field.NAME,
         Place.Field.ADDRESS,
-        Place.Field.WEBSITE_URI
+        Place.Field.WEBSITE_URI,
+        Place.Field.LAT_LNG
     )
 }

@@ -9,6 +9,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.ValidateDates
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
@@ -44,6 +45,8 @@ class TransportAddEditFragmentVM(
     private var toName: String? = null
     private var fromId: String? = null
     private var toId: String? = null
+    private var fromCoordinates: Coordinates? = null
+    private var toCoordinates: Coordinates? = null
 
     val from = MutableLiveData<String?>(null)
     val to = MutableLiveData<String?>(null)
@@ -131,11 +134,13 @@ class TransportAddEditFragmentVM(
                 fromName = place.name
                 fromId = place.id
                 place.address?.let { from.value = it }
+                fromCoordinates = createCoordinates(place)
             }
             FindOption.TO -> {
                 toName = place.name
                 toId = place.id
                 place.address?.let { to.value = it }
+                toCoordinates = createCoordinates(place)
             }
             else -> doNothing
         }
@@ -165,7 +170,9 @@ class TransportAddEditFragmentVM(
             to = Address(toId, to.value.getOrNullIfBlank()),
             cars = null,
             seats = null,
-            description = description.value.getOrNullIfBlank()
+            description = description.value.getOrNullIfBlank(),
+            fromCoordinates = fromCoordinates,
+            toCoordinates = toCoordinates
         )
     }
 

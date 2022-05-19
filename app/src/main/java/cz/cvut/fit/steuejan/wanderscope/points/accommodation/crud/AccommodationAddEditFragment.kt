@@ -35,6 +35,7 @@ class AccommodationAddEditFragment : AbstractPointAddEditFragment<
         Place.Field.NAME,
         Place.Field.ADDRESS,
         Place.Field.PHONE_NUMBER,
-        Place.Field.WEBSITE_URI
+        Place.Field.WEBSITE_URI,
+        Place.Field.LAT_LNG
     )
 }

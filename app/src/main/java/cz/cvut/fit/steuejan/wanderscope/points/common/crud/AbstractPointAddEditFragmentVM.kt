@@ -13,6 +13,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
@@ -53,6 +54,8 @@ abstract class AbstractPointAddEditFragmentVM<Request : PointRequest>(
 
     protected var placeName: String? = null
     protected var placeId: String? = null
+    protected var coordinates: Coordinates? = null
+
     protected var selectedTypePosition: Int? = null
 
     val name = MutableLiveData<String>()
@@ -119,6 +122,14 @@ abstract class AbstractPointAddEditFragmentVM<Request : PointRequest>(
     open fun placeFound(place: Place) {
         placeId = place.id
         placeName = place.name
+        coordinates = createCoordinates(place)
+    }
+
+    protected fun createCoordinates(place: Place): Coordinates {
+        return Coordinates(
+            longitude = place.latLng?.longitude.toString(),
+            latitude = place.latLng?.latitude.toString()
+        )
     }
 
     fun selectType(position: Int) {
@@ -161,6 +172,8 @@ abstract class AbstractPointAddEditFragmentVM<Request : PointRequest>(
         }
     }
 
+    abstract fun createRequest(): Request?
+
     open fun submit() {
         submitLoading.value = true
         viewModelScope.launch {
@@ -190,8 +203,6 @@ abstract class AbstractPointAddEditFragmentVM<Request : PointRequest>(
             }
         }
     }
-
-    abstract fun createRequest(): Request?
 
     protected open suspend fun createPoint(request: Request): Flow<Result<CreatedResponse>>? {
         return pointRepository.createPoint(tripId ?: return null, request)

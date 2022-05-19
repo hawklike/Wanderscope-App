@@ -60,7 +60,8 @@ class AccommodationAddEditFragmentVM(
                 email.value.getOrNullIfBlank(),
                 website.value.getOrNullIfBlank()
             ),
-            description = description.value.getOrNullIfBlank()
+            description = description.value.getOrNullIfBlank(),
+            coordinates = coordinates
         )
     }
 

@@ -39,7 +39,8 @@ class ActivityAddEditFragmentVM(
             address = Address(placeId, address.value.getOrNullIfBlank()),
             mapLink = mapLink.value.getOrNullIfBlank(),
             description = description.value.getOrNullIfBlank(),
-            website = website.value.getOrNullIfBlank()
+            website = website.value.getOrNullIfBlank(),
+            coordinates = coordinates
         )
     }
 
