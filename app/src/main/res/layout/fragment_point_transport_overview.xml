@@ -96,10 +96,10 @@
                             android:layout_marginTop="@dimen/app_h3_bottom_margin"
                             android:layout_marginEnd="@dimen/app_point_overview_address_end_margin"
                             android:gravity="center_vertical"
-                            android:text="@{vm.from}"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/transportOverviewStartDateLabel"
+                            app:textOrGone="@{vm.from}"
                             tools:text="Wilsonova 80, Vinohrady, 120 00 Praha-Praha 2, Czechia" />
 
                         <View
@@ -159,7 +159,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/transportOverviewTravelLabel1"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:textResOrGone="@{vm.type}"
+                                app:textResOrGoneLowercase="@{vm.type}"
                                 tools:text="plane" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -194,28 +194,31 @@
                             android:layout_marginTop="@dimen/app_h3_bottom_margin"
                             android:layout_marginEnd="@dimen/app_point_overview_address_end_margin"
                             android:gravity="center_vertical"
-                            android:text="@{vm.to}"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/transportOverviewEndDateLabel"
+                            app:textOrGone="@{vm.to}"
                             tools:text="Wilsonova 80, Vinohrady, 120 00 Praha-Praha 2, Czechia" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/transportOverviewCarsLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/app_text_input_margin"
+                            android:layout_marginTop="20dp"
                             android:text="@string/cars"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/transportOverviewTo" />
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewTo"
+                            app:visibleOrGone="@{vm.cars}" />
 
                         <com.google.android.material.chip.ChipGroup
                             android:id="@+id/transportOverviewCars"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            app:addChips="@{vm.cars}"
                             app:layout_constraintTop_toBottomOf="@id/transportOverviewCarsLabel"
+                            app:visibleOrGone="@{vm.cars}"
                             tools:visibility="visible" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -226,14 +229,17 @@
                             android:text="@string/seats"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/transportOverviewCars" />
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewCars"
+                            app:visibleOrGone="@{vm.seats}" />
 
                         <com.google.android.material.chip.ChipGroup
                             android:id="@+id/transportOverviewSeats"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            app:addChips="@{vm.seats}"
                             app:layout_constraintTop_toBottomOf="@id/transportOverviewSeatsLabel"
+                            app:visibleOrGone="@{vm.seats}"
                             tools:visibility="visible" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -252,10 +258,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/app_text_input_label_margin"
-                            android:text="@{vm.description}"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/transportOverviewDescriptionLabel"
+                            app:textOrGone="@{vm.description}"
                             tools:text="This meta description generator uses machine learning (specifically GPT-3 from Open AI) to generate short description ideas for your articles. It has been trained specifically for pages with long content and is best suited for guides, how-to articles, articles with bulleted lists, etc." />
 
                         <com.google.android.material.textview.MaterialTextView

@@ -48,8 +48,8 @@ class TransportAddEditFragment : AbstractPointAddEditFragment<
     private fun handleSubmit() {
         viewModel.submitEvent.safeObserve {
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                val cars = extractChips(binding.addTransportCarsGroup)
-                val seats = extractChips(binding.addTransportSeatsGroup)
+                val cars = extractChips(binding.addTransportCarsGroup).takeIf { it.isNotEmpty() }
+                val seats = extractChips(binding.addTransportSeatsGroup).takeIf { it.isNotEmpty() }
                 val request = it.copy(cars = cars, seats = seats)
                 viewModel.submit(request)
             }

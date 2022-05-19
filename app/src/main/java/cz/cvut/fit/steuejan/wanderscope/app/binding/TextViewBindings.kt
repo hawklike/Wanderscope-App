@@ -32,6 +32,13 @@ fun TextView.setTextOrGone(@StringRes text: Int?) {
     this.setText(text!!)
 }
 
+@BindingAdapter("textResOrGoneLowercase")
+fun TextView.setTextOrGoneLowercase(@StringRes text: Int?) {
+    visibleOrGone(text) ?: return
+    val lowercase = context.getString(text!!).lowercase()
+    this.text = lowercase
+}
+
 @BindingAdapter("capitalize")
 fun TextView.capitalize(text: String) {
     this.text = text.capitalize()

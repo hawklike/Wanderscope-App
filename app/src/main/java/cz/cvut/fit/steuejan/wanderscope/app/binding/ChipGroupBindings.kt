@@ -24,3 +24,10 @@ fun ChipGroup.addChip(chipInfo: BaseViewModel.ChipInfo?) {
     }
     this.addView(chip)
 }
+
+@BindingAdapter("addChips")
+fun ChipGroup.addChips(chipsInfo: List<BaseViewModel.ChipInfo>?) {
+    chipsInfo?.forEach { chipInfo ->
+        addChip(chipInfo)
+    }
+}

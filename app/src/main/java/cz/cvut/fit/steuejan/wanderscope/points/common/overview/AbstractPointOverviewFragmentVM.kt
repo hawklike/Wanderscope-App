@@ -55,9 +55,6 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
         }
     }
 
-    /**
-     * Don't forget to call `pointOverviewLoading.value = false` at the end.
-     */
     protected open suspend fun getPointOverviewSuccess(data: Response) {
         pointOverview.value = data
         startDate.value = data.duration.startDate?.toNiceString()
@@ -65,7 +62,11 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
         type.value = data.type.toStringRes()
         icon.value = data.type.toIcon()
         description.value = data.description
+        customizePointOverviewSuccess(data)
+        pointOverviewLoading.value = false
     }
+
+    abstract suspend fun customizePointOverviewSuccess(data: Response)
 
     protected open suspend fun getDocuments(tripId: Int, pointId: Int, scope: CoroutineScope) {
         pointRepository.getDocuments(tripId, pointId).safeCollect(scope) {
