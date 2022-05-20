@@ -19,7 +19,7 @@ data class TransportResponse(
     @Json(name = "type")
     override val type: TransportType,
     @Json(name = "from")
-    val from: Address,
+    override val address: Address,
     @Json(name = "to")
     val to: Address,
     @Json(name = "description")
@@ -29,7 +29,7 @@ data class TransportResponse(
     @Json(name = "seats")
     val seats: List<String>?,
     @Json(name = "fromCoordinates")
-    val fromCoordinates: Coordinates,
+    override val coordinates: Coordinates,
     @Json(name = "toCoordinates")
     val toCoordinates: Coordinates
 ) : PointResponse()

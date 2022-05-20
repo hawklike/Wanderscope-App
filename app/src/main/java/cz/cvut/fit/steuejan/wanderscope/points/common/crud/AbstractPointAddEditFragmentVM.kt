@@ -125,11 +125,12 @@ abstract class AbstractPointAddEditFragmentVM<Request : PointRequest>(
         coordinates = createCoordinates(place)
     }
 
-    protected fun createCoordinates(place: Place): Coordinates {
-        return Coordinates(
+    protected fun createCoordinates(place: Place): Coordinates? {
+        val coordinates = Coordinates(
             longitude = place.latLng?.longitude.toString(),
             latitude = place.latLng?.latitude.toString()
         )
+        return Coordinates.createSafeInstance(coordinates)
     }
 
     fun selectType(position: Int) {

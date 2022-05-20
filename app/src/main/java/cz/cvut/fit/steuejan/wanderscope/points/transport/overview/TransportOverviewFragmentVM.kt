@@ -3,6 +3,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.transport.overview
 import androidx.lifecycle.MutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.TripleMediatorLiveData
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.AbstractPointOverviewFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.repository.TransportRepository
@@ -15,11 +16,31 @@ class TransportOverviewFragmentVM(transportRepository: TransportRepository) :
     val cars = MutableLiveData<List<ChipInfo>?>()
     val seats = MutableLiveData<List<ChipInfo>?>()
 
+    val fromCoordinatesReady = MutableLiveData<LocationBundle>()
+    val toCoordinatesReady = MutableLiveData<LocationBundle>()
+
+    val mapAndAllCoordinatesReady = TripleMediatorLiveData(
+        mapReady,
+        fromCoordinatesReady,
+        toCoordinatesReady
+    )
+
     override suspend fun customizePointOverviewSuccess(data: TransportResponse) {
-        from.value = data.from.address
-        to.value = data.to.address
+        from.value = data.address.name
+        to.value = data.to.name
         cars.value = prepareCarChips(data)
         seats.value = prepareSeatChips(data)
+    }
+
+    override fun showMap(data: TransportResponse) {
+        val fromCoordinates = data.coordinates.toLatLng()
+        val toCoordinates = data.toCoordinates.toLatLng()
+        if (fromCoordinates == null && toCoordinates == null) {
+            return
+        }
+        showMap.value = true
+        fromCoordinatesReady.value = LocationBundle(data.coordinates, data.address.name)
+        toCoordinatesReady.value = LocationBundle(data.toCoordinates, data.to.name)
     }
 
     private suspend fun prepareCarChips(data: TransportResponse): List<ChipInfo>? {

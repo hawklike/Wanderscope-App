@@ -16,5 +16,7 @@ object Constants {
 
     const val PHONE_MAX_LEN = 31
 
+    const val LAT_LEN_LENGTH = 15
+
     const val OTHER_MAX_LEN = 1000
 }

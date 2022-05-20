@@ -19,7 +19,7 @@ data class AccommodationResponse(
     @Json(name = "name")
     override val name: String,
     @Json(name = "address")
-    val address: Address,
+    override val address: Address,
     @Json(name = "contact")
     val contact: Contact,
     @Json(name = "type")
@@ -27,5 +27,5 @@ data class AccommodationResponse(
     @Json(name = "description")
     override val description: String?,
     @Json(name = "coordinates")
-    val coordinates: Coordinates
+    override val coordinates: Coordinates
 ) : PointResponse()

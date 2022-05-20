@@ -272,6 +272,7 @@
                             android:layout_marginTop="@dimen/app_h3_bottom_margin"
                             app:cardElevation="0dp"
                             app:cardCornerRadius="8dp"
+                            app:visibleOrGone="@{vm.showMap}"
                             app:layout_constraintTop_toBottomOf="@id/transportOverviewDescription"
                             tools:backgroundTint="@color/colorOnSecondary">
 

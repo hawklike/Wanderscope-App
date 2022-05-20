@@ -2,15 +2,18 @@ package cz.cvut.fit.steuejan.wanderscope.points.common.overview
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.maps.GoogleMap
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toNiceString
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
@@ -26,6 +29,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     val type = MutableLiveData<Int>()
     val icon = MutableLiveData<Int>()
     val description = MutableLiveData<String?>()
+    val address = MutableLiveData<String?>()
 
     val documents = MutableLiveData<List<RecyclerItem>>()
 
@@ -33,6 +37,12 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
 
     protected val pointOverviewLoading = MutableLiveData<Boolean>()
     protected val documentsLoading = MutableLiveData<Boolean>()
+
+    val mapReady = MutableLiveData<GoogleMap>()
+    val coordinatesReady = MutableLiveData<LocationBundle>()
+    val showMap = MutableLiveData<Boolean>()
+
+    val mapAndCoordinatesReady = PairMediatorLiveData(mapReady, coordinatesReady)
 
     val loading = LoadingMediator(
         pointOverviewLoading,
@@ -62,8 +72,16 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
         type.value = data.type.toStringRes()
         icon.value = data.type.toIcon()
         description.value = data.description
+        address.value = data.address.name
+        showMap(data)
         customizePointOverviewSuccess(data)
         pointOverviewLoading.value = false
+    }
+
+    protected open fun showMap(data: Response) {
+        data.coordinates.toLatLng() ?: return
+        showMap.value = true
+        coordinatesReady.value = LocationBundle(data.coordinates, data.address.name)
     }
 
     abstract suspend fun customizePointOverviewSuccess(data: Response)
@@ -90,4 +108,9 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
         loading.value = false
         unexpectedError(error)
     }
+
+    data class LocationBundle(
+        val coordinates: Coordinates?,
+        val title: String?
+    )
 }

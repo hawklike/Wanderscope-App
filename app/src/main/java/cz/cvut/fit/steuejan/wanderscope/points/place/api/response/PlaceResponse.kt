@@ -20,7 +20,7 @@ data class PlaceResponse(
     @Json(name = "type")
     override val type: PlaceType,
     @Json(name = "address")
-    val address: Address,
+    override val address: Address,
     @Json(name = "contact")
     val contact: Contact,
     @Json(name = "wikiBrief")
@@ -32,5 +32,5 @@ data class PlaceResponse(
     @Json(name = "description")
     override val description: String?,
     @Json(name = "coordinates")
-    val coordinates: Coordinates
+    override val coordinates: Coordinates
 ) : PointResponse()

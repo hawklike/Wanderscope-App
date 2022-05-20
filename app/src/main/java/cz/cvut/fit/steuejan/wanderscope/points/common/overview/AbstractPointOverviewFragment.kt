@@ -6,12 +6,12 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.ktx.addMarker
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
+import cz.cvut.fit.steuejan.wanderscope.app.extension.addMarker
+import cz.cvut.fit.steuejan.wanderscope.app.extension.adjustZoom
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import kotlin.reflect.KClass
 
@@ -26,20 +26,23 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
     override val hasBottomNavigation = false
     override val hasTitle = false
 
-    abstract val tripId: Int
-    abstract val pointId: Int
-    abstract val name: String
+    protected abstract val tripId: Int
+    protected abstract val pointId: Int
+    protected abstract val name: String
 
-    abstract val map: MapView?
+    protected abstract val map: MapView?
 
     private val abstractViewModel by lazy {
         viewModel as? AbstractPointOverviewFragmentVM<*>
     }
 
+    protected abstract fun setTitle(title: String)
+
     protected abstract fun handleResponse(response: PointResponse)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        waitUntilMapAndCoordinatesAreReady()
         prepareMap(savedInstanceState)
         setTitle(name)
         retrievePointOverview()
@@ -91,7 +94,6 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
         map?.onLowMemory()
     }
 
-    protected abstract fun setTitle(title: String)
 
     private fun retrievePointOverview() {
         showLoading()
@@ -109,11 +111,14 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
         }
     }
 
-    private fun onMapReady(googleMap: GoogleMap) {
-        val sydney = LatLng(-33.852, 151.211)
-        googleMap.addMarker {
-            position(sydney)
-            title("Ahoj")
+    protected open fun onMapReady(googleMap: GoogleMap) {
+        abstractViewModel?.mapReady?.value = googleMap
+    }
+
+    protected open fun waitUntilMapAndCoordinatesAreReady() {
+        abstractViewModel?.mapAndCoordinatesReady?.safeObserve { (googleMap, location) ->
+            val marker = googleMap?.addMarker(location?.coordinates, location?.title)
+            googleMap?.adjustZoom(map ?: return@safeObserve, marker)
         }
     }
 
