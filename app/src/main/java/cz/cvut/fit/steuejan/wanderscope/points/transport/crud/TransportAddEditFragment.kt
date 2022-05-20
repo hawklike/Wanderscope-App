@@ -3,6 +3,8 @@ package cz.cvut.fit.steuejan.wanderscope.points.transport.crud
 import android.os.Bundle
 import android.view.View
 import android.widget.AutoCompleteTextView
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.google.android.libraries.places.api.model.Place
@@ -11,6 +13,8 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.WithChipGroup
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentPointTransportAddEditBinding
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragment
 import cz.cvut.fit.steuejan.wanderscope.points.transport.model.TransportType
+import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragment
 
 class TransportAddEditFragment : AbstractPointAddEditFragment<
         FragmentPointTransportAddEditBinding,
@@ -55,5 +59,12 @@ class TransportAddEditFragment : AbstractPointAddEditFragment<
                 viewModel.submit(request)
             }
         }
+    }
+
+    override fun setFragmentResult() {
+        setFragmentResult(
+            TripPagerFragment.TRIP_OVERVIEW_REQUEST_KEY,
+            bundleOf(TripPagerFragment.TRIP_OVERVIEW_RESULT_BUNDLE to Load.TRANSPORT)
+        )
     }
 }

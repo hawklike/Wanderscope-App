@@ -27,7 +27,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
 ) : BaseFragment() {
 
     protected lateinit var binding: B private set
-    protected open val viewModel: VM by lazy { getViewModel(clazz = viewModelClass) }
+    open val viewModel: VM by lazy { getViewModel(clazz = viewModelClass) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

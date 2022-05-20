@@ -23,6 +23,7 @@ import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripOverviewBinding
 import cz.cvut.fit.steuejan.wanderscope.points.TripPointOverviewItem
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.crud.bundle.EditTripBundle
+import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
 
 class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, TripOverviewFragmentVM>(
@@ -44,8 +45,38 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         super.onViewCreated(view, savedInstanceState)
         setTitle()
         handlePointsRecycler()
-        retrieveTripOverview()
+        handleLoadingNecessaryData()
         prepareActionButton()
+    }
+
+    private fun handleLoadingNecessaryData() {
+        getViewPagerSharedData<Load>()?.safeObserve {
+            it ?: return@safeObserve
+            if (it != Load.NOTHING) {
+                setViewPagerSharedData(Load.NOTHING)
+                val load = if (tripOverview == null) Load.ALL else it
+                retrieveTripOverview(load)
+            }
+        }
+    }
+
+    private fun retrieveTripOverview(whatToLoad: Load) {
+        val tripId = arguments?.getInt(TRIP_ID) ?: return
+        showLoading()
+        hideActionButton()
+
+        viewModel.getTrip(tripId, whatToLoad)
+
+        viewModel.loading.safeObserve { loading ->
+            if (!loading) {
+                hideLoading()
+            }
+        }
+
+        viewModel.tripOverview.safeObserve {
+            tripOverview = it
+            showActionButton(it.userRole)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -99,22 +130,6 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
-    private fun retrieveTripOverview() {
-        showLoading()
-        viewModel.getTrip(arguments?.getInt(TRIP_ID) ?: return)
-
-        viewModel.loading.safeObserve { loading ->
-            if (!loading) {
-                hideLoading()
-            }
-        }
-
-        viewModel.tripOverview.safeObserve {
-            tripOverview = it
-            showActionButton(it.userRole)
-        }
-    }
-
     private fun showActionButton(userRole: UserRole) {
         val visibility = if (userRole.canEdit()) {
             View.VISIBLE
@@ -122,6 +137,10 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             View.GONE
         }
         binding.tripOverviewAddButton.visibility = visibility
+    }
+
+    private fun hideActionButton() {
+        binding.tripOverviewAddButton.visibility = View.GONE
     }
 
     private fun editTrip(): Boolean {

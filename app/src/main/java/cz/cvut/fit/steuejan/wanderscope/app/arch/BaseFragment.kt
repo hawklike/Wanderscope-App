@@ -37,7 +37,7 @@ abstract class BaseFragment : Fragment() {
         handleToolbar()
     }
 
-    protected open fun setSharedData(data: Any?, onBackground: Boolean = false) {
+    protected fun setSharedData(data: Any?, onBackground: Boolean = false) {
         if (onBackground) {
             sharedViewModel.sharedData.postValue(data)
         } else {
@@ -45,16 +45,9 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    protected open fun clearSharedData(onBackground: Boolean = false) {
-        setSharedData(null, onBackground)
-    }
-
-    protected open fun <T> getSharedData(): LiveData<T?> {
+    protected inline fun <reified T> getSharedData(): LiveData<T?> {
         return sharedViewModel.sharedData.map {
-            runOrLogException {
-                @Suppress("UNCHECKED_CAST")
-                it as T
-            }
+            if (it is T) it else null
         }
     }
 

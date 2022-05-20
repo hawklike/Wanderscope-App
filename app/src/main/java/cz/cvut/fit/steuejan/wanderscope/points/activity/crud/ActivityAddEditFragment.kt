@@ -1,12 +1,16 @@
 package cz.cvut.fit.steuejan.wanderscope.points.activity.crud
 
 import android.widget.AutoCompleteTextView
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.navArgs
 import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentPointActivityAddEditBinding
 import cz.cvut.fit.steuejan.wanderscope.points.activity.model.ActivityType
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragment
+import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragment
 
 class ActivityAddEditFragment : AbstractPointAddEditFragment<
         FragmentPointActivityAddEditBinding,
@@ -37,4 +41,11 @@ class ActivityAddEditFragment : AbstractPointAddEditFragment<
         Place.Field.WEBSITE_URI,
         Place.Field.LAT_LNG
     )
+
+    override fun setFragmentResult() {
+        setFragmentResult(
+            TripPagerFragment.TRIP_OVERVIEW_REQUEST_KEY,
+            bundleOf(TripPagerFragment.TRIP_OVERVIEW_RESULT_BUNDLE to Load.ACTIVITIES)
+        )
+    }
 }

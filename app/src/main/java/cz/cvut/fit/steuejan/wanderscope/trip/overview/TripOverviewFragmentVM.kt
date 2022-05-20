@@ -9,16 +9,19 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
+import cz.cvut.fit.steuejan.wanderscope.app.extension.delayAndReturn
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toDurationString
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlacesResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportsResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
+import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
 import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 import kotlinx.coroutines.CoroutineScope
@@ -56,15 +59,57 @@ class TripOverviewFragmentVM(
         activitiesLoading,
         documentsLoading,
         travellersLoading
-    )
+    ).delayAndReturn(200) //loading is smoother
 
-    fun getTrip(tripId: Int) {
+    fun getTrip(tripId: Int, whatToLoad: Load) {
+        when (whatToLoad) {
+            Load.ALL -> loadAll(tripId)
+            Load.TRANSPORT -> loadTransport(tripId)
+            Load.ACCOMMODATION -> loadAccommodation(tripId)
+            Load.PLACES -> loadPlaces(tripId)
+            Load.ACTIVITIES -> loadActivities(tripId)
+            Load.DOCUMENTS -> loadDocuments(tripId)
+            Load.USERS -> loadUsers(tripId)
+            Load.TRIP -> loadTripOverview(tripId)
+            else -> doNothing
+        }
+    }
+
+    private fun loadAll(tripId: Int) {
+        loadTripOverview(tripId)
+        loadAccommodation(tripId)
+        loadTransport(tripId)
+        loadActivities(tripId)
+        loadPlaces(tripId)
+        loadDocuments(tripId)
+        loadUsers(tripId)
+    }
+
+    private fun loadTripOverview(tripId: Int) {
         viewModelScope.launchIO { getTripOverview(tripId, this) }
+    }
+
+    private fun loadAccommodation(tripId: Int) {
         viewModelScope.launchIO { getAccommodation(tripId, this) }
+    }
+
+    private fun loadTransport(tripId: Int) {
         viewModelScope.launchIO { getTransport(tripId, this) }
+    }
+
+    private fun loadActivities(tripId: Int) {
         viewModelScope.launchIO { getActivities(tripId, this) }
+    }
+
+    private fun loadPlaces(tripId: Int) {
         viewModelScope.launchIO { getPlaces(tripId, this) }
+    }
+
+    private fun loadDocuments(tripId: Int) {
         viewModelScope.launchIO { getDocuments(tripId, this) }
+    }
+
+    private fun loadUsers(tripId: Int) {
         viewModelScope.launchIO { getUsers(tripId, this) }
     }
 

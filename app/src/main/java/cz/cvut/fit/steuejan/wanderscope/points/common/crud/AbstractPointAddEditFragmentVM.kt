@@ -22,7 +22,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.LoadingMutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveData
-import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Back
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
@@ -51,6 +50,7 @@ abstract class AbstractPointAddEditFragmentVM<Request : PointRequest>(
 
     val findAccommodationEvent = SingleLiveEvent<String?>()
     val hideKeyboardEvent = AnySingleLiveEvent()
+    val requestIsSuccess = AnySingleLiveEvent()
 
     protected var placeName: String? = null
     protected var placeId: String? = null
@@ -199,7 +199,7 @@ abstract class AbstractPointAddEditFragmentVM<Request : PointRequest>(
                     is Result.Cache -> TODO()
                     is Result.Failure -> handleFailure(it.error)
                     is Result.Loading -> submitLoading.value = true
-                    is Result.Success -> navigateTo(Back)
+                    is Result.Success -> requestIsSuccess.publish()
                 }
             }
         }
