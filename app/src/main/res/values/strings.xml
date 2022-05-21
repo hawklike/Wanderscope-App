@@ -179,8 +179,15 @@
     <string name="airbnb">Airbnb</string>
 
     <string name="parking">Parking</string>
-    <string name="food">Food</string>
-    <string name="nature">Nature</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="countryside">Countryside</string>
+    <string name="city">City</string>
+    <string name="museum">Museum</string>
+    <string name="zoo">Zoo</string>
+    <string name="park">Park</string>
+    <string name="monument">Monument</string>
+    <string name="mountains">Mountains</string>
+    <string name="castle">Castle</string>
 
     <string name="walk">Walk</string>
     <string name="bike">Bike</string>
@@ -209,7 +216,8 @@
     <string name="describe_the_transport">Describe the transport</string>
     <string name="name_the_place_mandatory">Name the place (mandatory)</string>
     <string name="trip">Trip</string>
-    <string name="travel_by">Travel by\u0020</string>
+    <string name="travel_by_label">Travel by\u0020</string>
+    <string name="visit_label">Visit\u0020</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

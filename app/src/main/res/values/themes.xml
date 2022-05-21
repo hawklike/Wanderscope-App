@@ -10,6 +10,7 @@
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="android:textColorHighlight">@color/colorTextHighlight</item>
         <!-- Status and navigation bar color -->
         <item name="android:statusBarColor">@color/colorBackground</item>
         <item name="android:windowLightStatusBar">true</item>
