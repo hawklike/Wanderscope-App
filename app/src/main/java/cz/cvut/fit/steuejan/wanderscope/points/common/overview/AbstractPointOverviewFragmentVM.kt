@@ -15,6 +15,8 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toNiceString
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.app.util.DaysHoursMinutes
+import cz.cvut.fit.steuejan.wanderscope.app.util.getDaysHoursAndMinutes
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.repository.PointRepository
@@ -30,6 +32,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     val icon = MutableLiveData<Int>()
     val description = MutableLiveData<String?>()
     val address = MutableLiveData<String?>()
+    val duration = MutableLiveData<DaysHoursMinutes?>()
 
     val documents = MutableLiveData<List<RecyclerItem>>()
 
@@ -73,6 +76,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
         icon.value = data.type.toIcon()
         description.value = data.description
         address.value = data.address.name
+        duration.value = getDaysHoursAndMinutes(data.duration)
         showMap(data)
         customizePointOverviewSuccess(data)
         pointOverviewLoading.value = false

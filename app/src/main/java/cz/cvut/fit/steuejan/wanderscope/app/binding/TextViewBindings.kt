@@ -7,17 +7,18 @@ import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.extension.capitalize
+import cz.cvut.fit.steuejan.wanderscope.app.util.DaysHoursMinutes
 
 @BindingAdapter("duration")
 fun TextView.setDuration(duration: DurationString?) {
     visibleOrGone(duration) ?: return
-    text = context.getString(R.string.duration_between_two_dates, duration!!.startDate, duration.endDate)
+    this.text = context.getString(R.string.duration_between_two_dates, duration!!.startDate, duration.endDate)
 }
 
 @BindingAdapter("days")
 fun TextView.setDays(days: Int?) {
     visibleOrGone(days) ?: return
-    text = context.resources.getQuantityString(R.plurals.days_between_two_dates, days!!, days)
+    this.text = context.resources.getQuantityString(R.plurals.days_between_two_dates, days!!, days)
 }
 
 @BindingAdapter("textOrGone")
@@ -52,4 +53,18 @@ fun TextView.setAcronym(name: String) {
 @BindingAdapter("userRole")
 fun TextView.setUserRole(userRole: UserRole) {
     this.setText(userRole.toStringRes())
+}
+
+@BindingAdapter("fullDuration")
+fun TextView.setFullDuration(dateInfo: DaysHoursMinutes?) {
+    visibleOrGone(dateInfo) ?: return
+    val days = dateInfo!!.days
+    val hours = dateInfo.hours
+    val minutes = dateInfo.minutes
+
+    this.text = when {
+        days != 0 -> context.getString(R.string.duration_days_hours_minutes, days, hours, minutes)
+        hours != 0 -> context.getString(R.string.duration_hours_minutes, hours, minutes)
+        else -> context.getString(R.string.duration_minutes, minutes)
+    }
 }

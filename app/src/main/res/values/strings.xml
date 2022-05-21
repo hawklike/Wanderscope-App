@@ -66,7 +66,12 @@
     <string name="trips">Trips</string>
     <string name="account">Account</string>
     <string name="upcoming_trips">Upcoming trips</string>
+
     <string name="duration_between_two_dates" translatable="false">%1$s - %2$s</string>
+    <string name="duration_days_hours_minutes">%1$dd %2$dh %3$dm</string>
+    <string name="duration_hours_minutes">%1$dh %2$dm</string>
+    <string name="duration_minutes">%dm</string>
+
     <string name="past_trips">Where you\'ve been</string>
     <string name="no_past_trips_title">You\'ve been nowhere yet</string>
     <string name="no_past_trips_subtitle">Never mind, just add a new trip and set out.</string>
@@ -74,7 +79,6 @@
     <string name="no_upcoming_trips_subtitle">Start a new adventure by adding a new trip.</string>
     <string name="datepicker_title_default">Select date</string>
     <string name="timepicker_title_default">Select time</string>
-
     <string name="enddate_before_startdate">End date cannot be prior to start date</string>
     <string name="checkout_before_checkin">Check-out cannot be prior to check-in</string>
     <string name="arrival_before_departure">Arrival cannot be prior to departure</string>
