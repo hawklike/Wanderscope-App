@@ -120,6 +120,9 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         setAdapterListener(binding.tripOverviewActivity) { item, _ ->
             goToActivity(item)
         }
+        setAdapterListener(binding.tripOverviewAccommodation) { item, _ ->
+            goToAccommodation(item)
+        }
     }
 
     private fun goToTransport(item: RecyclerItem) {
@@ -144,6 +147,20 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
                     .actionTripPagerFragmentToPlaceOverviewFragment(
                         tripId = trip.id,
                         placeId = item.id,
+                        title = item.name
+                    )
+            )
+        }
+    }
+
+    private fun goToAccommodation(item: RecyclerItem) {
+        if (item is TripPointOverviewItem) {
+            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+            navigateTo(
+                TripPagerFragmentDirections
+                    .actionTripPagerFragmentToAccommodationOverviewFragment(
+                        tripId = trip.id,
+                        accommodationId = item.id,
                         title = item.name
                     )
             )

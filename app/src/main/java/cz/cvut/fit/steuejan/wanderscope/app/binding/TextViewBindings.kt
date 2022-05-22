@@ -21,6 +21,12 @@ fun TextView.setDays(days: Int?) {
     this.text = context.resources.getQuantityString(R.plurals.days_between_two_dates, days!!, days)
 }
 
+@BindingAdapter("nights")
+fun TextView.setNights(nights: Int?) {
+    visibleOrGone(nights) ?: return
+    this.text = context.resources.getQuantityString(R.plurals.nights_between_two_dates, nights!!, nights)
+}
+
 @BindingAdapter("textOrGone")
 fun TextView.setTextOrGone(text: String?) {
     visibleOrGone(text) ?: return

@@ -8,9 +8,13 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 
 suspend inline fun Duration.getDays(): Int? {
+    return getNights()?.plus(1)
+}
+
+suspend inline fun Duration.getNights(): Int? {
     return withDefault {
         multipleLet(startDate, endDate) { s, e ->
-            Days.daysBetween(s.toLocalDate(), e.toLocalDate()).days + 1
+            Days.daysBetween(s.toLocalDate(), e.toLocalDate()).days
         }
     }
 }

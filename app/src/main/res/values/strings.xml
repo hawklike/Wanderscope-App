@@ -218,11 +218,17 @@
     <string name="trip">Trip</string>
     <string name="travel_by_label">Travel by\u0020</string>
     <string name="visit_label">Visit\u0020</string>
+    <string name="sleep_at_label">Sleep at\u0020</string>
     <string name="wikipedia">Wikipedia</string>
     <string name="go_to_the_website">Go to the website</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
+    </plurals>
+
+    <plurals name="nights_between_two_dates">
+        <item quantity="one">%d night</item>
+        <item quantity="other">%d nights</item>
     </plurals>
 </resources>
