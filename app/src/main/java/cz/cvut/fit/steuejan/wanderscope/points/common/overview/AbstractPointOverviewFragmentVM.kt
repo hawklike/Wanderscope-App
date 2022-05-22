@@ -54,7 +54,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
         documentsLoading
     ).delayAndReturn(200) //smooth loading
 
-    protected var website: String? = null
+    val website = MutableLiveData<String?>()
     val goToWebsite = SingleLiveEvent<String>()
 
     fun getPoint(tripId: Int, pointId: Int) {
@@ -119,7 +119,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     }
 
     fun goToWebsite() {
-        website?.let {
+        website.value?.let {
             goToWebsite.value = it
         }
     }

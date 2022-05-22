@@ -16,7 +16,7 @@ class PlaceOverviewFragmentVM(placeRepository: PlaceRepository) :
     override suspend fun customizePointOverviewSuccess(data: PlaceResponse) {
         latitude.value = data.coordinates.latitude
         longitude.value = data.coordinates.longitude
-        super.website = data.contact.website
+        super.website.value = data.contact.website
         setWikipedia(data)
     }
 
