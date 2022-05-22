@@ -12,6 +12,8 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.extension.addMarker
 import cz.cvut.fit.steuejan.wanderscope.app.extension.adjustZoom
+import cz.cvut.fit.steuejan.wanderscope.app.util.goToWebsite
+import cz.cvut.fit.steuejan.wanderscope.app.util.runOrLogException
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import kotlin.reflect.KClass
 
@@ -42,10 +44,11 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        waitUntilMapAndCoordinatesAreReady()
-        prepareMap(savedInstanceState)
         setTitle(name)
         retrievePointOverview()
+        waitUntilMapAndCoordinatesAreReady()
+        prepareMap(savedInstanceState)
+        handleGoToWebsite()
     }
 
     private fun prepareMap(savedInstanceState: Bundle?) {
@@ -119,6 +122,14 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
         abstractViewModel?.mapAndCoordinatesReady?.safeObserve { (googleMap, location) ->
             val marker = googleMap?.addMarker(location?.coordinates, location?.title)
             googleMap?.adjustZoom(map ?: return@safeObserve, marker)
+        }
+    }
+
+    private fun handleGoToWebsite() {
+        abstractViewModel?.goToWebsite?.safeObserve {
+            runOrLogException {
+                startActivity(goToWebsite(it))
+            }
         }
     }
 

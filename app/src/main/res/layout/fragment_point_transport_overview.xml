@@ -133,8 +133,8 @@
 
                             <ImageView
                                 android:id="@+id/transportOverviewIcon"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
+                                android:layout_width="@dimen/app_point_overview_icon_size"
+                                android:layout_height="@dimen/app_point_overview_icon_size"
                                 app:imageResource="@{vm.icon}"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -172,7 +172,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginTop="@dimen/margin_12"
-                            android:drawableStart="@drawable/ic_clock"
+                            android:drawableStart="@drawable/ic_clock_16"
                             android:drawablePadding="@dimen/margin_8"
                             android:drawableTint="@color/colorPrimary"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
@@ -280,7 +280,6 @@
                             android:layout_marginTop="@dimen/app_text_input_label_margin"
                             android:textIsSelectable="true"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
-                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/transportOverviewDescriptionLabel"
                             app:textOrGone="@{vm.description}"
                             tools:text="This meta description generator uses machine learning (specifically GPT-3 from Open AI) to generate short description ideas for your articles. It has been trained specifically for pages with long content and is best suited for guides, how-to articles, articles with bulleted lists, etc." />

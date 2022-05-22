@@ -104,6 +104,9 @@
         <action
             android:id="@+id/action_tripPagerFragment_to_transportOverviewFragment"
             app:destination="@id/transportOverviewFragment" />
+        <action
+            android:id="@+id/action_tripPagerFragment_to_placeOverviewFragment"
+            app:destination="@id/placeOverviewFragment" />
     </fragment>
 
     <fragment
@@ -178,6 +181,22 @@
             app:argType="integer" />
         <argument
             android:name="transportId"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/placeOverviewFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.points.place.overview.PlaceOverviewFragment"
+        android:label=""
+        tools:layout="@layout/fragment_point_place_overview">
+        <argument
+            android:name="tripId"
+            app:argType="integer" />
+        <argument
+            android:name="placeId"
             app:argType="integer" />
         <argument
             android:name="title"

@@ -18,6 +18,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
+import cz.cvut.fit.steuejan.wanderscope.app.util.runOrLogException
 import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripOverviewBinding
 import cz.cvut.fit.steuejan.wanderscope.points.TripPointOverviewItem
@@ -113,17 +114,33 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         setAdapterListener(binding.tripOverviewTransport) { item, _ ->
             goToTransport(item)
         }
+        setAdapterListener(binding.tripOverviewPlace) { item, _ ->
+            goToPlace(item)
+        }
     }
 
     private fun goToTransport(item: RecyclerItem) {
         if (item is TripPointOverviewItem) {
             val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
-
             navigateTo(
                 TripPagerFragmentDirections
                     .actionTripPagerFragmentToTransportOverviewFragment(
                         tripId = trip.id,
                         transportId = item.id,
+                        title = item.name
+                    )
+            )
+        }
+    }
+
+    private fun goToPlace(item: RecyclerItem) {
+        if (item is TripPointOverviewItem) {
+            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+            navigateTo(
+                TripPagerFragmentDirections
+                    .actionTripPagerFragmentToPlaceOverviewFragment(
+                        tripId = trip.id,
+                        placeId = item.id,
                         title = item.name
                     )
             )
@@ -165,15 +182,17 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     private fun saveToCalendar(): Boolean {
         val trip = tripOverview ?: return pleaseWait()
         with(trip) {
-            startActivity(
-                saveEventToCalendar(
-                    duration.startDate,
-                    duration.endDate,
-                    allDay = true,
-                    name,
-                    description
+            runOrLogException {
+                startActivity(
+                    saveEventToCalendar(
+                        duration.startDate,
+                        duration.endDate,
+                        allDay = true,
+                        name,
+                        description
+                    )
                 )
-            )
+            }
         }
         return true
     }

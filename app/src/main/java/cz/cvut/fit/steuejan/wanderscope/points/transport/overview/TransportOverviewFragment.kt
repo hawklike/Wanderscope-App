@@ -30,14 +30,14 @@ class TransportOverviewFragment : AbstractPointOverviewFragment<
 
     private val args: TransportOverviewFragmentArgs by navArgs()
 
-    override fun handleResponse(response: PointResponse) {
-        if (response !is TransportResponse) {
-            return
-        }
-    }
+    private var transportOverview: TransportResponse? = null
 
     override fun setTitle(title: String) {
         binding.transportOverviewTitle.text = title
+    }
+
+    override fun handleResponse(response: PointResponse) {
+        transportOverview = response as? TransportResponse
     }
 
     override fun waitUntilMapAndCoordinatesAreReady() {

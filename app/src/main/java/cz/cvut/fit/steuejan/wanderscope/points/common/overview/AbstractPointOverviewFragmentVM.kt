@@ -10,9 +10,11 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
+import cz.cvut.fit.steuejan.wanderscope.app.extension.delayAndReturn
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toNiceString
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.DaysHoursMinutes
@@ -50,7 +52,10 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     val loading = LoadingMediator(
         pointOverviewLoading,
         documentsLoading
-    )
+    ).delayAndReturn(200) //smooth loading
+
+    protected var website: String? = null
+    val goToWebsite = SingleLiveEvent<String>()
 
     fun getPoint(tripId: Int, pointId: Int) {
         viewModelScope.launchIO { getPointOverview(tripId, pointId, this) }
@@ -111,6 +116,12 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     protected fun failure(error: Error, loading: MutableLiveData<Boolean>) {
         loading.value = false
         unexpectedError(error)
+    }
+
+    fun goToWebsite() {
+        website?.let {
+            goToWebsite.value = it
+        }
     }
 
     data class LocationBundle(
