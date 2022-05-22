@@ -1,6 +1,7 @@
 package cz.cvut.fit.steuejan.wanderscope.app.arch
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -19,6 +20,7 @@ import cz.cvut.fit.steuejan.wanderscope.MainActivityVM
 import cz.cvut.fit.steuejan.wanderscope.app.nav.WithBottomNavigationBar
 import cz.cvut.fit.steuejan.wanderscope.app.toolbar.WithToolbar
 import cz.cvut.fit.steuejan.wanderscope.app.util.runOrLogException
+import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
 import cz.cvut.fit.steuejan.wanderscope.auth.WithLogin
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -107,6 +109,12 @@ abstract class BaseFragment : Fragment() {
 
     protected fun showToast(@StringRes message: Int) {
         showToast(BaseViewModel.ToastInfo(message))
+    }
+
+    protected fun startActivitySafe(intent: Intent) {
+        runOrNull {
+            startActivity(intent)
+        }
     }
 
     private fun handleBottomNavigation() {

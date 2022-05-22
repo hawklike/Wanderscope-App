@@ -220,7 +220,10 @@
     <string name="visit_label">Visit\u0020</string>
     <string name="sleep_at_label">Sleep at\u0020</string>
     <string name="wikipedia">Wikipedia</string>
-    <string name="go_to_the_website">Go to the website</string>
+    <string name="go_to_the_website">Go to website</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="set_a_destination">Set a destination</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

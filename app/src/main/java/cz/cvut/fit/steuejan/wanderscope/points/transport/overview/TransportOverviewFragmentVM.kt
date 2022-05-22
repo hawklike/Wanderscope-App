@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.TripleMediatorLiveData
+import cz.cvut.fit.steuejan.wanderscope.app.util.showDirections
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.AbstractPointOverviewFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.repository.TransportRepository
@@ -30,6 +31,13 @@ class TransportOverviewFragmentVM(transportRepository: TransportRepository) :
         to.value = data.to.name
         cars.value = prepareCarChips(data)
         seats.value = prepareSeatChips(data)
+    }
+
+    override fun launchMapFromLabel() {
+        to.value?.let {
+            val type = pointOverview.value?.type
+            goToWebsite.value = showDirections(from.value, it, type)
+        } ?: showToast(ToastInfo(R.string.set_a_destination))
     }
 
     override fun showMap(data: TransportResponse) {

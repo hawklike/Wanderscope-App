@@ -99,6 +99,7 @@
                             android:layout_marginTop="@dimen/app_h3_bottom_margin"
                             android:layout_marginEnd="@dimen/app_point_overview_address_end_margin"
                             android:gravity="center_vertical"
+                            android:onClick="@{() -> vm.launchMap()}"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                             android:textIsSelectable="true"
                             app:layout_constraintStart_toStartOf="parent"
@@ -127,6 +128,7 @@
                             android:layout_marginTop="@dimen/app_point_overview_type_label_margin"
                             android:background="@drawable/shape_rounded_32"
                             android:backgroundTint="@color/colorSurface"
+                            android:onClick="@{() -> vm.launchMapFromLabel()}"
                             android:paddingHorizontal="@dimen/app_point_overview_type_label_horizontal_padding"
                             android:paddingVertical="@dimen/app_point_overview_type_label_vertical_padding"
                             app:layout_constraintStart_toEndOf="@id/accommodationOverviewVerticalLine"
@@ -178,9 +180,9 @@
                             android:drawableTint="@color/colorPrimary"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                             android:textColor="@color/colorPrimary"
-                            app:nights="@{vm.nights}"
                             app:layout_constraintStart_toStartOf="@id/accommodationOverviewTravelLayout"
                             app:layout_constraintTop_toBottomOf="@id/accommodationOverviewTravelLayout"
+                            app:nights="@{vm.nights}"
                             tools:text="1 night" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -209,13 +211,13 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/accommodationOverviewWebsite"
+                            visibleOrGone="@{vm.website}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:drawableEnd="@drawable/ic_open_in_new_20"
                             android:drawablePadding="@dimen/margin_4"
                             android:drawableTint="@color/colorPrimary"
-                            visibleOrGone="@{vm.website}"
                             android:onClick="@{() -> vm.goToWebsite()}"
                             android:text="@string/go_to_the_website"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
@@ -228,21 +230,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
+                            android:onClick="@{() -> vm.launchPhoneCall()}"
                             android:text="@string/phone"
-                            app:visibleOrGone="@{vm.phone}"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewWebsite" />
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewWebsite"
+                            app:visibleOrGone="@{vm.phone}" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/accommodationOverviewPhone"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            android:onClick="@{() -> vm.launchPhoneCall()}"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                             android:textIsSelectable="true"
-                            app:textOrGone="@{vm.phone}"
+                            android:drawableStart="@drawable/ic_phone_android_16"
+                            android:drawablePadding="@dimen/margin_4"
+                            android:drawableTint="@color/colorText"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/accommodationOverviewPhoneLabel"
+                            app:textOrGone="@{vm.phone}"
                             tools:text="+232 364 856 362" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -250,21 +258,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/app_text_input_margin"
+                            android:onClick="@{() -> vm.sendEmail()}"
                             android:text="@string/email"
-                            app:visibleOrGone="@{vm.email}"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewPhone" />
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewPhone"
+                            app:visibleOrGone="@{vm.email}" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/accommodationOverviewEmail"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            android:onClick="@{() -> vm.sendEmail()}"
                             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                             android:textIsSelectable="true"
-                            app:textOrGone="@{vm.email}"
+                            android:drawableStart="@drawable/ic_email_16"
+                            android:drawablePadding="@dimen/margin_4"
+                            android:drawableTint="@color/colorText"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/accommodationOverviewEmailLabel"
+                            app:textOrGone="@{vm.email}"
                             tools:text="hello@example.com" />
 
                         <com.google.android.material.textview.MaterialTextView

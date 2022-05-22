@@ -18,5 +18,5 @@
     <color name="colorTextInputIcon">#80747D90</color>
     <color name="colorShimmer">#DADEEA</color>
     <color name="colorDrawableBackground">#ECEFFA</color>
-    <color name="colorTextHighlight">@color/colorDrawableBackground</color>
+    <color name="colorTextHighlight">#97F3F1</color>
 </resources>

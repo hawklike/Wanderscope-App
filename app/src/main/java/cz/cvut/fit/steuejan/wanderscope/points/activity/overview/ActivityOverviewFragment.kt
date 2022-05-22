@@ -1,5 +1,6 @@
 package cz.cvut.fit.steuejan.wanderscope.points.activity.overview
 
+import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -29,11 +30,20 @@ class ActivityOverviewFragment : AbstractPointOverviewFragment<
 
     private var activityOverview: ActivityResponse? = null
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mapLinkIntent()
+    }
+
     override fun setTitle(title: String) {
         binding.activityOverviewTitle.text = title
     }
 
     override fun handleResponse(response: PointResponse) {
         activityOverview = response as? ActivityResponse
+    }
+
+    private fun mapLinkIntent() {
+        viewModel.launchMapLink.safeObserve(::startActivitySafe)
     }
 }

@@ -1,5 +1,6 @@
 package cz.cvut.fit.steuejan.wanderscope.points.common.overview
 
+import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.GoogleMap
@@ -19,6 +20,8 @@ import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveDa
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.DaysHoursMinutes
 import cz.cvut.fit.steuejan.wanderscope.app.util.getDaysHoursAndMinutes
+import cz.cvut.fit.steuejan.wanderscope.app.util.goToWebsite
+import cz.cvut.fit.steuejan.wanderscope.app.util.showMap
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.repository.PointRepository
@@ -55,7 +58,9 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     ).delayAndReturn(200) //smooth loading
 
     val website = MutableLiveData<String?>()
-    val goToWebsite = SingleLiveEvent<String>()
+
+    val goToWebsite = SingleLiveEvent<Intent>()
+    val launchMap = SingleLiveEvent<Intent>()
 
     fun getPoint(tripId: Int, pointId: Int) {
         viewModelScope.launchIO { getPointOverview(tripId, pointId, this) }
@@ -120,7 +125,19 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
 
     fun goToWebsite() {
         website.value?.let {
-            goToWebsite.value = it
+            goToWebsite.value = goToWebsite(it)
+        }
+    }
+
+    fun launchMap() {
+        address.value?.let {
+            launchMap.value = showMap(it)
+        }
+    }
+
+    open fun launchMapFromLabel() {
+        pointOverview.value?.name?.let {
+            launchMap.value = showMap(it)
         }
     }
 

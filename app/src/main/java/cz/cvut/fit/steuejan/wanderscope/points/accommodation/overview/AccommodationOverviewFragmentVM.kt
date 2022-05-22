@@ -1,7 +1,11 @@
 package cz.cvut.fit.steuejan.wanderscope.points.accommodation.overview
 
+import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getNights
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
+import cz.cvut.fit.steuejan.wanderscope.app.util.callPhone
+import cz.cvut.fit.steuejan.wanderscope.app.util.sendEmail
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.AccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.repository.AccommodationRepository
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.AbstractPointOverviewFragmentVM
@@ -13,10 +17,25 @@ class AccommodationOverviewFragmentVM(accommodationRepository: AccommodationRepo
     val email = MutableLiveData<String?>()
     val nights = MutableLiveData<Int?>()
 
+    val launchPhoneCall = SingleLiveEvent<Intent>()
+    val sendEmail = SingleLiveEvent<Intent>()
+
     override suspend fun customizePointOverviewSuccess(data: AccommodationResponse) {
         phone.value = data.contact.phone
         email.value = data.contact.email
         nights.value = data.duration.getNights()
         super.website.value = data.contact.website
+    }
+
+    fun launchPhoneCall() {
+        phone.value?.let {
+            launchPhoneCall.value = callPhone(it)
+        }
+    }
+
+    fun sendEmail() {
+        email.value?.let {
+            sendEmail.value = sendEmail(it)
+        }
     }
 }

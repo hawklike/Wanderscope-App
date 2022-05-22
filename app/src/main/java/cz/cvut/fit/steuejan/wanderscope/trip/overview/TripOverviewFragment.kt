@@ -18,7 +18,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
-import cz.cvut.fit.steuejan.wanderscope.app.util.runOrLogException
 import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripOverviewBinding
 import cz.cvut.fit.steuejan.wanderscope.points.TripPointOverviewItem
@@ -216,17 +215,15 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     private fun saveToCalendar(): Boolean {
         val trip = tripOverview ?: return pleaseWait()
         with(trip) {
-            runOrLogException {
-                startActivity(
-                    saveEventToCalendar(
-                        duration.startDate,
-                        duration.endDate,
-                        allDay = true,
-                        name,
-                        description
-                    )
+            startActivitySafe(
+                saveEventToCalendar(
+                    duration.startDate,
+                    duration.endDate,
+                    allDay = true,
+                    name,
+                    description
                 )
-            }
+            )
         }
         return true
     }

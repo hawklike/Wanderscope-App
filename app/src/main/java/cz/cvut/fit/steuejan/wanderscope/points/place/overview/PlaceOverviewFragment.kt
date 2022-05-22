@@ -1,5 +1,6 @@
 package cz.cvut.fit.steuejan.wanderscope.points.place.overview
 
+import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -29,11 +30,20 @@ class PlaceOverviewFragment : AbstractPointOverviewFragment<
 
     private var placeOverview: PlaceResponse? = null
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        showMapIntent()
+    }
+
     override fun setTitle(title: String) {
         binding.placeOverviewTitle.text = title
     }
 
     override fun handleResponse(response: PointResponse) {
         placeOverview = response as? PlaceResponse
+    }
+
+    private fun showMapIntent() {
+        viewModel.launchMapLatLon.safeObserve(::startActivitySafe)
     }
 }
