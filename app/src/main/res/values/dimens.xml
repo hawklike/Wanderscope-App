@@ -65,4 +65,5 @@
     <dimen name="app_point_overview_type_label_vertical_padding">8dp</dimen>
     <dimen name="app_point_overview_vertical_line_margin">12dp</dimen>
     <dimen name="app_point_overview_icon_size">26dp</dimen>
+    <dimen name="app_point_overview_address_start_margin">5dp</dimen>
 </resources>
