@@ -45,6 +45,7 @@ class AccommodationAddEditFragmentVM(
         phone.value = point.contact.phone
         website.value = point.contact.website
         email.value = point.contact.email
+        type.value = point.type.toStringRes()
     }
 
     override fun placeFound(place: Place) {

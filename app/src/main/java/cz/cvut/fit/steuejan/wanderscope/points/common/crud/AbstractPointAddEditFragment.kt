@@ -43,8 +43,8 @@ abstract class AbstractPointAddEditFragment<B : ViewDataBinding, VM : BaseViewMo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViewModel()
         prepareDropdownMenu()
+        initViewModel()
         findPlace()
         hideKeyboard()
         handleSuccess()

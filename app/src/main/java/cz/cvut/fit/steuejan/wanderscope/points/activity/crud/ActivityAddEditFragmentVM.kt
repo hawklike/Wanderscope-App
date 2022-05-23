@@ -27,6 +27,7 @@ class ActivityAddEditFragmentVM(
         super.setupEdit(point, title)
         website.value = point.website
         mapLink.value = point.mapLink
+        type.value = point.type.toStringRes()
     }
 
     override fun placeFound(place: Place) {

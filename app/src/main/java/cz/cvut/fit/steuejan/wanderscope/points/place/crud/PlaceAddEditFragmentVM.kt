@@ -10,7 +10,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
-import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
+import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.request.PlaceRequest
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlaceResponse
@@ -30,6 +30,14 @@ class PlaceAddEditFragmentVM(
     val latitude = MutableLiveData<String?>()
     val longitude = MutableLiveData<String?>()
 
+    override fun setupEdit(point: PlaceResponse, title: Int) {
+        super.setupEdit(point, title)
+        website.value = point.contact.website
+        latitude.value = point.coordinates.latitude
+        longitude.value = point.coordinates.longitude
+        type.value = point.type.toStringRes()
+    }
+
     override fun placeFound(place: Place) {
         super.placeFound(place)
         place.name?.let { name.value = it }
@@ -43,6 +51,12 @@ class PlaceAddEditFragmentVM(
 
     override suspend fun createPoint(request: PlaceRequest): Flow<Result<CreatedResponse>>? {
         return repository.createPoint(tripId ?: return null, request, placeName)
+    }
+
+    override suspend fun editPoint(request: PlaceRequest): Flow<Result<Unit>>? {
+        return multipleLet(tripId, pointId) { tripId, pointId ->
+            repository.editPoint(tripId, pointId, request, placeName)
+        }
     }
 
     override fun createRequest(): PlaceRequest? {
@@ -60,8 +74,7 @@ class PlaceAddEditFragmentVM(
     }
 
     private fun getTypeFromSelectedItem(): PlaceType {
-        return runOrNull {
-            PlaceType.values()[selectedTypePosition ?: -1]
-        } ?: PlaceType.OTHER
+        return PlaceType.values().getOrNull(selectedTypePosition ?: -1)
+            ?: PlaceType.OTHER
     }
 }

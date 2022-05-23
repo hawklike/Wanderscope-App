@@ -45,7 +45,13 @@ class PlaceOverviewFragment : AbstractPointOverviewFragment<
     }
 
     override fun editPoint(): Boolean {
-        //todo
+        val place = placeOverview ?: return pleaseWait()
+        navigateTo(
+            PlaceOverviewFragmentDirections
+                .actionPlaceOverviewFragmentToPlaceAddEditFragment(
+                    pointOverview.tripId, place
+                )
+        )
         return true
     }
 

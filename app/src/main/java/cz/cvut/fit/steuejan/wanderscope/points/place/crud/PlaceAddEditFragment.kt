@@ -23,6 +23,13 @@ class PlaceAddEditFragment : AbstractPointAddEditFragment<
 
     override fun initViewModel() {
         viewModel.init(args.tripId, R.string.add_place)
+        setupEditPlace()
+    }
+
+    private fun setupEditPlace() {
+        args.response?.let {
+            viewModel.setupEdit(it, R.string.edit_place)
+        }
     }
 
     override fun prepareDropdownItems(): List<String> {

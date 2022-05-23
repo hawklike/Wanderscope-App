@@ -185,6 +185,11 @@
         <argument
             android:name="tripId"
             app:argType="integer" />
+        <argument
+            android:name="response"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlaceResponse"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
@@ -205,6 +210,9 @@
         <argument
             android:name="overviewBundle"
             app:argType="cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle" />
+        <action
+            android:id="@+id/action_placeOverviewFragment_to_placeAddEditFragment"
+            app:destination="@id/placeAddEditFragment" />
     </fragment>
 
     <fragment

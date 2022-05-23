@@ -102,7 +102,6 @@ abstract class AbstractPointAddEditFragmentVM<
             description.value = point.description
             coordinates = point.coordinates
             selectedTypePosition = point.type.position
-            type.value = point.type.toStringRes()
             shouldValidateDates = true
         }
     }
