@@ -9,6 +9,7 @@ import com.google.android.gms.maps.MapView
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.extension.addMarker
 import cz.cvut.fit.steuejan.wanderscope.app.extension.adjustZoom
+import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentPointTransportOverviewBinding
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.AbstractPointOverviewFragment
@@ -62,7 +63,20 @@ class TransportOverviewFragment : AbstractPointOverviewFragment<
     }
 
     override fun saveToCalendar(): Boolean {
-        //todo
+        transportOverview?.let {
+            with(it) {
+                startActivitySafe(
+                    saveEventToCalendar(
+                        duration.startDate,
+                        duration.endDate,
+                        allDay = false,
+                        name,
+                        description,
+                        address.name
+                    )
+                )
+            }
+        }
         return true
     }
 

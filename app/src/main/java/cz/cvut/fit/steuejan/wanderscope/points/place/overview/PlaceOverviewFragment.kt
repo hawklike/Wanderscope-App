@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.maps.MapView
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentPointPlaceOverviewBinding
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.AbstractPointOverviewFragment
@@ -65,7 +66,20 @@ class PlaceOverviewFragment : AbstractPointOverviewFragment<
     }
 
     override fun saveToCalendar(): Boolean {
-        //todo
+        placeOverview?.let {
+            with(it) {
+                startActivitySafe(
+                    saveEventToCalendar(
+                        duration.startDate,
+                        duration.endDate,
+                        allDay = false,
+                        name,
+                        description,
+                        address.name
+                    )
+                )
+            }
+        }
         return true
     }
 

@@ -214,7 +214,8 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
                     duration.endDate,
                     allDay = true,
                     name,
-                    description
+                    description,
+                    location = null
                 )
             )
         }

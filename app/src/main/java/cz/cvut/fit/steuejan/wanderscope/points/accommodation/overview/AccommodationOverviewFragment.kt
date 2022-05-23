@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.maps.MapView
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentPointAccommodationOverviewBinding
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.AccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
@@ -66,7 +67,20 @@ class AccommodationOverviewFragment : AbstractPointOverviewFragment<
     }
 
     override fun saveToCalendar(): Boolean {
-        //todo
+        accommodationOverview?.let {
+            with(it) {
+                startActivitySafe(
+                    saveEventToCalendar(
+                        duration.startDate,
+                        duration.endDate,
+                        allDay = false,
+                        name,
+                        description,
+                        address.name
+                    )
+                )
+            }
+        }
         return true
     }
 

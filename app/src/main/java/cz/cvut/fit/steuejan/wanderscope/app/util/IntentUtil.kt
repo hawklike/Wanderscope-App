@@ -11,7 +11,8 @@ fun saveEventToCalendar(
     endDate: DateTime?,
     allDay: Boolean,
     title: String?,
-    description: String?
+    description: String?,
+    location: String?
 ) = Intent(Intent.ACTION_INSERT).apply {
     data = CalendarContract.Events.CONTENT_URI
     putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, allDay)
@@ -19,6 +20,7 @@ fun saveEventToCalendar(
     putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endDate?.millis)
     putExtra(CalendarContract.Events.TITLE, title)
     putExtra(CalendarContract.Events.DESCRIPTION, description)
+    putExtra(CalendarContract.Events.EVENT_LOCATION, location)
 }
 
 fun goToWebsite(url: String): Intent {
