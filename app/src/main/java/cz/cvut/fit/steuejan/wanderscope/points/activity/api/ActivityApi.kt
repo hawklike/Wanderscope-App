@@ -26,4 +26,10 @@ interface ActivityApi {
         @Path("id") id: Int,
         @Body request: ActivityRequest
     ): Response<Unit>
+
+    @DELETE("/trip/{tripId}/activity/{id}")
+    suspend fun deleteActivity(
+        @Path("tripId") tripId: Int,
+        @Path("id") id: Int
+    ): Response<Unit>
 }

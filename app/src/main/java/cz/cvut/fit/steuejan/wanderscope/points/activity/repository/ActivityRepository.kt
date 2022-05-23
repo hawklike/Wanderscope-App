@@ -28,4 +28,8 @@ class ActivityRepository(private val api: ActivityApi, documentApi: DocumentApi)
     override suspend fun editPoint(tripId: Int, pointId: Int, request: ActivityRequest): Flow<Result<Unit>> {
         return performCall { api.editActivity(tripId, pointId, request) }.toUnitIfSuccess()
     }
+
+    override suspend fun deletePoint(tripId: Int, pointId: Int): Flow<Result<Unit>> {
+        return performCall { api.deleteActivity(tripId, pointId) }.toUnitIfSuccess()
+    }
 }

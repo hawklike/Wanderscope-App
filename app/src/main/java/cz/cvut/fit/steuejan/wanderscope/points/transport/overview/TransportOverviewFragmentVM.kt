@@ -66,4 +66,21 @@ class TransportOverviewFragmentVM(transportRepository: TransportRepository) :
             }
         }
     }
+
+    fun deleteTransport(tripId: Int, pointId: Int) {
+        showAlertDialog(
+            AlertDialogInfo(
+                title = R.string.delete_transport_dialog_title,
+                message = R.string.delete_transport_dialog_message,
+                positiveButton = R.string.delete,
+                onClickPositive = { _, _ ->
+                    deletePointReady(
+                        tripId,
+                        pointId,
+                        R.string.deleting_transport
+                    )
+                }
+            )
+        )
+    }
 }

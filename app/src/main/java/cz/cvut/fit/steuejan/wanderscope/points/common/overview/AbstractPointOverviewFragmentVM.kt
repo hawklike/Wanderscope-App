@@ -1,6 +1,7 @@
 package cz.cvut.fit.steuejan.wanderscope.points.common.overview
 
 import android.content.Intent
+import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.GoogleMap
@@ -15,6 +16,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.delayAndReturn
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toNiceString
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
@@ -61,6 +63,9 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
 
     val goToWebsite = SingleLiveEvent<Intent>()
     val launchMap = SingleLiveEvent<Intent>()
+
+    val deleteIsSuccess = AnySingleLiveEvent()
+    val deleteLoading = SingleLiveEvent<Int>()
 
     fun getPoint(tripId: Int, pointId: Int) {
         viewModelScope.launchIO { getPointOverview(tripId, pointId, this) }
@@ -138,6 +143,20 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     open fun launchMapFromLabel() {
         pointOverview.value?.name?.let {
             launchMap.value = showMap(it)
+        }
+    }
+
+    protected fun deletePointReady(tripId: Int, pointId: Int, @StringRes loadingTitle: Int) {
+        viewModelScope.launchIO {
+            pointRepository.deletePoint(tripId, pointId).safeCollect(this) {
+                when (it) {
+                    is Result.Cache -> TODO()
+                    is Result.Failure -> unexpectedError(it.error)
+                    is Result.Loading -> deleteLoading.value = loadingTitle
+                    is Result.Success -> deleteIsSuccess.publish()
+
+                }
+            }
         }
     }
 

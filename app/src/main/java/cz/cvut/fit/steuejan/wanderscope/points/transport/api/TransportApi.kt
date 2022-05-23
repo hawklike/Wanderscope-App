@@ -26,4 +26,10 @@ interface TransportApi {
         @Path("id") id: Int,
         @Body request: TransportRequest
     ): Response<Unit>
+
+    @DELETE("/trip/{tripId}/transport/{id}")
+    suspend fun deleteTransport(
+        @Path("tripId") tripId: Int,
+        @Path("id") id: Int
+    ): Response<Unit>
 }

@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.accommodation.overview
 
 import android.content.Intent
 import androidx.lifecycle.MutableLiveData
+import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getNights
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.util.callPhone
@@ -37,5 +38,22 @@ class AccommodationOverviewFragmentVM(accommodationRepository: AccommodationRepo
         email.value?.let {
             sendEmail.value = sendEmail(it)
         }
+    }
+
+    fun deleteAccommodation(tripId: Int, pointId: Int) {
+        showAlertDialog(
+            AlertDialogInfo(
+                title = R.string.delete_accommodation_dialog_title,
+                message = R.string.delete_accommodation_dialog_message,
+                positiveButton = R.string.delete,
+                onClickPositive = { _, _ ->
+                    deletePointReady(
+                        tripId,
+                        pointId,
+                        R.string.deleting_accommodation
+                    )
+                }
+            )
+        )
     }
 }

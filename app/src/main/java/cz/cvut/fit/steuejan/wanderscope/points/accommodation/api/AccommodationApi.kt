@@ -26,4 +26,10 @@ interface AccommodationApi {
         @Path("id") id: Int,
         @Body request: AccommodationRequest
     ): Response<Unit>
+
+    @DELETE("/trip/{tripId}/accommodation/{id}")
+    suspend fun deleteAccommodation(
+        @Path("tripId") tripId: Int,
+        @Path("id") id: Int
+    ): Response<Unit>
 }

@@ -9,8 +9,10 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
+import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
+import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
@@ -40,6 +42,8 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
     protected abstract val menuEditItem: Int
     protected abstract val menuDeleteItem: Int
 
+    abstract fun setFragmentResult()
+
     private val abstractViewModel by lazy {
         viewModel as? AbstractPointOverviewFragmentVM<*>
     }
@@ -51,6 +55,18 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setTitle(pointOverview.title)
+        retrievePointOverview()
+        waitUntilMapAndCoordinatesAreReady()
+        prepareMap(savedInstanceState)
+        goToWebsiteIntent()
+        launchMapIntent()
+        handleLoadingDelete()
+        handleSuccessDelete()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -83,20 +99,31 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
     abstract fun deletePoint(): Boolean
     abstract fun saveToCalendar(): Boolean
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setTitle(pointOverview.title)
-        retrievePointOverview()
-        waitUntilMapAndCoordinatesAreReady()
-        prepareMap(savedInstanceState)
-        goToWebsiteIntent()
-        launchMapIntent()
-    }
-
     private fun prepareMap(savedInstanceState: Bundle?) {
         val mapViewBundle = savedInstanceState?.getBundle(MAP_BUNDLE_KEY)
         map?.onCreate(mapViewBundle)
         map?.getMapAsync(::onMapReady)
+    }
+
+    private var deleteSnackbar: Snackbar? = null
+
+    private fun handleLoadingDelete() {
+        abstractViewModel?.deleteLoading?.safeObserve { title ->
+            deleteSnackbar = showSnackbar(
+                SnackbarInfo(
+                    title,
+                    length = Snackbar.LENGTH_INDEFINITE
+                )
+            )
+        }
+    }
+
+    private fun handleSuccessDelete() {
+        abstractViewModel?.deleteIsSuccess?.safeObserve {
+            deleteSnackbar?.dismiss()
+            setFragmentResult()
+            navigateBack()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

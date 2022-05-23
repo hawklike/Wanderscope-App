@@ -28,4 +28,8 @@ class TransportRepository(private val api: TransportApi, documentApi: DocumentAp
     override suspend fun editPoint(tripId: Int, pointId: Int, request: TransportRequest): Flow<Result<Unit>> {
         return performCall { api.editTransport(tripId, pointId, request) }.toUnitIfSuccess()
     }
+
+    override suspend fun deletePoint(tripId: Int, pointId: Int): Flow<Result<Unit>> {
+        return performCall { api.deleteTransport(tripId, pointId) }.toUnitIfSuccess()
+    }
 }

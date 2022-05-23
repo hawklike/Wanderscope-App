@@ -28,4 +28,8 @@ class AccommodationRepository(private val api: AccommodationApi, documentApi: Do
     override suspend fun editPoint(tripId: Int, pointId: Int, request: AccommodationRequest): Flow<Result<Unit>> {
         return performCall { api.editAccommodation(tripId, pointId, request) }.toUnitIfSuccess()
     }
+
+    override suspend fun deletePoint(tripId: Int, pointId: Int): Flow<Result<Unit>> {
+        return performCall { api.deleteAccommodation(tripId, pointId) }.toUnitIfSuccess()
+    }
 }

@@ -36,4 +36,9 @@ class PlaceRepository(private val api: PlaceApi, documentApi: DocumentApi) :
     override suspend fun editPoint(tripId: Int, pointId: Int, request: PlaceRequest): Flow<Result<Unit>> {
         return performCall { api.editPlace(tripId, pointId, request, null) }.toUnitIfSuccess()
     }
+
+    override suspend fun deletePoint(tripId: Int, pointId: Int): Flow<Result<Unit>> {
+        return performCall { api.deletePlace(tripId, pointId) }.toUnitIfSuccess()
+
+    }
 }

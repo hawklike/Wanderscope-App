@@ -28,4 +28,10 @@ interface PlaceApi {
         @Body request: PlaceRequest,
         @Query("wiki") wikiSearch: String?
     ): Response<Unit>
+
+    @DELETE("/trip/{tripId}/place/{id}")
+    suspend fun deletePlace(
+        @Path("tripId") tripId: Int,
+        @Path("id") id: Int
+    ): Response<Unit>
 }

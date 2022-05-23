@@ -2,6 +2,8 @@ package cz.cvut.fit.steuejan.wanderscope.points.place.overview
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.navArgs
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.maps.MapView
@@ -10,6 +12,8 @@ import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentPointPlaceOverviewBi
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.AbstractPointOverviewFragment
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlaceResponse
+import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragment
 
 class PlaceOverviewFragment : AbstractPointOverviewFragment<
         FragmentPointPlaceOverviewBinding,
@@ -56,13 +60,20 @@ class PlaceOverviewFragment : AbstractPointOverviewFragment<
     }
 
     override fun deletePoint(): Boolean {
-        //todo
+        viewModel.deletePlace(pointOverview.tripId, pointOverview.pointId)
         return true
     }
 
     override fun saveToCalendar(): Boolean {
         //todo
         return true
+    }
+
+    override fun setFragmentResult() {
+        setFragmentResult(
+            TripPagerFragment.TRIP_OVERVIEW_REQUEST_KEY,
+            bundleOf(TripPagerFragment.TRIP_OVERVIEW_RESULT_BUNDLE to Load.PLACES)
+        )
     }
 
     private fun showMapIntent() {
