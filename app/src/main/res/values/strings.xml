@@ -243,6 +243,15 @@
     <string name="updating_documents">Updating documents</string>
     <string name="updating_users">Updating users</string>
 
+    <string name="delete_trip_dialog_title">Delete trip?</string>
+    <string name="delete_trip_dialog_message">Do you really want to delete this trip? All places and documents within this trip will be deleted too. This action is irreversible.</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="deleting_trip">Deleting trip…</string>
+    <string name="undo">Undo</string>
+    <string name="revert">Revert</string>
+    <string name="successfully_deleted">Successfully deleted</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>

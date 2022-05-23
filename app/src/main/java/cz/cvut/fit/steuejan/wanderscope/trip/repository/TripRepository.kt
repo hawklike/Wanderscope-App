@@ -26,6 +26,10 @@ class TripRepository(private val tripApi: TripApi, private val documentApi: Docu
         return performCall { tripApi.editTrip(id, request) }.toUnitIfSuccess()
     }
 
+    suspend fun deleteTrip(id: Int): Flow<Result<Unit>> {
+        return performCall { tripApi.deleteTrip(id) }.toUnitIfSuccess()
+    }
+
     suspend fun getTrip(id: Int): Flow<Result<TripResponse>> {
         return performCall { tripApi.getTrip(id) }
     }

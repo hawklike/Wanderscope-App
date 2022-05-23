@@ -24,9 +24,11 @@
         <item name="floatingActionButtonStyle">@style/Widget.Wanderscope.FloatingActionButton</item>
         <item name="materialCalendarTheme">@style/Widget.Wanderscope.DatePicker</item>
         <item name="snackbarStyle">@style/Widget.Wanderscope.Snackbar</item>
-        <item name="snackbarTextViewStyle">@style/Widget.Wandercope.SnackbarText</item>
+        <item name="snackbarTextViewStyle">@style/Widget.Wanderscope.Snackbar.Text</item>
+        <item name="snackbarButtonStyle">@style/Widget.Wanderscope.Snackbar.Button</item>
         <item name="tabStyle">@style/Widget.Wanderscope.TabLayout</item>
         <item name="materialTimePickerTheme">@style/Widget.Wanderscope.TimePicker</item>
+        <item name="materialAlertDialogTheme">@style/Widget.Wandercope.AlertDialog</item>
     </style>
 
     <style name="Theme.Wanderscope.SplashScreen" parent="Theme.SplashScreen">
@@ -89,9 +91,16 @@
         <item name="elevation">0dp</item>
     </style>
 
-    <style name="Widget.Wandercope.SnackbarText" parent="Widget.MaterialComponents.Snackbar.TextView">
+    <style name="Widget.Wanderscope.Snackbar.Text" parent="Widget.MaterialComponents.Snackbar.TextView">
         <item name="android:textColor">@color/colorSnackbarText</item>
         <item name="android:textAppearance">@style/TextAppearance.Wanderscope.Regular</item>
+    </style>
+
+    <style name="Widget.Wanderscope.Snackbar.Button" parent="Widget.MaterialComponents.Button.TextButton.Snackbar">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="actionTextColorAlpha">1.0</item>
+        <item name="textAllCaps">true</item>
     </style>
 
     <style name="TextAppearance.Wanderscope.H1" parent="Widget.MaterialComponents.TextView">
@@ -231,6 +240,32 @@
 
     <style name="TextAppearance.Wanderscope.TabLayout" parent="TextAppearance.Wanderscope.Regular">
         <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Wanderscope.AlertDialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/alert_dialog_corner_size</item>
+    </style>
+
+    <style name="Widget.Wandercope.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.AlertDialog</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/AlertDialog.Wanderscope.Title.Text</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertDialog.Wanderscope.Body.Text</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AlertDialog.Wanderscope.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AlertDialog.Wanderscope.Button</item>
+    </style>
+
+    <style name="AlertDialog.Wanderscope.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textAppearance">@style/TextAppearance.Wanderscope.Label</item>
+    </style>
+
+    <style name="AlertDialog.Wanderscope.Body.Text" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="AlertDialog.Wanderscope.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="textAllCaps">true</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
 </resources>

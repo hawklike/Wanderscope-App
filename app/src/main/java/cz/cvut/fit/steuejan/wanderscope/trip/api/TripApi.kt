@@ -22,6 +22,9 @@ interface TripApi {
     @PUT("/trip/{id}")
     suspend fun editTrip(@Path("id") id: Int, @Body request: TripRequest): Response<Unit>
 
+    @DELETE("/trip/{id}")
+    suspend fun deleteTrip(@Path("id") id: Int): Response<Unit>
+
     @GET("/trip/{id}/transports")
     suspend fun getTransports(@Path("id") id: Int): Response<TransportsResponse>
 

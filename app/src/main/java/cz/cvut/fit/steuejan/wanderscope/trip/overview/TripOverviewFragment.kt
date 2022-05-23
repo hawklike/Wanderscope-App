@@ -199,9 +199,9 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         return true
     }
 
-    //todo implement
     private fun deleteTrip(): Boolean {
         val trip = tripOverview ?: return pleaseWait()
+        viewModel.deleteTrip(trip.id)
         return true
     }
 

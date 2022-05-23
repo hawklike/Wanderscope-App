@@ -30,7 +30,7 @@ data class EmptyItem(
 
         fun pastTrips() = EmptyItem(
             R.string.no_past_trips_title,
-            R.drawable.image_been_nowhere,
+            R.drawable.image_place_not_found,
             R.string.no_past_trips_subtitle
         )
 
@@ -51,7 +51,7 @@ data class EmptyItem(
 
         fun places() = EmptyItem(
             R.string.places_empty,
-            R.drawable.image_been_nowhere
+            R.drawable.image_place_not_found
         )
 
         fun documents() = EmptyItem(

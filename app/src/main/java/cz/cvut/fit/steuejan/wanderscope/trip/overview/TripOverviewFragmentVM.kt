@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.trip.overview
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
@@ -13,6 +14,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.delayAndReturn
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toDurationString
+import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Back
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
@@ -246,5 +248,48 @@ class TripOverviewFragmentVM(
         val items = data.users.map { it.toItem(false) }
         travellers.value = items
         travellersLoading.value = false
+    }
+
+    fun deleteTrip(id: Int) {
+        showAlertDialog(
+            AlertDialogInfo(
+                title = R.string.delete_trip_dialog_title,
+                message = R.string.delete_trip_dialog_message,
+                positiveButton = R.string.delete,
+                onClickPositive = { _, _ -> deleteTripReady(id) }
+            )
+        )
+    }
+
+    private fun deleteTripReady(id: Int) {
+        viewModelScope.launchIO {
+            tripRepository.deleteTrip(id).safeCollect(this) {
+                when (it) {
+                    is Result.Cache -> TODO()
+                    is Result.Failure -> unexpectedError(it.error)
+                    is Result.Loading -> deleteTripLoading()
+                    is Result.Success -> deleteTripSuccess()
+                }
+            }
+        }
+    }
+
+    private fun deleteTripLoading() {
+        showSnackbar(
+            SnackbarInfo(
+                R.string.deleting_trip,
+                length = Snackbar.LENGTH_INDEFINITE
+            )
+        )
+    }
+
+    private fun deleteTripSuccess() {
+        showSnackbar(
+            SnackbarInfo(
+                R.string.successfully_deleted,
+                length = Snackbar.LENGTH_SHORT
+            )
+        )
+        navigateTo(Back)
     }
 }

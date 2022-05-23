@@ -1,6 +1,5 @@
 package cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import cz.cvut.fit.steuejan.wanderscope.BR
@@ -50,6 +48,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         listenToLoading()
         listenToDatePicker()
         listenToTimePicker()
+        listenToAlertDialog()
     }
 
     override fun onDestroy() {
@@ -73,20 +72,15 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         }
     }
 
-    @SuppressLint("ShowToast")
+    private fun listenToAlertDialog() {
+        viewModel.showAlertDialogEvent.safeObserve { alertInfo ->
+            showAlertDialog(alertInfo)
+        }
+    }
+
     private fun listenToSnackbar() {
         viewModel.snackbarEvent.safeObserve { snackbar ->
-            val snack = snackbar.backendMessage?.let {
-                Snackbar.make(binding.root, it, snackbar.length)
-            } ?: Snackbar.make(binding.root, snackbar.message, snackbar.length)
-
-            snack.apply {
-                snackbar.action?.let { action ->
-                    snack.setAction(snackbar.actionText) {
-                        action.invoke(this)
-                    }
-                }
-            }.show()
+            showSnackbar(snackbar)
         }
     }
 
@@ -131,7 +125,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
 
             timePicker.apply {
                 addOnPositiveButtonClickListener {
-                    time.onPickerTime.invoke(timePicker.hour, timePicker.minute)
+                    time.onPickedTime.invoke(timePicker.hour, timePicker.minute)
                 }
                 show(this@MvvmFragment.parentFragmentManager, "timePicker")
             }
