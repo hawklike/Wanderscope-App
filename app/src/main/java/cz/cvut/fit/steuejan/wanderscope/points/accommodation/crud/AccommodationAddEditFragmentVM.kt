@@ -10,7 +10,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.data.Contact
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
-import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.request.AccommodationRequest
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.AccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.model.AccommodationType
@@ -46,7 +45,6 @@ class AccommodationAddEditFragmentVM(
         phone.value = point.contact.phone
         website.value = point.contact.website
         email.value = point.contact.email
-        getSelectedItemFromType(point.type)
     }
 
     override fun placeFound(place: Place) {
@@ -75,13 +73,7 @@ class AccommodationAddEditFragmentVM(
     }
 
     private fun getTypeFromSelectedItem(): AccommodationType {
-        return runOrNull {
-            AccommodationType.values()[selectedTypePosition ?: -1]
-        } ?: AccommodationType.OTHER
-    }
-
-    private fun getSelectedItemFromType(type: AccommodationType) {
-        selectedTypePosition = type.ordinal
-        super.type.value = type.toStringRes()
+        return AccommodationType.values().getOrNull(selectedTypePosition ?: -1)
+            ?: AccommodationType.OTHER
     }
 }

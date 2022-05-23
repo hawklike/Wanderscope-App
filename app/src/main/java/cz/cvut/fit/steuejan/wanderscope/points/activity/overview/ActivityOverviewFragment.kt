@@ -45,7 +45,13 @@ class ActivityOverviewFragment : AbstractPointOverviewFragment<
     }
 
     override fun editPoint(): Boolean {
-        //todo
+        val activity = activityOverview ?: return pleaseWait()
+        navigateTo(
+            ActivityOverviewFragmentDirections
+                .actionActivityOverviewFragmentToActivityAddEditFragment(
+                    pointOverview.tripId, activity
+                )
+        )
         return true
     }
 

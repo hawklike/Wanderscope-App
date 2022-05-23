@@ -1,12 +1,15 @@
 package cz.cvut.fit.steuejan.wanderscope.points.activity.api.response
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.points.activity.model.ActivityType
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ActivityResponse(
     @Json(name = "id")
     override val id: Int,
@@ -28,4 +31,4 @@ data class ActivityResponse(
     val website: String?,
     @Json(name = "coordinates")
     override val coordinates: Coordinates
-) : PointResponse()
+) : PointResponse(), Parcelable

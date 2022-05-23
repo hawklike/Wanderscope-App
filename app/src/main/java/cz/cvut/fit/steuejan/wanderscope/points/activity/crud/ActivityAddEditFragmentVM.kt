@@ -6,7 +6,6 @@ import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
-import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.request.ActivityRequest
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivityResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.model.ActivityType
@@ -23,6 +22,12 @@ class ActivityAddEditFragmentVM(
 
     val website = MutableLiveData<String?>()
     val mapLink = MutableLiveData<String?>()
+
+    override fun setupEdit(point: ActivityResponse, title: Int) {
+        super.setupEdit(point, title)
+        website.value = point.website
+        mapLink.value = point.mapLink
+    }
 
     override fun placeFound(place: Place) {
         super.placeFound(place)
@@ -46,8 +51,7 @@ class ActivityAddEditFragmentVM(
     }
 
     private fun getTypeFromSelectedItem(): ActivityType {
-        return runOrNull {
-            ActivityType.values()[selectedTypePosition ?: -1]
-        } ?: ActivityType.OTHER
+        return ActivityType.values().getOrNull(selectedTypePosition ?: -1)
+            ?: ActivityType.OTHER
     }
 }

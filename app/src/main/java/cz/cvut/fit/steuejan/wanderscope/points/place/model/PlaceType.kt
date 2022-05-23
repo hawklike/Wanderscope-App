@@ -6,6 +6,8 @@ import cz.cvut.fit.steuejan.wanderscope.points.common.PointType
 enum class PlaceType : PointType {
     PARKING, RESTAURANT, COUNTRYSIDE, CITY, MUSEUM, ZOO, PARK, MONUMENT, MOUNTAINS, CASTLE, OTHER;
 
+    override val position: Int get() = this.ordinal
+
     override fun toIcon(): Int {
         return when (this) {
             PARKING -> R.drawable.ic_parking
