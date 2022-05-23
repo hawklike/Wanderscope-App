@@ -1,18 +1,25 @@
 package cz.cvut.fit.steuejan.wanderscope.points.common.overview
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
+import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.extension.addMarker
 import cz.cvut.fit.steuejan.wanderscope.app.extension.adjustZoom
+import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
+import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
 import kotlin.reflect.KClass
 
 abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewModel>(
@@ -26,11 +33,12 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
     override val hasBottomNavigation = false
     override val hasTitle = false
 
-    protected abstract val tripId: Int
-    protected abstract val pointId: Int
-    protected abstract val name: String
+    protected abstract val pointOverview: PointOverviewBundle
 
     protected abstract val map: MapView?
+
+    protected abstract val menuEditItem: Int
+    protected abstract val menuDeleteItem: Int
 
     private val abstractViewModel by lazy {
         viewModel as? AbstractPointOverviewFragmentVM<*>
@@ -40,9 +48,44 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
 
     protected abstract fun handleResponse(response: PointResponse)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.add(Menu.NONE, R.id.point_overview_edit, Menu.FIRST, menuEditItem)
+        menu.add(Menu.NONE, R.id.point_overview_delete, Menu.FIRST + 1, menuDeleteItem)
+        menu.add(Menu.NONE, R.id.point_overview_add_to_calendar, Menu.FIRST + 2, R.string.save_to_calendar)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        when (pointOverview.userRole) {
+            UserRole.VIEWER -> {
+                menu.findItem(R.id.point_overview_edit)?.isVisible = false
+                menu.findItem(R.id.point_overview_delete)?.isVisible = false
+            }
+            else -> doNothing
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.point_overview_edit -> editPoint()
+            R.id.point_overview_delete -> deletePoint()
+            R.id.point_overview_add_to_calendar -> saveToCalendar()
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    abstract fun editPoint(): Boolean
+    abstract fun deletePoint(): Boolean
+    abstract fun saveToCalendar(): Boolean
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(name)
+        setTitle(pointOverview.title)
         retrievePointOverview()
         waitUntilMapAndCoordinatesAreReady()
         prepareMap(savedInstanceState)
@@ -96,10 +139,14 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
         map?.onLowMemory()
     }
 
+    protected fun pleaseWait(): Boolean {
+        showToast(R.string.please_wait)
+        return true
+    }
 
     private fun retrievePointOverview() {
         showLoading()
-        abstractViewModel?.getPoint(tripId, pointId)
+        abstractViewModel?.getPoint(pointOverview.tripId, pointOverview.pointId)
 
         abstractViewModel?.loading?.safeObserve { loading ->
             if (!loading) {

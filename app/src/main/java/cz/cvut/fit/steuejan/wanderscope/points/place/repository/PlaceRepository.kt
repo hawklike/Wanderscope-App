@@ -3,6 +3,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.place.repository
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.app.util.performCall
+import cz.cvut.fit.steuejan.wanderscope.app.util.toUnitIfSuccess
 import cz.cvut.fit.steuejan.wanderscope.document.api.DocumentApi
 import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.repository.PointRepository
@@ -20,11 +21,19 @@ class PlaceRepository(private val api: PlaceApi, documentApi: DocumentApi) :
         return performCall { api.createPlace(tripId, request, null) }
     }
 
-    suspend fun createPoint(tripId: Int, request: PlaceRequest, title: String?) = performCall {
-        api.createPlace(tripId, request, title)
+    suspend fun createPoint(tripId: Int, request: PlaceRequest, wiki: String?) = performCall {
+        api.createPlace(tripId, request, wiki)
     }
 
     override suspend fun getPoint(tripId: Int, pointId: Int): Flow<Result<PlaceResponse>> {
         return performCall { api.getPlace(tripId, pointId) }
+    }
+
+    suspend fun editPoint(tripId: Int, pointId: Int, request: PlaceRequest, wiki: String?) = performCall {
+        api.editPlace(tripId, pointId, request, wiki)
+    }.toUnitIfSuccess()
+
+    override suspend fun editPoint(tripId: Int, pointId: Int, request: PlaceRequest): Flow<Result<Unit>> {
+        return performCall { api.editPlace(tripId, pointId, request, null) }.toUnitIfSuccess()
     }
 }

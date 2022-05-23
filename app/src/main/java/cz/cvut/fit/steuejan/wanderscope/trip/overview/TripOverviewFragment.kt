@@ -21,6 +21,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripOverviewBinding
 import cz.cvut.fit.steuejan.wanderscope.points.TripPointOverviewItem
+import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.crud.bundle.EditTripBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
@@ -130,9 +131,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             navigateTo(
                 TripPagerFragmentDirections
                     .actionTripPagerFragmentToTransportOverviewFragment(
-                        tripId = trip.id,
-                        transportId = item.id,
-                        title = item.name
+                        PointOverviewBundle.create(trip, item)
                     )
             )
         }
@@ -144,9 +143,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             navigateTo(
                 TripPagerFragmentDirections
                     .actionTripPagerFragmentToPlaceOverviewFragment(
-                        tripId = trip.id,
-                        placeId = item.id,
-                        title = item.name
+                        PointOverviewBundle.create(trip, item)
                     )
             )
         }
@@ -158,9 +155,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             navigateTo(
                 TripPagerFragmentDirections
                     .actionTripPagerFragmentToAccommodationOverviewFragment(
-                        tripId = trip.id,
-                        accommodationId = item.id,
-                        title = item.name
+                        PointOverviewBundle.create(trip, item)
                     )
             )
         }
@@ -172,9 +167,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             navigateTo(
                 TripPagerFragmentDirections
                     .actionTripPagerFragmentToActivityOverviewFragment(
-                        tripId = trip.id,
-                        activityId = item.id,
-                        title = item.name
+                        PointOverviewBundle.create(trip, item)
                     )
             )
         }

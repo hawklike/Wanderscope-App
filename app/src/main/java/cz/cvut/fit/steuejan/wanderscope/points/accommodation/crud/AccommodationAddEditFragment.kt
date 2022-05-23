@@ -23,6 +23,13 @@ class AccommodationAddEditFragment : AbstractPointAddEditFragment<
 
     override fun initViewModel() {
         viewModel.init(args.tripId, R.string.add_accommodation)
+        setupEditAccommodation()
+    }
+
+    private fun setupEditAccommodation() {
+        args.response?.let {
+            viewModel.setupEdit(it, R.string.edit_accommodation)
+        }
     }
 
     override fun prepareDropdownItems(): List<String> {

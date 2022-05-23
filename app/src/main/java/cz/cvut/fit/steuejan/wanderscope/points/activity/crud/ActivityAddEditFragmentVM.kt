@@ -8,6 +8,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
 import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.request.ActivityRequest
+import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivityResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.model.ActivityType
 import cz.cvut.fit.steuejan.wanderscope.points.activity.repository.ActivityRepository
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
@@ -15,7 +16,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditF
 class ActivityAddEditFragmentVM(
     repository: ActivityRepository,
     savedStateHandle: SavedStateHandle
-) : AbstractPointAddEditFragmentVM<ActivityRequest>(
+) : AbstractPointAddEditFragmentVM<ActivityRequest, ActivityResponse>(
     repository,
     savedStateHandle
 ) {

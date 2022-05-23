@@ -20,11 +20,12 @@ class PlaceOverviewFragment : AbstractPointOverviewFragment<
     override val content: View get() = binding.placeOverviewContent
     override val shimmer: ShimmerFrameLayout get() = binding.placeOverviewShimmer
 
-    override val tripId by lazy { args.tripId }
-    override val pointId by lazy { args.placeId }
-    override val name by lazy { args.title }
+    override val pointOverview by lazy { args.overviewBundle }
 
     override val map: MapView get() = binding.placeOverviewMap
+
+    override val menuEditItem = R.string.edit_place
+    override val menuDeleteItem = R.string.delete_place
 
     private val args: PlaceOverviewFragmentArgs by navArgs()
 
@@ -41,6 +42,21 @@ class PlaceOverviewFragment : AbstractPointOverviewFragment<
 
     override fun handleResponse(response: PointResponse) {
         placeOverview = response as? PlaceResponse
+    }
+
+    override fun editPoint(): Boolean {
+        //todo
+        return true
+    }
+
+    override fun deletePoint(): Boolean {
+        //todo
+        return true
+    }
+
+    override fun saveToCalendar(): Boolean {
+        //todo
+        return true
     }
 
     private fun showMapIntent() {

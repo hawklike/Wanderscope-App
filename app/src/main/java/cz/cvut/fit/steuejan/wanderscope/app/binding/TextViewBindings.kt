@@ -39,6 +39,13 @@ fun TextView.setTextOrGone(@StringRes text: Int?) {
     this.setText(text!!)
 }
 
+@BindingAdapter("textRes")
+fun TextView.setTextRes(@StringRes text: Int) {
+    kotlin.runCatching {
+        this.setText(text)
+    }
+}
+
 @BindingAdapter("textResOrGoneLowercase")
 fun TextView.setTextOrGoneLowercase(@StringRes text: Int?) {
     visibleOrGone(text) ?: return

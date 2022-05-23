@@ -20,6 +20,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.request.TransportRequest
+import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.model.TransportType
 import cz.cvut.fit.steuejan.wanderscope.points.transport.repository.TransportRepository
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ import kotlinx.coroutines.launch
 class TransportAddEditFragmentVM(
     repository: TransportRepository,
     savedStateHandle: SavedStateHandle
-) : AbstractPointAddEditFragmentVM<TransportRequest>(
+) : AbstractPointAddEditFragmentVM<TransportRequest, TransportResponse>(
     repository,
     savedStateHandle
 ) {

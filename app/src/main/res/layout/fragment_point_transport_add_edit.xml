@@ -209,6 +209,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/select_the_transport"
                         android:inputType="none"
+                        app:textRes="@{vm.type}"
                         android:popupElevation="1dp"
                         app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
                         app:onItemClick="@{(p, v, position, id) -> vm.selectType(position)}" />

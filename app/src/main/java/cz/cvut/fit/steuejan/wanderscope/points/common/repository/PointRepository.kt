@@ -18,6 +18,7 @@ abstract class PointRepository<in Request : PointRequest, out Response : PointRe
 
     abstract suspend fun createPoint(tripId: Int, request: Request): Flow<Result<CreatedResponse>>
     abstract suspend fun getPoint(tripId: Int, pointId: Int): Flow<Result<Response>>
+    abstract suspend fun editPoint(tripId: Int, pointId: Int, request: Request): Flow<Result<Unit>>
 
     suspend fun getDocuments(tripId: Int, pointId: Int): Flow<Result<DocumentsMetadataResponse>> {
         return performCall { documentApi.getPointDocuments(tripId, pointType.toString(), pointId) }

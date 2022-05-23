@@ -6,6 +6,7 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.squareup.moshi.Moshi
 import cz.cvut.fit.steuejan.wanderscope.BuildConfig
 import cz.cvut.fit.steuejan.wanderscope.account.api.AccountApi
+import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.AuthInterceptor
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.TokenAuthenticator
 import cz.cvut.fit.steuejan.wanderscope.app.serialization.Serializer
@@ -83,8 +84,8 @@ private fun provideChucker(context: Context): ChuckerInterceptor? {
 
 fun provideOkHttpClientBuilder(chucker: ChuckerInterceptor?): OkHttpClient.Builder {
     return OkHttpClient.Builder()
-        .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(Constants.API_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        .writeTimeout(Constants.API_TIMEOUT_SECONDS, TimeUnit.SECONDS)
         .apply { chucker?.let { addInterceptor(it) } }
 }
 

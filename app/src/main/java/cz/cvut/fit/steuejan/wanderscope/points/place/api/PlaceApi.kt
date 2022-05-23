@@ -20,4 +20,12 @@ interface PlaceApi {
         @Path("tripId") tripId: Int,
         @Path("id") id: Int
     ): Response<PlaceResponse>
+
+    @PUT("/trip/{tripId}/place/{id}")
+    suspend fun editPlace(
+        @Path("tripId") tripId: Int,
+        @Path("id") id: Int,
+        @Body request: PlaceRequest,
+        @Query("wiki") wikiSearch: String?
+    ): Response<Unit>
 }

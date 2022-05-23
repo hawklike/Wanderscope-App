@@ -20,11 +20,12 @@ class AccommodationOverviewFragment : AbstractPointOverviewFragment<
     override val content: View get() = binding.accommodationOverviewContent
     override val shimmer: ShimmerFrameLayout get() = binding.accommodationOverviewShimmer
 
-    override val tripId by lazy { args.tripId }
-    override val pointId by lazy { args.accommodationId }
-    override val name by lazy { args.title }
+    override val pointOverview by lazy { args.overviewBundle }
 
     override val map: MapView get() = binding.accommodationOverviewMap
+
+    override val menuEditItem = R.string.edit_accommodation
+    override val menuDeleteItem = R.string.delete_accommodation
 
     private val args: AccommodationOverviewFragmentArgs by navArgs()
 
@@ -42,6 +43,27 @@ class AccommodationOverviewFragment : AbstractPointOverviewFragment<
 
     override fun handleResponse(response: PointResponse) {
         accommodationOverview = response as? AccommodationResponse
+    }
+
+    override fun editPoint(): Boolean {
+        val accommodation = accommodationOverview ?: return pleaseWait()
+        navigateTo(
+            AccommodationOverviewFragmentDirections
+                .actionAccommodationOverviewFragmentToAccommodationAddEditFragment(
+                    pointOverview.tripId, accommodation
+                )
+        )
+        return true
+    }
+
+    override fun deletePoint(): Boolean {
+        //todo
+        return true
+    }
+
+    override fun saveToCalendar(): Boolean {
+        //todo
+        return true
     }
 
     private fun phoneCallIntent() {

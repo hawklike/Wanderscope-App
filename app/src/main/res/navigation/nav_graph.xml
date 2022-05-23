@@ -145,6 +145,11 @@
         <argument
             android:name="tripId"
             app:argType="integer" />
+        <argument
+            android:name="response"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.AccommodationResponse"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
@@ -183,14 +188,8 @@
         android:label=""
         tools:layout="@layout/fragment_point_transport_overview">
         <argument
-            android:name="tripId"
-            app:argType="integer" />
-        <argument
-            android:name="transportId"
-            app:argType="integer" />
-        <argument
-            android:name="title"
-            app:argType="string" />
+            android:name="overviewBundle"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle" />
     </fragment>
 
     <fragment
@@ -199,14 +198,8 @@
         android:label=""
         tools:layout="@layout/fragment_point_place_overview">
         <argument
-            android:name="tripId"
-            app:argType="integer" />
-        <argument
-            android:name="placeId"
-            app:argType="integer" />
-        <argument
-            android:name="title"
-            app:argType="string" />
+            android:name="overviewBundle"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle" />
     </fragment>
 
     <fragment
@@ -215,14 +208,8 @@
         android:label=""
         tools:layout="@layout/fragment_point_activity_overview">
         <argument
-            android:name="tripId"
-            app:argType="integer" />
-        <argument
-            android:name="activityId"
-            app:argType="integer" />
-        <argument
-            android:name="title"
-            app:argType="string" />
+            android:name="overviewBundle"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle" />
     </fragment>
 
     <fragment
@@ -231,14 +218,11 @@
         android:label=""
         tools:layout="@layout/fragment_point_accommodation_overview">
         <argument
-            android:name="tripId"
-            app:argType="integer" />
-        <argument
-            android:name="accommodationId"
-            app:argType="integer" />
-        <argument
-            android:name="title"
-            app:argType="string" />
+            android:name="overviewBundle"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle" />
+        <action
+            android:id="@+id/action_accommodationOverviewFragment_to_accommodationAddEditFragment"
+            app:destination="@id/accommodationAddEditFragment" />
     </fragment>
 
 </navigation>

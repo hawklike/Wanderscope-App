@@ -25,13 +25,17 @@ import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveDa
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
+import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.request.PointRequest
+import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.repository.PointRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 
-abstract class AbstractPointAddEditFragmentVM<Request : PointRequest>(
+abstract class AbstractPointAddEditFragmentVM<
+        Request : PointRequest,
+        in Response : PointResponse>(
     protected val pointRepository: PointRepository<Request, *>,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel(savedStateHandle) {
@@ -41,12 +45,6 @@ abstract class AbstractPointAddEditFragmentVM<Request : PointRequest>(
     protected var purpose: Purpose? = null
     protected var tripId: Int? = null
     protected var pointId: Int? = null
-
-    fun init(tripId: Int, @StringRes title: Int) {
-        purpose = Purpose.CREATE
-        this.title.value = title
-        this.tripId = tripId
-    }
 
     val findAccommodationEvent = SingleLiveEvent<String?>()
     val hideKeyboardEvent = AnySingleLiveEvent()
@@ -63,13 +61,49 @@ abstract class AbstractPointAddEditFragmentVM<Request : PointRequest>(
     val startDate = MutableLiveData<String?>(null)
     val endDate = MutableLiveData<String?>(null)
     val description = MutableLiveData<String?>()
-    val type = MutableLiveData<String>()
+    val type = MutableLiveData<Int>()
 
     val submitLoading = LoadingMutableLiveData()
 
     protected var shouldValidateDates = true
     protected var startDateTime: DateTime? = null
     protected var endDateTime: DateTime? = null
+
+    fun init(tripId: Int, @StringRes title: Int) {
+        purpose = Purpose.CREATE
+        this.title.value = title
+        this.tripId = tripId
+    }
+
+    open fun setupEdit(point: Response, @StringRes title: Int) {
+        purpose = Purpose.EDIT
+        this.title.value = title
+        tripId = point.tripId
+        this.pointId = point.id
+        populateFields(point)
+    }
+
+    private fun populateFields(point: Response) {
+        viewModelScope.launch {
+            shouldValidateDates = false
+            name.value = point.name
+            point.duration.startDate?.let {
+                startDate.value = it.toNiceString()
+                startDateTime = it
+            }
+            point.duration.endDate?.let {
+                endDate.value = it.toNiceString()
+                endDateTime = it
+            }
+            point.address.let {
+                address.value = it.name
+                placeId = it.googlePlaceId
+            }
+            description.value = point.description
+            coordinates = point.coordinates
+            shouldValidateDates = true
+        }
+    }
 
     val validateName = name.switchMapSuspend {
         validateName(it)
@@ -190,7 +224,7 @@ abstract class AbstractPointAddEditFragmentVM<Request : PointRequest>(
         viewModelScope.launchIO {
             val result = when (purpose) {
                 Purpose.CREATE -> createPoint(request) ?: return@launchIO
-                Purpose.EDIT -> TODO()
+                Purpose.EDIT -> editPoint(request) ?: return@launchIO
                 null -> return@launchIO
             }
 
@@ -207,6 +241,12 @@ abstract class AbstractPointAddEditFragmentVM<Request : PointRequest>(
 
     protected open suspend fun createPoint(request: Request): Flow<Result<CreatedResponse>>? {
         return pointRepository.createPoint(tripId ?: return null, request)
+    }
+
+    protected open suspend fun editPoint(request: Request): Flow<Result<Unit>>? {
+        return multipleLet(tripId, pointId) { tripId, pointId ->
+            pointRepository.editPoint(tripId, pointId, request)
+        }
     }
 
     protected fun handleFailure(error: Error) {

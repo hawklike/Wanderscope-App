@@ -20,11 +20,12 @@ class ActivityOverviewFragment : AbstractPointOverviewFragment<
     override val content: View get() = binding.activityOverviewContent
     override val shimmer: ShimmerFrameLayout get() = binding.activityOverviewShimmer
 
-    override val tripId by lazy { args.tripId }
-    override val pointId by lazy { args.activityId }
-    override val name by lazy { args.title }
+    override val pointOverview by lazy { args.overviewBundle }
 
     override val map: MapView get() = binding.activityOverviewMap
+
+    override val menuEditItem = R.string.edit_activity
+    override val menuDeleteItem = R.string.delete_activity
 
     private val args: ActivityOverviewFragmentArgs by navArgs()
 
@@ -41,6 +42,21 @@ class ActivityOverviewFragment : AbstractPointOverviewFragment<
 
     override fun handleResponse(response: PointResponse) {
         activityOverview = response as? ActivityResponse
+    }
+
+    override fun editPoint(): Boolean {
+        //todo
+        return true
+    }
+
+    override fun deletePoint(): Boolean {
+        //todo
+        return true
+    }
+
+    override fun saveToCalendar(): Boolean {
+        //todo
+        return true
     }
 
     private fun mapLinkIntent() {

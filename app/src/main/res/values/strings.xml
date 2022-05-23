@@ -225,6 +225,24 @@
     <string name="end">End</string>
     <string name="set_a_destination">Set a destination</string>
 
+    <string name="edit_accommodation">Edit accommodation</string>
+    <string name="edit_activity">Edit activity</string>
+    <string name="edit_place">Edit place</string>
+    <string name="edit_transport">Edit transport</string>
+
+    <string name="delete_accommodation">Delete accommodation</string>
+    <string name="delete_activity">Delete activity</string>
+    <string name="delete_place">Delete place</string>
+    <string name="delete_transport">Delete transport</string>
+
+    <string name="updating_accommodation">Updating accommodation</string>
+    <string name="updating_activities">Updating activities</string>
+    <string name="updating_places">Updating places</string>
+    <string name="updating_transport">Updating transports</string>
+    <string name="updating_trip">Updating trip</string>
+    <string name="updating_documents">Updating documents</string>
+    <string name="updating_users">Updating users</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>

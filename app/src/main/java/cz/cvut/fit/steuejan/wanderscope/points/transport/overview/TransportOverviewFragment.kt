@@ -22,11 +22,12 @@ class TransportOverviewFragment : AbstractPointOverviewFragment<
     override val content: View get() = binding.transportOverviewContent
     override val shimmer: ShimmerFrameLayout get() = binding.transportOverviewShimmer
 
-    override val tripId by lazy { args.tripId }
-    override val pointId by lazy { args.transportId }
-    override val name by lazy { args.title }
+    override val pointOverview by lazy { args.overviewBundle }
 
     override val map: MapView get() = binding.transportOverviewMap
+
+    override val menuEditItem = R.string.edit_transport
+    override val menuDeleteItem = R.string.delete_transport
 
     private val args: TransportOverviewFragmentArgs by navArgs()
 
@@ -38,6 +39,21 @@ class TransportOverviewFragment : AbstractPointOverviewFragment<
 
     override fun handleResponse(response: PointResponse) {
         transportOverview = response as? TransportResponse
+    }
+
+    override fun editPoint(): Boolean {
+        //todo
+        return true
+    }
+
+    override fun deletePoint(): Boolean {
+        //todo
+        return true
+    }
+
+    override fun saveToCalendar(): Boolean {
+        //todo
+        return true
     }
 
     override fun waitUntilMapAndCoordinatesAreReady() {

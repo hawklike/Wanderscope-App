@@ -38,7 +38,7 @@ abstract class AbstractPointAddEditFragment<B : ViewDataBinding, VM : BaseViewMo
     abstract fun setFragmentResult()
 
     private val abstractViewModel by lazy {
-        viewModel as? AbstractPointAddEditFragmentVM<*>
+        viewModel as? AbstractPointAddEditFragmentVM<*, *>
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

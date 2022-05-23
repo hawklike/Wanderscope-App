@@ -3,6 +3,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.transport.repository
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.app.util.performCall
+import cz.cvut.fit.steuejan.wanderscope.app.util.toUnitIfSuccess
 import cz.cvut.fit.steuejan.wanderscope.document.api.DocumentApi
 import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.repository.PointRepository
@@ -22,5 +23,9 @@ class TransportRepository(private val api: TransportApi, documentApi: DocumentAp
 
     override suspend fun getPoint(tripId: Int, pointId: Int): Flow<Result<TransportResponse>> {
         return performCall { api.getTransport(tripId, pointId) }
+    }
+
+    override suspend fun editPoint(tripId: Int, pointId: Int, request: TransportRequest): Flow<Result<Unit>> {
+        return performCall { api.editTransport(tripId, pointId, request) }.toUnitIfSuccess()
     }
 }

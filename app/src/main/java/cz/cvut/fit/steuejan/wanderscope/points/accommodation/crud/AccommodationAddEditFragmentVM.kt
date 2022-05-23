@@ -12,6 +12,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
 import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.request.AccommodationRequest
+import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.AccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.model.AccommodationType
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.repository.AccommodationRepository
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
@@ -19,7 +20,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditF
 class AccommodationAddEditFragmentVM(
     repository: AccommodationRepository,
     savedStateHandle: SavedStateHandle
-) : AbstractPointAddEditFragmentVM<AccommodationRequest>(
+) : AbstractPointAddEditFragmentVM<AccommodationRequest, AccommodationResponse>(
     repository,
     savedStateHandle
 ) {
@@ -38,6 +39,14 @@ class AccommodationAddEditFragmentVM(
 
     override suspend fun validateDates(startDate: String?, endDate: String?, type: ValidateDates): Int {
         return super.validateDates(startDate, endDate, ValidateDates.CHECKIN)
+    }
+
+    override fun setupEdit(point: AccommodationResponse, title: Int) {
+        super.setupEdit(point, title)
+        phone.value = point.contact.phone
+        website.value = point.contact.website
+        email.value = point.contact.email
+        getSelectedItemFromType(point.type)
     }
 
     override fun placeFound(place: Place) {
@@ -69,5 +78,10 @@ class AccommodationAddEditFragmentVM(
         return runOrNull {
             AccommodationType.values()[selectedTypePosition ?: -1]
         } ?: AccommodationType.OTHER
+    }
+
+    private fun getSelectedItemFromType(type: AccommodationType) {
+        selectedTypePosition = type.ordinal
+        super.type.value = type.toStringRes()
     }
 }

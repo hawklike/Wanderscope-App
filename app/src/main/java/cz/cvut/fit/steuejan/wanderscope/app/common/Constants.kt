@@ -3,6 +3,8 @@ package cz.cvut.fit.steuejan.wanderscope.app.common
 object Constants {
     const val UNEXPECTED_ERROR_SNACKBAR_LENGTH = 5000
 
+    const val API_TIMEOUT_SECONDS = 60L
+
     const val PASSWORD_MIN_LENGTH = 8
     const val PASSWORD_MAX_LENGTH = 50
 

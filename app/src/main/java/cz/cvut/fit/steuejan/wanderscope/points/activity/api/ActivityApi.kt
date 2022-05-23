@@ -4,10 +4,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.request.ActivityRequest
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivityResponse
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface ActivityApi {
 
@@ -22,4 +19,11 @@ interface ActivityApi {
         @Path("tripId") tripId: Int,
         @Path("id") id: Int
     ): Response<ActivityResponse>
+
+    @PUT("/trip/{tripId}/activity/{id}")
+    suspend fun editActivity(
+        @Path("tripId") tripId: Int,
+        @Path("id") id: Int,
+        @Body request: ActivityRequest
+    ): Response<Unit>
 }
