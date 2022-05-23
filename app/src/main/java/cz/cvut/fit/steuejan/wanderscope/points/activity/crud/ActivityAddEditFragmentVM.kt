@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.activity.crud
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
@@ -11,6 +12,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivityRes
 import cz.cvut.fit.steuejan.wanderscope.points.activity.model.ActivityType
 import cz.cvut.fit.steuejan.wanderscope.points.activity.repository.ActivityRepository
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
+import kotlinx.coroutines.launch
 
 class ActivityAddEditFragmentVM(
     repository: ActivityRepository,
@@ -25,9 +27,11 @@ class ActivityAddEditFragmentVM(
 
     override fun setupEdit(point: ActivityResponse, title: Int) {
         super.setupEdit(point, title)
-        website.value = point.website
-        mapLink.value = point.mapLink
-        type.value = point.type.toStringRes()
+        viewModelScope.launch {
+            website.value = point.website
+            mapLink.value = point.mapLink
+            type.value = point.type.toStringRes()
+        }
     }
 
     override fun placeFound(place: Place) {

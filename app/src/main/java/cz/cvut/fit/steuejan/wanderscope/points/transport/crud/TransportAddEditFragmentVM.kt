@@ -17,7 +17,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
-import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.request.TransportRequest
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportResponse
@@ -93,28 +92,53 @@ class TransportAddEditFragmentVM(
         return super.validateDates(startDate, endDate, ValidateDates.DEPARTURE)
     }
 
+    override fun setupEdit(point: TransportResponse, title: Int) {
+        super.setupEdit(point, title)
+        viewModelScope.launch {
+            point.address.let {
+                from.value = it.name
+                fromId = it.googlePlaceId
+            }
+            point.to.let {
+                to.value = it.name
+                toId = it.googlePlaceId
+            }
+            fromCoordinates = point.coordinates
+            toCoordinates = point.toCoordinates
+            point.cars?.forEach(::addCarChip)
+            point.seats?.forEach(::addSeatChip)
+            type.value = point.type.toStringRes()
+        }
+    }
+
     fun addCar() {
         val carValue = car.value
-        if (carValue.isNullOrBlank()) {
-            return
+        if (!carValue.isNullOrBlank()) {
+            addCarChip(carValue)
         }
-        carChip.value = ChipInfo(carValue, true, textColor = R.color.colorPrimary)
+    }
+
+    private fun addCarChip(car: String) {
+        carChip.value = ChipInfo(car, true, textColor = R.color.colorPrimary)
         showCars.value = true
         hideKeyboardEvent.publish()
         extractCarsEvent.publish()
-        car.value = null
+        this.car.value = null
     }
 
     fun addSeat() {
         val seatValue = seat.value
-        if (seatValue.isNullOrBlank()) {
-            return
+        if (!seatValue.isNullOrBlank()) {
+            addSeatChip(seatValue)
         }
-        seatChip.value = ChipInfo(seatValue, true, textColor = R.color.colorPrimary)
+    }
+
+    private fun addSeatChip(seat: String) {
+        seatChip.value = ChipInfo(seat, true, textColor = R.color.colorPrimary)
         showSeats.value = true
         hideKeyboardEvent.publish()
         extractSeatsEvent.publish()
-        seat.value = null
+        this.seat.value = null
     }
 
     fun findFrom() {
@@ -178,9 +202,8 @@ class TransportAddEditFragmentVM(
     }
 
     private fun getTypeFromSelectedItem(): TransportType {
-        return runOrNull {
-            TransportType.values()[selectedTypePosition ?: -1]
-        } ?: TransportType.OTHER
+        return TransportType.values().getOrNull(selectedTypePosition ?: -1)
+            ?: TransportType.OTHER
     }
 
     enum class FindOption {

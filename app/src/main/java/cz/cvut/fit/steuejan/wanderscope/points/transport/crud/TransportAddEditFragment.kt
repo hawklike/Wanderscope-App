@@ -28,10 +28,17 @@ class TransportAddEditFragment : AbstractPointAddEditFragment<
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleSubmit()
+        setupEditTransport()
     }
 
     override fun initViewModel() {
         viewModel.init(args.tripId, R.string.add_transport)
+    }
+
+    private fun setupEditTransport() {
+        args.response?.let {
+            viewModel.setupEdit(it, R.string.edit_transport)
+        }
     }
 
     override fun prepareDropdownItems(): List<String> {

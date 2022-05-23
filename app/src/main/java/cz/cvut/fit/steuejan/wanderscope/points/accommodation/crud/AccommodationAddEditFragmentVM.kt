@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.accommodation.crud
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.ValidateDates
@@ -15,6 +16,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.Accomm
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.model.AccommodationType
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.repository.AccommodationRepository
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
+import kotlinx.coroutines.launch
 
 class AccommodationAddEditFragmentVM(
     repository: AccommodationRepository,
@@ -42,10 +44,12 @@ class AccommodationAddEditFragmentVM(
 
     override fun setupEdit(point: AccommodationResponse, title: Int) {
         super.setupEdit(point, title)
-        phone.value = point.contact.phone
-        website.value = point.contact.website
-        email.value = point.contact.email
-        type.value = point.type.toStringRes()
+        viewModelScope.launch {
+            phone.value = point.contact.phone
+            website.value = point.contact.website
+            email.value = point.contact.email
+            type.value = point.type.toStringRes()
+        }
     }
 
     override fun placeFound(place: Place) {

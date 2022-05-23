@@ -42,7 +42,13 @@ class TransportOverviewFragment : AbstractPointOverviewFragment<
     }
 
     override fun editPoint(): Boolean {
-        //todo
+        val transport = transportOverview ?: return pleaseWait()
+        navigateTo(
+            TransportOverviewFragmentDirections
+                .actionTransportOverviewFragmentToTransportAddEditFragment(
+                    pointOverview.tripId, transport
+                )
+        )
         return true
     }
 
