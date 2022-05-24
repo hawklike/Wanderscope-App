@@ -67,7 +67,7 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
         override fun createFragment(position: Int): Fragment {
             return when (position) {
                 0 -> TripOverviewFragment.newInstance(tripId)
-                1 -> TripItineraryFragment.newInstance()
+                1 -> TripItineraryFragment.newInstance(tripId)
                 2 -> TripExpensesFragment.newInstance()
                 else -> TripOverviewFragment.newInstance(tripId)
             }
