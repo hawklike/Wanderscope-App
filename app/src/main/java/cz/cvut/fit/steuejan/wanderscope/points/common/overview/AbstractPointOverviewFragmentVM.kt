@@ -113,7 +113,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     }
 
     protected suspend fun documentsSuccess(data: DocumentsMetadataResponse) {
-        val items = data.documents.map { it.toOverviewItem() }
+        val items = withDefault { data.documents.map { it.toOverviewItem() } }
         showUpdateToast(items, documents.value, R.string.documents_updated)
         documents.value = items.ifEmpty { listOf(EmptyItem.documents()) }
         documentsLoading.value = false

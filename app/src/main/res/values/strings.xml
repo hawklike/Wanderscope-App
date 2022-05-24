@@ -266,6 +266,7 @@
     <string name="delete_transport_dialog_message">Do you really want to delete this transport? All documents within this transport will be deleted too.</string>
 
     <string name="date_not_specified">Date not specified</string>
+    <string name="itinerary_empty">Your itinerary is empty so far</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
+import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
@@ -32,12 +33,7 @@ class TripItineraryFragmentVM(
     }
 
     private suspend fun itinerarySuccess(data: TripItineraryResponse) {
-        val items = withDefault {
-            data.itinerary.map {
-                it.toItem()
-            }
-        }
-        itinerary.value = items
+        val items = withDefault { data.itinerary.map { it.toItem() } }
+        itinerary.value = items.ifEmpty { listOf(EmptyItem.itinerary()) }
     }
-
 }

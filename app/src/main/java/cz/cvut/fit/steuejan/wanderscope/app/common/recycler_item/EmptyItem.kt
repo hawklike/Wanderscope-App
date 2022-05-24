@@ -58,5 +58,10 @@ data class EmptyItem(
             R.string.documents_empty,
             R.drawable.image_document_not_found
         )
+
+        fun itinerary() = EmptyItem(
+            R.string.itinerary_empty,
+            R.drawable.image_not_found
+        )
     }
 }

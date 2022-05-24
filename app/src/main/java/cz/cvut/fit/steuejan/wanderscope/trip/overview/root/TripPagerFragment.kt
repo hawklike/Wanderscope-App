@@ -10,6 +10,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.WithViewPager
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripPagerBinding
 import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.TripOverviewFragment
@@ -45,7 +46,7 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
         val viewPager = binding.tripPagerViewPager
         val tabLayout = binding.tripPagerTabLayout
 
-        val adapter = TripPagerAdapter(this, args.id)
+        val adapter = TripPagerAdapter(this, args.id, args.userRole)
 
         viewPager.apply {
             isUserInputEnabled = false
@@ -59,17 +60,18 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
 
     class TripPagerAdapter(
         private val fragment: Fragment,
-        private val tripId: Int
+        private val tripId: Int,
+        private val userRole: UserRole
     ) : FragmentStateAdapter(fragment) {
 
         override fun getItemCount() = 3
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                0 -> TripOverviewFragment.newInstance(tripId)
-                1 -> TripItineraryFragment.newInstance(tripId)
+                0 -> TripOverviewFragment.newInstance(tripId, userRole)
+                1 -> TripItineraryFragment.newInstance(tripId, userRole)
                 2 -> TripExpensesFragment.newInstance()
-                else -> TripOverviewFragment.newInstance(tripId)
+                else -> TripOverviewFragment.newInstance(tripId, userRole)
             }
         }
 

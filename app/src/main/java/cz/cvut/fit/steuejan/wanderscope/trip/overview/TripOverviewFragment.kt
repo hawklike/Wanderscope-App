@@ -5,12 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
-import androidx.annotation.StringRes
 import com.facebook.shimmer.ShimmerFrameLayout
-import com.leinardi.android.speeddial.SpeedDialActionItem
-import com.leinardi.android.speeddial.SpeedDialView
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
@@ -23,6 +18,7 @@ import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripOverviewBinding
 import cz.cvut.fit.steuejan.wanderscope.points.TripPointOverviewItem
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
+import cz.cvut.fit.steuejan.wanderscope.trip.common.WithAddPointActionButton
 import cz.cvut.fit.steuejan.wanderscope.trip.crud.bundle.EditTripBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
@@ -30,12 +26,16 @@ import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDire
 class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, TripOverviewFragmentVM>(
     R.layout.fragment_trip_overview,
     TripOverviewFragmentVM::class
-), WithLoading, WithRecycler {
+), WithLoading, WithRecycler, WithAddPointActionButton {
 
     override val content: View get() = binding.tripOverviewContent
     override val shimmer: ShimmerFrameLayout get() = binding.tripOverviewShimmer
 
     private var tripOverview: TripResponse? = null
+
+    private val userRole: UserRole? by lazy {
+        arguments?.getSerializable(USER_ROLE) as? UserRole
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         setTitle()
         handlePointsRecycler()
         handleLoadingNecessaryData()
-        prepareActionButton()
+        prepareActionButton(binding.tripOverviewAddButton)
     }
 
     private fun handleLoadingNecessaryData() {
@@ -86,7 +86,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        when (tripOverview?.userRole) {
+        when (userRole) {
             UserRole.ADMIN -> {
                 doNothing
             }
@@ -131,7 +131,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             navigateTo(
                 TripPagerFragmentDirections
                     .actionTripPagerFragmentToTransportOverviewFragment(
-                        PointOverviewBundle.create(trip, item)
+                        PointOverviewBundle.create(trip.id, trip.userRole, item)
                     )
             )
         }
@@ -143,7 +143,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             navigateTo(
                 TripPagerFragmentDirections
                     .actionTripPagerFragmentToPlaceOverviewFragment(
-                        PointOverviewBundle.create(trip, item)
+                        PointOverviewBundle.create(trip.id, trip.userRole, item)
                     )
             )
         }
@@ -155,7 +155,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             navigateTo(
                 TripPagerFragmentDirections
                     .actionTripPagerFragmentToAccommodationOverviewFragment(
-                        PointOverviewBundle.create(trip, item)
+                        PointOverviewBundle.create(trip.id, trip.userRole, item)
                     )
             )
         }
@@ -167,7 +167,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             navigateTo(
                 TripPagerFragmentDirections
                     .actionTripPagerFragmentToActivityOverviewFragment(
-                        PointOverviewBundle.create(trip, item)
+                        PointOverviewBundle.create(trip.id, trip.userRole, item)
                     )
             )
         }
@@ -233,82 +233,42 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
-    private fun prepareActionButton() {
-        val actionButton = binding.tripOverviewAddButton
-        actionButton.apply {
-            createActionItem(R.id.add_point_transport, R.drawable.ic_outline_plane, R.string.add_transport)
-            createActionItem(R.id.add_point_accommodation, R.drawable.ic_outline_house, R.string.add_accommodation)
-            createActionItem(R.id.add_point_place, R.drawable.ic_outline_location, R.string.add_place)
-            createActionItem(R.id.add_point_activity, R.drawable.ic_outline_hiking, R.string.add_activity)
-        }
-
-        actionButton.apply {
-            setOnActionSelectedListener {
-                when (it.id) {
-                    R.id.add_point_accommodation -> onClick(::addAccommodation)
-                    R.id.add_point_activity -> onClick(::addActivity)
-                    R.id.add_point_transport -> onClick(::addTransport)
-                    R.id.add_point_place -> onClick(::addPlace)
-                    else -> onClick(doNothing)
-                }
-                false
-            }
-        }
-    }
-
-    private fun SpeedDialView.onClick(action: () -> Unit): Boolean {
-        action.invoke()
-        close()
-        return false
-    }
-
-    private fun addAccommodation() {
+    override fun addAccommodation() {
         arguments?.getInt(TRIP_ID)?.let {
             navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToAccommodationAddEditFragment(it))
         }
     }
 
-    private fun addActivity() {
+    override fun addActivity() {
         arguments?.getInt(TRIP_ID)?.let {
             navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToActivityAddEditFragment(it))
         }
     }
 
-    private fun addTransport() {
+    override fun addTransport() {
         arguments?.getInt(TRIP_ID)?.let {
             navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToTransportAddEditFragment(it))
         }
     }
 
-    private fun addPlace() {
+    override fun addPlace() {
         arguments?.getInt(TRIP_ID)?.let {
             navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToPlaceAddEditFragment(it))
         }
     }
 
-    private fun SpeedDialView.createActionItem(
-        @IdRes id: Int,
-        @DrawableRes icon: Int,
-        @StringRes title: Int
-    ) = addActionItem(
-        SpeedDialActionItem.Builder(id, icon)
-            .setFabImageTintColor(requireContext().getColor(R.color.colorBackground))
-            .setLabel(title)
-            .setLabelColor(requireContext().getColor(R.color.colorBackground))
-            .setLabelBackgroundColor(requireContext().getColor(R.color.colorPrimary))
-            .create()
-    )
-
     companion object {
-        fun newInstance(tripId: Int): TripOverviewFragment {
+        fun newInstance(tripId: Int, userRole: UserRole): TripOverviewFragment {
             return TripOverviewFragment().apply {
                 arguments = Bundle().apply {
                     putInt(TRIP_ID, tripId)
+                    putSerializable(USER_ROLE, userRole)
                 }
             }
         }
 
         private const val TRIP_ID = "tripId"
+        private const val USER_ROLE = "userRole"
     }
 
 }

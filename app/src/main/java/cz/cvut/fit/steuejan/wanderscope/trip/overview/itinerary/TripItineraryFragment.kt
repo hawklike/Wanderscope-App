@@ -3,6 +3,7 @@ package cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary
 import android.os.Bundle
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripItineraryBinding
 
 class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, TripItineraryFragmentVM>(
@@ -21,14 +22,16 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
     }
 
     companion object {
-        fun newInstance(tripId: Int): TripItineraryFragment {
+        fun newInstance(tripId: Int, userRole: UserRole): TripItineraryFragment {
             return TripItineraryFragment().apply {
                 arguments = Bundle().apply {
                     putInt(TRIP_ID, tripId)
+                    putSerializable(USER_ROLE, userRole)
                 }
             }
         }
 
         private const val TRIP_ID = "tripId"
+        private const val USER_ROLE = "userRole"
     }
 }

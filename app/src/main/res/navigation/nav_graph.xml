@@ -73,10 +73,6 @@
         android:name="cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragment"
         android:label=""
         tools:layout="@layout/fragment_trip_pager">
-        <action
-            android:id="@+id/action_tripPagerFragment_to_accountFragment"
-            app:destination="@id/accountFragment"
-            app:popUpTo="@id/homeFragment" />
         <argument
             android:name="id"
             app:argType="integer" />
@@ -86,6 +82,13 @@
         <argument
             android:name="hasBottomNavigation"
             app:argType="boolean" />
+        <argument
+            android:name="userRole"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole" />
+        <action
+            android:id="@+id/action_tripPagerFragment_to_accountFragment"
+            app:destination="@id/accountFragment"
+            app:popUpTo="@id/homeFragment" />
         <action
             android:id="@+id/action_tripPagerFragment_to_addTripFragment"
             app:destination="@id/addEditTripFragment" />
