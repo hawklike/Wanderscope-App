@@ -1,20 +1,22 @@
 package cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
+import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
-import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
+import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.api.response.TripItineraryResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.repository.ItineraryRepository
-import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
-import timber.log.Timber
 
 class TripItineraryFragmentVM(
     private val itineraryRepository: ItineraryRepository
 ) : BaseViewModel() {
+
+    val itinerary = MutableLiveData<List<RecyclerItem>>()
 
     fun showItinerary(tripId: Int) {
         viewModelScope.launchIO {
@@ -29,14 +31,13 @@ class TripItineraryFragmentVM(
         }
     }
 
-    private fun itinerarySuccess(data: TripItineraryResponse) {
-        data.itinerary.forEach {
-            Timber.d(it.toString())
+    private suspend fun itinerarySuccess(data: TripItineraryResponse) {
+        val items = withDefault {
+            data.itinerary.map {
+                it.toItem()
+            }
         }
-    }
-
-    fun click() {
-        navigateTo(NavigationEvent.Action(TripPagerFragmentDirections.actionTripPagerFragmentToAccountFragment()))
+        itinerary.value = items
     }
 
 }

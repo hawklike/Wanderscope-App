@@ -169,6 +169,21 @@
         <item name="strokeWidth">1dp</item>
     </style>
 
+    <style name="Widget.Wanderscope.CardView.RecyclerItem.Itinerary" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/colorSurface</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.MaterialCardView.Itinerary</item>
+        <item name="cardElevation">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Wanderscope.MaterialCardView.Itinerary" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">30dp</item>
+        <item name="cornerSizeTopRight">@dimen/app_recycler_item_corner_radius</item>
+        <item name="cornerSizeBottomLeft">@dimen/app_recycler_item_corner_radius</item>
+        <item name="cornerSizeBottomRight">@dimen/app_recycler_item_corner_radius</item>
+    </style>
+
     <style name="Widget.Wanderscope.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="borderWidth">0dp</item>
         <item name="elevation">2dp</item>

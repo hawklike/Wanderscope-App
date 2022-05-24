@@ -31,3 +31,11 @@ suspend inline fun Duration.toDurationString(
         DurationString(startDate, endDate)
     }
 }
+
+suspend inline fun Duration.getStartTime(
+    formatter: DateTimeFormatter = DateTimeFormat.shortTime()
+): String? {
+    return withDefault {
+        startDate?.toString(formatter)
+    }
+}

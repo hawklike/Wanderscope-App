@@ -33,6 +33,12 @@ fun TextView.setTextOrGone(text: String?) {
     this.text = text
 }
 
+@BindingAdapter("textOrInvisible")
+fun TextView.setTextOrInvisible(text: String?) {
+    visibleOrInvisible(text) ?: return
+    this.text = text
+}
+
 @BindingAdapter("textResOrGone")
 fun TextView.setTextOrGone(@StringRes text: Int?) {
     visibleOrGone(text) ?: return

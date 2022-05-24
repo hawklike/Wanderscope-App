@@ -9,6 +9,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
+import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.trips.api.response.TripsResponse
@@ -60,10 +61,12 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
     }
 
     private suspend fun tripsSuccess(data: TripsResponse, emptyItem: EmptyItem): List<RecyclerItem> {
-        return if (data.trips.isEmpty()) {
-            listOf(emptyItem)
-        } else {
-            data.trips.map { it.toItem() }
+        return withDefault {
+            if (data.trips.isEmpty()) {
+                listOf(emptyItem)
+            } else {
+                data.trips.map { it.toItem() }
+            }
         }
     }
 
