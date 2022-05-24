@@ -12,90 +12,148 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
+        android:layout_height="wrap_content">
 
         <View
             android:id="@+id/itineraryItemVerticalLineTop"
-            android:layout_width="0dp"
+            android:layout_width="1dp"
             android:layout_height="12dp"
-            android:background="@color/colorDrawableBackground"
-            app:backgroundTintResource="@{item.tint}"
-            app:layout_constraintEnd_toEndOf="@id/itineraryItemVerticalLineMain"
-            app:layout_constraintStart_toStartOf="@id/itineraryItemVerticalLineMain"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:background="@color/colorAccommodation" />
+            android:layout_marginStart="31dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/itineraryItemCard"
-            style="@style/Widget.Wanderscope.CardView.RecyclerItem.Itinerary"
+            style="@style/Widget.Wanderscope.CardView.RecyclerItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/itineraryItemIconHolder"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintTop_toBottomOf="@id/itineraryItemVerticalLineTop"
             tools:background="@color/colorSurface">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/margin_4"
-                android:paddingStart="52dp"
-                android:paddingEnd="12dp">
+                android:paddingVertical="12dp">
+
+                <View
+                    android:id="@+id/itineraryItemVerticalLineMain"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="31dp"
+                    android:background="@color/colorPrimary"
+                    android:backgroundTint="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/itineraryItemIconHolder" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/itineraryItemGuideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.75" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/itineraryItemIconHolder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/shape_circle"
+                    android:backgroundTint="@color/colorDrawableBackground"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_goneMarginTop="12dp">
+
+                    <ImageView
+                        android:id="@+id/itineraryItemIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:imageResource="@{item.icon}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:background="@drawable/ic_light_aircraft" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/itineraryItemName"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_12"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="24dp"
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:text="@{item.name}"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Praha - Ostrava" />
+                    app:layout_constraintBottom_toTopOf="@id/itineraryItemAddress"
+                    app:layout_constraintEnd_toEndOf="@id/itineraryItemGuideline"
+                    app:layout_constraintStart_toEndOf="@id/itineraryItemIconHolder"
+                    app:layout_constraintTop_toTopOf="@id/itineraryItemIconHolder"
+                    tools:text="Praha - Ostravasdhjsdhjshdj djhsdjhjshd sjdhjshdjh" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/itineraryItemAddress"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="-16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:drawableStart="@drawable/ic_location_14"
                     android:drawablePadding="4dp"
                     android:drawableTint="@color/colorText"
                     android:ellipsize="end"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:textColor="@color/colorText"
-                    app:layout_constraintTop_toBottomOf="@id/itineraryItemName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/itineraryItemName"
+                    app:layout_constraintTop_toBottomOf="@id/itineraryItemIconHolder"
                     app:textOrGone="@{item.address}"
-                    tools:text="Wilsonova 17, Praha 1 726 34" />
+                    tools:text="Wilsonova 17, Praha 1 726" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/itineraryItemAddressTo"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="-16dp"
                     android:layout_marginTop="6dp"
+                    android:layout_marginEnd="16dp"
                     android:drawableStart="@drawable/ic_location_14"
                     android:drawablePadding="4dp"
                     android:drawableTint="@color/colorText"
                     android:ellipsize="end"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:textColor="@color/colorText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/itineraryItemName"
                     app:layout_constraintTop_toBottomOf="@id/itineraryItemAddress"
                     app:textOrGone="@{item.toAddress}"
-                    tools:visibility="gone" />
+                    tools:text="Wilsonova 17, Praha 1 726"
+                    tools:visibility="visible" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/itineraryItemDuration"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="-16dp"
                     android:layout_marginTop="6dp"
+                    android:layout_marginEnd="16dp"
                     android:drawableStart="@drawable/ic_clock_12"
                     android:drawablePadding="4dp"
                     android:drawableTint="@color/colorText"
                     android:ellipsize="end"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:textColor="@color/colorText"
                     app:duration="@{item.duration}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/itineraryItemName"
                     app:layout_constraintTop_toBottomOf="@id/itineraryItemAddressTo"
                     tools:text="18:34 - 19:12" />
 
@@ -103,56 +161,31 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/itineraryItemIconHolder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-1dp"
-            app:layout_goneMarginTop="12dp"
-            android:layout_marginStart="12dp"
-            android:background="@drawable/shape_circle"
-            android:backgroundTint="@color/colorDrawableBackground"
-            android:padding="8dp"
+        <View
+            android:layout_width="1dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="31dp"
+            android:background="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/itineraryItemVerticalLineTop">
-
-            <ImageView
-                android:id="@+id/itineraryItemIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                app:imageResource="@{item.icon}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:background="@drawable/ic_light_aircraft" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@id/itineraryItemVerticalLineTop" />
 
         <View
-            android:id="@+id/itineraryItemVerticalLineMain"
-            android:layout_width="5dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="-1dp"
-            android:background="@color/colorDrawableBackground"
-            app:backgroundTintResource="@{item.tint}"
-            app:layout_constraintBottom_toBottomOf="@id/itineraryItemCard"
-            app:layout_constraintEnd_toEndOf="@id/itineraryItemIconHolder"
-            app:layout_constraintStart_toStartOf="@id/itineraryItemIconHolder"
-            app:layout_constraintTop_toBottomOf="@id/itineraryItemIconHolder"
-            tools:background="@color/colorAccommodation" />
+            android:layout_width="1dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="31dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@id/itineraryItemVerticalLineBottom"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <View
             android:id="@+id/itineraryItemVerticalLineBottom"
-            android:layout_width="0dp"
+            android:layout_width="1dp"
             android:layout_height="12dp"
-            android:layout_marginTop="-1dp"
-            android:background="@color/colorDrawableBackground"
-            app:backgroundTintResource="@{item.tint}"
-            app:layout_constraintEnd_toEndOf="@id/itineraryItemVerticalLineMain"
-            app:layout_constraintStart_toStartOf="@id/itineraryItemVerticalLineMain"
-            app:layout_constraintTop_toBottomOf="@id/itineraryItemCard"
-            tools:background="@color/colorAccommodation" />
+            android:layout_marginStart="31dp"
+            android:background="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itineraryItemCard" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

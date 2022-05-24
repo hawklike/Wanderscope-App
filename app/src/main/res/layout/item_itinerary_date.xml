@@ -17,7 +17,8 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="8dp"
+            android:paddingVertical="10dp"
+            android:textStyle="bold"
             android:text="@{item.date ?? @string/date_not_specified}"
             android:textColor="@color/colorPrimary"
             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
