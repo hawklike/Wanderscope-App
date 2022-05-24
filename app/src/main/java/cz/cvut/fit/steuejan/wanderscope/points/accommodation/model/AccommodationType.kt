@@ -6,6 +6,8 @@ import cz.cvut.fit.steuejan.wanderscope.points.common.PointType
 enum class AccommodationType : PointType {
     HOTEL, HOSTEL, PENSION, CAMP, OUTDOOR, AIRBNB, OTHER;
 
+    override val position: Int get() = this.ordinal
+
     override fun toIcon(): Int {
         return when (this) {
             HOTEL -> R.drawable.ic_hotel

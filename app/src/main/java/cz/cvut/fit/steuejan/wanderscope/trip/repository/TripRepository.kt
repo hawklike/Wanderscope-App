@@ -4,6 +4,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.app.util.performCall
 import cz.cvut.fit.steuejan.wanderscope.app.util.toUnitIfSuccess
+import cz.cvut.fit.steuejan.wanderscope.document.api.DocumentApi
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
@@ -15,7 +16,7 @@ import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
 import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 import kotlinx.coroutines.flow.Flow
 
-class TripRepository(private val tripApi: TripApi) {
+class TripRepository(private val tripApi: TripApi, private val documentApi: DocumentApi) {
 
     suspend fun createTrip(request: TripRequest): Flow<Result<CreatedResponse>> {
         return performCall { tripApi.createTrip(request) }
@@ -23,6 +24,10 @@ class TripRepository(private val tripApi: TripApi) {
 
     suspend fun editTrip(id: Int, request: TripRequest): Flow<Result<Unit>> {
         return performCall { tripApi.editTrip(id, request) }.toUnitIfSuccess()
+    }
+
+    suspend fun deleteTrip(id: Int): Flow<Result<Unit>> {
+        return performCall { tripApi.deleteTrip(id) }.toUnitIfSuccess()
     }
 
     suspend fun getTrip(id: Int): Flow<Result<TripResponse>> {
@@ -46,7 +51,7 @@ class TripRepository(private val tripApi: TripApi) {
     }
 
     suspend fun getDocuments(id: Int): Flow<Result<DocumentsMetadataResponse>> {
-        return performCall { tripApi.getDocuments(id) }
+        return performCall { documentApi.getTripDocuments(id) }
     }
 
     suspend fun getUsers(id: Int): Flow<Result<UsersResponse>> {

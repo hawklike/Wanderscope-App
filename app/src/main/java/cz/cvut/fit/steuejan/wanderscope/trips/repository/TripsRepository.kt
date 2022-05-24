@@ -11,7 +11,10 @@ import org.joda.time.DateTime
 
 class TripsRepository(private val tripsApi: TripsApi) {
 
-    suspend fun getTrips(tripScope: TripsScope, date: DateTime = DateTime.now()): Flow<Result<TripsResponse>> {
+    suspend fun getTrips(
+        tripScope: TripsScope,
+        date: DateTime = DateTime.now()
+    ): Flow<Result<TripsResponse>> {
         val iso8601Date = date.toString()
         return performCall { tripsApi.getTrips(tripScope, iso8601Date.htmlEncode()) }
     }

@@ -1,5 +1,6 @@
 package cz.cvut.fit.steuejan.wanderscope.app.arch
 
+import android.content.DialogInterface
 import android.widget.Toast
 import androidx.annotation.*
 import androidx.lifecycle.LifecycleObserver
@@ -12,8 +13,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
+import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
@@ -36,6 +39,7 @@ abstract class BaseViewModel(
     val showLoading = SingleLiveEvent<Boolean>()
     val datePickerEvent = SingleLiveEvent<DatePickerInfo>()
     val timePickerEvent = SingleLiveEvent<TimePickerInfo>()
+    val showAlertDialogEvent = SingleLiveEvent<AlertDialogInfo>()
 
     protected fun navigateTo(event: NavigationEvent, onBackground: Boolean = false) {
         if (onBackground) {
@@ -101,12 +105,20 @@ abstract class BaseViewModel(
     ) {
         val dateInfoCopy = dateInfo.copy(onPickedDate = {
             val dateTime = DateTime(it, DateTimeZone.UTC)
-            val timeInfoCopy = timeInfo.copy(onPickerTime = { hour, minute ->
+            val timeInfoCopy = timeInfo.copy(onPickedTime = { hour, minute ->
                 onResult.invoke(dateTime.withHourOfDay(hour).withMinuteOfHour(minute))
             })
             showTimePicker(timeInfoCopy, onBackground)
         })
         showDatePicker(dateInfoCopy, onBackground)
+    }
+
+    protected fun showAlertDialog(alertInfo: AlertDialogInfo, onBackground: Boolean = false) {
+        if (onBackground) {
+            showAlertDialogEvent.postValue(alertInfo)
+        } else {
+            showAlertDialogEvent.value = alertInfo
+        }
     }
 
     protected open fun unexpectedError(error: Error? = null, retry: () -> Unit = {}) {
@@ -139,7 +151,25 @@ abstract class BaseViewModel(
         return state?.getLiveData(paramName)
     }
 
-    data class ToastInfo(@StringRes val message: Int, val lenght: Int = Toast.LENGTH_SHORT)
+    protected fun showUpdateToast(
+        actualItems: List<RecyclerItem>,
+        previousItems: List<RecyclerItem>?,
+        @StringRes message: Int
+    ) {
+        val actualSize = actualItems.size
+        val previousSize = previousItems?.size ?: 0
+
+        if (actualSize >= previousSize && previousItems?.first() is EmptyItem) {
+            showToast(ToastInfo(message))
+            return
+        }
+        if (actualSize > previousSize && previousSize != 0) {
+            showToast(ToastInfo(message))
+            return
+        }
+    }
+
+    data class ToastInfo(@StringRes val message: Int, val length: Int = Toast.LENGTH_SHORT)
 
     data class SnackbarInfo(
         @StringRes val message: Int,
@@ -167,7 +197,7 @@ abstract class BaseViewModel(
         @StringRes val title: Int? = R.string.timepicker_title_default,
         @TimeFormat val timeFormat: Int? = null,
         val customTimePicker: MaterialTimePicker? = null,
-        val onPickerTime: (hour: Int, minute: Int) -> Unit
+        val onPickedTime: (hour: Int, minute: Int) -> Unit
     )
 
     data class ChipInfo(
@@ -179,5 +209,14 @@ abstract class BaseViewModel(
         @ColorRes val textColor: Int = R.color.colorText,
         @ColorRes val closeIconTint: Int = R.color.colorTextInputIcon,
         val minHeight: Float = 96f
+    )
+
+    data class AlertDialogInfo(
+        @StringRes val title: Int? = null,
+        @StringRes val message: Int? = null,
+        @StringRes val negativeButton: Int? = R.string.cancel,
+        @StringRes val positiveButton: Int,
+        val onClickNegative: ((dialog: DialogInterface, which: Int) -> Unit)? = null,
+        val onClickPositive: (dialog: DialogInterface, which: Int) -> Unit
     )
 }

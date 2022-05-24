@@ -6,6 +6,8 @@ import cz.cvut.fit.steuejan.wanderscope.points.common.PointType
 enum class ActivityType : PointType {
     HIKING, CYCLING, SKIING, RUNNING, KAYAK, SWIMMING, CLIMBING, CROSS_COUNTRY, OTHER;
 
+    override val position: Int get() = this.ordinal
+
     override fun toIcon(): Int {
         return when (this) {
             HIKING -> R.drawable.ic_hiking

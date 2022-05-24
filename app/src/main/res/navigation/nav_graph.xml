@@ -101,6 +101,18 @@
         <action
             android:id="@+id/action_tripPagerFragment_to_placeAddEditFragment"
             app:destination="@id/placeAddEditFragment" />
+        <action
+            android:id="@+id/action_tripPagerFragment_to_transportOverviewFragment"
+            app:destination="@id/transportOverviewFragment" />
+        <action
+            android:id="@+id/action_tripPagerFragment_to_placeOverviewFragment"
+            app:destination="@id/placeOverviewFragment" />
+        <action
+            android:id="@+id/action_tripPagerFragment_to_activityOverviewFragment"
+            app:destination="@id/activityOverviewFragment" />
+        <action
+            android:id="@+id/action_tripPagerFragment_to_accommodationOverviewFragment"
+            app:destination="@id/accommodationOverviewFragment" />
     </fragment>
 
     <fragment
@@ -133,6 +145,11 @@
         <argument
             android:name="tripId"
             app:argType="integer" />
+        <argument
+            android:name="response"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.AccommodationResponse"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
@@ -143,6 +160,11 @@
         <argument
             android:name="tripId"
             app:argType="integer" />
+        <argument
+            android:name="response"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivityResponse"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
@@ -153,6 +175,11 @@
         <argument
             android:name="tripId"
             app:argType="integer" />
+        <argument
+            android:name="response"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportResponse"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
@@ -163,6 +190,63 @@
         <argument
             android:name="tripId"
             app:argType="integer" />
+        <argument
+            android:name="response"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlaceResponse"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/transportOverviewFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.points.transport.overview.TransportOverviewFragment"
+        android:label=""
+        tools:layout="@layout/fragment_point_transport_overview">
+        <argument
+            android:name="overviewBundle"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle" />
+        <action
+            android:id="@+id/action_transportOverviewFragment_to_transportAddEditFragment"
+            app:destination="@id/transportAddEditFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/placeOverviewFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.points.place.overview.PlaceOverviewFragment"
+        android:label=""
+        tools:layout="@layout/fragment_point_place_overview">
+        <argument
+            android:name="overviewBundle"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle" />
+        <action
+            android:id="@+id/action_placeOverviewFragment_to_placeAddEditFragment"
+            app:destination="@id/placeAddEditFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/activityOverviewFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.points.activity.overview.ActivityOverviewFragment"
+        android:label=""
+        tools:layout="@layout/fragment_point_activity_overview">
+        <argument
+            android:name="overviewBundle"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle" />
+        <action
+            android:id="@+id/action_activityOverviewFragment_to_activityAddEditFragment"
+            app:destination="@id/activityAddEditFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/accommodationOverviewFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.points.accommodation.overview.AccommodationOverviewFragment"
+        android:label=""
+        tools:layout="@layout/fragment_point_accommodation_overview">
+        <argument
+            android:name="overviewBundle"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle" />
+        <action
+            android:id="@+id/action_accommodationOverviewFragment_to_accommodationAddEditFragment"
+            app:destination="@id/accommodationAddEditFragment" />
     </fragment>
 
 </navigation>

@@ -3,6 +3,7 @@ package cz.cvut.fit.steuejan.wanderscope.trip.overview.root
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -10,6 +11,7 @@ import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.WithViewPager
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripPagerBinding
+import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.TripOverviewFragment
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.TripExpensesFragment
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.TripItineraryFragment
@@ -22,6 +24,19 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
     override val hasBottomNavigation: Boolean by lazy { args.hasBottomNavigation }
 
     private val args: TripPagerFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.sharedData.value = Load.ALL
+        setupFragmentResultListener()
+    }
+
+    private fun setupFragmentResultListener() {
+        setFragmentResultListener(TRIP_OVERVIEW_REQUEST_KEY) { _, bundle ->
+            val result = bundle.getParcelable<Load>(TRIP_OVERVIEW_RESULT_BUNDLE)
+            viewModel.sharedData.value = result
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,5 +85,10 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
 
     override fun setTitle(title: String?) {
         binding.tripPagerTitle.text = title
+    }
+
+    companion object {
+        const val TRIP_OVERVIEW_REQUEST_KEY = "tripOverviewKey"
+        const val TRIP_OVERVIEW_RESULT_BUNDLE = "tripOverviewResult"
     }
 }

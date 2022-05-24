@@ -22,7 +22,7 @@
             android:layout_marginTop="@dimen/app_title_empty_toolbar_margin"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="Trip"
+            android:text="@string/trip"
             android:textAppearance="@style/TextAppearance.Wanderscope.H1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

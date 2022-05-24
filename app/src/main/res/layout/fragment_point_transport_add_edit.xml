@@ -16,6 +16,7 @@
         android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
 
         <ScrollView
+            android:id="@+id/addTransportScroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/app_text_input_margin"
@@ -208,6 +209,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/select_the_transport"
                         android:inputType="none"
+                        app:textRes="@{vm.type}"
                         android:popupElevation="1dp"
                         app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
                         app:onItemClick="@{(p, v, position, id) -> vm.selectType(position)}" />
@@ -247,7 +249,7 @@
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/addTransportCarsGroup"
-                    visibleOrGone="@{vm.showCars}"
+                    app:visibleOrGone="@{vm.showCars}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"

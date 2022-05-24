@@ -18,6 +18,7 @@
             android:id="@+id/tripOverviewShimmer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:layout_marginBottom="20dp"
             tools:visibility="gone">
 
@@ -31,6 +32,7 @@
             android:layout_height="match_parent">
 
             <androidx.core.widget.NestedScrollView
+                android:id="@+id/tripOverviewScroll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="12dp"
@@ -45,7 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
-                        android:layout_marginTop="@dimen/app_layout_first_item_margin"
+                        android:layout_marginTop="@dimen/app_first_item_overview_margin"
                         android:text="@string/duration"
                         android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                         app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +60,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
                         android:layout_marginTop="@dimen/app_text_input_label_margin"
+                        android:textIsSelectable="true"
                         android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                         app:duration="@{vm.duration}"
                         app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
-                        android:layout_marginTop="@dimen/app_text_input_margin"
+                        android:layout_marginTop="24dp"
                         android:text="@string/description"
                         android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                         app:layout_constraintStart_toStartOf="parent"
@@ -82,6 +85,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
                         android:layout_marginTop="@dimen/app_text_input_label_margin"
+                        android:textIsSelectable="true"
                         android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tripOverviewDescriptionLabel"
@@ -234,8 +238,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
-                        android:text="@string/manage"
                         android:gravity="end"
+                        android:text="@string/manage"
                         app:layout_constraintBottom_toBottomOf="@id/tripOverviewTravellersLabel"
                         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -274,16 +278,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/app_fab_margin"
                 android:layout_marginBottom="@dimen/app_fab_margin"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:sdMainFabClosedBackgroundColor="@color/colorPrimary"
                 app:sdMainFabClosedSrc="@drawable/ic_add"
                 app:sdMainFabOpenedBackgroundColor="@color/colorPrimary"
-                app:sdUseReverseAnimationOnClose="true"
-                tools:visibility="visible" />
+                app:sdUseReverseAnimationOnClose="true" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

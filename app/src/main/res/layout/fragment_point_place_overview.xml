@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="cz.cvut.fit.steuejan.wanderscope.points.place.overview.PlaceOverviewFragmentVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/placeOverviewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+            android:layout_marginTop="@dimen/app_title_empty_toolbar_margin"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.Wanderscope.H1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Praha - Ostrava" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/placeOverviewShimmer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/app_layout_first_item_margin"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/placeOverviewTitle"
+            tools:visibility="gone">
+
+            <include layout="@layout/layout_shimmer_placeholder" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/placeOverviewContent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/placeOverviewTitle">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/placeOverviewScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/placeOverviewMarginLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewStartDateLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_point_overview_first_item_margin"
+                            android:text="@string/start"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewStartDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:gravity="end"
+                            android:maxLines="2"
+                            android:text="@{vm.startDate}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintBottom_toBottomOf="@+id/placeOverviewStartDateLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/placeOverviewStartDateLabel"
+                            tools:text="May 17, 2022 18:12" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_location_16"
+                            android:drawablePadding="@dimen/margin_8"
+                            android:layout_marginStart="@dimen/app_point_overview_address_start_margin"
+                            android:drawableTint="@color/colorText"
+                            android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                            android:layout_marginEnd="@dimen/app_point_overview_address_end_margin"
+                            android:gravity="center_vertical"
+                            android:onClick="@{() -> vm.launchMap()}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewStartDateLabel"
+                            app:textOrGone="@{vm.address}"
+                            tools:text="Wilsonova 80, Vinohrady, 120 00 Praha-Praha 2, Czechia" />
+
+                        <View
+                            android:id="@+id/placeOverviewVerticalLine"
+                            android:layout_width="1dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="@dimen/app_point_overview_vertical_line_margin"
+                            android:layout_marginTop="@dimen/app_point_overview_vertical_line_margin"
+                            android:layout_marginBottom="@dimen/app_point_overview_vertical_line_margin"
+                            android:background="@drawable/shape_vertical_dashed_line"
+                            android:backgroundTint="@color/colorPrimary"
+                            app:layout_constraintBottom_toTopOf="@id/placeOverviewEndDateLabel"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewAddress" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/placeOverviewTravelLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="@dimen/app_point_overview_type_label_margin"
+                            android:background="@drawable/shape_rounded_32"
+                            android:backgroundTint="@color/colorSurface"
+                            android:onClick="@{() -> vm.launchMapFromLabel()}"
+                            android:paddingHorizontal="@dimen/app_point_overview_type_label_horizontal_padding"
+                            android:paddingVertical="@dimen/app_point_overview_type_label_vertical_padding"
+                            app:layout_constraintStart_toEndOf="@id/placeOverviewVerticalLine"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewAddress">
+
+                            <ImageView
+                                android:id="@+id/placeOverviewIcon"
+                                android:layout_width="@dimen/app_point_overview_icon_size"
+                                android:layout_height="@dimen/app_point_overview_icon_size"
+                                app:imageResource="@{vm.icon}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:background="@drawable/ic_food" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/placeOverviewTravelLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:text="@string/visit_label"
+                                android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                                android:textColor="@color/colorPrimary"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/placeOverviewIcon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/placeOverviewTravel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                                android:textColor="@color/colorPrimary"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/placeOverviewTravelLabel"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:textResOrGoneLowercase="@{vm.type}"
+                                tools:text="restaurant" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewDuration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/margin_12"
+                            android:drawableStart="@drawable/ic_clock_16"
+                            android:drawablePadding="@dimen/margin_8"
+                            android:drawableTint="@color/colorPrimary"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textColor="@color/colorPrimary"
+                            app:fullDuration="@{vm.duration}"
+                            app:layout_constraintStart_toStartOf="@id/placeOverviewTravelLayout"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewTravelLayout"
+                            tools:text="2d 1h 32m" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewEndDateLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_point_overview_type_label_margin"
+                            android:text="@string/end"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewDuration" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewEndDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:maxLines="2"
+                            android:text="@{vm.endDate}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintBottom_toBottomOf="@+id/placeOverviewEndDateLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/placeOverviewEndDateLabel"
+                            tools:text="May 17, 2022 18:12" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewWebsite"
+                            visibleOrGone="@{vm.website}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:drawableEnd="@drawable/ic_open_in_new_20"
+                            android:drawablePadding="@dimen/margin_4"
+                            android:drawableTint="@color/colorPrimary"
+                            android:onClick="@{() -> vm.goToWebsite()}"
+                            android:text="@string/go_to_the_website"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textColor="@color/colorPrimary"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewEndDateLabel" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewLatitudeLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:onClick="@{() -> vm.launchMapLatLon()}"
+                            android:text="@string/latitude"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewWebsite"
+                            app:visibleOrGone="@{vm.latitude}" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewLatitude"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            android:drawableStart="@drawable/ic_latitude_16"
+                            android:drawablePadding="@dimen/margin_4"
+                            android:drawableTint="@color/colorText"
+                            android:onClick="@{() -> vm.launchMapLatLon()}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewLatitudeLabel"
+                            app:textOrGone="@{vm.latitude}"
+                            tools:text="23.4759956" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewLongitudeLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_margin"
+                            android:onClick="@{() -> vm.launchMapLatLon()}"
+                            android:text="@string/longitude"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewLatitude"
+                            app:visibleOrGone="@{vm.longitude}" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewLongitude"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            android:drawableStart="@drawable/ic_longitude_16"
+                            android:drawablePadding="@dimen/margin_4"
+                            android:drawableTint="@color/colorText"
+                            android:onClick="@{() -> vm.launchMapLatLon()}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewLongitudeLabel"
+                            app:textOrGone="@{vm.longitude}"
+                            tools:text="23.4759956" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewDescriptionLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_margin"
+                            android:text="@string/description"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewLongitude"
+                            app:visibleOrGone="@{vm.description}" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewDescriptionLabel"
+                            app:textOrGone="@{vm.description}"
+                            tools:text="This meta description generator uses machine learning (specifically GPT-3 from Open AI) to generate short description ideas for your articles. It has been trained specifically for pages with long content and is best suited for guides, how-to articles, articles with bulleted lists, etc." />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewWikipediaLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:drawableEnd="@drawable/ic_beta"
+                            android:text="@string/wikipedia"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewDescription"
+                            app:visibleOrGone="@{vm.wikipedia}" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewWikipedia"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewWikipediaLabel"
+                            app:textOrGone="@{vm.wikipedia}"
+                            tools:text="This meta description generator uses machine learning (specifically GPT-3 from Open AI) to generate short description ideas for your articles. It has been trained specifically for pages with long content and is best suited for guides, how-to articles, articles with bulleted lists, etc." />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/placeOverviewMapHolder"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewWikipedia"
+                            app:visibleOrGone="@{vm.showMap}"
+                            tools:backgroundTint="@color/colorOnSecondary">
+
+                            <cz.cvut.fit.steuejan.wanderscope.app.view.AnchoredMapView
+                                android:id="@+id/placeOverviewMap"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewDocumentsLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_no_toolbar_first_item"
+                            android:text="@string/documents"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.H3"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/placeOverviewMapHolder" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/placeOverviewDocuments"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/app_layout_main_horizontal_padding"
+                        android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                        android:nestedScrollingEnabled="true"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/placeOverviewMarginLayout"
+                        app:marginEndNormalRes="@{@dimen/margin_0}"
+                        app:marginEndRes="@{@dimen/app_layout_main_horizontal_padding}"
+                        app:marginEndWhenOneItem="@{vm.documents}"
+                        app:recyclerItems="@{vm.documents}"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_document_metadata" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

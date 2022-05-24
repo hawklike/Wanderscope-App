@@ -6,6 +6,8 @@ import cz.cvut.fit.steuejan.wanderscope.points.common.PointType
 enum class TransportType : PointType {
     WALK, BIKE, CAR, BUS, TRAIN, FERRY, PUBLIC, PLANE, OTHER;
 
+    override val position: Int get() = this.ordinal
+
     override fun toIcon(): Int {
         return when (this) {
             WALK -> R.drawable.ic_walking

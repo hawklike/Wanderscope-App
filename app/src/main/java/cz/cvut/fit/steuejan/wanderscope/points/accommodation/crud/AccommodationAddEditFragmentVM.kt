@@ -11,8 +11,8 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.data.Contact
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
-import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.request.AccommodationRequest
+import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.AccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.model.AccommodationType
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.repository.AccommodationRepository
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 class AccommodationAddEditFragmentVM(
     repository: AccommodationRepository,
     savedStateHandle: SavedStateHandle
-) : AbstractPointAddEditFragmentVM<AccommodationRequest>(
+) : AbstractPointAddEditFragmentVM<AccommodationRequest, AccommodationResponse>(
     repository,
     savedStateHandle
 ) {
@@ -42,6 +42,16 @@ class AccommodationAddEditFragmentVM(
         return super.validateDates(startDate, endDate, ValidateDates.CHECKIN)
     }
 
+    override fun setupEdit(point: AccommodationResponse, title: Int) {
+        super.setupEdit(point, title)
+        viewModelScope.launch {
+            phone.value = point.contact.phone
+            website.value = point.contact.website
+            email.value = point.contact.email
+            type.value = point.type.toStringRes()
+        }
+    }
+
     override fun placeFound(place: Place) {
         super.placeFound(place)
         place.name?.let { name.value = it }
@@ -50,29 +60,25 @@ class AccommodationAddEditFragmentVM(
         place.websiteUri?.let { website.value = it.toString() }
     }
 
-    fun submit() {
-        viewModelScope.launch {
-            val name = name.value ?: return@launch
-            submitLoading.value = true
-            val request = AccommodationRequest(
-                name = name,
-                duration = Duration(startDateTime, endDateTime),
-                type = getTypeFromSelectedItem(),
-                address = Address(placeId, address.value.getOrNullIfBlank()),
-                contact = Contact(
-                    phone.value.getOrNullIfBlank(),
-                    email.value.getOrNullIfBlank(),
-                    website.value.getOrNullIfBlank()
-                ),
-                description = description.value.getOrNullIfBlank()
-            )
-            submit(request)
-        }
+    override fun createRequest(): AccommodationRequest? {
+        val name = name.value ?: return null
+        return AccommodationRequest(
+            name = name,
+            duration = Duration(startDateTime, endDateTime),
+            type = getTypeFromSelectedItem(),
+            address = Address(placeId, address.value.getOrNullIfBlank()),
+            contact = Contact(
+                phone.value.getOrNullIfBlank(),
+                email.value.getOrNullIfBlank(),
+                website.value.getOrNullIfBlank()
+            ),
+            description = description.value.getOrNullIfBlank(),
+            coordinates = coordinates
+        )
     }
 
     private fun getTypeFromSelectedItem(): AccommodationType {
-        return runOrNull {
-            AccommodationType.values()[selectedTypePosition ?: -1]
-        } ?: AccommodationType.OTHER
+        return AccommodationType.values().getOrNull(selectedTypePosition ?: -1)
+            ?: AccommodationType.OTHER
     }
 }

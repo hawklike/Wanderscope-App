@@ -9,6 +9,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.ValidateDates
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
@@ -16,9 +17,9 @@ import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
-import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.request.TransportRequest
+import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.model.TransportType
 import cz.cvut.fit.steuejan.wanderscope.points.transport.repository.TransportRepository
 import kotlinx.coroutines.launch
@@ -26,7 +27,7 @@ import kotlinx.coroutines.launch
 class TransportAddEditFragmentVM(
     repository: TransportRepository,
     savedStateHandle: SavedStateHandle
-) : AbstractPointAddEditFragmentVM<TransportRequest>(
+) : AbstractPointAddEditFragmentVM<TransportRequest, TransportResponse>(
     repository,
     savedStateHandle
 ) {
@@ -44,6 +45,8 @@ class TransportAddEditFragmentVM(
     private var toName: String? = null
     private var fromId: String? = null
     private var toId: String? = null
+    private var fromCoordinates: Coordinates? = null
+    private var toCoordinates: Coordinates? = null
 
     val from = MutableLiveData<String?>(null)
     val to = MutableLiveData<String?>(null)
@@ -89,28 +92,53 @@ class TransportAddEditFragmentVM(
         return super.validateDates(startDate, endDate, ValidateDates.DEPARTURE)
     }
 
+    override fun setupEdit(point: TransportResponse, title: Int) {
+        super.setupEdit(point, title)
+        viewModelScope.launch {
+            point.address.let {
+                from.value = it.name
+                fromId = it.googlePlaceId
+            }
+            point.to.let {
+                to.value = it.name
+                toId = it.googlePlaceId
+            }
+            fromCoordinates = point.coordinates
+            toCoordinates = point.toCoordinates
+            point.cars?.forEach(::addCarChip)
+            point.seats?.forEach(::addSeatChip)
+            type.value = point.type.toStringRes()
+        }
+    }
+
     fun addCar() {
         val carValue = car.value
-        if (carValue.isNullOrBlank()) {
-            return
+        if (!carValue.isNullOrBlank()) {
+            addCarChip(carValue)
         }
-        carChip.value = ChipInfo(carValue, true, textColor = R.color.colorPrimary)
+    }
+
+    private fun addCarChip(car: String) {
+        carChip.value = ChipInfo(car, true, textColor = R.color.colorPrimary)
         showCars.value = true
         hideKeyboardEvent.publish()
         extractCarsEvent.publish()
-        car.value = null
+        this.car.value = null
     }
 
     fun addSeat() {
         val seatValue = seat.value
-        if (seatValue.isNullOrBlank()) {
-            return
+        if (!seatValue.isNullOrBlank()) {
+            addSeatChip(seatValue)
         }
-        seatChip.value = ChipInfo(seatValue, true, textColor = R.color.colorPrimary)
+    }
+
+    private fun addSeatChip(seat: String) {
+        seatChip.value = ChipInfo(seat, true, textColor = R.color.colorPrimary)
         showSeats.value = true
         hideKeyboardEvent.publish()
         extractSeatsEvent.publish()
-        seat.value = null
+        this.seat.value = null
     }
 
     fun findFrom() {
@@ -131,11 +159,13 @@ class TransportAddEditFragmentVM(
                 fromName = place.name
                 fromId = place.id
                 place.address?.let { from.value = it }
+                fromCoordinates = createCoordinates(place)
             }
             FindOption.TO -> {
                 toName = place.name
                 toId = place.id
                 place.address?.let { to.value = it }
+                toCoordinates = createCoordinates(place)
             }
             else -> doNothing
         }
@@ -144,29 +174,36 @@ class TransportAddEditFragmentVM(
         }
     }
 
-    fun submit() {
+    override fun submit() {
+        submitLoading.value = true
         viewModelScope.launch {
-            val name = name.value ?: return@launch
-            submitLoading.value = true
-
-            val request = TransportRequest(
-                name = name,
-                duration = Duration(startDateTime, endDateTime),
-                type = getTypeFromSelectedItem(),
-                from = Address(fromId, from.value.getOrNullIfBlank()),
-                to = Address(toId, to.value.getOrNullIfBlank()),
-                cars = null,
-                seats = null,
-                description = description.value.getOrNullIfBlank()
-            )
+            val request = createRequest() ?: run {
+                submitLoading.value = false
+                return@launch
+            }
             submitEvent.value = request
         }
     }
 
+    override fun createRequest(): TransportRequest? {
+        val name = name.value ?: return null
+        return TransportRequest(
+            name = name,
+            duration = Duration(startDateTime, endDateTime),
+            type = getTypeFromSelectedItem(),
+            from = Address(fromId, from.value.getOrNullIfBlank()),
+            to = Address(toId, to.value.getOrNullIfBlank()),
+            cars = null,
+            seats = null,
+            description = description.value.getOrNullIfBlank(),
+            fromCoordinates = fromCoordinates,
+            toCoordinates = toCoordinates
+        )
+    }
+
     private fun getTypeFromSelectedItem(): TransportType {
-        return runOrNull {
-            TransportType.values()[selectedTypePosition ?: -1]
-        } ?: TransportType.OTHER
+        return TransportType.values().getOrNull(selectedTypePosition ?: -1)
+            ?: TransportType.OTHER
     }
 
     enum class FindOption {

@@ -16,6 +16,7 @@
         android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
 
         <ScrollView
+            android:id="@+id/addActivityScroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/app_text_input_margin"
@@ -179,6 +180,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/select_the_activity"
                         android:inputType="none"
+                        app:textRes="@{vm.type}"
                         android:popupElevation="@dimen/app_autocomplete_elevation"
                         app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
                         app:onItemClick="@{(p, v, position, id) -> vm.selectType(position)}" />

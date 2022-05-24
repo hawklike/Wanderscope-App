@@ -1,13 +1,16 @@
 package cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Contact
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.model.AccommodationType
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
+import kotlinx.parcelize.Parcelize
 
-
+@Parcelize
 data class AccommodationResponse(
     @Json(name = "id")
     override val id: Int,
@@ -18,11 +21,13 @@ data class AccommodationResponse(
     @Json(name = "name")
     override val name: String,
     @Json(name = "address")
-    val address: Address,
+    override val address: Address,
     @Json(name = "contact")
     val contact: Contact,
     @Json(name = "type")
     override val type: AccommodationType,
     @Json(name = "description")
-    val description: String?
-) : PointResponse()
+    override val description: String?,
+    @Json(name = "coordinates")
+    override val coordinates: Coordinates
+) : PointResponse(), Parcelable

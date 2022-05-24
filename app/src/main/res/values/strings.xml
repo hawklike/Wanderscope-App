@@ -5,6 +5,7 @@
     <string name="your_trip">Your Trip</string>
     <string name="second_fragment_label">Second Fragment</string>
 
+    <string name="unexpected_error_short">Something didn\'t work</string>
     <string name="unexpected_error">Something didn\'t work. Please check your internet connection and try again</string>
     <string name="retry">Retry</string>
 
@@ -65,7 +66,12 @@
     <string name="trips">Trips</string>
     <string name="account">Account</string>
     <string name="upcoming_trips">Upcoming trips</string>
+
     <string name="duration_between_two_dates" translatable="false">%1$s - %2$s</string>
+    <string name="duration_days_hours_minutes">%1$dd %2$dh %3$dm</string>
+    <string name="duration_hours_minutes">%1$dh %2$dm</string>
+    <string name="duration_minutes">%dm</string>
+
     <string name="past_trips">Where you\'ve been</string>
     <string name="no_past_trips_title">You\'ve been nowhere yet</string>
     <string name="no_past_trips_subtitle">Never mind, just add a new trip and set out.</string>
@@ -73,7 +79,6 @@
     <string name="no_upcoming_trips_subtitle">Start a new adventure by adding a new trip.</string>
     <string name="datepicker_title_default">Select date</string>
     <string name="timepicker_title_default">Select time</string>
-
     <string name="enddate_before_startdate">End date cannot be prior to start date</string>
     <string name="checkout_before_checkin">Check-out cannot be prior to check-in</string>
     <string name="arrival_before_departure">Arrival cannot be prior to departure</string>
@@ -174,8 +179,15 @@
     <string name="airbnb">Airbnb</string>
 
     <string name="parking">Parking</string>
-    <string name="food">Food</string>
-    <string name="nature">Nature</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="countryside">Countryside</string>
+    <string name="city">City</string>
+    <string name="museum">Museum</string>
+    <string name="zoo">Zoo</string>
+    <string name="park">Park</string>
+    <string name="monument">Monument</string>
+    <string name="mountains">Mountains</string>
+    <string name="castle">Castle</string>
 
     <string name="walk">Walk</string>
     <string name="bike">Bike</string>
@@ -203,9 +215,63 @@
     <string name="name_the_transport_mandatory">Name the transport (mandatory)</string>
     <string name="describe_the_transport">Describe the transport</string>
     <string name="name_the_place_mandatory">Name the place (mandatory)</string>
+    <string name="trip">Trip</string>
+    <string name="travel_by_label">Travel by\u0020</string>
+    <string name="visit_label">Visit\u0020</string>
+    <string name="sleep_at_label">Sleep at\u0020</string>
+    <string name="wikipedia">Wikipedia</string>
+    <string name="go_to_the_website">Go to website</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="set_a_destination">Set a destination</string>
+
+    <string name="edit_accommodation">Edit accommodation</string>
+    <string name="edit_activity">Edit activity</string>
+    <string name="edit_place">Edit place</string>
+    <string name="edit_transport">Edit transport</string>
+
+    <string name="delete_accommodation">Delete accommodation</string>
+    <string name="delete_activity">Delete activity</string>
+    <string name="delete_place">Delete place</string>
+    <string name="delete_transport">Delete transport</string>
+
+    <string name="updating_accommodation">Updating accommodation</string>
+    <string name="updating_activities">Updating activities</string>
+    <string name="updating_places">Updating places</string>
+    <string name="updating_transport">Updating transport</string>
+    <string name="updating_trip">Updating trip</string>
+    <string name="updating_documents">Updating documents</string>
+    <string name="updating_users">Updating users</string>
+
+    <string name="delete_trip_dialog_title">Delete trip?</string>
+    <string name="delete_trip_dialog_message">Do you really want to delete this trip? All places and documents within this trip will be deleted too. This action is irreversible.</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="deleting_trip">Deleting trip…</string>
+    <string name="deleting_accommodation">Deleting accommodation…</string>
+    <string name="deleting_activity">Deleting activity…</string>
+    <string name="deleting_place">Deleting place…</string>
+    <string name="deleting_transport">Deleting transport…</string>
+    <string name="undo">Undo</string>
+    <string name="revert">Revert</string>
+    <string name="successfully_deleted">Successfully deleted</string>
+
+    <string name="delete_accommodation_dialog_title">Delete accommodation?</string>
+    <string name="delete_accommodation_dialog_message">Do you really want to delete this accommodation? All documents within this accommodation will be deleted too.</string>
+    <string name="delete_activity_dialog_title">Delete activity?</string>
+    <string name="delete_activity_dialog_message">Do you really want to delete this activity? All documents within this activity will be deleted too.</string>
+    <string name="delete_place_dialog_title">Delete place?</string>
+    <string name="delete_place_dialog_message">Do you really want to delete this place? All documents within this place will be deleted too.</string>
+    <string name="delete_transport_dialog_title">Delete transport?</string>
+    <string name="delete_transport_dialog_message">Do you really want to delete this transport? All documents within this transport will be deleted too.</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
+    </plurals>
+
+    <plurals name="nights_between_two_dates">
+        <item quantity="one">%d night</item>
+        <item quantity="other">%d nights</item>
     </plurals>
 </resources>

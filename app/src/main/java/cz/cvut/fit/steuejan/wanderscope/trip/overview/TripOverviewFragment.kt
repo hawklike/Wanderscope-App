@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -13,20 +12,25 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
+import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripOverviewBinding
+import cz.cvut.fit.steuejan.wanderscope.points.TripPointOverviewItem
+import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.crud.bundle.EditTripBundle
+import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
 
 class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, TripOverviewFragmentVM>(
     R.layout.fragment_trip_overview,
     TripOverviewFragmentVM::class
-), WithLoading {
+), WithLoading, WithRecycler {
 
     override val content: View get() = binding.tripOverviewContent
     override val shimmer: ShimmerFrameLayout get() = binding.tripOverviewShimmer
@@ -41,8 +45,39 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle()
-        retrieveTripOverview()
+        handlePointsRecycler()
+        handleLoadingNecessaryData()
         prepareActionButton()
+    }
+
+    private fun handleLoadingNecessaryData() {
+        getViewPagerSharedData<Load>()?.safeObserve {
+            it ?: return@safeObserve
+            if (it != Load.NOTHING) {
+                setViewPagerSharedData(Load.NOTHING)
+                val load = if (tripOverview == null) Load.ALL else it
+                retrieveTripOverview(load)
+            }
+        }
+    }
+
+    private fun retrieveTripOverview(whatToLoad: Load) {
+        val tripId = arguments?.getInt(TRIP_ID) ?: return
+        showLoading()
+        hideActionButton()
+
+        viewModel.getTrip(tripId, whatToLoad)
+
+        viewModel.loading.safeObserve { loading ->
+            if (!loading) {
+                hideLoading()
+            }
+        }
+
+        viewModel.tripOverview.safeObserve {
+            tripOverview = it
+            showActionButton(it.userRole)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -75,19 +110,66 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
-    private fun retrieveTripOverview() {
-        showLoading()
-        viewModel.getTrip(arguments?.getInt(TRIP_ID) ?: return)
-
-        viewModel.loading.safeObserve { loading ->
-            if (!loading) {
-                hideLoading()
-            }
+    private fun handlePointsRecycler() {
+        setAdapterListener(binding.tripOverviewTransport) { item, _ ->
+            goToTransport(item)
         }
+        setAdapterListener(binding.tripOverviewPlace) { item, _ ->
+            goToPlace(item)
+        }
+        setAdapterListener(binding.tripOverviewActivity) { item, _ ->
+            goToActivity(item)
+        }
+        setAdapterListener(binding.tripOverviewAccommodation) { item, _ ->
+            goToAccommodation(item)
+        }
+    }
 
-        viewModel.tripOverview.safeObserve {
-            tripOverview = it
-            showActionButton(it.userRole)
+    private fun goToTransport(item: RecyclerItem) {
+        if (item is TripPointOverviewItem) {
+            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+            navigateTo(
+                TripPagerFragmentDirections
+                    .actionTripPagerFragmentToTransportOverviewFragment(
+                        PointOverviewBundle.create(trip, item)
+                    )
+            )
+        }
+    }
+
+    private fun goToPlace(item: RecyclerItem) {
+        if (item is TripPointOverviewItem) {
+            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+            navigateTo(
+                TripPagerFragmentDirections
+                    .actionTripPagerFragmentToPlaceOverviewFragment(
+                        PointOverviewBundle.create(trip, item)
+                    )
+            )
+        }
+    }
+
+    private fun goToAccommodation(item: RecyclerItem) {
+        if (item is TripPointOverviewItem) {
+            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+            navigateTo(
+                TripPagerFragmentDirections
+                    .actionTripPagerFragmentToAccommodationOverviewFragment(
+                        PointOverviewBundle.create(trip, item)
+                    )
+            )
+        }
+    }
+
+    private fun goToActivity(item: RecyclerItem) {
+        if (item is TripPointOverviewItem) {
+            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+            navigateTo(
+                TripPagerFragmentDirections
+                    .actionTripPagerFragmentToActivityOverviewFragment(
+                        PointOverviewBundle.create(trip, item)
+                    )
+            )
         }
     }
 
@@ -98,6 +180,10 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             View.GONE
         }
         binding.tripOverviewAddButton.visibility = visibility
+    }
+
+    private fun hideActionButton() {
+        binding.tripOverviewAddButton.visibility = View.GONE
     }
 
     private fun editTrip(): Boolean {
@@ -115,19 +201,21 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
 
     private fun deleteTrip(): Boolean {
         val trip = tripOverview ?: return pleaseWait()
+        viewModel.deleteTrip(trip.id)
         return true
     }
 
     private fun saveToCalendar(): Boolean {
         val trip = tripOverview ?: return pleaseWait()
         with(trip) {
-            startActivity(
+            startActivitySafe(
                 saveEventToCalendar(
                     duration.startDate,
                     duration.endDate,
                     allDay = true,
                     name,
-                    description
+                    description,
+                    location = null
                 )
             )
         }
@@ -135,7 +223,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     }
 
     private fun pleaseWait(): Boolean {
-        Toast.makeText(requireContext(), R.string.please_wait, Toast.LENGTH_SHORT).show()
+        showToast(R.string.please_wait)
         return true
     }
 

@@ -10,9 +10,9 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMedia
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.LoadingMutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveData
-import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Back
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.getDateFromMillis
 import cz.cvut.fit.steuejan.wanderscope.trip.api.request.TripRequest
@@ -33,6 +33,8 @@ class AddEditTripFragmentVM(
     val startDate = MutableLiveData<String?>(null)
     val endDate = MutableLiveData<String?>(null)
     val description = MutableLiveData<String?>()
+
+    val requestIsSuccess = AnySingleLiveEvent()
 
     val submitLoading = LoadingMutableLiveData()
 
@@ -133,7 +135,7 @@ class AddEditTripFragmentVM(
                     is Result.Cache -> TODO()
                     is Result.Failure -> handleFailure(it.error)
                     is Result.Loading -> submitLoading.value = true
-                    is Result.Success -> navigateTo(Back)
+                    is Result.Success -> requestIsSuccess.publish()
                 }
             }
         }

@@ -3,6 +3,8 @@ package cz.cvut.fit.steuejan.wanderscope.points.transport.crud
 import android.os.Bundle
 import android.view.View
 import android.widget.AutoCompleteTextView
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.google.android.libraries.places.api.model.Place
@@ -11,6 +13,8 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.WithChipGroup
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentPointTransportAddEditBinding
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragment
 import cz.cvut.fit.steuejan.wanderscope.points.transport.model.TransportType
+import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragment
 
 class TransportAddEditFragment : AbstractPointAddEditFragment<
         FragmentPointTransportAddEditBinding,
@@ -24,10 +28,17 @@ class TransportAddEditFragment : AbstractPointAddEditFragment<
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleSubmit()
+        setupEditTransport()
     }
 
     override fun initViewModel() {
         viewModel.init(args.tripId, R.string.add_transport)
+    }
+
+    private fun setupEditTransport() {
+        args.response?.let {
+            viewModel.setupEdit(it, R.string.edit_transport)
+        }
     }
 
     override fun prepareDropdownItems(): List<String> {
@@ -42,17 +53,25 @@ class TransportAddEditFragment : AbstractPointAddEditFragment<
     override val fields = listOf(
         Place.Field.ID,
         Place.Field.NAME,
-        Place.Field.ADDRESS
+        Place.Field.ADDRESS,
+        Place.Field.LAT_LNG
     )
 
     private fun handleSubmit() {
         viewModel.submitEvent.safeObserve {
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                val cars = extractChips(binding.addTransportCarsGroup)
-                val seats = extractChips(binding.addTransportSeatsGroup)
+                val cars = extractChips(binding.addTransportCarsGroup).takeIf { it.isNotEmpty() }
+                val seats = extractChips(binding.addTransportSeatsGroup).takeIf { it.isNotEmpty() }
                 val request = it.copy(cars = cars, seats = seats)
                 viewModel.submit(request)
             }
         }
+    }
+
+    override fun setFragmentResult() {
+        setFragmentResult(
+            TripPagerFragment.TRIP_OVERVIEW_REQUEST_KEY,
+            bundleOf(TripPagerFragment.TRIP_OVERVIEW_RESULT_BUNDLE to Load.TRANSPORT)
+        )
     }
 }

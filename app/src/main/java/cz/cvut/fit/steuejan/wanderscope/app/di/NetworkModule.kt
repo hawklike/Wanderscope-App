@@ -6,6 +6,7 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.squareup.moshi.Moshi
 import cz.cvut.fit.steuejan.wanderscope.BuildConfig
 import cz.cvut.fit.steuejan.wanderscope.account.api.AccountApi
+import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.AuthInterceptor
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.TokenAuthenticator
 import cz.cvut.fit.steuejan.wanderscope.app.serialization.Serializer
@@ -13,6 +14,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManagerImpl
 import cz.cvut.fit.steuejan.wanderscope.app.util.isDebuggable
 import cz.cvut.fit.steuejan.wanderscope.auth.api.AuthApi
+import cz.cvut.fit.steuejan.wanderscope.document.api.DocumentApi
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.AccommodationApi
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.ActivityApi
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.PlaceApi
@@ -55,6 +57,7 @@ val networkModule = module {
     single { provideApi<ActivityApi>(get()) }
     single { provideApi<TransportApi>(get()) }
     single { provideApi<PlaceApi>(get()) }
+    single { provideApi<DocumentApi>(get()) }
 }
 
 private fun provideRetrofitBuilder(converterFactory: retrofit2.Converter.Factory): Retrofit.Builder {
@@ -81,8 +84,8 @@ private fun provideChucker(context: Context): ChuckerInterceptor? {
 
 fun provideOkHttpClientBuilder(chucker: ChuckerInterceptor?): OkHttpClient.Builder {
     return OkHttpClient.Builder()
-        .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(Constants.API_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        .writeTimeout(Constants.API_TIMEOUT_SECONDS, TimeUnit.SECONDS)
         .apply { chucker?.let { addInterceptor(it) } }
 }
 
