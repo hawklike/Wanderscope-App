@@ -2,21 +2,28 @@ package cz.cvut.fit.steuejan.wanderscope.app.extension
 
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
+import cz.cvut.fit.steuejan.wanderscope.app.util.getDaysHoursAndMinutes
+import cz.cvut.fit.steuejan.wanderscope.app.util.model.DaysHoursMinutes
+import cz.cvut.fit.steuejan.wanderscope.app.util.model.Nights
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import org.joda.time.Days
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 
 suspend inline fun Duration.getDays(): Int? {
-    return getNights()?.plus(1)
+    return getNights()?.nights?.plus(1)
 }
 
-suspend inline fun Duration.getNights(): Int? {
+suspend inline fun Duration.getNights(): Nights? {
     return withDefault {
         multipleLet(startDate, endDate) { s, e ->
-            Days.daysBetween(s.toLocalDate(), e.toLocalDate()).days
+            Nights(Days.daysBetween(s.toLocalDate(), e.toLocalDate()).days)
         }
     }
+}
+
+fun Duration.getDaysHoursAndMinutes(): DaysHoursMinutes? {
+    return getDaysHoursAndMinutes(startDate, endDate)
 }
 
 suspend inline fun Duration.toDurationString(

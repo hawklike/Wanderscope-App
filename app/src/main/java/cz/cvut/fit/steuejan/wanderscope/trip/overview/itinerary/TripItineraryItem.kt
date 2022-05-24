@@ -4,7 +4,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
-import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
+import cz.cvut.fit.steuejan.wanderscope.app.util.model.FullDuration
 import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 
 data class TripItineraryItem(
@@ -14,7 +14,7 @@ data class TripItineraryItem(
     @DrawableRes val icon: Int,
     @ColorRes val tint: Int,
     val time: String?,
-    val duration: DurationString?,
+    val duration: FullDuration?,
     val address: String?,
     val toAddress: String?
 ) : RecyclerItem {

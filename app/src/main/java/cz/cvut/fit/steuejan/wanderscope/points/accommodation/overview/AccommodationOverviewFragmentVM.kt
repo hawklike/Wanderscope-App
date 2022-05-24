@@ -24,7 +24,7 @@ class AccommodationOverviewFragmentVM(accommodationRepository: AccommodationRepo
     override suspend fun customizePointOverviewSuccess(data: AccommodationResponse) {
         phone.value = data.contact.phone
         email.value = data.contact.email
-        nights.value = data.duration.getNights()
+        nights.value = data.duration.getNights()?.nights
         super.website.value = data.contact.website
     }
 

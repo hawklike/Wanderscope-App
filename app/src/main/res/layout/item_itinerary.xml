@@ -55,6 +55,20 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.75" />
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/itineraryItemTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:gravity="end"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/itineraryItemGuideline"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:textOrGone="@{item.time}"
+                    tools:text="12:18" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/itineraryItemIconHolder"
                     android:layout_width="wrap_content"
@@ -96,7 +110,7 @@
                     app:layout_constraintEnd_toEndOf="@id/itineraryItemGuideline"
                     app:layout_constraintStart_toEndOf="@id/itineraryItemIconHolder"
                     app:layout_constraintTop_toTopOf="@id/itineraryItemIconHolder"
-                    tools:text="Praha - Ostravasdhjsdhjshdj djhsdjhjshd sjdhjshdjh" />
+                    tools:text="Praha - Ostrava" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/itineraryItemAddress"
@@ -150,7 +164,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textColor="@color/colorText"
-                    app:duration="@{item.duration}"
+                    app:fullDuration="@{item.duration}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/itineraryItemName"

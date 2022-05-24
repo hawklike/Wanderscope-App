@@ -4,13 +4,12 @@ import com.squareup.moshi.Json
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
+import cz.cvut.fit.steuejan.wanderscope.app.extension.getDaysHoursAndMinutes
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getStartTime
-import cz.cvut.fit.steuejan.wanderscope.app.extension.toDurationString
 import cz.cvut.fit.steuejan.wanderscope.points.activity.model.ActivityType
 import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.TripItineraryItem
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.api.model.ItineraryType
-import org.joda.time.format.DateTimeFormat
 
 data class ActivityItineraryResponse(
     @Json(name = "id")
@@ -32,7 +31,7 @@ data class ActivityItineraryResponse(
         icon = activity.toIcon(),
         tint = R.color.colorActivity,
         time = duration.getStartTime(),
-        duration = duration.toDurationString(DateTimeFormat.shortDateTime()),
+        duration = duration.getDaysHoursAndMinutes(),
         address = address.name,
         toAddress = null
     )
