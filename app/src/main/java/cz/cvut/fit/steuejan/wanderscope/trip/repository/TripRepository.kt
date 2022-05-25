@@ -57,4 +57,8 @@ class TripRepository(private val tripApi: TripApi, private val documentApi: Docu
     suspend fun getUsers(id: Int): Flow<Result<UsersResponse>> {
         return performCall { tripApi.getUsers(id) }
     }
+
+    suspend fun leaveTrip(id: Int): Flow<Result<Unit>> {
+        return performCall { tripApi.leaveTrip(id) }.toUnitIfSuccess()
+    }
 }

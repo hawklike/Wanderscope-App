@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.facebook.shimmer.ShimmerFrameLayout
 import cz.cvut.fit.steuejan.wanderscope.R
@@ -16,6 +17,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverv
 import cz.cvut.fit.steuejan.wanderscope.trip.common.WithAddPointActionButton
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentVM
+import kotlinx.coroutines.delay
 
 class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, TripItineraryFragmentVM>(
     R.layout.fragment_trip_itinerary,
@@ -55,7 +57,10 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
     private fun listenToChanges() {
         parentViewModel?.tripItineraryResult?.safeObserve {
             viewModel.showItinerary(tripId ?: return@safeObserve)
-            showToast(R.string.updating_itinerary)
+            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                delay(250) //time to hide keyboard
+                showToast(R.string.updating_itinerary)
+            }
         }
     }
 

@@ -21,4 +21,10 @@
         android:orderInCategory="3"
         android:title="@string/save_to_calendar"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_trip_leave"
+        android:orderInCategory="4"
+        android:title="@string/leave_trip"
+        app:showAsAction="never" />
 </menu>
