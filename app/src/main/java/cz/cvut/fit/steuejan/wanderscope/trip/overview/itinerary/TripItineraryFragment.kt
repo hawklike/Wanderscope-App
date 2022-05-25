@@ -13,13 +13,14 @@ import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripItineraryBinding
 import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
+import cz.cvut.fit.steuejan.wanderscope.trip.common.WithAddPointActionButton
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentVM
 
 class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, TripItineraryFragmentVM>(
     R.layout.fragment_trip_itinerary,
     TripItineraryFragmentVM::class
-), WithLoading, WithRecycler {
+), WithLoading, WithRecycler, WithAddPointActionButton {
 
     override val content: View get() = binding.tripItineraryContent
     override val shimmer: ShimmerFrameLayout get() = binding.tripItineraryShimmer
@@ -48,6 +49,7 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
         handleRecyclerScrolling()
         handleRecyclerOnClick()
         listenToChanges()
+        prepareActionButton(binding.tripItineraryAddButton)
     }
 
     private fun listenToChanges() {
@@ -67,12 +69,12 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
     }
 
     private fun handleActionButton() {
-        val visbility = if (userRole?.canEdit() == true) {
+        val visibility = if (userRole?.canEdit() == true) {
             View.VISIBLE
         } else {
             View.GONE
         }
-        binding.tripItineraryAddButton.visibility = visbility
+        binding.tripItineraryAddButton.visibility = visibility
     }
 
     private fun handleRecyclerScrolling() {
@@ -137,6 +139,30 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
     private fun createPointOverviewBundle(item: TripItineraryItem): PointOverviewBundle? {
         return multipleLet(tripId, userRole) { tripId, userRole ->
             PointOverviewBundle.create(tripId, item.id, userRole, item.name)
+        }
+    }
+
+    override fun addAccommodation() {
+        arguments?.getInt(TRIP_ID)?.let {
+            navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToAccommodationAddEditFragment(it))
+        }
+    }
+
+    override fun addActivity() {
+        arguments?.getInt(TRIP_ID)?.let {
+            navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToActivityAddEditFragment(it))
+        }
+    }
+
+    override fun addTransport() {
+        arguments?.getInt(TRIP_ID)?.let {
+            navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToTransportAddEditFragment(it))
+        }
+    }
+
+    override fun addPlace() {
+        arguments?.getInt(TRIP_ID)?.let {
+            navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToPlaceAddEditFragment(it))
         }
     }
 

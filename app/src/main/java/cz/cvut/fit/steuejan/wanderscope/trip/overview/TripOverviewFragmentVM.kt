@@ -13,7 +13,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Back
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
-import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
@@ -70,7 +69,6 @@ class TripOverviewFragmentVM(
             Load.DOCUMENTS -> loadDocuments(tripId)
             Load.USERS -> loadUsers(tripId)
             Load.TRIP -> loadTripOverview(tripId)
-            else -> doNothing
         }
     }
 
