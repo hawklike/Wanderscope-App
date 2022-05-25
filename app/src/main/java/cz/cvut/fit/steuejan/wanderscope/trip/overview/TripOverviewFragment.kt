@@ -21,6 +21,7 @@ import cz.cvut.fit.steuejan.wanderscope.trip.common.WithAddPointActionButton
 import cz.cvut.fit.steuejan.wanderscope.trip.crud.bundle.EditTripBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentVM
 
 class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, TripOverviewFragmentVM>(
     R.layout.fragment_trip_overview,
@@ -34,6 +35,10 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
 
     private val userRole: UserRole? by lazy {
         arguments?.getSerializable(USER_ROLE) as? UserRole
+    }
+
+    private val parentViewModel by lazy {
+        getParentViewModel<TripPagerFragmentVM>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,10 +55,10 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     }
 
     private fun handleLoadingNecessaryData() {
-        getViewPagerSharedData<Load>()?.safeObserve {
+        parentViewModel?.tripOverviewResult?.safeObserve {
             it ?: return@safeObserve
             if (it != Load.NOTHING) {
-                setViewPagerSharedData(Load.NOTHING)
+                parentViewModel?.tripOverviewResult?.value = Load.NOTHING
                 val load = if (tripOverview == null) Load.ALL else it
                 retrieveTripOverview(load)
             }

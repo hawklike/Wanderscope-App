@@ -28,14 +28,14 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.sharedData.value = Load.ALL
+        viewModel.tripOverviewResult.value = Load.ALL
         setupFragmentResultListener()
     }
 
     private fun setupFragmentResultListener() {
         setFragmentResultListener(TRIP_UPDATED_REQUEST_KEY) { _, bundle ->
             val result = bundle.getParcelable<Load>(TRIP_UPDATED_RESULT_BUNDLE)
-            viewModel.sharedData.value = result
+            viewModel.tripOverviewResult.value = result
         }
     }
 
