@@ -18,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="180dp"
+            android:layout_height="184dp"
             android:paddingHorizontal="@dimen/app_trip_overview_item_padding_horizontal"
             android:paddingVertical="@dimen/app_trip_overview_item_padding_vertical"
             tools:background="@color/colorSurface">
@@ -57,14 +57,17 @@
                 android:text="@{item.name}"
                 android:textAppearance="@style/TextAppearance.Wanderscope.Item.Title"
                 app:layout_constraintTop_toBottomOf="@id/itemTripOverviewIconHolder"
-                tools:text="Praha-Ostrava" />
+                tools:text="Praha-Ostravashdghsdgshdgshgdshdg" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="@dimen/margin_8"
+                app:layout_constraintVertical_bias="1"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/itemTripOverviewTitle">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/itemTripOverviewStartDateLabel"

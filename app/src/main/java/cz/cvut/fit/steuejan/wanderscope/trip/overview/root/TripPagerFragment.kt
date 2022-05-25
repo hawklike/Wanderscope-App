@@ -10,6 +10,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.WithViewPager
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripPagerBinding
 import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.TripOverviewFragment
@@ -27,14 +28,16 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.sharedData.value = Load.ALL
         setupFragmentResultListener()
     }
 
     private fun setupFragmentResultListener() {
-        setFragmentResultListener(TRIP_OVERVIEW_REQUEST_KEY) { _, bundle ->
-            val result = bundle.getParcelable<Load>(TRIP_OVERVIEW_RESULT_BUNDLE)
-            viewModel.sharedData.value = result
+        setFragmentResultListener(TRIP_UPDATED_REQUEST_KEY) { _, bundle ->
+            val result = bundle.getParcelable<Load>(TRIP_UPDATED_RESULT_BUNDLE)
+            viewModel.tripOverviewResult.value = result
+            if (result !in listOf(Load.TRIP, Load.DOCUMENTS, Load.USERS)) {
+                viewModel.tripItineraryResult.publish()
+            }
         }
     }
 
@@ -45,7 +48,7 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
         val viewPager = binding.tripPagerViewPager
         val tabLayout = binding.tripPagerTabLayout
 
-        val adapter = TripPagerAdapter(this, args.id)
+        val adapter = TripPagerAdapter(this, args.id, args.userRole)
 
         viewPager.apply {
             isUserInputEnabled = false
@@ -59,24 +62,25 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
 
     class TripPagerAdapter(
         private val fragment: Fragment,
-        private val tripId: Int
+        private val tripId: Int,
+        private val userRole: UserRole
     ) : FragmentStateAdapter(fragment) {
 
         override fun getItemCount() = 3
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                0 -> TripOverviewFragment.newInstance(tripId)
-                1 -> TripItineraryFragment.newInstance()
+                0 -> TripItineraryFragment.newInstance(tripId, userRole)
+                1 -> TripOverviewFragment.newInstance(tripId, userRole)
                 2 -> TripExpensesFragment.newInstance()
-                else -> TripOverviewFragment.newInstance(tripId)
+                else -> TripItineraryFragment.newInstance(tripId, userRole)
             }
         }
 
         fun getTitle(position: Int): String {
             return when (position) {
-                0 -> fragment.getString(R.string.trip_overview_overview)
-                1 -> fragment.getString(R.string.trip_overview_itinerary)
+                0 -> fragment.getString(R.string.trip_overview_itinerary)
+                1 -> fragment.getString(R.string.trip_overview_overview)
                 2 -> fragment.getString(R.string.trip_overview_expenses)
                 else -> fragment.getString(R.string.trip_overview_overview)
             }
@@ -88,7 +92,7 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
     }
 
     companion object {
-        const val TRIP_OVERVIEW_REQUEST_KEY = "tripOverviewKey"
-        const val TRIP_OVERVIEW_RESULT_BUNDLE = "tripOverviewResult"
+        const val TRIP_UPDATED_REQUEST_KEY = "tripUpdatedRequestKey"
+        const val TRIP_UPDATED_RESULT_BUNDLE = "tripUpdatedResultBundle"
     }
 }

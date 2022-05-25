@@ -7,7 +7,9 @@ import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.extension.capitalize
-import cz.cvut.fit.steuejan.wanderscope.app.util.DaysHoursMinutes
+import cz.cvut.fit.steuejan.wanderscope.app.util.model.DaysHoursMinutes
+import cz.cvut.fit.steuejan.wanderscope.app.util.model.FullDuration
+import cz.cvut.fit.steuejan.wanderscope.app.util.model.Nights
 
 @BindingAdapter("duration")
 fun TextView.setDuration(duration: DurationString?) {
@@ -30,6 +32,12 @@ fun TextView.setNights(nights: Int?) {
 @BindingAdapter("textOrGone")
 fun TextView.setTextOrGone(text: String?) {
     visibleOrGone(text) ?: return
+    this.text = text
+}
+
+@BindingAdapter("textOrInvisible")
+fun TextView.setTextOrInvisible(text: String?) {
+    visibleOrInvisible(text) ?: return
     this.text = text
 }
 
@@ -69,9 +77,18 @@ fun TextView.setUserRole(userRole: UserRole) {
 }
 
 @BindingAdapter("fullDuration")
-fun TextView.setFullDuration(dateInfo: DaysHoursMinutes?) {
+fun TextView.setFullDuration(dateInfo: FullDuration?) {
+    when (dateInfo) {
+        is DaysHoursMinutes -> setDaysHoursAndMinutes(dateInfo)
+        is Nights -> setNights(dateInfo.nights)
+        null -> visibleOrGone(dateInfo)
+    }
+}
+
+private fun TextView.setDaysHoursAndMinutes(dateInfo: DaysHoursMinutes) {
     visibleOrGone(dateInfo) ?: return
-    val days = dateInfo!!.days
+
+    val days = dateInfo.days
     val hours = dateInfo.hours
     val minutes = dateInfo.minutes
 

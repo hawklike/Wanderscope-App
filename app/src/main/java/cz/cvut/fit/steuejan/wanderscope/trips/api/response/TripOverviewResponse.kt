@@ -24,6 +24,7 @@ data class TripOverviewResponse(
         name,
         duration.toDurationString(),
         duration.getDays(),
-        imageUrl
+        imageUrl,
+        role
     )
 }

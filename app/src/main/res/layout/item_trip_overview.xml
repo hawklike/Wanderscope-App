@@ -24,29 +24,29 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/tripOverviewItemImage"
-                android:layout_width="@dimen/app_trip_overview_image_size"
-                android:layout_height="@dimen/app_trip_overview_image_size"
+                android:layout_width="@dimen/app_trip_overview_image_width"
+                android:layout_height="@dimen/app_trip_overview_image_height"
                 android:scaleType="centerCrop"
                 android:src="@drawable/image_trip_placeholder"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearance="@style/ShapeAppearanceOverlay.Wanderscope.TextInput" />
+                app:shapeAppearance="@style/ShapeAppearanceOverlay.Wanderscope.TextInput"
+                tools:ignore="ImageContrastCheck" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tripOverviewItemName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_12"
-                android:layout_marginTop="@dimen/app_recycler_item_margin"
+                android:layout_marginTop="@dimen/margin_6"
                 android:ellipsize="end"
-                android:inputType="textCapCharacters"
                 android:maxLines="2"
                 android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                 app:capitalize="@{item.name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tripOverviewItemImage"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Portugal and Spain 2021" />
+                tools:text="Portugal and Spaisdsjdhsjhdjshdsjhdjshdsjdn" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tripOverviewItemDate"
@@ -65,15 +65,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_12"
-                android:layout_marginTop="@dimen/app_recycler_item_margin"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp"
                 android:drawableStart="@drawable/ic_clock_14"
                 android:drawablePadding="4dp"
-                android:drawableTint="@color/colorTextLessImportant"
-                android:textColor="@color/colorTextLessImportant"
+                android:drawableTint="@color/colorTextLessImportantOnSecondary"
+                android:textColor="@color/colorTextLessImportantOnSecondary"
                 app:days="@{item.days}"
-                app:layout_constraintBottom_toBottomOf="@id/tripOverviewItemImage"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tripOverviewItemImage"
                 app:layout_constraintTop_toBottomOf="@id/tripOverviewItemDate"
+                app:layout_constraintVertical_bias="0.75"
                 tools:text="4 days" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

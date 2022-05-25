@@ -25,75 +25,81 @@
 
         </com.facebook.shimmer.ShimmerFrameLayout>
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/tripsScroll"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tripsContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/tripsContent"
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/tripsScroll"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorBackground"
-                android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
+                android:layout_height="match_parent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tripsUpcomingTripsLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_no_toolbar_first_item"
-                    android:text="@string/upcoming_trips"
-                    android:textAppearance="@style/TextAppearance.Wanderscope.H2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/tripsUpcomingTrips"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/app_h2_bottom_margin"
-                    android:nestedScrollingEnabled="true"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/tripsUpcomingTripsLabel"
-                    app:recyclerItems="@{vm.upcomingTrips}"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_trip_overview" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tripsPastTripsLabel"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_item_after_recycler_margin"
-                    android:text="@string/past_trips"
-                    android:textAppearance="@style/TextAppearance.Wanderscope.H2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tripsUpcomingTrips" />
+                    android:background="@color/colorBackground"
+                    android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/tripsPastTrips"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/app_h2_bottom_margin"
-                    android:nestedScrollingEnabled="true"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/tripsPastTripsLabel"
-                    app:recyclerItems="@{vm.pastTrips}"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_trip_overview" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tripsUpcomingTripsLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/app_no_toolbar_first_item"
+                        android:text="@string/upcoming_trips"
+                        android:textAppearance="@style/TextAppearance.Wanderscope.H2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/tripsUpcomingTrips"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/app_h2_bottom_margin"
+                        android:nestedScrollingEnabled="true"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/tripsUpcomingTripsLabel"
+                        app:recyclerItems="@{vm.upcomingTrips}"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_trip_overview" />
 
-        </androidx.core.widget.NestedScrollView>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tripsPastTripsLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/app_item_after_recycler_margin"
+                        android:text="@string/past_trips"
+                        android:textAppearance="@style/TextAppearance.Wanderscope.H2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tripsUpcomingTrips" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/app_fab_margin"
-            android:layout_marginBottom="@dimen/app_fab_margin"
-            android:src="@drawable/ic_add"
-            android:onClick="@{() -> vm.addTrip()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/tripsPastTrips"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/app_h2_bottom_margin"
+                        android:nestedScrollingEnabled="true"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/tripsPastTripsLabel"
+                        app:recyclerItems="@{vm.pastTrips}"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_trip_overview" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/app_fab_margin"
+                android:layout_marginBottom="@dimen/app_fab_margin"
+                android:onClick="@{() -> vm.addTrip()}"
+                android:src="@drawable/ic_add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

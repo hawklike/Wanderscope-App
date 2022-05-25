@@ -5,14 +5,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
-import androidx.annotation.StringRes
 import com.facebook.shimmer.ShimmerFrameLayout
-import com.leinardi.android.speeddial.SpeedDialActionItem
-import com.leinardi.android.speeddial.SpeedDialView
 import cz.cvut.fit.steuejan.wanderscope.R
-import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
@@ -23,61 +17,74 @@ import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripOverviewBinding
 import cz.cvut.fit.steuejan.wanderscope.points.TripPointOverviewItem
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
+import cz.cvut.fit.steuejan.wanderscope.trip.common.WithAddPointActionButton
 import cz.cvut.fit.steuejan.wanderscope.trip.crud.bundle.EditTripBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentVM
 
 class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, TripOverviewFragmentVM>(
     R.layout.fragment_trip_overview,
     TripOverviewFragmentVM::class
-), WithLoading, WithRecycler {
+), WithLoading, WithRecycler, WithAddPointActionButton {
 
     override val content: View get() = binding.tripOverviewContent
     override val shimmer: ShimmerFrameLayout get() = binding.tripOverviewShimmer
 
     private var tripOverview: TripResponse? = null
 
+    private val userRole: UserRole? by lazy {
+        arguments?.getSerializable(USER_ROLE) as? UserRole
+    }
+
+    private val parentViewModel by lazy {
+        getParentViewModel<TripPagerFragmentVM>()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        getTripOverview(Load.ALL)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle()
+        handleLoading()
+        handleActionBar()
         handlePointsRecycler()
-        handleLoadingNecessaryData()
-        prepareActionButton()
+        listenToChanges()
+        prepareActionButton(binding.tripOverviewAddButton)
     }
 
-    private fun handleLoadingNecessaryData() {
-        getViewPagerSharedData<Load>()?.safeObserve {
-            it ?: return@safeObserve
-            if (it != Load.NOTHING) {
-                setViewPagerSharedData(Load.NOTHING)
-                val load = if (tripOverview == null) Load.ALL else it
-                retrieveTripOverview(load)
-            }
+    private fun listenToChanges() {
+        parentViewModel?.tripOverviewResult?.safeObserve {
+            getTripOverview(it)
         }
     }
 
-    private fun retrieveTripOverview(whatToLoad: Load) {
-        val tripId = arguments?.getInt(TRIP_ID) ?: return
+    private fun handleLoading() {
+        arguments?.getInt(TRIP_ID) ?: return
         showLoading()
-        hideActionButton()
-
-        viewModel.getTrip(tripId, whatToLoad)
-
         viewModel.loading.safeObserve { loading ->
             if (!loading) {
                 hideLoading()
             }
         }
+    }
 
+    private fun handleActionBar() {
+        arguments?.getInt(TRIP_ID) ?: return
+        hideActionButton()
         viewModel.tripOverview.safeObserve {
             tripOverview = it
             showActionButton(it.userRole)
         }
+    }
+
+    private fun getTripOverview(whatToLoad: Load) {
+        val tripId = arguments?.getInt(TRIP_ID) ?: return
+        viewModel.getTrip(tripId, whatToLoad)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -86,7 +93,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        when (tripOverview?.userRole) {
+        when (userRole) {
             UserRole.ADMIN -> {
                 doNothing
             }
@@ -112,65 +119,72 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
 
     private fun handlePointsRecycler() {
         setAdapterListener(binding.tripOverviewTransport) { item, _ ->
-            goToTransport(item)
+            if (item is TripPointOverviewItem) {
+                goToTransport(item)
+            }
         }
         setAdapterListener(binding.tripOverviewPlace) { item, _ ->
-            goToPlace(item)
+            if (item is TripPointOverviewItem) {
+                goToPlace(item)
+            }
         }
         setAdapterListener(binding.tripOverviewActivity) { item, _ ->
-            goToActivity(item)
+            if (item is TripPointOverviewItem) {
+                goToActivity(item)
+            }
         }
         setAdapterListener(binding.tripOverviewAccommodation) { item, _ ->
-            goToAccommodation(item)
+            if (item is TripPointOverviewItem) {
+                goToAccommodation(item)
+            }
         }
     }
 
-    private fun goToTransport(item: RecyclerItem) {
-        if (item is TripPointOverviewItem) {
-            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
-            navigateTo(
-                TripPagerFragmentDirections
-                    .actionTripPagerFragmentToTransportOverviewFragment(
-                        PointOverviewBundle.create(trip, item)
-                    )
-            )
-        }
+    private fun goToTransport(item: TripPointOverviewItem) {
+        val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+        navigateTo(
+            TripPagerFragmentDirections
+                .actionTripPagerFragmentToTransportOverviewFragment(
+                    createPointOverviewBundle(trip, item)
+                )
+        )
     }
 
-    private fun goToPlace(item: RecyclerItem) {
-        if (item is TripPointOverviewItem) {
-            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
-            navigateTo(
-                TripPagerFragmentDirections
-                    .actionTripPagerFragmentToPlaceOverviewFragment(
-                        PointOverviewBundle.create(trip, item)
-                    )
-            )
-        }
+    private fun goToPlace(item: TripPointOverviewItem) {
+        val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+        navigateTo(
+            TripPagerFragmentDirections
+                .actionTripPagerFragmentToPlaceOverviewFragment(
+                    createPointOverviewBundle(trip, item)
+                )
+        )
     }
 
-    private fun goToAccommodation(item: RecyclerItem) {
-        if (item is TripPointOverviewItem) {
-            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
-            navigateTo(
-                TripPagerFragmentDirections
-                    .actionTripPagerFragmentToAccommodationOverviewFragment(
-                        PointOverviewBundle.create(trip, item)
-                    )
-            )
-        }
+    private fun goToAccommodation(item: TripPointOverviewItem) {
+        val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+        navigateTo(
+            TripPagerFragmentDirections
+                .actionTripPagerFragmentToAccommodationOverviewFragment(
+                    createPointOverviewBundle(trip, item)
+                )
+        )
     }
 
-    private fun goToActivity(item: RecyclerItem) {
-        if (item is TripPointOverviewItem) {
-            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
-            navigateTo(
-                TripPagerFragmentDirections
-                    .actionTripPagerFragmentToActivityOverviewFragment(
-                        PointOverviewBundle.create(trip, item)
-                    )
-            )
-        }
+    private fun goToActivity(item: TripPointOverviewItem) {
+        val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+        navigateTo(
+            TripPagerFragmentDirections
+                .actionTripPagerFragmentToActivityOverviewFragment(
+                    createPointOverviewBundle(trip, item)
+                )
+        )
+    }
+
+    private fun createPointOverviewBundle(
+        trip: TripResponse,
+        item: TripPointOverviewItem
+    ): PointOverviewBundle {
+        return PointOverviewBundle.create(trip.id, item.id, trip.userRole, item.name)
     }
 
     private fun showActionButton(userRole: UserRole) {
@@ -233,82 +247,42 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
-    private fun prepareActionButton() {
-        val actionButton = binding.tripOverviewAddButton
-        actionButton.apply {
-            createActionItem(R.id.add_point_transport, R.drawable.ic_outline_plane, R.string.add_transport)
-            createActionItem(R.id.add_point_accommodation, R.drawable.ic_outline_house, R.string.add_accommodation)
-            createActionItem(R.id.add_point_place, R.drawable.ic_outline_location, R.string.add_place)
-            createActionItem(R.id.add_point_activity, R.drawable.ic_outline_hiking, R.string.add_activity)
-        }
-
-        actionButton.apply {
-            setOnActionSelectedListener {
-                when (it.id) {
-                    R.id.add_point_accommodation -> onClick(::addAccommodation)
-                    R.id.add_point_activity -> onClick(::addActivity)
-                    R.id.add_point_transport -> onClick(::addTransport)
-                    R.id.add_point_place -> onClick(::addPlace)
-                    else -> onClick(doNothing)
-                }
-                false
-            }
-        }
-    }
-
-    private fun SpeedDialView.onClick(action: () -> Unit): Boolean {
-        action.invoke()
-        close()
-        return false
-    }
-
-    private fun addAccommodation() {
+    override fun addAccommodation() {
         arguments?.getInt(TRIP_ID)?.let {
             navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToAccommodationAddEditFragment(it))
         }
     }
 
-    private fun addActivity() {
+    override fun addActivity() {
         arguments?.getInt(TRIP_ID)?.let {
             navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToActivityAddEditFragment(it))
         }
     }
 
-    private fun addTransport() {
+    override fun addTransport() {
         arguments?.getInt(TRIP_ID)?.let {
             navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToTransportAddEditFragment(it))
         }
     }
 
-    private fun addPlace() {
+    override fun addPlace() {
         arguments?.getInt(TRIP_ID)?.let {
             navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToPlaceAddEditFragment(it))
         }
     }
 
-    private fun SpeedDialView.createActionItem(
-        @IdRes id: Int,
-        @DrawableRes icon: Int,
-        @StringRes title: Int
-    ) = addActionItem(
-        SpeedDialActionItem.Builder(id, icon)
-            .setFabImageTintColor(requireContext().getColor(R.color.colorBackground))
-            .setLabel(title)
-            .setLabelColor(requireContext().getColor(R.color.colorBackground))
-            .setLabelBackgroundColor(requireContext().getColor(R.color.colorPrimary))
-            .create()
-    )
-
     companion object {
-        fun newInstance(tripId: Int): TripOverviewFragment {
+        fun newInstance(tripId: Int, userRole: UserRole): TripOverviewFragment {
             return TripOverviewFragment().apply {
                 arguments = Bundle().apply {
                     putInt(TRIP_ID, tripId)
+                    putSerializable(USER_ROLE, userRole)
                 }
             }
         }
 
         private const val TRIP_ID = "tripId"
+        private const val USER_ROLE = "userRole"
     }
 
 }

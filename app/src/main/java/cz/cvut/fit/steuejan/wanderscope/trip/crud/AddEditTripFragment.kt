@@ -36,8 +36,8 @@ class AddEditTripFragment : MvvmFragment<FragmentTripAddEditBinding, AddEditTrip
     private fun handleSucess() {
         viewModel.requestIsSuccess.safeObserve {
             setFragmentResult(
-                TripPagerFragment.TRIP_OVERVIEW_REQUEST_KEY,
-                bundleOf(TripPagerFragment.TRIP_OVERVIEW_RESULT_BUNDLE to Load.TRIP)
+                TripPagerFragment.TRIP_UPDATED_REQUEST_KEY,
+                bundleOf(TripPagerFragment.TRIP_UPDATED_RESULT_BUNDLE to Load.TRIP)
             )
             navigateBack()
         }

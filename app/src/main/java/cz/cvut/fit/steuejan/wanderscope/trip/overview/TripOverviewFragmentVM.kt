@@ -10,13 +10,9 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
-import cz.cvut.fit.steuejan.wanderscope.app.extension.delayAndReturn
-import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
-import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
-import cz.cvut.fit.steuejan.wanderscope.app.extension.toDurationString
+import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Back
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
-import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
@@ -73,7 +69,6 @@ class TripOverviewFragmentVM(
             Load.DOCUMENTS -> loadDocuments(tripId)
             Load.USERS -> loadUsers(tripId)
             Load.TRIP -> loadTripOverview(tripId)
-            else -> doNothing
         }
     }
 
@@ -160,7 +155,7 @@ class TripOverviewFragmentVM(
     }
 
     private suspend fun accommodationSuccess(data: MultipleAccommodationResponse) {
-        val items = data.accommodation.map { it.toOverviewItem() }
+        val items = withDefault { data.accommodation.map { it.toOverviewItem() } }
         accommodation.value = items.ifEmpty { listOf(EmptyItem.accommodation()) }
         accommodationLoading.value = false
     }
@@ -177,7 +172,7 @@ class TripOverviewFragmentVM(
     }
 
     private suspend fun transportSuccess(data: TransportsResponse) {
-        val items = data.transports.map { it.toOverviewItem() }
+        val items = withDefault { data.transports.map { it.toOverviewItem() } }
         transport.value = items.ifEmpty { listOf(EmptyItem.transport()) }
         transportLoading.value = false
     }
@@ -194,7 +189,7 @@ class TripOverviewFragmentVM(
     }
 
     private suspend fun activitiesSuccess(data: ActivitiesResponse) {
-        val items = data.activities.map { it.toOverviewItem() }
+        val items = withDefault { data.activities.map { it.toOverviewItem() } }
         activities.value = items.ifEmpty { listOf(EmptyItem.activities()) }
         activitiesLoading.value = false
     }
@@ -211,7 +206,7 @@ class TripOverviewFragmentVM(
     }
 
     private suspend fun placesSuccess(data: PlacesResponse) {
-        val items = data.places.map { it.toOverviewItem() }
+        val items = withDefault { data.places.map { it.toOverviewItem() } }
         places.value = items.ifEmpty { listOf(EmptyItem.places()) }
         placesLoading.value = false
     }
@@ -228,7 +223,7 @@ class TripOverviewFragmentVM(
     }
 
     private suspend fun documentsSuccess(data: DocumentsMetadataResponse) {
-        val items = data.documents.map { it.toOverviewItem() }
+        val items = withDefault { data.documents.map { it.toOverviewItem() } }
         documents.value = items.ifEmpty { listOf(EmptyItem.documents()) }
         documentsLoading.value = false
     }
@@ -244,8 +239,8 @@ class TripOverviewFragmentVM(
         }
     }
 
-    private fun usersSuccess(data: UsersResponse) {
-        val items = data.users.map { it.toItem(false) }
+    private suspend fun usersSuccess(data: UsersResponse) {
+        val items = withDefault { data.users.map { it.toItem(false) } }
         travellers.value = items
         travellersLoading.value = false
     }

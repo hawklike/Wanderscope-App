@@ -12,17 +12,13 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
-import cz.cvut.fit.steuejan.wanderscope.app.extension.delayAndReturn
-import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
-import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
-import cz.cvut.fit.steuejan.wanderscope.app.extension.toNiceString
+import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
-import cz.cvut.fit.steuejan.wanderscope.app.util.DaysHoursMinutes
-import cz.cvut.fit.steuejan.wanderscope.app.util.getDaysHoursAndMinutes
 import cz.cvut.fit.steuejan.wanderscope.app.util.goToWebsite
+import cz.cvut.fit.steuejan.wanderscope.app.util.model.DaysHoursMinutes
 import cz.cvut.fit.steuejan.wanderscope.app.util.showMap
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
@@ -91,7 +87,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
         icon.value = data.type.toIcon()
         description.value = data.description
         address.value = data.address.name
-        duration.value = getDaysHoursAndMinutes(data.duration)
+        duration.value = data.duration.getDaysHoursAndMinutes()
         showMap(data)
         customizePointOverviewSuccess(data)
         pointOverviewLoading.value = false
@@ -117,7 +113,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     }
 
     protected suspend fun documentsSuccess(data: DocumentsMetadataResponse) {
-        val items = data.documents.map { it.toOverviewItem() }
+        val items = withDefault { data.documents.map { it.toOverviewItem() } }
         showUpdateToast(items, documents.value, R.string.documents_updated)
         documents.value = items.ifEmpty { listOf(EmptyItem.documents()) }
         documentsLoading.value = false

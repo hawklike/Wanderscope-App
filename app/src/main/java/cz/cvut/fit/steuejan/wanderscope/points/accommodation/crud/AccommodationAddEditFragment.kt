@@ -52,8 +52,8 @@ class AccommodationAddEditFragment : AbstractPointAddEditFragment<
 
     override fun setFragmentResult() {
         setFragmentResult(
-            TripPagerFragment.TRIP_OVERVIEW_REQUEST_KEY,
-            bundleOf(TripPagerFragment.TRIP_OVERVIEW_RESULT_BUNDLE to Load.ACCOMMODATION)
+            TripPagerFragment.TRIP_UPDATED_REQUEST_KEY,
+            bundleOf(TripPagerFragment.TRIP_UPDATED_RESULT_BUNDLE to Load.ACCOMMODATION)
         )
     }
 }

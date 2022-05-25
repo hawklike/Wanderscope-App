@@ -51,7 +51,8 @@ class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
                 TripsFragmentDirections.actionTripsFragmentToTripPagerFragment(
                     trip.id,
                     trip.name,
-                    hasBottomNavigation = false
+                    hasBottomNavigation = false,
+                    trip.userRole
                 )
             )
         }
