@@ -14,6 +14,7 @@ import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripItineraryBinding
 import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentVM
 
 class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, TripItineraryFragmentVM>(
     R.layout.fragment_trip_itinerary,
@@ -29,8 +30,11 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
         arguments?.getSerializable(USER_ROLE) as? UserRole
     }
 
+    private val parentViewModel by lazy {
+        getParentViewModel<TripPagerFragmentVM>()
+    }
+
     private var initScrolling = true
-    private var initLoading = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,17 +47,14 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
         handleActionButton()
         handleRecyclerScrolling()
         handleRecyclerOnClick()
-        handleLoadingData()
+        listenToChanges()
     }
 
-    private fun handleLoadingData() {
-//        getViewPagerSharedData<Load>()?.safeObserve {
-//            it ?: return@safeObserve
-//            if (it != Load.NOTHING_ITINERARY) {
-//                setViewPagerSharedData(Load.NOTHING_ITINERARY)
-//                viewModel.showItinerary(tripId ?: return@safeObserve)
-//            }
-//        }
+    private fun listenToChanges() {
+        parentViewModel?.tripItineraryResult?.safeObserve {
+            viewModel.showItinerary(tripId ?: return@safeObserve)
+            showToast(R.string.updating_itinerary)
+        }
     }
 
     private fun handleLoading() {
