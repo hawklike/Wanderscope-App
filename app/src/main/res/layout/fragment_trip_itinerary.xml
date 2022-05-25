@@ -12,18 +12,51 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tripItinerary"
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/tripItineraryShimmer"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/app_first_item_overview_margin"
-            app:recyclerItems="@{vm.itinerary}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_itinerary"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone"
+            tools:visibility="gone">
+
+            <include layout="@layout/layout_shimmer_placeholder" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tripItineraryContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tripItinerary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/app_first_item_overview_margin"
+                android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:recyclerItems="@{vm.itinerary}"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_itinerary" />
+
+            <com.leinardi.android.speeddial.SpeedDialView
+                android:id="@+id/tripItineraryAddButton"
+                style="@style/Widget.Wanderscope.FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/app_fab_margin"
+                android:layout_marginBottom="@dimen/app_fab_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:sdMainFabClosedBackgroundColor="@color/colorPrimary"
+                app:sdMainFabClosedSrc="@drawable/ic_add"
+                app:sdMainFabOpenedBackgroundColor="@color/colorPrimary"
+                app:sdUseReverseAnimationOnClose="true" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

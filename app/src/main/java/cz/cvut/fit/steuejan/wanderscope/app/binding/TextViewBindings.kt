@@ -86,6 +86,8 @@ fun TextView.setFullDuration(dateInfo: FullDuration?) {
 }
 
 private fun TextView.setDaysHoursAndMinutes(dateInfo: DaysHoursMinutes) {
+    visibleOrGone(dateInfo) ?: return
+
     val days = dateInfo.days
     val hours = dateInfo.hours
     val minutes = dateInfo.minutes
