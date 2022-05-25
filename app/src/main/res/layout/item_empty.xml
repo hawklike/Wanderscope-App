@@ -13,7 +13,11 @@
     <com.google.android.material.card.MaterialCardView
         style="@style/Widget.Wanderscope.CardView.RecyclerItem"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:bottomMargin="@{item.marginBottom}"
+        app:endMargin="@{item.marginEnd}"
+        app:startMargin="@{item.marginStart}"
+        app:topMargin="@{item.marginTop}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

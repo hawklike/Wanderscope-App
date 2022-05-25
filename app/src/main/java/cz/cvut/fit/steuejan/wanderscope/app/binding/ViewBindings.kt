@@ -1,7 +1,9 @@
 package cz.cvut.fit.steuejan.wanderscope.app.binding
 
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 
@@ -25,4 +27,40 @@ fun View.visibleOrInvisible(any: Any?): Any? {
 @BindingAdapter("backgroundTintResource")
 fun View.setBackgroundTint(@ColorRes tintColor: Int) {
     background.setTint(ContextCompat.getColor(context, tintColor))
+}
+
+@BindingAdapter("topMargin")
+fun View.setTopMargin(@DimenRes dimen: Int) {
+    val marginParams = layoutParams as? ViewGroup.MarginLayoutParams
+    marginParams?.let {
+        it.topMargin = resources.getDimension(dimen).toInt()
+        requestLayout()
+    }
+}
+
+@BindingAdapter("bottomMargin")
+fun View.setBottomMargin(@DimenRes dimen: Int) {
+    val marginParams = layoutParams as? ViewGroup.MarginLayoutParams
+    marginParams?.let {
+        it.bottomMargin = resources.getDimension(dimen).toInt()
+        requestLayout()
+    }
+}
+
+@BindingAdapter("startMargin")
+fun View.setStartMargin(@DimenRes dimen: Int) {
+    val marginParams = layoutParams as? ViewGroup.MarginLayoutParams
+    marginParams?.let {
+        it.leftMargin = resources.getDimension(dimen).toInt()
+        requestLayout()
+    }
+}
+
+@BindingAdapter("endMargin")
+fun View.setEndMargin(@DimenRes dimen: Int) {
+    val marginParams = layoutParams as? ViewGroup.MarginLayoutParams
+    marginParams?.let {
+        it.rightMargin = resources.getDimension(dimen).toInt()
+        requestLayout()
+    }
 }

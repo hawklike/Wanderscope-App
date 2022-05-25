@@ -32,6 +32,7 @@ data class TripItineraryItem(
                 duration == other.duration &&
                 icon == other.icon &&
                 address == other.address &&
-                toAddress == other.toAddress
+                toAddress == other.toAddress &&
+                lastItem == other.lastItem
     }
 }
