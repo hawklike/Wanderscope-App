@@ -35,7 +35,9 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
         setFragmentResultListener(TRIP_UPDATED_REQUEST_KEY) { _, bundle ->
             val result = bundle.getParcelable<Load>(TRIP_UPDATED_RESULT_BUNDLE)
             viewModel.tripOverviewResult.value = result
-            viewModel.tripItineraryResult.publish()
+            if (result !in listOf(Load.TRIP, Load.DOCUMENTS, Load.USERS)) {
+                viewModel.tripItineraryResult.publish()
+            }
         }
     }
 
