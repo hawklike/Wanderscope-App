@@ -372,9 +372,6 @@
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintTop_toBottomOf="@id/placeOverviewMarginLayout"
-                        app:marginEndNormalRes="@{@dimen/margin_0}"
-                        app:marginEndRes="@{@dimen/app_layout_main_horizontal_padding}"
-                        app:marginEndWhenOneItem="@{vm.documents}"
                         app:recyclerItems="@{vm.documents}"
                         tools:itemCount="3"
                         tools:listitem="@layout/item_document_metadata" />
