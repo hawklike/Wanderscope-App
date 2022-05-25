@@ -9,7 +9,11 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
+import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripItineraryBinding
+import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
+import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
 
 class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, TripItineraryFragmentVM>(
     R.layout.fragment_trip_itinerary,
@@ -25,6 +29,8 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
         arguments?.getSerializable(USER_ROLE) as? UserRole
     }
 
+    private var init = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.showItinerary(tripId ?: return)
@@ -35,6 +41,7 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
         handleLoading()
         handleActionButton()
         handleRecyclerScrolling()
+        handleRecyclerOnClick()
     }
 
     private fun handleLoading() {
@@ -57,8 +64,66 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
 
     private fun handleRecyclerScrolling() {
         viewModel.activeItemIdx.safeObserve {
-            (binding.tripItinerary.layoutManager as? LinearLayoutManager)
-                ?.scrollToPositionWithOffset(it, 0)
+            if (init) {
+                (binding.tripItinerary.layoutManager as? LinearLayoutManager)
+                    ?.scrollToPositionWithOffset(it, 0)
+                init = false
+            }
+        }
+    }
+
+    private fun handleRecyclerOnClick() {
+        setAdapterListener(binding.tripItinerary, R.id.itineraryItemCard) { item, _ ->
+            if (item is TripItineraryItem) {
+                when (item.type) {
+                    TripPointType.ACCOMMODATION -> goToAccommodation(item)
+                    TripPointType.ACTIVITY -> goToActivity(item)
+                    TripPointType.PLACE -> goToPlace(item)
+                    TripPointType.TRANSPORT -> goToTransport(item)
+                }
+            }
+        }
+    }
+
+    private fun goToTransport(item: TripItineraryItem) {
+        navigateTo(
+            TripPagerFragmentDirections
+                .actionTripPagerFragmentToTransportOverviewFragment(
+                    createPointOverviewBundle(item) ?: return
+                )
+        )
+    }
+
+    private fun goToPlace(item: TripItineraryItem) {
+        navigateTo(
+            TripPagerFragmentDirections
+                .actionTripPagerFragmentToPlaceOverviewFragment(
+                    createPointOverviewBundle(item) ?: return
+                )
+        )
+    }
+
+    private fun goToAccommodation(item: TripItineraryItem) {
+        navigateTo(
+            TripPagerFragmentDirections
+                .actionTripPagerFragmentToAccommodationOverviewFragment(
+                    createPointOverviewBundle(item) ?: return
+                )
+        )
+    }
+
+    private fun goToActivity(item: TripItineraryItem) {
+        navigateTo(
+            TripPagerFragmentDirections
+                .actionTripPagerFragmentToActivityOverviewFragment(
+                    createPointOverviewBundle(item) ?: return
+                )
+        )
+    }
+
+    private fun createPointOverviewBundle(item: TripItineraryItem): PointOverviewBundle? {
+        return multipleLet(tripId, userRole) { tripId, userRole ->
+            PointOverviewBundle.create(tripId, item.id, userRole, item.name)
         }
     }
 

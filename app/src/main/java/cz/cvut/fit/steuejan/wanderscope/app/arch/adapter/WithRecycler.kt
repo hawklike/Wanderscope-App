@@ -1,5 +1,6 @@
 package cz.cvut.fit.steuejan.wanderscope.app.arch.adapter
 
+import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 
 interface WithRecycler {
@@ -20,12 +21,11 @@ interface WithRecycler {
 
     fun setAdapterListener(
         recyclerView: RecyclerView,
+        @IdRes onClickView: Int? = null,
         onClickListener: ((item: RecyclerItem, position: Int) -> Unit)
     ): DataBindingAdapter<RecyclerItem> {
-        val adapter = DataBindingAdapter.UniversalAdapter()
-        adapter.apply {
-            setOnClickListener(onClickListener)
-        }
+        val adapter = DataBindingAdapter.UniversalAdapter(onClickView)
+        adapter.setOnClickListener(onClickListener)
         recyclerView.adapter = adapter
         return adapter
     }

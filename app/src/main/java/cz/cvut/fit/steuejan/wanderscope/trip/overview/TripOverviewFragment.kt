@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import com.facebook.shimmer.ShimmerFrameLayout
 import cz.cvut.fit.steuejan.wanderscope.R
-import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
@@ -112,65 +111,72 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
 
     private fun handlePointsRecycler() {
         setAdapterListener(binding.tripOverviewTransport) { item, _ ->
-            goToTransport(item)
+            if (item is TripPointOverviewItem) {
+                goToTransport(item)
+            }
         }
         setAdapterListener(binding.tripOverviewPlace) { item, _ ->
-            goToPlace(item)
+            if (item is TripPointOverviewItem) {
+                goToPlace(item)
+            }
         }
         setAdapterListener(binding.tripOverviewActivity) { item, _ ->
-            goToActivity(item)
+            if (item is TripPointOverviewItem) {
+                goToActivity(item)
+            }
         }
         setAdapterListener(binding.tripOverviewAccommodation) { item, _ ->
-            goToAccommodation(item)
+            if (item is TripPointOverviewItem) {
+                goToAccommodation(item)
+            }
         }
     }
 
-    private fun goToTransport(item: RecyclerItem) {
-        if (item is TripPointOverviewItem) {
-            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
-            navigateTo(
-                TripPagerFragmentDirections
-                    .actionTripPagerFragmentToTransportOverviewFragment(
-                        PointOverviewBundle.create(trip.id, trip.userRole, item)
-                    )
-            )
-        }
+    private fun goToTransport(item: TripPointOverviewItem) {
+        val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+        navigateTo(
+            TripPagerFragmentDirections
+                .actionTripPagerFragmentToTransportOverviewFragment(
+                    createPointOverviewBundle(trip, item)
+                )
+        )
     }
 
-    private fun goToPlace(item: RecyclerItem) {
-        if (item is TripPointOverviewItem) {
-            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
-            navigateTo(
-                TripPagerFragmentDirections
-                    .actionTripPagerFragmentToPlaceOverviewFragment(
-                        PointOverviewBundle.create(trip.id, trip.userRole, item)
-                    )
-            )
-        }
+    private fun goToPlace(item: TripPointOverviewItem) {
+        val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+        navigateTo(
+            TripPagerFragmentDirections
+                .actionTripPagerFragmentToPlaceOverviewFragment(
+                    createPointOverviewBundle(trip, item)
+                )
+        )
     }
 
-    private fun goToAccommodation(item: RecyclerItem) {
-        if (item is TripPointOverviewItem) {
-            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
-            navigateTo(
-                TripPagerFragmentDirections
-                    .actionTripPagerFragmentToAccommodationOverviewFragment(
-                        PointOverviewBundle.create(trip.id, trip.userRole, item)
-                    )
-            )
-        }
+    private fun goToAccommodation(item: TripPointOverviewItem) {
+        val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+        navigateTo(
+            TripPagerFragmentDirections
+                .actionTripPagerFragmentToAccommodationOverviewFragment(
+                    createPointOverviewBundle(trip, item)
+                )
+        )
     }
 
-    private fun goToActivity(item: RecyclerItem) {
-        if (item is TripPointOverviewItem) {
-            val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
-            navigateTo(
-                TripPagerFragmentDirections
-                    .actionTripPagerFragmentToActivityOverviewFragment(
-                        PointOverviewBundle.create(trip.id, trip.userRole, item)
-                    )
-            )
-        }
+    private fun goToActivity(item: TripPointOverviewItem) {
+        val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
+        navigateTo(
+            TripPagerFragmentDirections
+                .actionTripPagerFragmentToActivityOverviewFragment(
+                    createPointOverviewBundle(trip, item)
+                )
+        )
+    }
+
+    private fun createPointOverviewBundle(
+        trip: TripResponse,
+        item: TripPointOverviewItem
+    ): PointOverviewBundle {
+        return PointOverviewBundle.create(trip.id, item.id, trip.userRole, item.name)
     }
 
     private fun showActionButton(userRole: UserRole) {

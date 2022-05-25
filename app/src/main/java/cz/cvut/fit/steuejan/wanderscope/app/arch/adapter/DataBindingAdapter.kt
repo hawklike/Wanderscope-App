@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.app.arch.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.IdRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
@@ -9,10 +10,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cz.cvut.fit.steuejan.wanderscope.BR
 
-abstract class DataBindingAdapter<T : RecyclerItem>(diffCallback: DiffUtil.ItemCallback<T>) :
-    ListAdapter<T, DataBindingAdapter.DataBindingViewHolder<T>>(diffCallback) {
+abstract class DataBindingAdapter<T : RecyclerItem>(
+    diffCallback: DiffUtil.ItemCallback<T>,
+    @IdRes private val onClickView: Int?
+) : ListAdapter<T, DataBindingAdapter.DataBindingViewHolder<T>>(diffCallback) {
 
-    constructor() : this(RecyclerItem.RecyclerItemlDiffUtil())
+    constructor(@IdRes onClickView: Int? = null) : this(RecyclerItem.RecyclerItemlDiffUtil(), onClickView)
 
     private var onItemClickListener: ((item: T, position: Int) -> Unit)? = null
 
@@ -36,12 +39,14 @@ abstract class DataBindingAdapter<T : RecyclerItem>(diffCallback: DiffUtil.ItemC
     override fun onBindViewHolder(holder: DataBindingViewHolder<T>, position: Int) {
         val data = getItem(position)
         holder.bind(data)
-        holder.binding.root.setOnClickListener { onItemClickListener?.invoke(data, position) }
+        val root = holder.binding.root
+        val view = onClickView?.let { root.findViewById(it) ?: root } ?: root
+        view.setOnClickListener { onItemClickListener?.invoke(data, position) }
     }
 
     fun setOnClickListener(onClick: (item: T, position: Int) -> Unit) {
         onItemClickListener = onClick
     }
 
-    class UniversalAdapter : DataBindingAdapter<RecyclerItem>()
+    class UniversalAdapter(@IdRes onClickView: Int? = null) : DataBindingAdapter<RecyclerItem>(onClickView)
 }
