@@ -270,6 +270,10 @@
 
     <string name="updating_itinerary">Updating itinerary</string>
 
+    <string name="leave_trip">Leave trip</string>
+    <string name="cannot_leave_error_message">Cannot leave. Make someone else admin</string>
+    <string name="leaving_trip">Leaving trip…</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>

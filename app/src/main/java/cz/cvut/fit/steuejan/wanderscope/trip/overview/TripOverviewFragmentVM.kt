@@ -7,10 +7,12 @@ import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
+import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Back
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
@@ -59,6 +61,9 @@ class TripOverviewFragmentVM(
         travellersLoading
     ).delayAndReturn(200) //loading is smoother
 
+    val leaveTripLoading = AnySingleLiveEvent()
+    val leaveTripSuccess = AnySingleLiveEvent()
+
     fun getTrip(tripId: Int, whatToLoad: Load) {
         when (whatToLoad) {
             Load.ALL -> loadAll(tripId)
@@ -73,50 +78,42 @@ class TripOverviewFragmentVM(
     }
 
     private fun loadAll(tripId: Int) {
-        viewModelScope.launchIO { getTripOverview(tripId, this) }
-        viewModelScope.launchIO { getAccommodation(tripId, this) }
-        viewModelScope.launchIO { getTransport(tripId, this) }
-        viewModelScope.launchIO { getTransport(tripId, this) }
-        viewModelScope.launchIO { getActivities(tripId, this) }
-        viewModelScope.launchIO { getPlaces(tripId, this) }
-        viewModelScope.launchIO { getDocuments(tripId, this) }
-        viewModelScope.launchIO { getUsers(tripId, this) }
+        loadTripOverview(tripId)
+        loadAccommodation(tripId)
+        loadTransport(tripId)
+        loadActivities(tripId)
+        loadPlaces(tripId)
+        loadDocuments(tripId)
+        loadUsers(tripId)
     }
 
     private fun loadTripOverview(tripId: Int) {
         viewModelScope.launchIO { getTripOverview(tripId, this) }
-        showToast(ToastInfo(R.string.updating_trip))
     }
 
     private fun loadAccommodation(tripId: Int) {
         viewModelScope.launchIO { getAccommodation(tripId, this) }
-        showToast(ToastInfo(R.string.updating_accommodation))
     }
 
     private fun loadTransport(tripId: Int) {
         viewModelScope.launchIO { getTransport(tripId, this) }
-        showToast(ToastInfo(R.string.updating_transport))
     }
 
     private fun loadActivities(tripId: Int) {
         viewModelScope.launchIO { getActivities(tripId, this) }
-        showToast(ToastInfo(R.string.updating_activities))
     }
 
     private fun loadPlaces(tripId: Int) {
         viewModelScope.launchIO { getPlaces(tripId, this) }
-        showToast(ToastInfo(R.string.updating_places))
     }
 
     private fun loadDocuments(tripId: Int) {
         viewModelScope.launchIO { getDocuments(tripId, this) }
-        showToast(ToastInfo(R.string.updating_documents))
 
     }
 
     private fun loadUsers(tripId: Int) {
         viewModelScope.launchIO { getUsers(tripId, this) }
-        showToast(ToastInfo(R.string.updating_users))
     }
 
     private suspend fun getTripOverview(tripId: Int, scope: CoroutineScope) {
@@ -286,5 +283,31 @@ class TripOverviewFragmentVM(
             )
         )
         navigateTo(Back)
+    }
+
+    fun leaveTrip(tripId: Int) {
+        viewModelScope.launchIO {
+            tripRepository.leaveTrip(tripId).safeCollect(this) {
+                when (it) {
+                    is Result.Cache -> TODO()
+                    is Result.Failure -> leaveTripFailure(it.error)
+                    is Result.Loading -> leaveTripLoading.publish()
+                    is Result.Success -> leaveTripSuccess.publish()
+                }
+            }
+        }
+    }
+
+    private fun leaveTripFailure(error: Error) {
+        if (error.reason?.customCode == 1) {
+            showSnackbar(
+                SnackbarInfo(
+                    R.string.cannot_leave_error_message,
+                    length = Constants.UNEXPECTED_ERROR_SNACKBAR_LENGTH
+                )
+            )
+        } else {
+            unexpectedError()
+        }
     }
 }

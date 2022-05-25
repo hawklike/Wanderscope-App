@@ -39,4 +39,7 @@ interface TripApi {
 
     @GET("/trip/{id}/users")
     suspend fun getUsers(@Path("id") id: Int): Response<UsersResponse>
+
+    @POST("/trip/{id}/leave")
+    suspend fun leaveTrip(@Path("id") id: Int): Response<Unit>
 }

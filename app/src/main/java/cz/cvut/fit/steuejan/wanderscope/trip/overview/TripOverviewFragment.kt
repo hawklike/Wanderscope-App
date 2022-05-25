@@ -5,8 +5,11 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
@@ -22,6 +25,7 @@ import cz.cvut.fit.steuejan.wanderscope.trip.crud.bundle.EditTripBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentVM
+import kotlinx.coroutines.delay
 
 class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, TripOverviewFragmentVM>(
     R.layout.fragment_trip_overview,
@@ -54,12 +58,17 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         handleActionBar()
         handlePointsRecycler()
         listenToChanges()
+        listenToLeaveTrip()
         prepareActionButton(binding.tripOverviewAddButton)
     }
 
     private fun listenToChanges() {
         parentViewModel?.tripOverviewResult?.safeObserve {
             getTripOverview(it)
+            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                delay(250) //time to hide keyboard
+                it?.getUpdatingString()?.let(::showToast)
+            }
         }
     }
 
@@ -113,6 +122,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             R.id.action_trip_edit -> editTrip()
             R.id.action_trip_delete -> deleteTrip()
             R.id.action_trip_save_to_calendar -> saveToCalendar()
+            R.id.action_trip_leave -> leaveTrip()
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -217,6 +227,30 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         val trip = tripOverview ?: return pleaseWait()
         viewModel.deleteTrip(trip.id)
         return true
+    }
+
+    private fun leaveTrip(): Boolean {
+        val trip = tripOverview ?: return pleaseWait()
+        viewModel.leaveTrip(trip.id)
+        return true
+    }
+
+    private var leaveTripSnackbar: Snackbar? = null
+
+    private fun listenToLeaveTrip() {
+        viewModel.leaveTripLoading.safeObserve {
+            leaveTripSnackbar = showSnackbar(
+                SnackbarInfo(
+                    R.string.leaving_trip,
+                    length = Snackbar.LENGTH_INDEFINITE
+                )
+            )
+        }
+
+        viewModel.leaveTripSuccess.safeObserve {
+            leaveTripSnackbar?.dismiss()
+            navigateBack()
+        }
     }
 
     private fun saveToCalendar(): Boolean {
