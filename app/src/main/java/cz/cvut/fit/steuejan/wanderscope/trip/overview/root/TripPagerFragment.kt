@@ -68,17 +68,17 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                0 -> TripOverviewFragment.newInstance(tripId, userRole)
-                1 -> TripItineraryFragment.newInstance(tripId, userRole)
+                0 -> TripItineraryFragment.newInstance(tripId, userRole)
+                1 -> TripOverviewFragment.newInstance(tripId, userRole)
                 2 -> TripExpensesFragment.newInstance()
-                else -> TripOverviewFragment.newInstance(tripId, userRole)
+                else -> TripItineraryFragment.newInstance(tripId, userRole)
             }
         }
 
         fun getTitle(position: Int): String {
             return when (position) {
-                0 -> fragment.getString(R.string.trip_overview_overview)
-                1 -> fragment.getString(R.string.trip_overview_itinerary)
+                0 -> fragment.getString(R.string.trip_overview_itinerary)
+                1 -> fragment.getString(R.string.trip_overview_overview)
                 2 -> fragment.getString(R.string.trip_overview_expenses)
                 else -> fragment.getString(R.string.trip_overview_overview)
             }

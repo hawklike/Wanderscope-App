@@ -46,7 +46,8 @@
                     android:backgroundTint="@color/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/itineraryItemIconHolder" />
+                    app:layout_constraintTop_toBottomOf="@id/itineraryItemIconHolder"
+                    app:visibleOrGone="@{!item.lastItem}" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/itineraryItemGuideline"
@@ -75,11 +76,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:background="@drawable/shape_circle"
-                    android:backgroundTint="@color/colorDrawableBackground"
+                    android:backgroundTint="@{item.active ? @color/colorPrimary: @color/colorDrawableBackground}"
                     android:padding="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_goneMarginTop="12dp">
+                    app:layout_goneMarginTop="12dp"
+                    tools:backgroundTint="@color/colorDrawableBackground">
 
                     <ImageView
                         android:id="@+id/itineraryItemIcon"
@@ -105,6 +107,7 @@
                     android:maxLines="2"
                     android:text="@{item.name}"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                    android:textColor="@{item.active ? @color/colorPrimary : @color/colorText }"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/itineraryItemAddress"
                     app:layout_constraintEnd_toEndOf="@id/itineraryItemGuideline"
@@ -189,7 +192,8 @@
             android:layout_marginStart="31dp"
             android:background="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@id/itineraryItemVerticalLineBottom"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:visibleOrGone="@{!item.lastItem}" />
 
         <View
             android:id="@+id/itineraryItemVerticalLineBottom"
@@ -199,7 +203,8 @@
             android:background="@color/colorPrimary"
             android:backgroundTint="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/itineraryItemCard" />
+            app:layout_constraintTop_toBottomOf="@id/itineraryItemCard"
+            app:visibleOrGone="@{!item.lastItem}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

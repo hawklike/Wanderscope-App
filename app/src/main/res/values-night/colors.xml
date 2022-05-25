@@ -19,8 +19,4 @@
     <color name="colorShimmer">#DADEEA</color>
     <color name="colorDrawableBackground">#e0ebf4</color>
     <color name="colorTextHighlight">#97F3F1</color>
-    <color name="colorActivity">#D1C4E9</color>
-    <color name="colorPlace">#F8BBD0</color>
-    <color name="colorTransport">#C8E6C9</color>
-    <color name="colorAccommodation">#FFECB3</color>
 </resources>

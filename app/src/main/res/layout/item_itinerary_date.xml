@@ -17,12 +17,14 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
-            android:textStyle="bold"
+            android:paddingTop="@{item.firstItem ? @dimen/padding_0 : @dimen/app_itinerary_date_horizontal_padding}"
+            android:paddingBottom="@dimen/app_itinerary_date_horizontal_padding"
             android:text="@{item.date ?? @string/date_not_specified}"
-            android:textColor="@color/colorPrimary"
             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
+            tools:paddingTop="@dimen/app_itinerary_date_horizontal_padding"
             tools:text="Wed Sep 18, 2022" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

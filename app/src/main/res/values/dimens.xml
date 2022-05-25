@@ -23,6 +23,7 @@
     <dimen name="app_recycler_item_end_padding">8dp</dimen>
     <dimen name="app_button_vertical_padding">15dp</dimen>
 
+    <dimen name="padding_0">0dp</dimen>
     <dimen name="padding_4">4dp</dimen>
     <dimen name="padding_8">8dp</dimen>
     <dimen name="padding_16">16dp</dimen>
@@ -69,4 +70,5 @@
     <dimen name="app_point_overview_vertical_line_margin">12dp</dimen>
     <dimen name="app_point_overview_icon_size">26dp</dimen>
     <dimen name="app_point_overview_address_start_margin">5dp</dimen>
+    <dimen name="app_itinerary_date_horizontal_padding">10dp</dimen>
 </resources>

@@ -1,6 +1,5 @@
 package cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary
 
-import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
@@ -12,11 +11,12 @@ data class TripItineraryItem(
     val name: String,
     val type: TripPointType,
     @DrawableRes val icon: Int,
-    @ColorRes val tint: Int,
     val time: String?,
     val duration: FullDuration?,
     val address: String?,
-    val toAddress: String?
+    val toAddress: String?,
+    val lastItem: Boolean,
+    val active: Boolean
 ) : RecyclerItem {
 
     override val layoutId = R.layout.item_itinerary
@@ -32,7 +32,6 @@ data class TripItineraryItem(
                 duration == other.duration &&
                 icon == other.icon &&
                 address == other.address &&
-                toAddress == other.toAddress &&
-                tint == other.tint
+                toAddress == other.toAddress
     }
 }

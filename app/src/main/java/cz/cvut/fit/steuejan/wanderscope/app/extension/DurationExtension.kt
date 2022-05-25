@@ -6,6 +6,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.util.getDaysHoursAndMinutes
 import cz.cvut.fit.steuejan.wanderscope.app.util.model.DaysHoursMinutes
 import cz.cvut.fit.steuejan.wanderscope.app.util.model.Nights
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
+import org.joda.time.DateTime
 import org.joda.time.Days
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
@@ -24,6 +25,15 @@ suspend inline fun Duration.getNights(): Nights? {
 
 fun Duration.getDaysHoursAndMinutes(): DaysHoursMinutes? {
     return getDaysHoursAndMinutes(startDate, endDate)
+}
+
+suspend fun Duration.isNow(): Boolean {
+    return multipleLet(startDate, endDate) { startDate, endDate ->
+        withDefault {
+            val now = DateTime.now().toLocalDateTime()
+            startDate.toLocalDateTime() <= now && now <= endDate.toLocalDateTime()
+        }
+    } ?: false
 }
 
 suspend inline fun Duration.toDurationString(

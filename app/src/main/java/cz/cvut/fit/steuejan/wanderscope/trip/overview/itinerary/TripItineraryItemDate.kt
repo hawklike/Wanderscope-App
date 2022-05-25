@@ -4,7 +4,8 @@ import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 
 data class TripItineraryItemDate(
-    val date: String?
+    val date: String?,
+    val firstItem: Boolean
 ) : RecyclerItem {
 
     override val layoutId = R.layout.item_itinerary_date

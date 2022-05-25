@@ -20,6 +20,7 @@ class TripItineraryFragmentVM(
 ) : BaseViewModel() {
 
     val itinerary = MutableLiveData<List<RecyclerItem>>()
+    val activeItemIdx = MutableLiveData<Int>()
 
     private val itineraryLoading = MutableLiveData<Boolean>()
 
@@ -39,9 +40,24 @@ class TripItineraryFragmentVM(
     }
 
     private suspend fun itinerarySuccess(data: TripItineraryResponse) {
-        val items = withDefault { data.itinerary.map { it.toItem() } }
+        val items = prepareItems(data)
         itinerary.value = items.ifEmpty { listOf(EmptyItem.itinerary()) }
         itineraryLoading.value = false
+    }
+
+    private suspend fun prepareItems(data: TripItineraryResponse): List<RecyclerItem> {
+        val lastIndex = data.itinerary.lastIndex
+        var activeItemIdx = 0
+        val items = withDefault {
+            data.itinerary.mapIndexed { index, point ->
+                if (point.isActive()) {
+                    activeItemIdx = index
+                }
+                point.toItem(index == 0, index == lastIndex)
+            }
+        }
+        this.activeItemIdx.value = activeItemIdx
+        return items
     }
 
     private fun itineraryFailure(error: Error) {

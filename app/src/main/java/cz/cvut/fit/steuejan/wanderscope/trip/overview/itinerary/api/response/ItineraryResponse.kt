@@ -9,5 +9,6 @@ sealed class ItineraryResponse(
     @Json(name = MoshiSerializer.ITINERARY_LABEL)
     val type: ItineraryType
 ) {
-    abstract suspend fun toItem(): RecyclerItem
+    abstract suspend fun toItem(first: Boolean, last: Boolean): RecyclerItem
+    abstract suspend fun isActive(): Boolean
 }
