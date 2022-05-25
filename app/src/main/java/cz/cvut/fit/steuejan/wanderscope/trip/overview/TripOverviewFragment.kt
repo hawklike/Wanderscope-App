@@ -44,44 +44,47 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        getTripOverview(Load.ALL)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle()
+        handleLoading()
+        handleActionBar()
         handlePointsRecycler()
-        handleLoadingNecessaryData()
+        listenToChanges()
         prepareActionButton(binding.tripOverviewAddButton)
     }
 
-    private fun handleLoadingNecessaryData() {
+    private fun listenToChanges() {
         parentViewModel?.tripOverviewResult?.safeObserve {
-            it ?: return@safeObserve
-            if (it != Load.NOTHING) {
-                parentViewModel?.tripOverviewResult?.value = Load.NOTHING
-                val load = if (tripOverview == null) Load.ALL else it
-                retrieveTripOverview(load)
-            }
+            getTripOverview(it)
         }
     }
 
-    private fun retrieveTripOverview(whatToLoad: Load) {
-        val tripId = arguments?.getInt(TRIP_ID) ?: return
+    private fun handleLoading() {
+        arguments?.getInt(TRIP_ID) ?: return
         showLoading()
-        hideActionButton()
-
-        viewModel.getTrip(tripId, whatToLoad)
-
         viewModel.loading.safeObserve { loading ->
             if (!loading) {
                 hideLoading()
             }
         }
+    }
 
+    private fun handleActionBar() {
+        arguments?.getInt(TRIP_ID) ?: return
+        hideActionButton()
         viewModel.tripOverview.safeObserve {
             tripOverview = it
             showActionButton(it.userRole)
         }
+    }
+
+    private fun getTripOverview(whatToLoad: Load) {
+        val tripId = arguments?.getInt(TRIP_ID) ?: return
+        viewModel.getTrip(tripId, whatToLoad)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

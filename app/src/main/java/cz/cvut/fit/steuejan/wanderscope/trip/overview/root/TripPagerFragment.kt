@@ -28,7 +28,6 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.tripOverviewResult.value = Load.ALL
         setupFragmentResultListener()
     }
 
