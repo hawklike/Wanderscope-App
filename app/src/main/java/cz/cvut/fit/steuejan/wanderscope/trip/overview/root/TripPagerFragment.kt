@@ -33,8 +33,8 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
     }
 
     private fun setupFragmentResultListener() {
-        setFragmentResultListener(TRIP_OVERVIEW_REQUEST_KEY) { _, bundle ->
-            val result = bundle.getParcelable<Load>(TRIP_OVERVIEW_RESULT_BUNDLE)
+        setFragmentResultListener(TRIP_UPDATED_REQUEST_KEY) { _, bundle ->
+            val result = bundle.getParcelable<Load>(TRIP_UPDATED_RESULT_BUNDLE)
             viewModel.sharedData.value = result
         }
     }
@@ -90,7 +90,7 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
     }
 
     companion object {
-        const val TRIP_OVERVIEW_REQUEST_KEY = "tripOverviewKey"
-        const val TRIP_OVERVIEW_RESULT_BUNDLE = "tripOverviewResult"
+        const val TRIP_UPDATED_REQUEST_KEY = "tripUpdatedRequestKey"
+        const val TRIP_UPDATED_RESULT_BUNDLE = "tripUpdatedResultBundle"
     }
 }

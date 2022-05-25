@@ -10,11 +10,7 @@ interface WithRecycler {
         adapter: DataBindingAdapter<T>,
         onClickListener: ((item: T, position: Int) -> Unit)? = null
     ): DataBindingAdapter<T> {
-        adapter.apply {
-            onClickListener?.let {
-                setOnClickListener(it)
-            }
-        }
+        adapter.apply { onClickListener?.let(::setOnClickListener) }
         recyclerView.adapter = adapter
         return adapter
     }
@@ -22,7 +18,7 @@ interface WithRecycler {
     fun setAdapterListener(
         recyclerView: RecyclerView,
         @IdRes onClickView: Int? = null,
-        onClickListener: ((item: RecyclerItem, position: Int) -> Unit)
+        onClickListener: (item: RecyclerItem, position: Int) -> Unit
     ): DataBindingAdapter<RecyclerItem> {
         val adapter = DataBindingAdapter.UniversalAdapter(onClickView)
         adapter.setOnClickListener(onClickListener)

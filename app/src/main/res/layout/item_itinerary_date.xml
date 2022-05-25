@@ -17,7 +17,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@{item.firstItem ? @dimen/padding_0 : @dimen/app_itinerary_date_horizontal_padding}"
+            android:paddingTop="@{item.firstItem ? @dimen/app_first_item_overview_margin : @dimen/app_itinerary_date_horizontal_padding}"
             android:paddingBottom="@dimen/app_itinerary_date_horizontal_padding"
             android:text="@{item.date ?? @string/date_not_specified}"
             android:textAppearance="@style/TextAppearance.Wanderscope.Regular"

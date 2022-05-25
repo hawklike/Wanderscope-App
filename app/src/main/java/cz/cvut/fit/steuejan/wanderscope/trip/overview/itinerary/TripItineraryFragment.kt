@@ -29,7 +29,8 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
         arguments?.getSerializable(USER_ROLE) as? UserRole
     }
 
-    private var init = true
+    private var initScrolling = true
+    private var initLoading = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,17 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
         handleActionButton()
         handleRecyclerScrolling()
         handleRecyclerOnClick()
+        handleLoadingData()
+    }
+
+    private fun handleLoadingData() {
+//        getViewPagerSharedData<Load>()?.safeObserve {
+//            it ?: return@safeObserve
+//            if (it != Load.NOTHING_ITINERARY) {
+//                setViewPagerSharedData(Load.NOTHING_ITINERARY)
+//                viewModel.showItinerary(tripId ?: return@safeObserve)
+//            }
+//        }
     }
 
     private fun handleLoading() {
@@ -64,10 +76,10 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
 
     private fun handleRecyclerScrolling() {
         viewModel.activeItemIdx.safeObserve {
-            if (init) {
+            if (initScrolling) {
                 (binding.tripItinerary.layoutManager as? LinearLayoutManager)
                     ?.scrollToPositionWithOffset(it, 0)
-                init = false
+                initScrolling = false
             }
         }
     }
