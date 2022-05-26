@@ -31,15 +31,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tripItinerary"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/tripItinerarySwipeRefresh"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:recyclerItems="@{vm.itinerary}"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_itinerary" />
+                android:layout_height="wrap_content"
+                app:progressColor="@{@color/colorPrimary}"
+                app:refreshing="@{vm.loading}">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tripItinerary"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:recyclerItems="@{vm.itinerary}"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_itinerary" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <com.leinardi.android.speeddial.SpeedDialView
                 android:id="@+id/tripItineraryAddButton"

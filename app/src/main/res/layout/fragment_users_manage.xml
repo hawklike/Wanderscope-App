@@ -47,25 +47,34 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/manageUsersTitle">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/manageUsersRecycler"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/manageUsersSwipeRefresh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toTopOf="parent"
-                app:recyclerItems="@{vm.users}"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_trip_user" />
+                app:progressColor="@{@color/colorPrimary}"
+                app:refreshing="@{vm.loading}">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/manageUsersRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:recyclerItems="@{vm.users}"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_trip_user" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/manageUsersAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:onClick="@{() -> vm.addUser()}"
                 android:layout_marginEnd="@dimen/app_fab_margin"
                 android:layout_marginBottom="@dimen/app_fab_margin"
+                android:onClick="@{() -> vm.addUser()}"
                 android:src="@drawable/ic_add"
                 app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
 

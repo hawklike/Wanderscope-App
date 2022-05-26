@@ -52,6 +52,7 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
         handleRecyclerOnClick()
         listenToChanges()
         prepareActionButton(binding.tripItineraryAddButton)
+        handleSwipeRefresh()
     }
 
     private fun listenToChanges() {
@@ -80,6 +81,12 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
             View.GONE
         }
         binding.tripItineraryAddButton.visibility = visibility
+    }
+
+    private fun handleSwipeRefresh() {
+        binding.tripItinerarySwipeRefresh.setOnRefreshListener {
+            viewModel.showItinerary(tripId ?: return@setOnRefreshListener)
+        }
     }
 
     private fun handleRecyclerScrolling() {

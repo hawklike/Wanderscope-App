@@ -24,6 +24,7 @@ class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
         super.onViewCreated(view, savedInstanceState)
         handleTripsRecycler()
         retrieveTrips()
+        handleSwipeRefresh()
     }
 
     private fun retrieveTrips() {
@@ -33,6 +34,12 @@ class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
             if (!loading) {
                 hideLoading()
             }
+        }
+    }
+
+    private fun handleSwipeRefresh() {
+        binding.tripsSwipeRefresh.setOnRefreshListener {
+            viewModel.getTrips()
         }
     }
 
