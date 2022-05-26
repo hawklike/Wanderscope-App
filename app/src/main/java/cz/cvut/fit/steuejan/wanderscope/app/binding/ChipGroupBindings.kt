@@ -28,7 +28,5 @@ fun ChipGroup.addChip(chipInfo: BaseViewModel.ChipInfo?) {
 @BindingAdapter("addChips")
 fun ChipGroup.addChips(chipsInfo: List<BaseViewModel.ChipInfo>?) {
     removeAllViews()
-    chipsInfo?.forEach { chipInfo ->
-        addChip(chipInfo)
-    }
+    chipsInfo?.forEach(::addChip)
 }

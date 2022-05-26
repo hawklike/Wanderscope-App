@@ -20,6 +20,7 @@ import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.TripExpensesFragm
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.TripItineraryFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trip.users.TripUsersFragmentVM
+import cz.cvut.fit.steuejan.wanderscope.trip.users.crud.TripUsersAddEditFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trips.TripsFragmentVM
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
@@ -46,4 +47,5 @@ val viewModelModule = module {
     viewModelOf(::ActivityOverviewFragmentVM)
     viewModelOf(::AccommodationOverviewFragmentVM)
     viewModelOf(::TripUsersFragmentVM)
+    viewModelOf(::TripUsersAddEditFragmentVM)
 }

@@ -273,6 +273,14 @@
     <string name="leave_trip">Leave trip</string>
     <string name="cannot_leave_error_message">Cannot leave. Make someone else admin</string>
     <string name="leaving_trip">Leaving trip…</string>
+    <string name="none_delete">None (delete)</string>
+    <string name="add_your_travel_mate">Add your travel mate</string>
+    <string name="add_user_subtitle">Many hands make light work. Please enter the new travel mate\'s username and select his/her role.</string>
+    <string name="user_role">User role</string>
+
+    <string name="user_not_found">User with this username not found</string>
+    <string name="user_is_already_member">User is already a member</string>
+    <string name="the_mate_s_username">The mate\'s username</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
