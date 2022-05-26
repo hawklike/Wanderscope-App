@@ -1,10 +1,9 @@
 package cz.cvut.fit.steuejan.wanderscope.trip.users.api
 
+import cz.cvut.fit.steuejan.wanderscope.trip.users.api.request.ChangeRoleRequest
 import cz.cvut.fit.steuejan.wanderscope.trip.users.api.request.InviteUserRequest
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface TripUserApi {
 
@@ -16,4 +15,17 @@ interface TripUserApi {
         @Path("id") id: Int,
         @Body request: InviteUserRequest
     ): Response<Unit>
+
+    @POST("/trip/{id}/role")
+    suspend fun changeUserRole(
+        @Path("id") id: Int,
+        @Body request: ChangeRoleRequest
+    ): Response<Unit>
+
+    @DELETE("/trip/{id}/role")
+    suspend fun removeUser(
+        @Path("id") id: Int,
+        @Query("userId") userToRemoveId: Int
+    ): Response<Unit>
+
 }

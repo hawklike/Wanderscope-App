@@ -92,12 +92,12 @@ class TripUsersFragment : MvvmFragment<
     }
 
     private fun handleRecyclerOnClick() {
-        setAdapterListener(binding.manageUsersRecycler) { item, _ ->
-            if (args.userRole == UserRole.ADMIN && item is UserItem) {
+        setAdapterListener(binding.manageUsersRecycler) { user, _ ->
+            if (args.userRole == UserRole.ADMIN && user is UserItem) {
                 navigateTo(
                     TripUsersFragmentDirections
                         .actionTripUsersFragmentToTripUsersAddEditFragment(
-                            args.tripId, item.role, Purpose.EDIT, item.name
+                            args.tripId, user.role, Purpose.EDIT, user.name, user.id
                         )
                 )
             }

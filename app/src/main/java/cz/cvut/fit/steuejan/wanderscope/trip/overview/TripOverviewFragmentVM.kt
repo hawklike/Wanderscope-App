@@ -305,7 +305,8 @@ class TripOverviewFragmentVM(
             showSnackbar(
                 SnackbarInfo(
                     R.string.cannot_leave_error_message,
-                    length = Constants.UNEXPECTED_ERROR_SNACKBAR_LENGTH
+                    length = Constants.UNEXPECTED_ERROR_SNACKBAR_LENGTH,
+                    action = {}
                 )
             )
         } else {

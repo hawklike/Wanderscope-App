@@ -29,7 +29,8 @@ class TripUsersAddEditFragment : MvvmFragment<
             args.purpose,
             args.userRole,
             args.tripId,
-            createSubtitle(args.purpose, args.username)
+            createSubtitle(args.purpose, args.username),
+            args.whomId
         )
     }
 
