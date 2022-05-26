@@ -277,10 +277,16 @@
     <string name="add_your_travel_mate">Add your travel mate</string>
     <string name="add_user_subtitle">Many hands make light work. Please enter the new travel mate\'s username and select his/her role.</string>
     <string name="user_role">User role</string>
+    <string name="change_user_role">Change the user role</string>
+    <string name="edit_user_role_subtitle">Select a role to %1$s. If selected none, %2$s will be removed from this trip.</string>
 
     <string name="user_not_found">User with this username not found</string>
     <string name="user_is_already_member">User is already a member</string>
     <string name="the_mate_s_username">The mate\'s username</string>
+
+    <string name="leave_trip_dialog_title">Leave trip?</string>
+    <string name="leave_trip_dialog_message">Are you sure you want to leave this trip?</string>
+    <string name="leave">Leave</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

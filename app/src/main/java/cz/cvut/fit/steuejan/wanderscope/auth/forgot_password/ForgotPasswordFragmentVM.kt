@@ -10,6 +10,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.LoadingMutableLiveData
+import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Back
 import cz.cvut.fit.steuejan.wanderscope.auth.api.request.ForgotPasswordRequest
 import cz.cvut.fit.steuejan.wanderscope.auth.repository.AuthRepository
 
@@ -43,6 +44,7 @@ class ForgotPasswordFragmentVM(private val authRepository: AuthRepository) : Bas
     private fun forgotPasswordSuccess() {
         forgotPasswordLoading.value = false
         showSnackbar(SnackbarInfo(R.string.forgot_password_email))
+        navigateTo(Back)
     }
 
     private fun forgotPasswordFailure() {

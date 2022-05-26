@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Purpose
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
@@ -28,7 +29,7 @@ class TripUsersAddEditFragmentVM(
     private var tripId: Int? = null
 
     val title = MutableLiveData<Int>()
-    val subtitle = MutableLiveData<Int>()
+    val subtitle = MutableLiveData<String>()
     val checkedRole = MutableLiveData<Int>()
     val username = MutableLiveData<String>()
 
@@ -37,6 +38,9 @@ class TripUsersAddEditFragmentVM(
     val noneOptionVisibility = MutableLiveData(false)
 
     val validateUsername = username.switchMapSuspend {
+        if (purpose == Purpose.EDIT) {
+            return@switchMapSuspend OK
+        }
         validator.validateUsername(it)
     }
 
@@ -46,20 +50,22 @@ class TripUsersAddEditFragmentVM(
 
     val loading = LoadingMutableLiveData()
 
-    fun init(purpose: Purpose, userRole: UserRole, tripId: Int) {
-        this.purpose = Purpose.ADD
+    fun init(purpose: Purpose, userRole: UserRole, tripId: Int, subtitle: String) {
+        this.purpose = purpose
         this.tripId = tripId
+        this.subtitle.value = subtitle
         if (purpose == Purpose.ADD) {
             title.value = R.string.add_your_travel_mate
-            subtitle.value = R.string.add_user_subtitle
             usernameVisibility.value = true
             adminOptionVisibility.value = userRole == UserRole.ADMIN
             checkedRole.value = R.id.addUsersRoleEditor
         } else {
-            //should be an admin already, a problem occured if not
+            title.value = R.string.change_user_role
             usernameVisibility.value = false
-            adminOptionVisibility.value = userRole == UserRole.ADMIN
-            noneOptionVisibility.value = userRole == UserRole.ADMIN
+            adminOptionVisibility.value = true
+            noneOptionVisibility.value = true
+            checkedRole.value = userRoleToCheckedItem(userRole)
+            username.value = "Why do programmers always mix up Halloween and Christmas? Because Oct 31 equals Dec 25."
         }
     }
 
@@ -71,6 +77,14 @@ class TripUsersAddEditFragmentVM(
             R.id.addUsersRoleViewer -> UserRole.VIEWER
             R.id.addUsersRoleNone -> null
             else -> null
+        }
+    }
+
+    private fun userRoleToCheckedItem(userRole: UserRole): Int {
+        return when (userRole) {
+            UserRole.ADMIN -> R.id.addUsersRoleAdmin
+            UserRole.EDITOR -> R.id.addUsersRoleEditor
+            UserRole.VIEWER -> R.id.addUsersRoleViewer
         }
     }
 
