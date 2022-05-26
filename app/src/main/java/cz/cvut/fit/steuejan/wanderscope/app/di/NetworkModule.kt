@@ -21,6 +21,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.place.api.PlaceApi
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.TransportApi
 import cz.cvut.fit.steuejan.wanderscope.trip.api.TripApi
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.api.ItineraryApi
+import cz.cvut.fit.steuejan.wanderscope.trip.users.api.TripUserApi
 import cz.cvut.fit.steuejan.wanderscope.trips.api.TripsApi
 import okhttp3.OkHttpClient
 import org.koin.core.module.dsl.bind
@@ -60,6 +61,7 @@ val networkModule = module {
     single { provideApi<PlaceApi>(get()) }
     single { provideApi<DocumentApi>(get()) }
     single { provideApi<ItineraryApi>(get()) }
+    single { provideApi<TripUserApi>(get()) }
 }
 
 private fun provideRetrofitBuilder(converterFactory: retrofit2.Converter.Factory): Retrofit.Builder {

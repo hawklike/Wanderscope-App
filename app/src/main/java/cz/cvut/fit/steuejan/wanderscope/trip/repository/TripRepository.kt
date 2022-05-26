@@ -13,10 +13,15 @@ import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.Transports
 import cz.cvut.fit.steuejan.wanderscope.trip.api.TripApi
 import cz.cvut.fit.steuejan.wanderscope.trip.api.request.TripRequest
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
+import cz.cvut.fit.steuejan.wanderscope.trip.users.api.TripUserApi
 import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 import kotlinx.coroutines.flow.Flow
 
-class TripRepository(private val tripApi: TripApi, private val documentApi: DocumentApi) {
+class TripRepository(
+    private val tripApi: TripApi,
+    private val documentApi: DocumentApi,
+    private val tripUserApi: TripUserApi
+) {
 
     suspend fun createTrip(request: TripRequest): Flow<Result<CreatedResponse>> {
         return performCall { tripApi.createTrip(request) }
@@ -59,6 +64,6 @@ class TripRepository(private val tripApi: TripApi, private val documentApi: Docu
     }
 
     suspend fun leaveTrip(id: Int): Flow<Result<Unit>> {
-        return performCall { tripApi.leaveTrip(id) }.toUnitIfSuccess()
+        return performCall { tripUserApi.leaveTrip(id) }.toUnitIfSuccess()
     }
 }

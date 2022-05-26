@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="cz.cvut.fit.steuejan.wanderscope.trip.users.crud.TripUsersAddEditFragmentVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
+
+        <ScrollView
+            android:id="@+id/addUsersScroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/app_text_input_margin"
+            app:layout_constraintBottom_toTopOf="@id/addUsersButton"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/addUsersImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_6"
+                    android:layout_marginTop="-8dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/image_add_user"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addUsersTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_4"
+                    android:text="@{vm.title}"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addUsersImage"
+                    tools:text="@string/add_your_travel_mate" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addUsersSubtitle"
+                    style="@style/Widget.Wanderscope.LessImportantText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_subtitle_margin"
+                    android:text="@{vm.subtitle}"
+                    app:layout_constraintTop_toBottomOf="@id/addUsersTitle"
+                    tools:text="@string/add_user_subtitle" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addUsersUsernameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_layout_first_item_margin"
+                    android:text="@string/username"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addUsersSubtitle"
+                    app:visibleOrGone="@{vm.usernameVisibility}" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addUsersUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:errorText="@{vm.validateUsername}"
+                    app:layout_constraintTop_toBottomOf="@id/addUsersUsernameLabel"
+                    app:visibleOrGone="@{vm.usernameVisibility}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="username"
+                        android:hint="@string/the_mate_s_username"
+                        android:inputType="text"
+                        android:text="@={vm.username}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addUsersRoleLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_role"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addUsersUsername"
+                    app:topMargin="@{vm.usernameVisibility ? @dimen/margin_12 : @dimen/app_layout_first_item_margin}"
+                    tools:layout_marginTop="@dimen/margin_12" />
+
+                <RadioGroup
+                    android:id="@+id/addUsersRoleGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    android:checkedButton="@={vm.checkedRole}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addUsersRoleLabel">
+
+                    <RadioButton
+                        android:id="@+id/addUsersRoleAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/admin"
+                        app:visibleOrGone="@{vm.adminOptionVisibility}" />
+
+                    <RadioButton
+                        android:id="@+id/addUsersRoleEditor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/editor" />
+
+                    <RadioButton
+                        android:id="@+id/addUsersRoleViewer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/viewer" />
+
+                    <RadioButton
+                        android:id="@+id/addUsersRoleNone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/none_delete"
+                        app:visibleOrGone="@{vm.noneOptionVisibility}" />
+
+                </RadioGroup>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addUsersButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/app_button_bottom_margin"
+            android:onClick="@{() -> vm.submit()}"
+            android:text="@string/submit"
+            app:isEnabled="@{vm.enableSubmit}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:showProgress="@{vm.loading}"
+            app:textAfterProgress="@{@string/submit}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

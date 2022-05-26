@@ -26,7 +26,7 @@
 
         </com.facebook.shimmer.ShimmerFrameLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/tripItineraryContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -46,16 +46,16 @@
                 style="@style/Widget.Wanderscope.FloatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
                 android:layout_marginEnd="@dimen/app_fab_margin"
                 android:layout_marginBottom="@dimen/app_fab_margin"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
                 app:sdMainFabClosedBackgroundColor="@color/colorPrimary"
                 app:sdMainFabClosedSrc="@drawable/ic_add"
                 app:sdMainFabOpenedBackgroundColor="@color/colorPrimary"
                 app:sdUseReverseAnimationOnClose="true" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

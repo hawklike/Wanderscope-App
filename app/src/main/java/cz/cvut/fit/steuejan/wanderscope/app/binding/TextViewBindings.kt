@@ -74,6 +74,8 @@ fun TextView.setAcronym(name: String) {
 @BindingAdapter("userRole")
 fun TextView.setUserRole(userRole: UserRole) {
     this.setText(userRole.toStringRes())
+    this.setCompoundDrawablesWithIntrinsicBounds(userRole.toIcon(), 0, 0, 0)
+    this.compoundDrawablePadding = resources.getDimensionPixelSize(R.dimen.margin_8)
 }
 
 @BindingAdapter("fullDuration")

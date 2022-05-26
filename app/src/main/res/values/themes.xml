@@ -29,6 +29,7 @@
         <item name="tabStyle">@style/Widget.Wanderscope.TabLayout</item>
         <item name="materialTimePickerTheme">@style/Widget.Wanderscope.TimePicker</item>
         <item name="materialAlertDialogTheme">@style/Widget.Wandercope.AlertDialog</item>
+        <item name="radioButtonStyle">@style/Widget.Wanderscope.RadioButton</item>
     </style>
 
     <style name="Theme.Wanderscope.SplashScreen" parent="Theme.SplashScreen">
@@ -281,6 +282,18 @@
     <style name="AlertDialog.Wanderscope.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="textAllCaps">true</item>
         <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="Widget.Wanderscope.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Wanderscope.RadioButton</item>
+        <item name="android:textAppearance">@style/TextAppearance.Wanderscope.Regular</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="paddingStart">@dimen/margin_4</item>
+    </style>
+
+    <style name="ThemeOverlay.Wanderscope.RadioButton" parent="">
+        <item name="colorOnSurface">@color/colorTextLessImportant</item>
+        <item name="colorSecondary">@color/colorPrimary</item>
     </style>
 
 </resources>

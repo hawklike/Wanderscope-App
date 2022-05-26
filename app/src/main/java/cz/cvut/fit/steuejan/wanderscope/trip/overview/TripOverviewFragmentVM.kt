@@ -13,6 +13,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
+import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Back
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
@@ -22,6 +23,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlacesResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportsResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
 import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 import kotlinx.coroutines.CoroutineScope
@@ -59,7 +61,7 @@ class TripOverviewFragmentVM(
         activitiesLoading,
         documentsLoading,
         travellersLoading
-    ).delayAndReturn(200) //loading is smoother
+    ).delayAndReturn(Constants.DELAY_LOADING) //loading is smoother
 
     val leaveTripLoading = AnySingleLiveEvent()
     val leaveTripSuccess = AnySingleLiveEvent()
@@ -303,11 +305,25 @@ class TripOverviewFragmentVM(
             showSnackbar(
                 SnackbarInfo(
                     R.string.cannot_leave_error_message,
-                    length = Constants.UNEXPECTED_ERROR_SNACKBAR_LENGTH
+                    length = Constants.UNEXPECTED_ERROR_SNACKBAR_LENGTH,
+                    action = {}
                 )
             )
         } else {
             unexpectedError()
         }
+    }
+
+    fun manageUsers() {
+        tripOverview.value?.let {
+            navigateTo(
+                Action(
+                    TripPagerFragmentDirections.actionTripPagerFragmentToTripUsersFragment(
+                        it.id,
+                        it.userRole
+                    )
+                )
+            )
+        } ?: showToast(ToastInfo(R.string.unexpected_error_short))
     }
 }

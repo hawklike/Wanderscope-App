@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.AlertDialogInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
@@ -204,10 +205,12 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             View.GONE
         }
         binding.tripOverviewAddButton.visibility = visibility
+        binding.tripOverviewManageTravellers.visibility = visibility
     }
 
     private fun hideActionButton() {
         binding.tripOverviewAddButton.visibility = View.GONE
+        binding.tripOverviewManageTravellers.visibility = View.GONE
     }
 
     private fun editTrip(): Boolean {
@@ -231,7 +234,12 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
 
     private fun leaveTrip(): Boolean {
         val trip = tripOverview ?: return pleaseWait()
-        viewModel.leaveTrip(trip.id)
+        showAlertDialog(AlertDialogInfo(
+            R.string.leave_trip_dialog_title,
+            R.string.leave_trip_dialog_message,
+            positiveButton = R.string.leave,
+            onClickPositive = { _, _ -> viewModel.leaveTrip(trip.id) }
+        ))
         return true
     }
 

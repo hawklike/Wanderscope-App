@@ -35,7 +35,7 @@
             android:id="@+id/loginMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/layout_rounded_background"
+            android:background="@drawable/shape_rounded_top_12"
             android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:context=".auth.login.LoginFragment">

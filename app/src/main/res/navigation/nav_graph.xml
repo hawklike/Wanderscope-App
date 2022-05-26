@@ -116,6 +116,9 @@
         <action
             android:id="@+id/action_tripPagerFragment_to_accommodationOverviewFragment"
             app:destination="@id/accommodationOverviewFragment" />
+        <action
+            android:id="@+id/action_tripPagerFragment_to_tripUsersFragment"
+            app:destination="@id/tripUsersFragment" />
     </fragment>
 
     <fragment
@@ -250,6 +253,45 @@
         <action
             android:id="@+id/action_accommodationOverviewFragment_to_accommodationAddEditFragment"
             app:destination="@id/accommodationAddEditFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tripUsersFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.trip.users.TripUsersFragment"
+        android:label="">
+        <argument
+            android:name="tripId"
+            app:argType="integer" />
+        <argument
+            android:name="userRole"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole" />
+        <action
+            android:id="@+id/action_tripUsersFragment_to_tripUsersAddEditFragment"
+            app:destination="@id/tripUsersAddEditFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tripUsersAddEditFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.trip.users.crud.TripUsersAddEditFragment"
+        android:label="">
+        <argument
+            android:name="tripId"
+            app:argType="integer" />
+        <argument
+            android:name="userRole"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole" />
+        <argument
+            android:name="purpose"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.app.common.Purpose" />
+        <argument
+            android:name="username"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="whomId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 
 </navigation>

@@ -9,6 +9,7 @@ import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
+import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
@@ -53,7 +54,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     val loading = LoadingMediator(
         pointOverviewLoading,
         documentsLoading
-    ).delayAndReturn(200) //smooth loading
+    ).delayAndReturn(Constants.DELAY_LOADING) //smooth loading
 
     val website = MutableLiveData<String?>()
 

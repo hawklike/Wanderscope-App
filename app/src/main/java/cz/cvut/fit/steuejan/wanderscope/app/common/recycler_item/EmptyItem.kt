@@ -11,7 +11,7 @@ data class EmptyItem(
     @DrawableRes val image: Int = R.drawable.image_not_found,
     @StringRes val subtitle: Int? = null,
     @DimenRes val marginTop: Int = R.dimen.margin_0,
-    @DimenRes val marginBottom: Int = R.dimen.margin_0,
+    @DimenRes val marginBottom: Int = R.dimen.app_recycler_item_bottom_margin,
     @DimenRes val marginStart: Int = R.dimen.margin_0,
     @DimenRes val marginEnd: Int = R.dimen.margin_0,
 ) : RecyclerItem {

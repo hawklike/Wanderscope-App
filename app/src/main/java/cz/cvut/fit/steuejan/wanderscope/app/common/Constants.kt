@@ -21,4 +21,6 @@ object Constants {
     const val LAT_LEN_LENGTH = 15
 
     const val OTHER_MAX_LEN = 1000
+
+    const val DELAY_LOADING = 200L
 }
