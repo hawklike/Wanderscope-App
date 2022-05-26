@@ -84,6 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/app_trip_overview_item_padding_vertical"
+                android:clickable="false"
                 android:background="@drawable/ic_menu"
                 android:backgroundTint="@color/colorOnSecondary"
                 app:layout_constraintBottom_toBottomOf="parent"

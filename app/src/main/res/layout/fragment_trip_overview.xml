@@ -18,15 +18,15 @@
             android:id="@+id/tripOverviewShimmer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
             android:layout_marginBottom="20dp"
+            android:visibility="gone"
             tools:visibility="gone">
 
             <include layout="@layout/layout_shimmer_placeholder" />
 
         </com.facebook.shimmer.ShimmerFrameLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/tripOverviewContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -60,8 +60,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
                         android:layout_marginTop="@dimen/app_text_input_label_margin"
-                        android:textIsSelectable="true"
                         android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                        android:textIsSelectable="true"
                         app:duration="@{vm.duration}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tripOverviewDurationLabel"
@@ -85,8 +85,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
                         android:layout_marginTop="@dimen/app_text_input_label_margin"
-                        android:textIsSelectable="true"
                         android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                        android:textIsSelectable="true"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tripOverviewDescriptionLabel"
                         app:textOrGone="@{vm.description}"
@@ -223,6 +223,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+                        android:onClick="@{() -> vm.manageUsers()}"
                         android:gravity="end"
                         android:text="@string/manage"
                         app:layout_constraintBottom_toBottomOf="@id/tripOverviewTravellersLabel"
@@ -261,16 +262,16 @@
                 style="@style/Widget.Wanderscope.FloatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
                 android:layout_marginEnd="@dimen/app_fab_margin"
                 android:layout_marginBottom="@dimen/app_fab_margin"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
                 app:sdMainFabClosedBackgroundColor="@color/colorPrimary"
                 app:sdMainFabClosedSrc="@drawable/ic_add"
                 app:sdMainFabOpenedBackgroundColor="@color/colorPrimary"
                 app:sdUseReverseAnimationOnClose="true" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

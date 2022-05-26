@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
+import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.delayAndReturn
@@ -24,7 +25,7 @@ class TripItineraryFragmentVM(
 
     private val itineraryLoading = MutableLiveData<Boolean>()
 
-    val loading = LoadingMediator(itineraryLoading).delayAndReturn(200)
+    val loading = LoadingMediator(itineraryLoading).delayAndReturn(Constants.DELAY_LOADING)
 
     fun showItinerary(tripId: Int) {
         viewModelScope.launchIO {
