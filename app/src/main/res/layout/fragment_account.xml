@@ -7,33 +7,192 @@
 
         <variable
             name="vm"
-            type="cz.cvut.fit.steuejan.wanderscope.AccountFragmentVM" />
+            type="cz.cvut.fit.steuejan.wanderscope.account.AccountFragmentVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".AccountFragment">
+        tools:context=".account.AccountFragment">
 
-        <TextView
-            android:id="@+id/textview_second"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{vm.text}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/button_second" />
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/accountShimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone"
+            tools:visibility="gone">
 
-        <Button
-            android:id="@+id/button_second"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/previous"
-            app:layout_constraintTop_toBottomOf="@id/textview_second"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            <include layout="@layout/layout_shimmer_placeholder" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/accountContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:id="@+id/accountScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/accountImage"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="@dimen/app_no_toolbar_first_item"
+                        android:background="@drawable/shape_circle"
+                        android:backgroundTint="@color/colorSurface"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accountAcronym"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@{vm.acronym}"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="32sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="A" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/accountUsername"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_32"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="@{vm.username}"
+                        android:textAppearance="@style/TextAppearance.Wanderscope.H1"
+                        app:layout_constraintEnd_toStartOf="@id/accountImage"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/accountImage"
+                        tools:text="Apakrychle" />
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/accountEmail"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_32"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="@{vm.email}"
+                        android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                        android:textColor="@color/colorTextLessImportant"
+                        app:layout_constraintEnd_toStartOf="@id/accountImage"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/accountUsername"
+                        tools:text="apakrychle@dole.vlevo" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/accountLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:text="Account"
+                        android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                        app:layout_constraintTop_toBottomOf="@id/accountEmail" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/accountChangePassword"
+                        style="@style/Widget.Wanderscope.ClickableText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:drawableEnd="@drawable/ic_arrow_forward_16"
+                        android:drawableTint="@color/colorPrimary"
+                        android:text="Change password"
+                        app:layout_constraintTop_toBottomOf="@id/accountLabel" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/accountDisplayNameLabel"
+                        style="@style/Widget.Wanderscope.ClickableText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:clickable="false"
+                        android:text="Display name"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/accountChangePassword" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/accountDisplayNameOnClick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_arrow_forward_16"
+                        android:drawableTint="@color/colorPrimary"
+                        app:layout_constraintTop_toBottomOf="@id/accountDisplayNameLabel"
+                        app:layout_constraintTop_toTopOf="@id/accountDisplayNameLabel" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/accountDisplayName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:clickable="false"
+                        android:ellipsize="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="@{vm.displayName}"
+                        android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                        app:layout_constraintBottom_toBottomOf="@id/accountDisplayNameLabel"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/accountDisplayNameLabel"
+                        tools:text="Tomas Zacatecnik" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/accountSecurityLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="37dp"
+                        android:text="Security"
+                        android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                        app:layout_constraintTop_toBottomOf="@id/accountDisplayNameLabel" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/accountLogoutAll"
+                        style="@style/Widget.Wanderscope.ClickableText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Log out from all devices"
+                        android:textColor="@color/colorText"
+                        app:layout_constraintTop_toBottomOf="@id/accountSecurityLabel" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/accountLogout"
+                        style="@style/Widget.Wanderscope.ClickableText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:onClick="@{() -> vm.logout()}"
+                        android:text="@string/log_out"
+                        android:textColor="@color/colorTextError"
+                        app:layout_constraintTop_toBottomOf="@id/accountLogoutAll" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </ScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

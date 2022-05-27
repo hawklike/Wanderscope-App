@@ -291,6 +291,9 @@
     <string name="change_role_error_1">Cannot leave. Make someone else admin</string>
     <string name="change_role_error_2">At least one admin must stay on this trip</string>
     <string name="user_not_found_error2">User already left the trip</string>
+    <string name="log_out">Log out</string>
+
+    <string name="log_out_dialog_title">Log out?</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
