@@ -22,9 +22,9 @@ class TripsFragment : MvvmFragment<FragmentTripsBinding, TripsFragmentVM>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        handleSwipeRefresh()
         handleTripsRecycler()
         retrieveTrips()
-        handleSwipeRefresh()
     }
 
     private fun retrieveTrips() {

@@ -7,6 +7,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
+import cz.cvut.fit.steuejan.wanderscope.app.extension.delayAndReturn
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
@@ -28,7 +29,7 @@ class TripsFragmentVM(private val tripsRepository: TripsRepository) : BaseViewMo
     val loading = LoadingMediator(
         upcomingTripsLoading,
         pastTripsLoading
-    )
+    ).delayAndReturn(300) //smooth loading
 
     fun getTrips() {
         viewModelScope.launchIO { getUpcomingTrips(this) }
