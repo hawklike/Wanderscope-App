@@ -103,7 +103,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="32dp"
-                        android:text="Account"
+                        android:text="@string/account"
                         android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                         app:layout_constraintTop_toBottomOf="@id/accountEmail" />
 
@@ -115,7 +115,7 @@
                         android:layout_marginTop="12dp"
                         android:drawableEnd="@drawable/ic_arrow_forward_16"
                         android:drawableTint="@color/colorPrimary"
-                        android:text="Change password"
+                        android:text="@string/change_password"
                         app:layout_constraintTop_toBottomOf="@id/accountLabel" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -125,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:clickable="false"
-                        android:text="Display name"
+                        android:text="@string/display_name"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/accountChangePassword" />
 
@@ -160,7 +160,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="37dp"
-                        android:text="Security"
+                        android:text="@string/security"
                         android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
                         app:layout_constraintTop_toBottomOf="@id/accountDisplayNameLabel" />
 
@@ -170,7 +170,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Log out from all devices"
+                        android:onClick="@{() -> vm.logoutAll()}"
+                        android:text="@string/log_out_from_all_devices"
                         android:textColor="@color/colorText"
                         app:layout_constraintTop_toBottomOf="@id/accountSecurityLabel" />
 

@@ -294,6 +294,13 @@
     <string name="log_out">Log out</string>
 
     <string name="log_out_dialog_title">Log out?</string>
+    <string name="security">Security</string>
+    <string name="log_out_from_all_devices">Log out from all devices</string>
+    <string name="change_password">Change password</string>
+    <string name="display_name">Display name</string>
+    <string name="log_out_all_dialog_title">Log out from all devices?</string>
+    <string name="log_out_all_dialog_message">It might take a few minutes to see the change on all devices.</string>
+    <string name="logging_out">Logging out…</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

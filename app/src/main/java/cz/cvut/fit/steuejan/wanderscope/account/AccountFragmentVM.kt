@@ -13,6 +13,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.delayAndReturn
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
+import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.createAcronym
 import cz.cvut.fit.steuejan.wanderscope.app.util.getName
 
@@ -26,6 +27,8 @@ class AccountFragmentVM(
     val acronym = MutableLiveData<String>()
 
     val logoutEvent = AnySingleLiveEvent()
+    val logoutAllLoading = AnySingleLiveEvent()
+    val logoutAllSuccess = AnySingleLiveEvent()
 
     private val accountLoading = MutableLiveData<Boolean>()
     val loading = LoadingMediator(accountLoading).delayAndReturn(Constants.DELAY_LOADING)
@@ -44,12 +47,17 @@ class AccountFragmentVM(
             accountRepository.getAccount().safeCollect(this) {
                 when (it) {
                     is Result.Cache -> TODO()
-                    is Result.Failure -> unexpectedError(it.error)
+                    is Result.Failure -> getAccountFailure(it.error)
                     is Result.Loading -> accountLoading.value = true
                     is Result.Success -> getAccountSuccess(it.data)
                 }
             }
         }
+    }
+
+    private fun getAccountFailure(error: Error) {
+        accountLoading.value = false
+        unexpectedError(error)
     }
 
     private fun getAccountSuccess(data: AccountResponse) {
@@ -61,5 +69,33 @@ class AccountFragmentVM(
                 .split(" ")
         ) ?: data.username.first().toString()
         accountLoading.value = false
+    }
+
+    fun logoutAll() {
+        showAlertDialog(
+            AlertDialogInfo(
+                R.string.log_out_all_dialog_title,
+                message = R.string.log_out_all_dialog_message,
+                positiveButton = R.string.log_out,
+                onClickPositive = { _, _ -> logoutAllDevices() })
+        )
+    }
+
+    private fun logoutAllDevices() {
+        viewModelScope.launchIO {
+            accountRepository.logoutAll().safeCollect(this) {
+                when (it) {
+                    is Result.Cache -> TODO()
+                    is Result.Failure -> logoutFailure(it.error)
+                    is Result.Loading -> logoutAllLoading.publish()
+                    is Result.Success -> logoutAllSuccess.publish()
+                }
+            }
+        }
+    }
+
+    private fun logoutFailure(error: Error) {
+        logoutAllLoading.value = false
+        unexpectedError(error)
     }
 }

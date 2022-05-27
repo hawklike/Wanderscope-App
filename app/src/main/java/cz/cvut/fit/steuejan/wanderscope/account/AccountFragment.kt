@@ -3,7 +3,9 @@ package cz.cvut.fit.steuejan.wanderscope.account
 import android.os.Bundle
 import android.view.View
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentAccountBinding
@@ -27,6 +29,7 @@ class AccountFragment : MvvmFragment<FragmentAccountBinding, AccountFragmentVM>(
         super.onViewCreated(view, savedInstanceState)
         handleLoading()
         handleLogout()
+        handleLogoutAllDevices()
     }
 
     private fun handleLoading() {
@@ -40,6 +43,23 @@ class AccountFragment : MvvmFragment<FragmentAccountBinding, AccountFragmentVM>(
 
     private fun handleLogout() {
         viewModel.logoutEvent.safeObserve {
+            logout()
+        }
+    }
+
+    private var logoutAllSnackbar: Snackbar? = null
+
+    private fun handleLogoutAllDevices() {
+        viewModel.logoutAllLoading.safeObserve {
+            logoutAllSnackbar = showSnackbar(
+                SnackbarInfo(
+                    R.string.logging_out,
+                    length = Snackbar.LENGTH_INDEFINITE
+                )
+            )
+        }
+        viewModel.logoutAllSuccess.safeObserve {
+            logoutAllSnackbar?.dismiss()
             logout()
         }
     }

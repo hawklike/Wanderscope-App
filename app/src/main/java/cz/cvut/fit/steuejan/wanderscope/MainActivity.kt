@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.libraries.places.api.Places
+import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmActivity
 import cz.cvut.fit.steuejan.wanderscope.app.nav.WithBottomNavigationBar
 import cz.cvut.fit.steuejan.wanderscope.app.toolbar.WithToolbar
@@ -74,6 +75,11 @@ class MainActivity : MvvmActivity<ActivityMainBinding, MainActivityVM>(
 
     override fun hideBottomNavigation() {
         binding.bottomNavigation.visibility = GONE
+    }
+
+    override fun showSnackbar(snackbar: Snackbar) {
+        snackbar.anchorView = binding.bottomNavigation
+        snackbar.show()
     }
 
     override fun showToolbar() {
