@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.account
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResultListener
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.R
@@ -9,6 +10,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentAccountBinding
+import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
 
 class AccountFragment : MvvmFragment<FragmentAccountBinding, AccountFragmentVM>(
     R.layout.fragment_account,
@@ -22,6 +24,7 @@ class AccountFragment : MvvmFragment<FragmentAccountBinding, AccountFragmentVM>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupFragmentResultListener()
         viewModel.getAccount()
     }
 
@@ -31,6 +34,17 @@ class AccountFragment : MvvmFragment<FragmentAccountBinding, AccountFragmentVM>(
         handleLogout()
         handleLogoutAllDevices()
         handleDeleteAccount()
+    }
+
+    private fun setupFragmentResultListener() {
+        setFragmentResultListener(FRAGMENT_RESULT_REQUEST_KEY) { _, bundle ->
+            val result = bundle.getParcelable<Load>(FRAGMENT_RESULT_BUNDLE)
+                ?: return@setFragmentResultListener
+            if (result == Load.ALL) {
+                viewModel.getAccount()
+                showToast(R.string.updating_display_name)
+            }
+        }
     }
 
     private fun handleLoading() {
@@ -80,5 +94,10 @@ class AccountFragment : MvvmFragment<FragmentAccountBinding, AccountFragmentVM>(
             deleteAccountSnackbar?.dismiss()
             logout()
         }
+    }
+
+    companion object {
+        const val FRAGMENT_RESULT_REQUEST_KEY = "accountFragmentRequestKey"
+        const val FRAGMENT_RESULT_BUNDLE = "accountFragmentBundle"
     }
 }

@@ -123,6 +123,20 @@ class AccountFragmentVM(
     }
 
     fun changePassword() {
-        navigateTo(Action(AccountFragmentDirections.actionAccountFragmentToChangePasswordFragment()))
+        navigateTo(
+            Action(
+                AccountFragmentDirections
+                    .actionAccountFragmentToChangePasswordFragment()
+            )
+        )
+    }
+
+    fun setDisplayName() {
+        navigateTo(
+            Action(
+                AccountFragmentDirections
+                    .actionAccountFragmentToDisplayNameFragment(displayName.value)
+            )
+        )
     }
 }

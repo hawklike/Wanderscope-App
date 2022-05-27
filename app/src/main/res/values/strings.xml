@@ -71,6 +71,10 @@
     <string name="passwords_same_as_new">The password is the same as the new one</string>
     <string name="entered_password_is_wrong">The entered password is wrong</string>
     <string name="password_changed">Password changed</string>
+    <string name="display_name_subtitle">Display name will be visible for other users instead of your username. Leave blank if you want to remove your display name.</string>
+    <string name="change_display_name">Change display name</string>
+    <string name="set_display_name">Set display name</string>
+    <string name="updating_display_name">Updating display name</string>
 
     <string name="duration_between_two_dates" translatable="false">%1$s - %2$s</string>
     <string name="duration_days_hours_minutes">%1$dd %2$dh %3$dm</string>
@@ -313,6 +317,11 @@
     <string name="delete_account_dialog_message">Are you completely sure you want to delete your account?</string>
     <string name="delete_account_dialog_positive">Delete my account</string>
     <string name="deleting_account">Deleting account…</string>
+    <string name="current_password">Current password</string>
+    <string name="your_current_password">Your current password</string>
+    <string name="new_password">New password</string>
+    <string name="your_new_password">Your new password</string>
+    <string name="your_display_name">Your display name</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
