@@ -31,15 +31,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tripItinerary"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/tripItinerarySwipeRefresh"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:recyclerItems="@{vm.itinerary}"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_itinerary" />
+                android:layout_height="wrap_content"
+                app:progressColor="@{@color/colorPrimary}"
+                app:refreshing="@{vm.loading}">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tripItinerary"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:recyclerItems="@{vm.itinerary}"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_itinerary" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <com.leinardi.android.speeddial.SpeedDialView
                 android:id="@+id/tripItineraryAddButton"
@@ -47,8 +56,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_marginEnd="@dimen/app_fab_margin"
-                android:layout_marginBottom="@dimen/app_fab_margin"
+                android:layout_marginBottom="@dimen/margin_4"
+                android:layout_marginEnd="@dimen/margin_4"
                 app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
                 app:sdMainFabClosedBackgroundColor="@color/colorPrimary"
                 app:sdMainFabClosedSrc="@drawable/ic_add"

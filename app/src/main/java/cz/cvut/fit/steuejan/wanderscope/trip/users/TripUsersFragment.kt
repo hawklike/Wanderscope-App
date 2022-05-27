@@ -44,6 +44,7 @@ class TripUsersFragment : MvvmFragment<
         handleLoading()
         handleActionButton()
         handleRecyclerOnClick()
+        handleSwipeRefresh()
     }
 
     private fun setupFragmentResultListener() {
@@ -78,6 +79,12 @@ class TripUsersFragment : MvvmFragment<
             View.GONE
         }
         binding.manageUsersAdd.visibility = visibility
+    }
+
+    private fun handleSwipeRefresh() {
+        binding.manageUsersSwipeRefresh.setOnRefreshListener {
+            viewModel.loadUsers(args.tripId, args.userRole)
+        }
     }
 
     private fun listenToAddUserClick() {

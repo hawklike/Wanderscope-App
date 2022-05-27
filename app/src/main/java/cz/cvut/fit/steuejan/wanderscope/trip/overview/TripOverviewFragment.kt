@@ -61,6 +61,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         listenToChanges()
         listenToLeaveTrip()
         prepareActionButton(binding.tripOverviewAddButton)
+        handleSwipeRefresh()
     }
 
     private fun listenToChanges() {
@@ -89,6 +90,12 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         viewModel.tripOverview.safeObserve {
             tripOverview = it
             showActionButton(it.userRole)
+        }
+    }
+
+    private fun handleSwipeRefresh() {
+        binding.tripOverviewSwipeRefresh.setOnRefreshListener {
+            getTripOverview(Load.ALL)
         }
     }
 

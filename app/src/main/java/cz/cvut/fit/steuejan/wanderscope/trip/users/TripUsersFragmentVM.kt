@@ -15,12 +15,10 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
-import cz.cvut.fit.steuejan.wanderscope.trip.users.repository.TripUserRepository
 import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 
 class TripUsersFragmentVM(
-    private val tripRepository: TripRepository,
-    private val tripUserRepository: TripUserRepository
+    private val tripRepository: TripRepository
 ) : BaseViewModel() {
 
     val users = MutableLiveData<List<RecyclerItem>>()
