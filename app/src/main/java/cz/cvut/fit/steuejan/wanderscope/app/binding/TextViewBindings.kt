@@ -3,6 +3,7 @@ package cz.cvut.fit.steuejan.wanderscope.app.binding
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.databinding.BindingAdapter
+import cz.cvut.fit.steuejan.wanderscope.BuildConfig
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
@@ -98,5 +99,14 @@ private fun TextView.setDaysHoursAndMinutes(dateInfo: DaysHoursMinutes) {
         days != 0 -> context.getString(R.string.duration_days_hours_minutes, days, hours, minutes)
         hours != 0 -> context.getString(R.string.duration_hours_minutes, hours, minutes)
         else -> context.getString(R.string.duration_minutes, minutes)
+    }
+}
+
+@BindingAdapter("showVersion")
+fun TextView.showVersion(show: Boolean) {
+    this.text = if (show) {
+        context.getString(R.string.app_version, BuildConfig.VERSION_NAME)
+    } else {
+        null
     }
 }

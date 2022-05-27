@@ -302,6 +302,8 @@
     <string name="log_out_all_dialog_message">It might take a few minutes to see the change on all devices.</string>
     <string name="logging_out">Logging out…</string>
 
+    <string name="app_version">Version %s</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
