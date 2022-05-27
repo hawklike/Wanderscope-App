@@ -53,6 +53,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="new_to_wanderscope">New to Wanderscope?</string>
     <string name="forgot_password_subtitle">Don\'t worry! It happens. Please enter the email address associated with your account.</string>
+    <string name="change_password_subtitle">Changing password is never a bad idea. Please enter the current password and a new one.</string>
     <string name="submit">Submit</string>
     <string name="sign_up">Sign up</string>
     <string name="register_subtitle">Welcome on board! Happy to see you. You can later sign in with your entered email and password combination.</string>
@@ -66,6 +67,10 @@
     <string name="trips">Trips</string>
     <string name="account">Account</string>
     <string name="upcoming_trips">Upcoming trips</string>
+    <string name="passwords_same_as_current">The password is the same as current</string>
+    <string name="passwords_same_as_new">The password is the same as the new one</string>
+    <string name="entered_password_is_wrong">The entered password is wrong</string>
+    <string name="password_changed">Password changed</string>
 
     <string name="duration_between_two_dates" translatable="false">%1$s - %2$s</string>
     <string name="duration_days_hours_minutes">%1$dd %2$dh %3$dm</string>

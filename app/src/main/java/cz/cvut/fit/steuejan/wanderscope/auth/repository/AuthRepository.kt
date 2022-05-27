@@ -1,5 +1,7 @@
 package cz.cvut.fit.steuejan.wanderscope.auth.repository
 
+import cz.cvut.fit.steuejan.wanderscope.account.api.AccountApi
+import cz.cvut.fit.steuejan.wanderscope.account.api.request.ChangePasswordRequest
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withIO
 import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
@@ -17,7 +19,8 @@ import retrofit2.Response
 
 class AuthRepository(
     private val sessionManager: SessionManager,
-    private val authApi: AuthApi
+    private val authApi: AuthApi,
+    private val accountApi: AccountApi
 ) {
 
     suspend fun register(registerRequest: RegisterRequest): Flow<Result<AuthResponse>> {
@@ -26,6 +29,10 @@ class AuthRepository(
 
     suspend fun login(loginRequest: LoginRequest): Flow<Result<AuthResponse>> {
         return login { authApi.login(loginRequest) }
+    }
+
+    suspend fun changePassword(changePasswordRequest: ChangePasswordRequest): Flow<Result<AuthResponse>> {
+        return login { accountApi.changePassword(changePasswordRequest) }
     }
 
     private suspend fun login(call: suspend () -> Response<AuthResponse>): Flow<Result<AuthResponse>> {

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
@@ -32,10 +33,17 @@ class RegisterFragmentVM(private val authRepository: AuthRepository) : BaseViewM
     }
 
     val validatePassword = password.switchMapSuspend {
-        validator.validatePassword(it)
+        val validation = validator.validatePassword(it)
+        if (validation == OK && !confirmPassword.value.isNullOrBlank()) {
+            validator.validateConfirmPassword(confirmPassword.value, it).also { error ->
+                validateConfirmPassword.value = error
+            }
+        } else {
+            validation
+        }
     }
 
-    val validateConfirmPassword = confirmPassword.switchMapSuspend {
+    val validateConfirmPassword: MutableLiveData<Int> = confirmPassword.switchMapSuspend {
         validator.validateConfirmPassword(password.value, it).also { error ->
             validatePassword.value = error
         }

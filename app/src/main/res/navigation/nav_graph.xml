@@ -126,10 +126,6 @@
         android:name="cz.cvut.fit.steuejan.wanderscope.home.HomeFragment"
         android:label="@string/your_trip"
         tools:layout="@layout/fragment_home">
-
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/accountFragment" />
     </fragment>
 
     <fragment
@@ -137,10 +133,9 @@
         android:name="cz.cvut.fit.steuejan.wanderscope.account.AccountFragment"
         android:label="@string/account"
         tools:layout="@layout/fragment_account">
-
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_accountFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
     </fragment>
 
     <fragment
@@ -153,9 +148,9 @@
             app:argType="integer" />
         <argument
             android:name="response"
+            android:defaultValue="@null"
             app:argType="cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.AccommodationResponse"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -168,9 +163,9 @@
             app:argType="integer" />
         <argument
             android:name="response"
+            android:defaultValue="@null"
             app:argType="cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivityResponse"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -183,9 +178,9 @@
             app:argType="integer" />
         <argument
             android:name="response"
+            android:defaultValue="@null"
             app:argType="cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportResponse"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -198,9 +193,9 @@
             app:argType="integer" />
         <argument
             android:name="response"
+            android:defaultValue="@null"
             app:argType="cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlaceResponse"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -258,7 +253,8 @@
     <fragment
         android:id="@+id/tripUsersFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.trip.users.TripUsersFragment"
-        android:label="">
+        android:label=""
+        tools:layout="@layout/fragment_users_manage">
         <argument
             android:name="tripId"
             app:argType="integer" />
@@ -273,7 +269,8 @@
     <fragment
         android:id="@+id/tripUsersAddEditFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.trip.users.crud.TripUsersAddEditFragment"
-        android:label="">
+        android:label=""
+        tools:layout="@layout/fragment_users_add">
         <argument
             android:name="tripId"
             app:argType="integer" />
@@ -285,13 +282,20 @@
             app:argType="cz.cvut.fit.steuejan.wanderscope.app.common.Purpose" />
         <argument
             android:name="username"
+            android:defaultValue="@null"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <argument
             android:name="whomId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.account.change_password.ChangePasswordFragment"
+        android:label=""
+        tools:layout="@layout/fragment_change_password" />
+
 
 </navigation>

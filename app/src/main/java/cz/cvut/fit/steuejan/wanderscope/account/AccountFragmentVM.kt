@@ -13,6 +13,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.delayAndReturn
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
+import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.createAcronym
 import cz.cvut.fit.steuejan.wanderscope.app.util.getName
@@ -119,5 +120,9 @@ class AccountFragmentVM(
                 }
             }
         }
+    }
+
+    fun changePassword() {
+        navigateTo(Action(AccountFragmentDirections.actionAccountFragmentToChangePasswordFragment()))
     }
 }
