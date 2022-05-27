@@ -27,8 +27,12 @@ class AccountFragmentVM(
     val acronym = MutableLiveData<String>()
 
     val logoutEvent = AnySingleLiveEvent()
+
     val logoutAllLoading = AnySingleLiveEvent()
     val logoutAllSuccess = AnySingleLiveEvent()
+
+    val deleteAccountLoading = AnySingleLiveEvent()
+    val deleteAccountSuccess = AnySingleLiveEvent()
 
     private val accountLoading = MutableLiveData<Boolean>()
     val loading = LoadingMediator(accountLoading).delayAndReturn(Constants.DELAY_LOADING)
@@ -86,7 +90,7 @@ class AccountFragmentVM(
             accountRepository.logoutAll().safeCollect(this) {
                 when (it) {
                     is Result.Cache -> TODO()
-                    is Result.Failure -> logoutFailure(it.error)
+                    is Result.Failure -> unexpectedError(it.error)
                     is Result.Loading -> logoutAllLoading.publish()
                     is Result.Success -> logoutAllSuccess.publish()
                 }
@@ -94,8 +98,26 @@ class AccountFragmentVM(
         }
     }
 
-    private fun logoutFailure(error: Error) {
-        logoutAllLoading.value = false
-        unexpectedError(error)
+    fun deleteAccount() {
+        showAlertDialog(
+            AlertDialogInfo(
+                R.string.delete_account_dialog_title,
+                message = R.string.delete_account_dialog_message,
+                positiveButton = R.string.delete_account_dialog_positive,
+                onClickPositive = { _, _ -> deleteAccountRequest() })
+        )
+    }
+
+    private fun deleteAccountRequest() {
+        viewModelScope.launchIO {
+            accountRepository.deleteAccount().safeCollect(this) {
+                when (it) {
+                    is Result.Cache -> TODO()
+                    is Result.Failure -> unexpectedError(it.error)
+                    is Result.Loading -> deleteAccountLoading.publish()
+                    is Result.Success -> deleteAccountSuccess.publish()
+                }
+            }
+        }
     }
 }

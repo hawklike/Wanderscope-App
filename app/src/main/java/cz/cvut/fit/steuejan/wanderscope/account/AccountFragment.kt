@@ -30,6 +30,7 @@ class AccountFragment : MvvmFragment<FragmentAccountBinding, AccountFragmentVM>(
         handleLoading()
         handleLogout()
         handleLogoutAllDevices()
+        handleDeleteAccount()
     }
 
     private fun handleLoading() {
@@ -60,6 +61,23 @@ class AccountFragment : MvvmFragment<FragmentAccountBinding, AccountFragmentVM>(
         }
         viewModel.logoutAllSuccess.safeObserve {
             logoutAllSnackbar?.dismiss()
+            logout()
+        }
+    }
+
+    private var deleteAccountSnackbar: Snackbar? = null
+
+    private fun handleDeleteAccount() {
+        viewModel.deleteAccountLoading.safeObserve {
+            deleteAccountSnackbar = showSnackbar(
+                SnackbarInfo(
+                    R.string.deleting_account,
+                    length = Snackbar.LENGTH_INDEFINITE
+                )
+            )
+        }
+        viewModel.deleteAccountSuccess.safeObserve {
+            deleteAccountSnackbar?.dismiss()
             logout()
         }
     }

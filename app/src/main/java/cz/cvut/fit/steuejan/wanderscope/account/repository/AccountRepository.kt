@@ -16,4 +16,8 @@ class AccountRepository(private val accountApi: AccountApi) {
     suspend fun logoutAll(): Flow<Result<Unit>> {
         return performCall { accountApi.logoutAll() }.toUnitIfSuccess()
     }
+
+    suspend fun deleteAccount(): Flow<Result<Unit>> {
+        return performCall { accountApi.deleteAccount() }.toUnitIfSuccess()
+    }
 }

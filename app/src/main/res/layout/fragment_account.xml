@@ -149,6 +149,21 @@
                             app:layout_constraintTop_toTopOf="@id/accountDisplayNameLabel" />
 
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accountDelete"
+                            style="@style/Widget.Wanderscope.ClickableText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:clickable="false"
+                            android:drawableEnd="@drawable/ic_error_16"
+                            android:drawableTint="@color/colorTextError"
+                            android:text="@string/delete_account"
+                            android:onClick="@{() -> vm.deleteAccount()}"
+                            android:textColor="@color/colorTextError"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/accountDisplayNameLabel" />
+
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/accountDisplayName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -203,6 +218,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
+                            android:drawableStart="@drawable/ic_logout_16"
+                            android:drawablePadding="@dimen/margin_6"
+                            android:drawableTint="@color/colorTextError"
                             android:onClick="@{() -> vm.logout()}"
                             android:text="@string/log_out"
                             android:textColor="@color/colorTextError"

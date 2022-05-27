@@ -303,6 +303,11 @@
     <string name="logging_out">Logging out…</string>
 
     <string name="app_version">Version %s</string>
+    <string name="delete_account">Delete account</string>
+    <string name="delete_account_dialog_title">Delete account?</string>
+    <string name="delete_account_dialog_message">Are you completely sure you want to delete your account?</string>
+    <string name="delete_account_dialog_positive">Delete my account</string>
+    <string name="deleting_account">Deleting account…</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
