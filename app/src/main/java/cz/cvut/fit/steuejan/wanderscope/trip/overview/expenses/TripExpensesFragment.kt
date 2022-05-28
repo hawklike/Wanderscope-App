@@ -13,5 +13,7 @@ class TripExpensesFragment : ViewPagerFragment<FragmentTripExpensesBinding, Trip
         fun newInstance(): TripExpensesFragment {
             return TripExpensesFragment()
         }
+
+        const val POSITION = 2
     }
 }

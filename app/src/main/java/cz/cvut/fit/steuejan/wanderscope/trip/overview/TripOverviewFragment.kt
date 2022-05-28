@@ -344,6 +344,8 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             }
         }
 
+        const val POSITION = 1
+
         private const val TRIP_ID = "tripId"
         private const val USER_ROLE = "userRole"
     }

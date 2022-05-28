@@ -72,6 +72,7 @@
                     android:backgroundTint="@color/colorSurface"
                     android:paddingHorizontal="@dimen/app_point_overview_type_label_horizontal_padding"
                     android:paddingVertical="@dimen/app_point_overview_type_label_vertical_padding"
+                    android:onClick="@{() -> vm.seeOverview()}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/homeDurarion"
                     app:visibleOrGone="@{vm.seeMoreVisibility}">

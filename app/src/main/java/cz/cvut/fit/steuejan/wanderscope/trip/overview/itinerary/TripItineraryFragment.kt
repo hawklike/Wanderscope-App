@@ -186,6 +186,8 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
             }
         }
 
+        const val POSITION = 0
+
         private const val TRIP_ID = "tripId"
         private const val USER_ROLE = "userRole"
     }

@@ -15,9 +15,11 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.delayAndReturn
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toDurationString
+import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.auth.repository.AuthRepository
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.TripOverviewFragment
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.api.response.TripItineraryResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.bussiness.TripItineraryParser
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.repository.ItineraryRepository
@@ -108,5 +110,20 @@ class HomeFragmentVM(
         this.activeItemIdx.value = activeItemIdx
         itinerary.value = items.ifEmpty { listOf(EmptyItem.itinerary()) }
         itineraryLoading.value = false
+    }
+
+    fun seeOverview() {
+        val trip = tripOverview.value ?: return
+        navigateTo(
+            Action(
+                HomeFragmentDirections.actionHomeFragmentToTripPagerFragment(
+                    trip.id,
+                    trip.name,
+                    hasBottomNavigation = false,
+                    trip.role,
+                    TripOverviewFragment.POSITION
+                )
+            )
+        )
     }
 }
