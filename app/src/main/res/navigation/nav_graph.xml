@@ -145,6 +145,18 @@
         <action
             android:id="@+id/action_homeFragment_to_tripPagerFragment"
             app:destination="@id/tripPagerFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_accommodationAddEditFragment"
+            app:destination="@id/accommodationAddEditFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_activityAddEditFragment"
+            app:destination="@id/activityAddEditFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_placeAddEditFragment"
+            app:destination="@id/placeAddEditFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_transportAddEditFragment"
+            app:destination="@id/transportAddEditFragment" />
     </fragment>
 
     <fragment

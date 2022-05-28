@@ -56,7 +56,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         super.onViewCreated(view, savedInstanceState)
         setTitle()
         handleLoading()
-        handleActionBar()
+        handleActionButton()
         handlePointsRecycler()
         listenToChanges()
         listenToLeaveTrip()
@@ -85,7 +85,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
-    private fun handleActionBar() {
+    private fun handleActionButton() {
         arguments?.getInt(TRIP_ID) ?: return
         hideActionButton()
         viewModel.tripOverview.safeObserve {

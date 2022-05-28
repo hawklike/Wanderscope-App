@@ -27,7 +27,7 @@
 
         </com.facebook.shimmer.ShimmerFrameLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/homeContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -72,7 +72,7 @@
                     android:backgroundTint="@color/colorSurface"
                     android:onClick="@{() -> vm.seeOverview()}"
                     android:paddingHorizontal="@dimen/app_point_overview_type_label_horizontal_padding"
-                    android:paddingVertical="@dimen/app_point_overview_type_label_vertical_padding"
+                    android:paddingVertical="9dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/homeDurarion"
                     app:visibleOrGone="@{vm.seeMoreVisibility}">
@@ -112,10 +112,21 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- todo add action button-->
+            <com.leinardi.android.speeddial.SpeedDialView
+                android:id="@+id/homeAddButton"
+                style="@style/Widget.Wanderscope.FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="@dimen/margin_4"
+                android:layout_marginBottom="@dimen/margin_4"
+                app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+                app:sdMainFabClosedBackgroundColor="@color/colorPrimary"
+                app:sdMainFabClosedSrc="@drawable/ic_add"
+                app:sdMainFabOpenedBackgroundColor="@color/colorPrimary"
+                app:sdUseReverseAnimationOnClose="true" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

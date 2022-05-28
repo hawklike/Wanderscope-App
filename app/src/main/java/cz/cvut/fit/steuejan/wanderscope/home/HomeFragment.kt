@@ -8,10 +8,12 @@ import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentHomeBinding
 import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
+import cz.cvut.fit.steuejan.wanderscope.trip.common.WithAddPointActionButton
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.TripItineraryItem
 import cz.cvut.fit.steuejan.wanderscope.trips.api.response.TripOverviewResponse
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -20,7 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
     R.layout.fragment_home,
     HomeFragmentVM::class
-), WithLoading, WithRecycler {
+), WithLoading, WithRecycler, WithAddPointActionButton {
 
     override val hasToolbar = false
 
@@ -46,10 +48,12 @@ class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
         super.onViewCreated(view, savedInstanceState)
         handleLogin()
         handleLoading()
+        handleActionButton()
         updateTripOverview()
         handleRecyclerScrolling()
         handleRecyclerOnClick()
         listenToChanges()
+        prepareActionButton(binding.homeAddButton)
         handleSwipeRefresh()
     }
 
@@ -161,4 +165,52 @@ class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
         )
     }
 
+    private fun handleActionButton() {
+        binding.homeAddButton.visibility = View.GONE
+        viewModel.tripOverview.safeObserve {
+            tripOverview = it
+            showActionButton(it.role)
+        }
+    }
+
+    private fun showActionButton(userRole: UserRole) {
+        val visibility = if (userRole.canEdit()) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        binding.homeAddButton.visibility = visibility
+    }
+
+    override fun addAccommodation() {
+        navigateTo(
+            HomeFragmentDirections.actionHomeFragmentToAccommodationAddEditFragment(
+                tripOverview?.id ?: return
+            )
+        )
+    }
+
+    override fun addActivity() {
+        navigateTo(
+            HomeFragmentDirections.actionHomeFragmentToActivityAddEditFragment(
+                tripOverview?.id ?: return
+            )
+        )
+    }
+
+    override fun addTransport() {
+        navigateTo(
+            HomeFragmentDirections.actionHomeFragmentToTransportAddEditFragment(
+                tripOverview?.id ?: return
+            )
+        )
+    }
+
+    override fun addPlace() {
+        navigateTo(
+            HomeFragmentDirections.actionHomeFragmentToPlaceAddEditFragment(
+                tripOverview?.id ?: return
+            )
+        )
+    }
 }
