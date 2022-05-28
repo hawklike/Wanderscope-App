@@ -79,6 +79,22 @@ class InputValidator {
         } ?: OK
     }
 
+    fun validateExtension(extension: String?): Int {
+        return if (extension?.lowercase() !in listOf("pdf", "png", "jpg", "jpeg", "gif", "gpx")) {
+            R.string.upload_document_extensions
+        } else {
+            OK
+        }
+    }
+
+    fun validateDocumentSize(size: Int?): Int {
+        return if (size ?: 0 > Constants.DOCUMENT_MAX_SIZE) {
+            R.string.upload_document_too_large
+        } else {
+            OK
+        }
+    }
+
     private fun String.isNameAllowed(): Boolean {
         val regex = Regex("^[^\r\n;~]+$")
         return this matches regex

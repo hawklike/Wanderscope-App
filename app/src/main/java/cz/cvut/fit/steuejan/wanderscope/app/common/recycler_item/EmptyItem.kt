@@ -75,12 +75,5 @@ open class EmptyItem(
             R.drawable.image_not_found,
             marginTop = R.dimen.app_first_item_overview_margin
         )
-
-        fun homeScreen() = EmptyItem(
-            R.string.no_upcoming_trips_title,
-            R.drawable.image_not_found,
-            marginTop = R.dimen.app_first_item_overview_margin,
-            buttonText = R.string.add_trip
-        )
     }
 }

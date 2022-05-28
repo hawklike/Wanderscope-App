@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="cz.cvut.fit.steuejan.wanderscope.document.UploadDocumentFragmentVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
+
+        <ScrollView
+            android:id="@+id/uploadFileScroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/app_text_input_margin"
+            app:layout_constraintBottom_toTopOf="@id/uploadFileButton"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/uploadFileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/image_upload_document"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/uploadFileTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/upload_file"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/uploadFileImage" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/uploadFileSubtitle"
+                    style="@style/Widget.Wanderscope.LessImportantText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_subtitle_margin"
+                    android:text="@string/upload_document_subtitle"
+                    app:layout_constraintTop_toBottomOf="@id/uploadFileTitle" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/uploadFileNameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_layout_first_item_margin"
+                    android:animateLayoutChanges="true"
+                    android:text="@string/filename"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/uploadFileSubtitle"
+                    app:visibleOrGone="@{vm.filenameVisibility}" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/uploadFileName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:errorText="@{vm.validateFilename}"
+                    app:layout_constraintTop_toBottomOf="@id/uploadFileNameLabel"
+                    app:visibleOrGone="@{vm.filenameVisibility}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/name_of_the_file"
+                        android:inputType="text"
+                        android:text="@={vm.filename}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/uploadFileChooseFileButton"
+                    style="@style/Widget.Wanderscope.ClickableText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/choose_a_file"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintTop_toBottomOf="@id/uploadFileName"
+                    app:topMargin="@{vm.filenameVisibility ? @dimen/margin_8 : @dimen/margin_24}" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/uploadFileButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/app_button_bottom_margin"
+            android:text="@string/upload_file"
+            app:isEnabled="@{vm.enableSubmit}"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

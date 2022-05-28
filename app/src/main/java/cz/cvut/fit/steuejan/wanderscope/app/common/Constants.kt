@@ -23,4 +23,6 @@ object Constants {
     const val OTHER_MAX_LEN = 1000
 
     const val DELAY_LOADING = 200L
+
+    const val DOCUMENT_MAX_SIZE = 10000000
 }

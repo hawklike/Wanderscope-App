@@ -73,6 +73,11 @@ class HomeFragmentVM(
         }
     }
 
+    //todo remove
+    fun onClick() {
+        navigateTo(Action(HomeFragmentDirections.actionHomeFragmentToUploadDocumentFragment()))
+    }
+
     private fun failure(error: Error, loading: MutableLiveData<Boolean>) {
         loading.value = false
         unexpectedError(error)
