@@ -4,24 +4,31 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
+import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
+import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.delayAndReturn
 import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toDurationString
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.auth.repository.AuthRepository
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.api.response.TripItineraryResponse
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.bussiness.TripItineraryParser
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.repository.ItineraryRepository
+import cz.cvut.fit.steuejan.wanderscope.trips.api.response.TripOverviewResponse
 import cz.cvut.fit.steuejan.wanderscope.trips.api.response.TripsResponse
 import cz.cvut.fit.steuejan.wanderscope.trips.model.TripsScope
 import cz.cvut.fit.steuejan.wanderscope.trips.repository.TripsRepository
 
 class HomeFragmentVM(
     private val authRepository: AuthRepository,
-    private val tripsRepository: TripsRepository
+    private val tripsRepository: TripsRepository,
+    private val itineraryRepository: ItineraryRepository
 ) : BaseViewModel() {
 
     val shouldLogin = liveData {
@@ -33,12 +40,22 @@ class HomeFragmentVM(
     val seeMoreVisibility = MutableLiveData<Boolean>()
 
     private val recommendedTripLoading = MutableLiveData<Boolean>()
+    private val itineraryLoading = MutableLiveData<Boolean>()
+
+    val itinerary = MutableLiveData<List<RecyclerItem>>()
+    val activeItemIdx = MutableLiveData<Int>()
+
+    val tripOverview = MutableLiveData<TripOverviewResponse>()
 
     val loading = LoadingMediator(
-        recommendedTripLoading
+        recommendedTripLoading,
+        itineraryLoading
     ).delayAndReturn(Constants.DELAY_LOADING)
 
+    private var init = true
+
     fun getRecommendedTrip(emptyTitle: String, init: Boolean) {
+        this.init = init
         viewModelScope.launchIO {
             tripsRepository.getTrips(TripsScope.RECOMMENDED).safeCollect(this) {
                 when (it) {
@@ -62,10 +79,34 @@ class HomeFragmentVM(
             duration.value = Duration().toDurationString()
             title.value = emptyTitle
         } else with(data.trips.first()) {
+            tripOverview.value = this
             this@HomeFragmentVM.duration.value = duration.toDurationString()
             title.value = name
             seeMoreVisibility.value = true
+            if (init) {
+                getItinerary(id)
+            }
         }
         recommendedTripLoading.value = false
+    }
+
+    fun getItinerary(tripId: Int) {
+        viewModelScope.launchIO {
+            itineraryRepository.getItinerary(tripId).safeCollect(this) {
+                when (it) {
+                    is Result.Cache -> TODO()
+                    is Result.Failure -> failure(it.error, itineraryLoading)
+                    is Result.Loading -> itineraryLoading.value = true
+                    is Result.Success -> itinerarySuccess(it.data)
+                }
+            }
+        }
+    }
+
+    private suspend fun itinerarySuccess(data: TripItineraryResponse) {
+        val (activeItemIdx, items) = TripItineraryParser(data).prepareItems()
+        this.activeItemIdx.value = activeItemIdx
+        itinerary.value = items.ifEmpty { listOf(EmptyItem.itinerary()) }
+        itineraryLoading.value = false
     }
 }

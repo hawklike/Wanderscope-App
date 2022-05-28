@@ -56,6 +56,22 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         super.onDestroy()
     }
 
+    protected fun updateTrip(update: Boolean = true, onBackground: Boolean = false) {
+        if (onBackground) {
+            mainViewModel.updateTrip.postValue(update)
+        } else {
+            mainViewModel.updateTrip.value = update
+        }
+    }
+
+    protected fun updateTripPoint(update: Boolean = true, onBackground: Boolean = false) {
+        if (onBackground) {
+            mainViewModel.updateTripPoint.postValue(update)
+        } else {
+            mainViewModel.updateTripPoint.value = update
+        }
+    }
+
     private fun listenToNavigate() {
         viewModel.navigateEvent.safeObserve {
             when (it) {

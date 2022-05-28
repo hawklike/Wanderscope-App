@@ -322,7 +322,7 @@
     <string name="new_password">New password</string>
     <string name="your_new_password">Your new password</string>
     <string name="your_display_name">Your display name</string>
-    <string name="see_more">See more</string>
+    <string name="see_overview">See overview</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

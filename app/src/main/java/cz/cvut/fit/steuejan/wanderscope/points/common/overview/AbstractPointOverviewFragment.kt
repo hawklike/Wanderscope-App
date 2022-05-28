@@ -121,6 +121,7 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
     private fun handleSuccessDelete() {
         abstractViewModel?.deleteIsSuccess?.safeObserve {
             deleteSnackbar?.dismiss()
+            updateTripPoint()
             setFragmentResult()
             navigateBack()
         }

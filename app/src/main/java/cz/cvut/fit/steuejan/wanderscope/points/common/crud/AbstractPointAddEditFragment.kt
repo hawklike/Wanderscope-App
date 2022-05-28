@@ -108,6 +108,7 @@ abstract class AbstractPointAddEditFragment<B : ViewDataBinding, VM : BaseViewMo
 
     protected open fun handleSuccess() {
         abstractViewModel?.requestIsSuccess?.safeObserve {
+            updateTripPoint()
             setFragmentResult()
             navigateBack()
         }

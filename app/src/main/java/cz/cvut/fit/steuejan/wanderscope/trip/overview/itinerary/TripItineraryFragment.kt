@@ -3,7 +3,6 @@ package cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.facebook.shimmer.ShimmerFrameLayout
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
@@ -92,8 +91,7 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
     private fun handleRecyclerScrolling() {
         viewModel.activeItemIdx.safeObserve {
             if (initScrolling) {
-                (binding.tripItinerary.layoutManager as? LinearLayoutManager)
-                    ?.scrollToPositionWithOffset(it, 0)
+                scrollToPosition(binding.tripItinerary, it)
                 initScrolling = false
             }
         }
