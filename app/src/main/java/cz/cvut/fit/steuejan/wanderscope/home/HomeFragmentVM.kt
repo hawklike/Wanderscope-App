@@ -44,7 +44,7 @@ class HomeFragmentVM(
     val seeMoreVisibility = MutableLiveData<Boolean>()
 
     private val recommendedTripLoading = MutableLiveData<Boolean>()
-    private val itineraryLoading = MutableLiveData<Boolean>()
+    val itineraryLoading = MutableLiveData<Boolean>()
 
     val itinerary = MutableLiveData<List<RecyclerItem>>()
     val activeItemIdx = MutableLiveData<Int>()

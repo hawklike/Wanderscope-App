@@ -50,6 +50,7 @@ class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
         handleRecyclerScrolling()
         handleRecyclerOnClick()
         listenToChanges()
+        handleSwipeRefresh()
     }
 
     private fun listenToChanges() {
@@ -96,6 +97,12 @@ class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
     private fun updateTripOverview() {
         viewModel.tripOverview.safeObserve {
             tripOverview = it
+        }
+    }
+
+    private fun handleSwipeRefresh() {
+        binding.homeSwipeRefresh.setOnRefreshListener {
+            viewModel.getItinerary(tripOverview?.id ?: return@setOnRefreshListener)
         }
     }
 
