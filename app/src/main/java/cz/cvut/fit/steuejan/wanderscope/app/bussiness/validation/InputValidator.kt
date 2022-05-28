@@ -47,7 +47,7 @@ class InputValidator {
 
     suspend fun validateDisplayName(displayName: String) = withDefault {
         when {
-            displayName.isBlank() -> R.string.validation_displayname_blank
+            displayName.isBlank() -> OK
             displayName.length < Constants.DISPLAY_NAME_MIN_LENGTH -> R.string.validation_displayname_short
             displayName.length > Constants.DISPLAY_NAME_MAX_LENGTH -> R.string.validation_displayname_long
             !displayName.isNameAllowed() -> R.string.validation_displayname_invalid

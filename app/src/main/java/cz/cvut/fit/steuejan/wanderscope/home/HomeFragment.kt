@@ -19,7 +19,6 @@ class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleLogin()
-        handleLogout()
     }
 
     private fun handleLogin() {
@@ -31,11 +30,4 @@ class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
             }
         }
     }
-
-    private fun handleLogout() {
-        viewModel.logout.safeObserve {
-            logout()
-        }
-    }
-
 }

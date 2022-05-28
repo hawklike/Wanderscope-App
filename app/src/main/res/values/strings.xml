@@ -53,6 +53,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="new_to_wanderscope">New to Wanderscope?</string>
     <string name="forgot_password_subtitle">Don\'t worry! It happens. Please enter the email address associated with your account.</string>
+    <string name="change_password_subtitle">Changing password is never a bad idea. Please enter the current password and a new one.</string>
     <string name="submit">Submit</string>
     <string name="sign_up">Sign up</string>
     <string name="register_subtitle">Welcome on board! Happy to see you. You can later sign in with your entered email and password combination.</string>
@@ -66,6 +67,14 @@
     <string name="trips">Trips</string>
     <string name="account">Account</string>
     <string name="upcoming_trips">Upcoming trips</string>
+    <string name="passwords_same_as_current">The password is the same as current</string>
+    <string name="passwords_same_as_new">The password is the same as the new one</string>
+    <string name="entered_password_is_wrong">The entered password is wrong</string>
+    <string name="password_changed">Password changed</string>
+    <string name="display_name_subtitle">Display name will be visible for other users instead of your username. Leave blank if you want to remove your display name.</string>
+    <string name="change_display_name">Change display name</string>
+    <string name="set_display_name">Set display name</string>
+    <string name="updating_display_name">Updating display name</string>
 
     <string name="duration_between_two_dates" translatable="false">%1$s - %2$s</string>
     <string name="duration_days_hours_minutes">%1$dd %2$dh %3$dm</string>
@@ -291,6 +300,28 @@
     <string name="change_role_error_1">Cannot leave. Make someone else admin</string>
     <string name="change_role_error_2">At least one admin must stay on this trip</string>
     <string name="user_not_found_error2">User already left the trip</string>
+    <string name="log_out">Log out</string>
+
+    <string name="log_out_dialog_title">Log out?</string>
+    <string name="security">Security</string>
+    <string name="log_out_from_all_devices">Log out from all devices</string>
+    <string name="change_password">Change password</string>
+    <string name="display_name">Display name</string>
+    <string name="log_out_all_dialog_title">Log out from all devices?</string>
+    <string name="log_out_all_dialog_message">It might take a few minutes to see the change on all devices.</string>
+    <string name="logging_out">Logging out…</string>
+
+    <string name="app_version">Version %s</string>
+    <string name="delete_account">Delete account</string>
+    <string name="delete_account_dialog_title">Delete account?</string>
+    <string name="delete_account_dialog_message">Are you completely sure you want to delete your account?</string>
+    <string name="delete_account_dialog_positive">Delete my account</string>
+    <string name="deleting_account">Deleting account…</string>
+    <string name="current_password">Current password</string>
+    <string name="your_current_password">Your current password</string>
+    <string name="new_password">New password</string>
+    <string name="your_new_password">Your new password</string>
+    <string name="your_display_name">Your display name</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

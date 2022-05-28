@@ -1,27 +1,27 @@
 package cz.cvut.fit.steuejan.wanderscope.account.api
 
+import cz.cvut.fit.steuejan.wanderscope.account.api.request.ChangeDisplayNameRequest
+import cz.cvut.fit.steuejan.wanderscope.account.api.request.ChangePasswordRequest
+import cz.cvut.fit.steuejan.wanderscope.account.api.response.AccountResponse
+import cz.cvut.fit.steuejan.wanderscope.auth.api.response.AuthResponse
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
-data class DateRequest(
-    val YYYY: Int,
-    val MM: Int,
-    val dd: Int,
-    val hh: Int,
-    val mm: Int?
-)
-
-data class DateResponse(
-    val time: String
-)
 
 interface AccountApi {
 
-    @POST("/time")
-    suspend fun postDate(@Body date: DateRequest): Response<DateResponse>
+    @GET("/account")
+    suspend fun getAccount(): Response<AccountResponse>
 
-    @GET("/expiration")
-    suspend fun getExpiration(): Response<String>
+    @POST("/account/logoutAll")
+    suspend fun logoutAll(): Response<Unit>
+
+    @DELETE("/account")
+    suspend fun deleteAccount(): Response<Unit>
+
+    @POST("/account/changePassword")
+    suspend fun changePassword(@Body request: ChangePasswordRequest): Response<AuthResponse>
+
+    @PUT("/account/name")
+    suspend fun changeDisplayName(@Body request: ChangeDisplayNameRequest): Response<Unit>
 }

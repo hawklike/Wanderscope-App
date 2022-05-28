@@ -138,7 +138,8 @@ abstract class BaseFragment : Fragment() {
                     action.invoke(this)
                 }
             }
-        }.show()
+        }
+        (activity as? WithBottomNavigationBar)?.showSnackbar(snack)
         return snack
     }
 
