@@ -15,13 +15,119 @@
         android:layout_height="match_parent"
         tools:context=".home.HomeFragment">
 
-        <TextView
-            android:id="@+id/textview_first"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_first_fragment"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/homeShimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone"
+            tools:visibility="gone">
+
+            <include layout="@layout/layout_shimmer_placeholder" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/homeContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/homeTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_no_toolbar_first_item"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@{vm.title}"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Barcelona" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/homeDurarion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                    app:duration="@{vm.duration}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/homeTitle"
+                    tools:text="Nov 10, 2022 - Nov 14, 2022" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/homeSeeMore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_point_overview_type_label_margin"
+                    android:background="@drawable/shape_rounded_32"
+                    android:backgroundTint="@color/colorSurface"
+                    android:onClick="@{() -> vm.seeOverview()}"
+                    android:paddingHorizontal="@dimen/app_point_overview_type_label_horizontal_padding"
+                    android:paddingVertical="9dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/homeDurarion"
+                    app:visibleOrGone="@{vm.visibility}">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/see_overview"
+                        android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                        android:textColor="@color/colorPrimary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/homeSwipeRefresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_8"
+                    app:layout_constraintTop_toBottomOf="@id/homeSeeMore"
+                    app:progressColor="@{@color/colorPrimary}"
+                    app:refreshing="@{vm.itineraryLoading}">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/homeItinerary"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/homeSeeMore"
+                        app:recyclerItems="@{vm.itinerary}"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_itinerary" />
+
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.leinardi.android.speeddial.SpeedDialView
+                android:id="@+id/homeAddButton"
+                style="@style/Widget.Wanderscope.FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="@dimen/margin_4"
+                android:layout_marginBottom="@dimen/margin_4"
+                app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+                app:sdMainFabClosedBackgroundColor="@color/colorPrimary"
+                app:sdMainFabClosedSrc="@drawable/ic_add"
+                app:sdMainFabOpenedBackgroundColor="@color/colorPrimary"
+                app:sdUseReverseAnimationOnClose="true"
+                app:visibleOrGone="@{vm.visibility}" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

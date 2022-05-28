@@ -322,6 +322,9 @@
     <string name="new_password">New password</string>
     <string name="your_new_password">Your new password</string>
     <string name="your_display_name">Your display name</string>
+    <string name="see_overview">See overview</string>
+    <string name="home_screen_empty_title">Your upcoming trip</string>
+    <string name="home_screen_empty_item_title">You have no upcoming trip yet</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

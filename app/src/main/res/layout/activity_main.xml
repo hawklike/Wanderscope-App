@@ -39,6 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            app:itemIconTint="@color/bottom_navigation_bar_icon_color"
+            app:itemTextColor="@color/bottom_navigation_bar_text_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/drawer_bottom_nav_menu" />
 

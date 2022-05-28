@@ -56,10 +56,11 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         super.onViewCreated(view, savedInstanceState)
         setTitle()
         handleLoading()
-        handleActionBar()
+        handleActionButton()
         handlePointsRecycler()
         listenToChanges()
         listenToLeaveTrip()
+        listenToDeleteTrip()
         prepareActionButton(binding.tripOverviewAddButton)
         handleSwipeRefresh()
     }
@@ -84,7 +85,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
-    private fun handleActionBar() {
+    private fun handleActionButton() {
         arguments?.getInt(TRIP_ID) ?: return
         hideActionButton()
         viewModel.tripOverview.safeObserve {
@@ -268,6 +269,19 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
+    private fun listenToDeleteTrip() {
+        viewModel.deleteTripSuccess.safeObserve {
+            updateTrip()
+            showSnackbar(
+                SnackbarInfo(
+                    R.string.successfully_deleted,
+                    length = Snackbar.LENGTH_SHORT
+                )
+            )
+            navigateBack()
+        }
+    }
+
     private fun saveToCalendar(): Boolean {
         val trip = tripOverview ?: return pleaseWait()
         with(trip) {
@@ -329,6 +343,8 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
                 }
             }
         }
+
+        const val POSITION = 1
 
         private const val TRIP_ID = "tripId"
         private const val USER_ROLE = "userRole"

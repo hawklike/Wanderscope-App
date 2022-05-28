@@ -36,6 +36,7 @@ abstract class BaseFragment : Fragment() {
     open val title: String? = null
 
     protected open val sharedViewModel: SharedViewModel by sharedViewModel<MainActivityVM>()
+    protected open val mainViewModel by sharedViewModel<MainActivityVM>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -1,6 +1,7 @@
 package cz.cvut.fit.steuejan.wanderscope.app.arch.adapter
 
 import androidx.annotation.IdRes
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 interface WithRecycler {
@@ -24,5 +25,10 @@ interface WithRecycler {
         adapter.setOnClickListener(onClickListener)
         recyclerView.adapter = adapter
         return adapter
+    }
+
+    fun scrollToPosition(recyclerView: RecyclerView, position: Int) {
+        (recyclerView.layoutManager as? LinearLayoutManager)
+            ?.scrollToPositionWithOffset(position, 0)
     }
 }

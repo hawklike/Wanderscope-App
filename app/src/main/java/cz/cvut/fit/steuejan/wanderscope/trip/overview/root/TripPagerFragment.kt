@@ -2,10 +2,12 @@ package cz.cvut.fit.steuejan.wanderscope.trip.overview.root
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
@@ -28,6 +30,7 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.savePage(args.pageNumber)
         setupFragmentResultListener()
     }
 
@@ -59,6 +62,21 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = adapter.getTitle(position)
         }.attach()
+
+        setCurrentItem(viewPager)
+    }
+
+    override fun onDestroyView() {
+        viewModel.savePage(binding.tripPagerViewPager.currentItem)
+        super.onDestroyView()
+    }
+
+    private fun setCurrentItem(viewPager: ViewPager2) {
+        viewModel.pageNumber?.safeObserve { page ->
+            viewPager.doOnLayout {
+                viewPager.currentItem = page
+            }
+        }
     }
 
     class TripPagerAdapter(
@@ -71,19 +89,19 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                0 -> TripItineraryFragment.newInstance(tripId, userRole)
-                1 -> TripOverviewFragment.newInstance(tripId, userRole)
-                2 -> TripExpensesFragment.newInstance()
+                TripItineraryFragment.POSITION -> TripItineraryFragment.newInstance(tripId, userRole)
+                TripOverviewFragment.POSITION -> TripOverviewFragment.newInstance(tripId, userRole)
+                TripExpensesFragment.POSITION -> TripExpensesFragment.newInstance()
                 else -> TripItineraryFragment.newInstance(tripId, userRole)
             }
         }
 
         fun getTitle(position: Int): String {
             return when (position) {
-                0 -> fragment.getString(R.string.trip_overview_itinerary)
-                1 -> fragment.getString(R.string.trip_overview_overview)
-                2 -> fragment.getString(R.string.trip_overview_expenses)
-                else -> fragment.getString(R.string.trip_overview_overview)
+                TripItineraryFragment.POSITION -> fragment.getString(R.string.trip_overview_itinerary)
+                TripOverviewFragment.POSITION -> fragment.getString(R.string.trip_overview_overview)
+                TripExpensesFragment.POSITION -> fragment.getString(R.string.trip_overview_expenses)
+                else -> fragment.getString(R.string.trip_overview_itinerary)
             }
         }
     }

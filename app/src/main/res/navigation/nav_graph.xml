@@ -85,6 +85,10 @@
         <argument
             android:name="userRole"
             app:argType="cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole" />
+        <argument
+            android:name="pageNumber"
+            app:argType="integer"
+            android:defaultValue="0" />
         <action
             android:id="@+id/action_tripPagerFragment_to_accountFragment"
             app:destination="@id/accountFragment"
@@ -124,8 +128,38 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.home.HomeFragment"
-        android:label="@string/your_trip"
+        android:label=""
         tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_accommodationOverviewFragment"
+            app:destination="@id/accommodationOverviewFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_activityOverviewFragment"
+            app:destination="@id/activityOverviewFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_placeOverviewFragment"
+            app:destination="@id/placeOverviewFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_transportOverviewFragment"
+            app:destination="@id/transportOverviewFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_tripPagerFragment"
+            app:destination="@id/tripPagerFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_accommodationAddEditFragment"
+            app:destination="@id/accommodationAddEditFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_activityAddEditFragment"
+            app:destination="@id/activityAddEditFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_placeAddEditFragment"
+            app:destination="@id/placeAddEditFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_transportAddEditFragment"
+            app:destination="@id/transportAddEditFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addEditTripFragment"
+            app:destination="@id/addEditTripFragment" />
     </fragment>
 
     <fragment
