@@ -82,6 +82,7 @@ class HomeFragmentVM(
             seeMoreVisibility.value = false
             duration.value = Duration().toDurationString()
             title.value = emptyTitle
+            itinerary.value = listOf()
         } else with(data.trips.first()) {
             tripOverview.value = this
             this@HomeFragmentVM.duration.value = duration.toDurationString()

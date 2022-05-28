@@ -30,6 +30,7 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.savePage(args.pageNumber)
         setupFragmentResultListener()
     }
 
@@ -65,9 +66,16 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
         setCurrentItem(viewPager)
     }
 
+    override fun onDestroyView() {
+        viewModel.savePage(binding.tripPagerViewPager.currentItem)
+        super.onDestroyView()
+    }
+
     private fun setCurrentItem(viewPager: ViewPager2) {
-        viewPager.doOnLayout {
-            viewPager.currentItem = args.pageNumber
+        viewModel.pageNumber?.safeObserve { page ->
+            viewPager.doOnLayout {
+                viewPager.currentItem = page
+            }
         }
     }
 
