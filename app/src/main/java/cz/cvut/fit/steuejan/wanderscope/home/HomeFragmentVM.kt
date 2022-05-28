@@ -16,6 +16,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.toDurationString
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.auth.repository.AuthRepository
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.api.response.TripItineraryResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.bussiness.TripItineraryParser
@@ -28,7 +29,8 @@ import cz.cvut.fit.steuejan.wanderscope.trips.repository.TripsRepository
 class HomeFragmentVM(
     private val authRepository: AuthRepository,
     private val tripsRepository: TripsRepository,
-    private val itineraryRepository: ItineraryRepository
+    private val itineraryRepository: ItineraryRepository,
+    private val sessionManager: SessionManager
 ) : BaseViewModel() {
 
     val shouldLogin = liveData {
@@ -52,11 +54,11 @@ class HomeFragmentVM(
         itineraryLoading
     ).delayAndReturn(Constants.DELAY_LOADING)
 
-    private var init = true
-
-    fun getRecommendedTrip(emptyTitle: String, init: Boolean) {
-        this.init = init
+    fun getRecommendedTrip(emptyTitle: String) {
         viewModelScope.launchIO {
+            if (!sessionManager.isUserLoggedIn()) {
+                return@launchIO
+            }
             tripsRepository.getTrips(TripsScope.RECOMMENDED).safeCollect(this) {
                 when (it) {
                     is Result.Cache -> TODO()
@@ -83,9 +85,7 @@ class HomeFragmentVM(
             this@HomeFragmentVM.duration.value = duration.toDurationString()
             title.value = name
             seeMoreVisibility.value = true
-            if (init) {
-                getItinerary(id)
-            }
+            getItinerary(id)
         }
         recommendedTripLoading.value = false
     }

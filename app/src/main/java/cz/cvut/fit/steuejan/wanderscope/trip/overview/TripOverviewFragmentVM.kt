@@ -14,7 +14,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
-import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Back
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
@@ -65,6 +64,7 @@ class TripOverviewFragmentVM(
 
     val leaveTripLoading = AnySingleLiveEvent()
     val leaveTripSuccess = AnySingleLiveEvent()
+    val deleteTripSuccess = AnySingleLiveEvent()
 
     fun getTrip(tripId: Int, whatToLoad: Load) {
         when (whatToLoad) {
@@ -262,7 +262,7 @@ class TripOverviewFragmentVM(
                     is Result.Cache -> TODO()
                     is Result.Failure -> unexpectedError(it.error)
                     is Result.Loading -> deleteTripLoading()
-                    is Result.Success -> deleteTripSuccess()
+                    is Result.Success -> deleteTripSuccess.publish()
                 }
             }
         }
@@ -275,16 +275,6 @@ class TripOverviewFragmentVM(
                 length = Snackbar.LENGTH_INDEFINITE
             )
         )
-    }
-
-    private fun deleteTripSuccess() {
-        showSnackbar(
-            SnackbarInfo(
-                R.string.successfully_deleted,
-                length = Snackbar.LENGTH_SHORT
-            )
-        )
-        navigateTo(Back)
     }
 
     fun leaveTrip(tripId: Int) {

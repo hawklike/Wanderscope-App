@@ -8,7 +8,11 @@ import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
+import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentHomeBinding
+import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
+import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.TripItineraryItem
 import cz.cvut.fit.steuejan.wanderscope.trips.api.response.TripOverviewResponse
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -25,7 +29,6 @@ class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
 
     private val mainVM by sharedViewModel<MainActivityVM>()
 
-    private var init = true
     private var initScrolling = true
 
     private var tripOverview: TripOverviewResponse? = null
@@ -36,8 +39,7 @@ class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getRecommendedTrip(tripEmptyTitle, init)
-        init = false
+        viewModel.getRecommendedTrip(tripEmptyTitle)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,13 +48,14 @@ class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
         handleLoading()
         updateTripOverview()
         handleRecyclerScrolling()
+        handleRecyclerOnClick()
         listenToChanges()
     }
 
     private fun listenToChanges() {
         mainVM.updateTrip.safeObserve { update ->
             if (update) {
-                viewModel.getRecommendedTrip(tripEmptyTitle, init)
+                viewModel.getRecommendedTrip(tripEmptyTitle)
             }
         }
         mainVM.updateTripPoint.safeObserve { update ->
@@ -95,4 +98,60 @@ class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
             tripOverview = it
         }
     }
+
+    private fun handleRecyclerOnClick() {
+        setAdapterListener(binding.homeItinerary, R.id.itineraryItemCard) { item, _ ->
+            if (item is TripItineraryItem) {
+                when (item.type) {
+                    TripPointType.ACCOMMODATION -> goToAccommodation(item)
+                    TripPointType.ACTIVITY -> goToActivity(item)
+                    TripPointType.PLACE -> goToPlace(item)
+                    TripPointType.TRANSPORT -> goToTransport(item)
+                }
+            }
+        }
+    }
+
+    private fun createPointOverviewBundle(item: TripItineraryItem): PointOverviewBundle? {
+        return multipleLet(tripOverview?.id, tripOverview?.role) { tripId, userRole ->
+            PointOverviewBundle.create(tripId, item.id, userRole, item.name)
+        }
+    }
+
+    private fun goToTransport(item: TripItineraryItem) {
+        navigateTo(
+            HomeFragmentDirections
+                .actionHomeFragmentToTransportOverviewFragment(
+                    createPointOverviewBundle(item) ?: return
+                )
+        )
+    }
+
+    private fun goToPlace(item: TripItineraryItem) {
+        navigateTo(
+            HomeFragmentDirections
+                .actionHomeFragmentToPlaceOverviewFragment(
+                    createPointOverviewBundle(item) ?: return
+                )
+        )
+    }
+
+    private fun goToAccommodation(item: TripItineraryItem) {
+        navigateTo(
+            HomeFragmentDirections
+                .actionHomeFragmentToAccommodationOverviewFragment(
+                    createPointOverviewBundle(item) ?: return
+                )
+        )
+    }
+
+    private fun goToActivity(item: TripItineraryItem) {
+        navigateTo(
+            HomeFragmentDirections
+                .actionHomeFragmentToActivityOverviewFragment(
+                    createPointOverviewBundle(item) ?: return
+                )
+        )
+    }
+
 }

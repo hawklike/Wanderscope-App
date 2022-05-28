@@ -124,8 +124,23 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="cz.cvut.fit.steuejan.wanderscope.home.HomeFragment"
-        android:label="@string/your_trip"
+        android:label=""
         tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_accommodationOverviewFragment"
+            app:destination="@id/accommodationOverviewFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_activityOverviewFragment"
+            app:destination="@id/activityOverviewFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_placeOverviewFragment"
+            app:destination="@id/placeOverviewFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_transportOverviewFragment"
+            app:destination="@id/transportOverviewFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_tripPagerFragment"
+            app:destination="@id/tripPagerFragment" />
     </fragment>
 
     <fragment

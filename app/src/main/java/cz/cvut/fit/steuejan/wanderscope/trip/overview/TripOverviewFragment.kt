@@ -60,6 +60,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         handlePointsRecycler()
         listenToChanges()
         listenToLeaveTrip()
+        listenToDeleteTrip()
         prepareActionButton(binding.tripOverviewAddButton)
         handleSwipeRefresh()
     }
@@ -264,6 +265,19 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
 
         viewModel.leaveTripSuccess.safeObserve {
             leaveTripSnackbar?.dismiss()
+            navigateBack()
+        }
+    }
+
+    private fun listenToDeleteTrip() {
+        viewModel.deleteTripSuccess.safeObserve {
+            updateTrip()
+            showSnackbar(
+                SnackbarInfo(
+                    R.string.successfully_deleted,
+                    length = Snackbar.LENGTH_SHORT
+                )
+            )
             navigateBack()
         }
     }
