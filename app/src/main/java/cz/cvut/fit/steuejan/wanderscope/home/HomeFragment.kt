@@ -11,6 +11,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentHomeBinding
+import cz.cvut.fit.steuejan.wanderscope.home.model.HomeScreenEmptyItem
 import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.common.WithAddPointActionButton
@@ -36,7 +37,7 @@ class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
     private var tripOverview: TripOverviewResponse? = null
 
     private val tripEmptyTitle by lazy {
-        getString(R.string.no_upcoming_trips_title)
+        getString(R.string.home_screen_empty_title)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -120,7 +121,14 @@ class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
                     TripPointType.TRANSPORT -> goToTransport(item)
                 }
             }
+            if (item is HomeScreenEmptyItem) {
+                addTrip()
+            }
         }
+    }
+
+    private fun addTrip() {
+        navigateTo(HomeFragmentDirections.actionHomeFragmentToAddEditTripFragment())
     }
 
     private fun createPointOverviewBundle(item: TripItineraryItem): PointOverviewBundle? {

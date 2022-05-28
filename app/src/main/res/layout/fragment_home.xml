@@ -75,7 +75,7 @@
                     android:paddingVertical="9dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/homeDurarion"
-                    app:visibleOrGone="@{vm.seeMoreVisibility}">
+                    app:visibleOrGone="@{vm.visibility}">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -124,7 +124,8 @@
                 app:sdMainFabClosedBackgroundColor="@color/colorPrimary"
                 app:sdMainFabClosedSrc="@drawable/ic_add"
                 app:sdMainFabOpenedBackgroundColor="@color/colorPrimary"
-                app:sdUseReverseAnimationOnClose="true" />
+                app:sdUseReverseAnimationOnClose="true"
+                app:visibleOrGone="@{vm.visibility}" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

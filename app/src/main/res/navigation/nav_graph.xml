@@ -157,6 +157,9 @@
         <action
             android:id="@+id/action_homeFragment_to_transportAddEditFragment"
             app:destination="@id/transportAddEditFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addEditTripFragment"
+            app:destination="@id/addEditTripFragment" />
     </fragment>
 
     <fragment

@@ -1,6 +1,7 @@
 package cz.cvut.fit.steuejan.wanderscope.app.binding
 
 import android.graphics.drawable.Drawable
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
@@ -56,4 +57,10 @@ fun MaterialButton.enable(enable: Boolean?) {
         isClickable = false
         alpha = 0.5f
     }
+}
+
+@BindingAdapter("textResOrGone")
+fun MaterialButton.setTextRes(@StringRes text: Int?) {
+    visibleOrGone(text) ?: return
+    this.setText(text!!)
 }

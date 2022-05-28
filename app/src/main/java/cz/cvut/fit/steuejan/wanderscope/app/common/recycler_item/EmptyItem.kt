@@ -6,7 +6,7 @@ import androidx.annotation.StringRes
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 
-data class EmptyItem(
+open class EmptyItem(
     @StringRes val title: Int,
     @DrawableRes val image: Int = R.drawable.image_not_found,
     @StringRes val subtitle: Int? = null,
@@ -14,6 +14,7 @@ data class EmptyItem(
     @DimenRes val marginBottom: Int = R.dimen.app_recycler_item_bottom_margin,
     @DimenRes val marginStart: Int = R.dimen.margin_0,
     @DimenRes val marginEnd: Int = R.dimen.margin_0,
+    @StringRes val buttonText: Int? = null
 ) : RecyclerItem {
 
     override val layoutId = R.layout.item_empty
@@ -73,6 +74,13 @@ data class EmptyItem(
             R.string.itinerary_empty,
             R.drawable.image_not_found,
             marginTop = R.dimen.app_first_item_overview_margin
+        )
+
+        fun homeScreen() = EmptyItem(
+            R.string.no_upcoming_trips_title,
+            R.drawable.image_not_found,
+            marginTop = R.dimen.app_first_item_overview_margin,
+            buttonText = R.string.add_trip
         )
     }
 }

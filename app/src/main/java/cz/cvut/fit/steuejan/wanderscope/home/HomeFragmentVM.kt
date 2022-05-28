@@ -19,6 +19,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.auth.repository.AuthRepository
+import cz.cvut.fit.steuejan.wanderscope.home.model.HomeScreenEmptyItem
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.TripOverviewFragment
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.api.response.TripItineraryResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.bussiness.TripItineraryParser
@@ -41,7 +42,7 @@ class HomeFragmentVM(
 
     val duration = MutableLiveData<DurationString>()
     val title = MutableLiveData<String>()
-    val seeMoreVisibility = MutableLiveData<Boolean>()
+    val visibility = MutableLiveData<Boolean>()
 
     private val recommendedTripLoading = MutableLiveData<Boolean>()
     val itineraryLoading = MutableLiveData<Boolean>()
@@ -79,15 +80,15 @@ class HomeFragmentVM(
 
     private suspend fun getRecommendedTripSuccess(data: TripsResponse, emptyTitle: String) {
         if (data.trips.isEmpty()) {
-            seeMoreVisibility.value = false
+            visibility.value = false
             duration.value = Duration().toDurationString()
             title.value = emptyTitle
-            itinerary.value = listOf()
+            itinerary.value = listOf(HomeScreenEmptyItem())
         } else with(data.trips.first()) {
             tripOverview.value = this
             this@HomeFragmentVM.duration.value = duration.toDurationString()
             title.value = name
-            seeMoreVisibility.value = true
+            visibility.value = true
             getItinerary(id)
         }
         recommendedTripLoading.value = false
