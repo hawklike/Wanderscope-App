@@ -165,7 +165,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         setAdapterListener(binding.tripOverviewDocument) { item, _ ->
             if (item is DocumentMetadataItem) {
                 tripOverview?.id?.let {
-                    viewModel.downloadDocument(it, item.id)
+                    viewModel.downloadDocument(it, item.id, item.name)
                 }
             }
         }

@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
@@ -17,6 +18,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
+import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
 import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
@@ -29,11 +31,11 @@ import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
 import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 import kotlinx.coroutines.CoroutineScope
 import okhttp3.ResponseBody
-import timber.log.Timber
 
 class TripOverviewFragmentVM(
     private val tripRepository: TripRepository,
-    private val documentRepository: DocumentRepository
+    private val documentRepository: DocumentRepository,
+    private val fileManager: FileManager
 ) : BaseViewModel() {
 
     val title = MutableLiveData<String>()
@@ -322,23 +324,28 @@ class TripOverviewFragmentVM(
         } ?: showToast(ToastInfo(R.string.unexpected_error_short))
     }
 
-    fun downloadDocument(tripId: Int, documentId: Int) {
+    fun downloadDocument(tripId: Int, documentId: Int, name: String) {
         viewModelScope.launchIO {
             documentRepository.getDocument(tripId, documentId).safeCollect(this) {
                 when (it) {
                     is Result.Cache -> TODO()
                     is Result.Failure -> downloadDocumentFailure(it.error)
                     is Result.Loading -> doNothing //todo
-                    is Result.Success -> downloadDocumentSuccess(it.data)
+                    is Result.Success -> downloadDocumentSuccess(it.data, documentId, name)
                 }
             }
         }
     }
 
-    private suspend fun downloadDocumentSuccess(data: ResponseBody) {
+    private suspend fun downloadDocumentSuccess(data: ResponseBody, documentId: Int, name: String) {
         withIO {
-            Timber.d("length: ${data.contentLength()}")
-            data.close()
+            data.source().use {
+                val document = DownloadedFile(data.source(), "${documentId}_$name")
+                val foo = fileManager.saveDataToFile(document)
+                if (foo) {
+                    fileManager.openFile(document.filename)
+                }
+            }
         }
     }
 
