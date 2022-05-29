@@ -15,7 +15,9 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
+import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlacesResponse
@@ -26,9 +28,12 @@ import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDire
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
 import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 import kotlinx.coroutines.CoroutineScope
+import okhttp3.ResponseBody
+import timber.log.Timber
 
 class TripOverviewFragmentVM(
-    private val tripRepository: TripRepository
+    private val tripRepository: TripRepository,
+    private val documentRepository: DocumentRepository
 ) : BaseViewModel() {
 
     val title = MutableLiveData<String>()
@@ -315,5 +320,30 @@ class TripOverviewFragmentVM(
                 )
             )
         } ?: showToast(ToastInfo(R.string.unexpected_error_short))
+    }
+
+    fun downloadDocument(tripId: Int, documentId: Int) {
+        viewModelScope.launchIO {
+            documentRepository.getDocument(tripId, documentId).safeCollect(this) {
+                when (it) {
+                    is Result.Cache -> TODO()
+                    is Result.Failure -> downloadDocumentFailure(it.error)
+                    is Result.Loading -> doNothing //todo
+                    is Result.Success -> downloadDocumentSuccess(it.data)
+                }
+            }
+        }
+    }
+
+    private suspend fun downloadDocumentSuccess(data: ResponseBody) {
+        withIO {
+            Timber.d("length: ${data.contentLength()}")
+            data.close()
+        }
+    }
+
+    //todo stop loading
+    private fun downloadDocumentFailure(error: Error) {
+        unexpectedError(error)
     }
 }

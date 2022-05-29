@@ -18,6 +18,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripOverviewBinding
+import cz.cvut.fit.steuejan.wanderscope.document.DocumentMetadataItem
 import cz.cvut.fit.steuejan.wanderscope.points.TripPointOverviewItem
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
@@ -58,6 +59,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         handleLoading()
         handleActionButton()
         handlePointsRecycler()
+        handleDocumentsRecycler()
         listenToChanges()
         listenToLeaveTrip()
         listenToDeleteTrip()
@@ -155,6 +157,16 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         setAdapterListener(binding.tripOverviewAccommodation) { item, _ ->
             if (item is TripPointOverviewItem) {
                 goToAccommodation(item)
+            }
+        }
+    }
+
+    private fun handleDocumentsRecycler() {
+        setAdapterListener(binding.tripOverviewDocument) { item, _ ->
+            if (item is DocumentMetadataItem) {
+                tripOverview?.id?.let {
+                    viewModel.downloadDocument(it, item.id)
+                }
             }
         }
     }

@@ -4,6 +4,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.document.api.request.DocumentMetadataRequest
 import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
 import okhttp3.MultipartBody
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -29,7 +30,7 @@ interface DocumentApi {
     @POST("/trip/{tripId}/document/{id}/data")
     suspend fun postTripDocument(
         @Path("tripId") tripId: Int,
-        @Path("id") documentId: Long,
+        @Path("id") documentId: Int,
         @Part file: MultipartBody.Part
     ): Response<Unit>
 
@@ -47,7 +48,15 @@ interface DocumentApi {
         @Path("tripId") tripId: Int,
         @Path("pointType") pointType: String,
         @Path("pointId") pointId: Int,
-        @Path("id") documentId: Long,
+        @Path("id") documentId: Int,
         @Part file: MultipartBody.Part
     ): Response<Unit>
+
+    @Streaming
+    @GET("/trip/{tripId}/document/{id}/data")
+    suspend fun getTripDocument(
+        @Path("tripId") tripId: Int,
+        @Path("id") id: Int,
+        @Header("Wanderscope-Document-Key") key: String? = null
+    ): Response<ResponseBody>
 }

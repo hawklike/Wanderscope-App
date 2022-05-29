@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flowOf
 import okhttp3.MultipartBody
+import okhttp3.ResponseBody
 
 class DocumentRepository(private val documentApi: DocumentApi) {
 
@@ -24,7 +25,7 @@ class DocumentRepository(private val documentApi: DocumentApi) {
     }.flatMapConcat {
         if (it is Result.Success) {
             performCall {
-                documentApi.postTripDocument(tripId, it.data.id, file)
+                documentApi.postTripDocument(tripId, it.data.id.toInt(), file)
             }.toUnitIfSuccess()
         } else {
             flowOf(it)
@@ -43,11 +44,16 @@ class DocumentRepository(private val documentApi: DocumentApi) {
     }.flatMapConcat {
         if (it is Result.Success) {
             performCall {
-                documentApi.postPointDocument(tripId, pointType.toString(), pointId, it.data.id, file)
+                documentApi.postPointDocument(tripId, pointType.toString(), pointId, it.data.id.toInt(), file)
             }.toUnitIfSuccess()
         } else {
             flowOf(it)
         }
+    }
+
+    //todo add key
+    suspend fun getDocument(tripId: Int, documentId: Int): Flow<Result<ResponseBody>> {
+        return performCall { documentApi.getTripDocument(tripId, documentId) }
     }
 
 }
