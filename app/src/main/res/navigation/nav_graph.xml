@@ -355,8 +355,8 @@
         android:label=""
         tools:layout="@layout/fragment_document_upload">
         <argument
-            android:name="tripId"
-            app:argType="integer" />
+            android:name="bundle"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle" />
     </fragment>
 
 </navigation>

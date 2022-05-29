@@ -14,9 +14,12 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.LoadingMutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
+import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.document.api.request.DocumentMetadataRequest
 import cz.cvut.fit.steuejan.wanderscope.document.bussiness.FileParser
 import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
+import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -53,9 +56,13 @@ class UploadDocumentFragmentVM(
     private var customError: Int? = null
     private var fileInfo: FileParser.FileInfo? = null
     private var tripId: Int? = null
+    private var pointId: Int? = null
+    private var pointType: TripPointType? = null
 
-    fun init(tripId: Int) {
+    fun init(tripId: Int, pointId: Int?, pointType: TripPointType?) {
         this.tripId = tripId
+        this.pointId = pointId
+        this.pointType = pointType
     }
 
     fun analyzePickedFile(file: Uri) {
@@ -127,24 +134,53 @@ class UploadDocumentFragmentVM(
                 RequestBody.create(MediaType.parse("multipart/form-data"), fileBytes)
             )
 
-            uploadFile(tripId ?: return@launchIO, metadataRequest, filePart)
+            val tripId = this@UploadDocumentFragmentVM.tripId ?: run {
+                loading.postValue(false)
+                return@launchIO
+            }
+
+            multipleLet(pointId, pointType) { pointId, pointType ->
+                uploadFile(tripId, pointId, pointType, metadataRequest, filePart)
+            } ?: uploadFile(tripId, metadataRequest, filePart)
         }
     }
 
     private suspend fun uploadFile(tripId: Int, request: DocumentMetadataRequest, file: MultipartBody.Part) {
         withIO {
-            documentRepository.uploadDocument(tripId, request, file).safeCollect(this) {
-                when (it) {
-                    is Result.Cache -> TODO()
-                    is Result.Failure -> uploadFileFailure(it.error)
-                    is Result.Loading -> loading.value = true
-                    is Result.Success -> uploadFileSuccess()
+            documentRepository.uploadDocument(tripId, request, file)
+                .safeCollect(this) {
+                    when (it) {
+                        is Result.Cache -> TODO()
+                        is Result.Failure -> uploadFileFailure(it.error)
+                        is Result.Loading -> doNothing
+                        is Result.Success -> uploadFileSuccess()
+                    }
                 }
-            }
+        }
+    }
+
+    private suspend fun uploadFile(
+        tripId: Int,
+        pointId: Int,
+        pointType: TripPointType,
+        request: DocumentMetadataRequest,
+        file: MultipartBody.Part
+    ) {
+        withIO {
+            documentRepository.uploadDocument(tripId, pointId, pointType, request, file)
+                .safeCollect(this) {
+                    when (it) {
+                        is Result.Cache -> TODO()
+                        is Result.Failure -> uploadFileFailure(it.error)
+                        is Result.Loading -> doNothing
+                        is Result.Success -> uploadFileSuccess()
+                    }
+                }
         }
     }
 
     private fun uploadFileSuccess() {
+        //todo propagate result
         loading.value = false
         requestIsSuccess.publish()
     }

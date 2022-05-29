@@ -19,7 +19,9 @@ import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.auth.repository.AuthRepository
+import cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle
 import cz.cvut.fit.steuejan.wanderscope.home.model.HomeScreenEmptyItem
+import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.TripOverviewFragment
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.api.response.TripItineraryResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.bussiness.TripItineraryParser
@@ -78,7 +80,7 @@ class HomeFragmentVM(
         navigateTo(
             Action(
                 HomeFragmentDirections.actionHomeFragmentToUploadDocumentFragment(
-                    tripOverview.value?.id ?: return
+                    UploadDocumentBundle(6, 10, TripPointType.TRANSPORT)
                 )
             )
         )

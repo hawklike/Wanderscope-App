@@ -22,7 +22,9 @@ class UploadDocumentFragment : MvvmFragment<
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.init(args.tripId)
+        with(args.bundle) {
+            viewModel.init(tripId, pointId, pointType)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -33,11 +33,21 @@ interface DocumentApi {
         @Part file: MultipartBody.Part
     ): Response<Unit>
 
-    @POST("trip/{tripId}/{poinType}/{pointId}/document")
+    @POST("trip/{tripId}/{pointType}/{pointId}/document")
     suspend fun postPointDocumentMetadata(
         @Path("tripId") tripId: Int,
         @Path("pointType") pointType: String,
         @Path("pointId") pointId: Int,
         @Body request: DocumentMetadataRequest
     ): Response<CreatedResponse>
+
+    @Multipart
+    @POST("trip/{tripId}/{pointType}/{pointId}/document/{id}/data")
+    suspend fun postPointDocument(
+        @Path("tripId") tripId: Int,
+        @Path("pointType") pointType: String,
+        @Path("pointId") pointId: Int,
+        @Path("id") documentId: Long,
+        @Part file: MultipartBody.Part
+    ): Response<Unit>
 }
