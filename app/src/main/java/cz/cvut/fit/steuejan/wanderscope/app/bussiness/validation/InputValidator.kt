@@ -80,10 +80,16 @@ class InputValidator {
     }
 
     fun validateExtension(extension: String?): Int {
-        return if (extension?.lowercase() !in listOf("pdf", "png", "jpg", "jpeg", "gif", "gpx")) {
-            R.string.upload_document_extensions
-        } else {
-            OK
+        return when {
+            extension == null -> {
+                R.string.unknown_extension
+            }
+            extension.lowercase() !in listOf("pdf", "png", "jpg", "jpeg", "gif", "gpx") -> {
+                R.string.upload_document_extensions
+            }
+            else -> {
+                OK
+            }
         }
     }
 

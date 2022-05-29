@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.app.di
 
 import cz.cvut.fit.steuejan.wanderscope.account.repository.AccountRepository
 import cz.cvut.fit.steuejan.wanderscope.auth.repository.AuthRepository
+import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.repository.AccommodationRepository
 import cz.cvut.fit.steuejan.wanderscope.points.activity.repository.ActivityRepository
 import cz.cvut.fit.steuejan.wanderscope.points.place.repository.PlaceRepository
@@ -24,4 +25,5 @@ val repositoryModule = module {
     singleOf(::PlaceRepository)
     singleOf(::ItineraryRepository)
     singleOf(::TripUserRepository)
+    singleOf(::DocumentRepository)
 }

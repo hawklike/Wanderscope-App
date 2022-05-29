@@ -75,7 +75,13 @@ class HomeFragmentVM(
 
     //todo remove
     fun onClick() {
-        navigateTo(Action(HomeFragmentDirections.actionHomeFragmentToUploadDocumentFragment()))
+        navigateTo(
+            Action(
+                HomeFragmentDirections.actionHomeFragmentToUploadDocumentFragment(
+                    tripOverview.value?.id ?: return
+                )
+            )
+        )
     }
 
     private fun failure(error: Error, loading: MutableLiveData<Boolean>) {

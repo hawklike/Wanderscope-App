@@ -3,15 +3,29 @@ package cz.cvut.fit.steuejan.wanderscope.document
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMediator
-import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
-import cz.cvut.fit.steuejan.wanderscope.document.bussiness.FileInfoParser
+import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
+import cz.cvut.fit.steuejan.wanderscope.app.common.Result
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
+import cz.cvut.fit.steuejan.wanderscope.app.extension.*
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.LoadingMutableLiveData
+import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.document.api.request.DocumentMetadataRequest
+import cz.cvut.fit.steuejan.wanderscope.document.bussiness.FileParser
+import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import timber.log.Timber
 
 class UploadDocumentFragmentVM(
-    private val fileInfoParser: FileInfoParser
+    private val fileParser: FileParser,
+    private val documentRepository: DocumentRepository
 ) : BaseViewModel() {
 
     val filename = MutableLiveData<String>()
@@ -32,16 +46,26 @@ class UploadDocumentFragmentVM(
         validateKey
     )
 
+    val loading = LoadingMutableLiveData()
+
+    val requestIsSuccess = AnySingleLiveEvent()
+
     private var customError: Int? = null
+    private var fileInfo: FileParser.FileInfo? = null
+    private var tripId: Int? = null
+
+    fun init(tripId: Int) {
+        this.tripId = tripId
+    }
 
     fun analyzePickedFile(file: Uri) {
         customError = null
         viewModelScope.launch {
             filenameVisibility.value = true
-            val info = fileInfoParser.parseFile(file)
-            validateSize(info.sizeInBytes)
-            validateExtension(info.extension)
-            info.filename?.let { filename.value = it }
+            fileInfo = fileParser.parseFile(file)
+            validateSize(fileInfo?.sizeInBytes)
+            validateExtension(fileInfo?.extension)
+            fileInfo?.filename?.let { filename.value = it }
         }
     }
 
@@ -59,5 +83,75 @@ class UploadDocumentFragmentVM(
             customError = validation
             validateFilename.value = validation
         }
+    }
+
+    fun uploadFile() {
+        loading.value = true
+        viewModelScope.launchIO {
+            val uri = fileInfo?.uri ?: run {
+                loading.postValue(false)
+                return@launchIO
+            }
+
+            val filename = filename.value ?: run {
+                loading.postValue(false)
+                return@launchIO
+            }
+
+            val realFilename = fileInfo?.filename ?: run {
+                loading.postValue(false)
+                return@launchIO
+            }
+
+            val metadataRequest = DocumentMetadataRequest(
+                filename,
+                DocumentType.fromExtension(fileInfo?.extension),
+                key.value.getOrNullIfBlank()
+            )
+
+            val fileInputStream = fileParser.getInputStream(uri)
+            val fileBytes = fileInputStream?.use { it.readBytes() } ?: run {
+                loading.postValue(false)
+                return@launchIO
+            }
+
+            //last check of size
+            if (fileBytes.size > Constants.DOCUMENT_MAX_SIZE) {
+                validateFilename.postValue(R.string.upload_document_too_large)
+                return@launchIO
+            }
+
+            val filePart = MultipartBody.Part.createFormData(
+                "file",
+                realFilename,
+                RequestBody.create(MediaType.parse("multipart/form-data"), fileBytes)
+            )
+
+            uploadFile(tripId ?: return@launchIO, metadataRequest, filePart)
+        }
+    }
+
+    private suspend fun uploadFile(tripId: Int, request: DocumentMetadataRequest, file: MultipartBody.Part) {
+        withIO {
+            documentRepository.uploadDocument(tripId, request, file).safeCollect(this) {
+                when (it) {
+                    is Result.Cache -> TODO()
+                    is Result.Failure -> uploadFileFailure(it.error)
+                    is Result.Loading -> loading.value = true
+                    is Result.Success -> uploadFileSuccess()
+                }
+            }
+        }
+    }
+
+    private fun uploadFileSuccess() {
+        loading.value = false
+        requestIsSuccess.publish()
+    }
+
+    private fun uploadFileFailure(error: Error) {
+        loading.value = false
+        error.reason?.let { Timber.e(it.message) }
+        unexpectedError()
     }
 }
