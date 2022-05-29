@@ -13,6 +13,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.AlertDialogInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
@@ -165,7 +166,10 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         setAdapterListener(binding.tripOverviewDocument) { item, _ ->
             if (item is DocumentMetadataItem) {
                 tripOverview?.id?.let {
-                    viewModel.downloadDocument(it, item.id, item.name)
+                    val filename = "${item.id}_${item.name}"
+                    if (!FileManager(requireContext()).openFile(filename)) {
+                        viewModel.downloadDocument(it, item.id, item.name)
+                    }
                 }
             }
         }

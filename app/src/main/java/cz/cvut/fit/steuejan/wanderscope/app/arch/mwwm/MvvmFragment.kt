@@ -8,14 +8,18 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import cz.cvut.fit.steuejan.wanderscope.BR
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseFragment
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
+import cz.cvut.fit.steuejan.wanderscope.app.extension.withIO
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
+import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import kotlin.reflect.KClass
 
@@ -49,6 +53,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         listenToDatePicker()
         listenToTimePicker()
         listenToAlertDialog()
+        saveAndOpenFile()
     }
 
     override fun onDestroy() {
@@ -146,5 +151,24 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
                 show(this@MvvmFragment.parentFragmentManager, "timePicker")
             }
         }
+    }
+
+    private fun saveAndOpenFile() {
+        viewModel.saveAndOpenFileEvent.safeObserve { downloaded ->
+            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                withIO {
+                    downloaded.data.use {
+                        val fileManager = FileManager(requireContext())
+                        if (fileManager.saveDataToFile(downloaded)) {
+                            openFile(downloaded, fileManager)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    protected fun openFile(file: DownloadedFile, fileManager: FileManager): Boolean {
+        return fileManager.openFile(file.filename)
     }
 }

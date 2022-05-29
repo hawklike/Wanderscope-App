@@ -20,6 +20,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.koin.core.component.KoinComponent
@@ -40,6 +41,7 @@ abstract class BaseViewModel(
     val datePickerEvent = SingleLiveEvent<DatePickerInfo>()
     val timePickerEvent = SingleLiveEvent<TimePickerInfo>()
     val showAlertDialogEvent = SingleLiveEvent<AlertDialogInfo>()
+    val saveAndOpenFileEvent = SingleLiveEvent<DownloadedFile>()
 
     protected fun navigateTo(event: NavigationEvent, onBackground: Boolean = false) {
         if (onBackground) {

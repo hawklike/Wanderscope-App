@@ -26,12 +26,14 @@ class FileManager(private val context: Context) {
     fun openFile(filename: String): Boolean {
         val fileUri = runOrNull {
             val file = File(context.filesDir, filename)
+            if (!file.exists()) {
+                return false
+            }
             FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}$PROVIDER", file)
         } ?: return false
 
         val intent = Intent(Intent.ACTION_VIEW).apply {
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             setDataAndType(fileUri, context.contentResolver.getType(fileUri))
         }
 

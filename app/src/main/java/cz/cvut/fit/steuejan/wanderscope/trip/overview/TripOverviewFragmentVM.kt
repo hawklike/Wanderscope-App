@@ -6,7 +6,6 @@ import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
-import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
@@ -34,8 +33,7 @@ import okhttp3.ResponseBody
 
 class TripOverviewFragmentVM(
     private val tripRepository: TripRepository,
-    private val documentRepository: DocumentRepository,
-    private val fileManager: FileManager
+    private val documentRepository: DocumentRepository
 ) : BaseViewModel() {
 
     val title = MutableLiveData<String>()
@@ -337,16 +335,9 @@ class TripOverviewFragmentVM(
         }
     }
 
-    private suspend fun downloadDocumentSuccess(data: ResponseBody, documentId: Int, name: String) {
-        withIO {
-            data.source().use {
-                val document = DownloadedFile(data.source(), "${documentId}_$name")
-                val foo = fileManager.saveDataToFile(document)
-                if (foo) {
-                    fileManager.openFile(document.filename)
-                }
-            }
-        }
+    private fun downloadDocumentSuccess(data: ResponseBody, documentId: Int, name: String) {
+        val filename = "${documentId}_$name"
+        saveAndOpenFileEvent.value = DownloadedFile(data.source(), filename)
     }
 
     //todo stop loading
