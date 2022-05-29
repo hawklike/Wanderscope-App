@@ -16,12 +16,21 @@ class UploadDocumentFragmentVM(
 
     val filename = MutableLiveData<String>()
     val filenameVisibility = MutableLiveData(false)
+    val key = MutableLiveData<String?>(null)
 
     val validateFilename = filename.switchMapSuspend {
         customError ?: validator.validateIfNotEmpty(it)
     }
 
-    val enableSubmit = ValidationMediator(validateFilename)
+    val validateKey = key.switchMapSuspend {
+        it ?: return@switchMapSuspend OK
+        validator.validateDocumentKey(it)
+    }
+
+    val enableSubmit = ValidationMediator(
+        validateFilename,
+        validateKey
+    )
 
     private var customError: Int? = null
 

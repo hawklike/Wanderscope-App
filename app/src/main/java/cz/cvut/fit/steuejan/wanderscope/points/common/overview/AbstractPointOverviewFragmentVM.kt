@@ -21,7 +21,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.util.goToWebsite
 import cz.cvut.fit.steuejan.wanderscope.app.util.model.DaysHoursMinutes
 import cz.cvut.fit.steuejan.wanderscope.app.util.showMap
-import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
+import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.repository.PointRepository
 import kotlinx.coroutines.CoroutineScope

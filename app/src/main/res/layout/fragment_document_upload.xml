@@ -83,13 +83,47 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/uploadFileKeyLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:animateLayoutChanges="true"
+                    android:text="Key"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/uploadFileName"
+                    app:visibleOrGone="@{vm.filenameVisibility}" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/uploadFileKey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    android:animateLayoutChanges="true"
+                    app:counterEnabled="true"
+                    app:errorText="@{vm.validateKey}"
+                    app:counterMaxLength="@integer/password_max_len"
+                    app:layout_constraintTop_toBottomOf="@id/uploadFileKeyLabel"
+                    app:visibleOrGone="@{vm.filenameVisibility}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Protect your document"
+                        android:inputType="text"
+                        android:text="@={vm.key}"
+                        android:maxLength="@integer/password_max_len" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/uploadFileChooseFileButton"
                     style="@style/Widget.Wanderscope.ClickableText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/choose_a_file"
                     android:textColor="@color/colorPrimary"
-                    app:layout_constraintTop_toBottomOf="@id/uploadFileName"
+                    app:layout_constraintTop_toBottomOf="@id/uploadFileKey"
                     app:topMargin="@{vm.filenameVisibility ? @dimen/margin_8 : @dimen/margin_24}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

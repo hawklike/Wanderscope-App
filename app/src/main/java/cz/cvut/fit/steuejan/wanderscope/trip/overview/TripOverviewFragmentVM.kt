@@ -15,7 +15,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
-import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
+import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlacesResponse

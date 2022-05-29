@@ -4,7 +4,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.app.util.performCall
 import cz.cvut.fit.steuejan.wanderscope.document.api.DocumentApi
-import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
+import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.request.PointRequest
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse

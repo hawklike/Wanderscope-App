@@ -1,6 +1,6 @@
 package cz.cvut.fit.steuejan.wanderscope.document.api
 
-import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
+import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

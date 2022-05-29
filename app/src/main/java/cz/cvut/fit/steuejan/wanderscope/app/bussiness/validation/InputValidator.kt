@@ -95,6 +95,15 @@ class InputValidator {
         }
     }
 
+    fun validateDocumentKey(key: String): Int {
+        return when {
+            key.isNotEmpty() && key.isBlank() -> R.string.validation_document_key_blank
+            key.isNotEmpty() && key.length < Constants.DOCUMENT_KEY_MIN -> R.string.validation_document_key_short
+            key.length > Constants.DOCUMENT_KEY_MAX -> R.string.validation_document_key_long
+            else -> OK
+        }
+    }
+
     private fun String.isNameAllowed(): Boolean {
         val regex = Regex("^[^\r\n;~]+$")
         return this matches regex

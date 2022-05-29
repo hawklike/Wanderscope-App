@@ -5,7 +5,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.app.util.performCall
 import cz.cvut.fit.steuejan.wanderscope.app.util.toUnitIfSuccess
 import cz.cvut.fit.steuejan.wanderscope.document.api.DocumentApi
-import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
+import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlacesResponse
