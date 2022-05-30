@@ -14,7 +14,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
+import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.AlertDialogInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
+import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
@@ -117,7 +119,10 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
     }
 
     private fun handleDocumentsRecycler() {
-        setAdapterListener(documentsRecycler) { item, _ ->
+        setAdapterListener(
+            documentsRecycler,
+            onLongClickListener = ::deleteDocument
+        ) { item, _ ->
             if (item is DocumentMetadataItem) {
                 val filename = DownloadedFile.getDocumentName(item.id, item.name)
                 if (!FileManager(requireContext()).openFile(filename, item.type)) {
@@ -127,9 +132,23 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
         }
     }
 
+    @Suppress("UNUSED_PARAMETER")
+    private fun deleteDocument(item: RecyclerItem, position: Int) {
+        if (item is DocumentMetadataItem) {
+            showAlertDialog(AlertDialogInfo(
+                R.string.delete_document_title,
+                R.string.delete_document_message,
+                positiveButton = R.string.delete
+            ) { _, _ ->
+                abstractViewModel?.deleteDocument(item.id, item.ownerId, item.name, pointOverview.userRole)
+                    ?: showToast(R.string.unexpected_error_short)
+            })
+        }
+    }
+
     private fun showDialogBeforeDownload(documentId: Int, filename: String, type: DocumentType) {
         showAlertDialog(
-            BaseViewModel.AlertDialogInfo(
+            AlertDialogInfo(
                 R.string.download_document_title,
                 R.string.download_document_message,
                 positiveButton = R.string.download
@@ -141,13 +160,13 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
     }
 
     override fun openFile(file: DownloadedFile, fileManager: FileManager, type: DocumentType?): Boolean {
-        abstractViewModel?.documentDownloadLoading?.postValue(false)
+        abstractViewModel?.documentActionLoading?.postValue(false)
         return super.openFile(file, fileManager, type)
     }
 
     override fun savingFileFailed() {
         super.savingFileFailed()
-        abstractViewModel?.documentDownloadLoading?.postValue(false)
+        abstractViewModel?.documentActionLoading?.postValue(false)
     }
 
     private fun prepareMap(savedInstanceState: Bundle?) {

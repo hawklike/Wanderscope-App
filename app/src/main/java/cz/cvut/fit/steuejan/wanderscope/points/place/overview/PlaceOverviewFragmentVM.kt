@@ -9,18 +9,15 @@ import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.app.util.showMap
 import cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle
-import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
 import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.AbstractPointOverviewFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlaceResponse
 import cz.cvut.fit.steuejan.wanderscope.points.place.repository.PlaceRepository
 
 class PlaceOverviewFragmentVM(
-    placeRepository: PlaceRepository,
-    documentRepository: DocumentRepository
+    placeRepository: PlaceRepository
 ) : AbstractPointOverviewFragmentVM<PlaceResponse>(
-    placeRepository,
-    documentRepository
+    placeRepository
 ) {
 
     override val pointType = TripPointType.PLACE

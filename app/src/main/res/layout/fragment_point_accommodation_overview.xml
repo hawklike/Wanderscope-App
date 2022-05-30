@@ -341,7 +341,7 @@
                             style="@style/Widget.Wanderscope.Loading.Documents"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:showLoading="@{vm.documentDownloadLoading}"
+                            app:showLoading="@{vm.documentActionLoading}"
                             app:layout_constraintBottom_toBottomOf="@id/accommodationOverviewDocumentsLabel"
                             app:layout_constraintStart_toEndOf="@id/accommodationOverviewDocumentsLabel" />
 

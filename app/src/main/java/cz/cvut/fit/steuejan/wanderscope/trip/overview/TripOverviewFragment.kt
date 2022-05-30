@@ -177,7 +177,10 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     }
 
     private fun handleDocumentsRecycler() {
-        setAdapterListener(binding.tripOverviewDocument, onLongClickListener = ::deleteDocument) { item, _ ->
+        setAdapterListener(
+            binding.tripOverviewDocument,
+            onLongClickListener = ::deleteDocument
+        ) { item, _ ->
             if (item is DocumentMetadataItem) {
                 val filename = DownloadedFile.getDocumentName(item.id, item.name)
                 if (!FileManager(requireContext()).openFile(filename, item.type)) {

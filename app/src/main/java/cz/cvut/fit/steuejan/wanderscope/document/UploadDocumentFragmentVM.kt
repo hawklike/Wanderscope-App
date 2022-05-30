@@ -154,7 +154,7 @@ class UploadDocumentFragmentVM(
                         is Result.Cache -> TODO()
                         is Result.Failure -> uploadFileFailure(it.error)
                         is Result.Loading -> doNothing
-                        is Result.Success -> uploadFileSuccess()
+                        is Result.Success -> requestIsSuccess.publish()
                     }
                 }
         }
@@ -174,15 +174,10 @@ class UploadDocumentFragmentVM(
                         is Result.Cache -> TODO()
                         is Result.Failure -> uploadFileFailure(it.error)
                         is Result.Loading -> doNothing
-                        is Result.Success -> uploadFileSuccess()
+                        is Result.Success -> requestIsSuccess.publish()
                     }
                 }
         }
-    }
-
-    private fun uploadFileSuccess() {
-        loading.value = false
-        requestIsSuccess.publish()
     }
 
     private fun uploadFileFailure(error: Error) {

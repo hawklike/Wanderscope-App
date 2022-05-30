@@ -7,18 +7,15 @@ import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.TripleMediatorLive
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.util.showDirections
 import cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle
-import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
 import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.AbstractPointOverviewFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.repository.TransportRepository
 
 class TransportOverviewFragmentVM(
-    transportRepository: TransportRepository,
-    documentRepository: DocumentRepository
+    transportRepository: TransportRepository
 ) : AbstractPointOverviewFragmentVM<TransportResponse>(
-    transportRepository,
-    documentRepository
+    transportRepository
 ) {
 
     override val pointType = TripPointType.TRANSPORT

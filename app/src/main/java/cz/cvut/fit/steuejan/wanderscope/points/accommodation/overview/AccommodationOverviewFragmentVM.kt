@@ -9,18 +9,15 @@ import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import cz.cvut.fit.steuejan.wanderscope.app.util.callPhone
 import cz.cvut.fit.steuejan.wanderscope.app.util.sendEmail
 import cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle
-import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.AccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.repository.AccommodationRepository
 import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.AbstractPointOverviewFragmentVM
 
 class AccommodationOverviewFragmentVM(
-    accommodationRepository: AccommodationRepository,
-    documentRepository: DocumentRepository
+    accommodationRepository: AccommodationRepository
 ) : AbstractPointOverviewFragmentVM<AccommodationResponse>(
-    accommodationRepository,
-    documentRepository
+    accommodationRepository
 ) {
 
     override val pointType = TripPointType.ACCOMMODATION

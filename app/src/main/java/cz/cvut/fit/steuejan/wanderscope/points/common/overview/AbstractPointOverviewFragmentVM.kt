@@ -13,12 +13,14 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.app.util.goToWebsite
 import cz.cvut.fit.steuejan.wanderscope.app.util.model.DaysHoursMinutes
 import cz.cvut.fit.steuejan.wanderscope.app.util.showMap
@@ -29,14 +31,18 @@ import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.repository.PointRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
+import org.koin.core.component.inject
 
 abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
-    protected val pointRepository: PointRepository<*, Response>,
-    protected val documentRepository: DocumentRepository
+    protected val pointRepository: PointRepository<*, Response>
 ) : BaseViewModel() {
 
     abstract val pointType: TripPointType
+
+    protected val documentRepository: DocumentRepository by inject()
+    protected val sessionManager: SessionManager by inject()
 
     val startDate = MutableLiveData<String?>()
     val endDate = MutableLiveData<String?>()
@@ -72,7 +78,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     val deleteIsSuccess = AnySingleLiveEvent()
     val deleteLoading = SingleLiveEvent<Int>()
 
-    val documentDownloadLoading = MutableLiveData<Boolean>()
+    val documentActionLoading = MutableLiveData<Boolean>()
 
     fun getPoint(tripId: Int, pointId: Int) {
         viewModelScope.launchIO { getPointOverview(tripId, pointId, this) }
@@ -161,7 +167,6 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
                     is Result.Failure -> unexpectedError(it.error)
                     is Result.Loading -> deleteLoading.value = loadingTitle
                     is Result.Success -> deleteIsSuccess.publish()
-
                 }
             }
         }
@@ -176,7 +181,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
                 when (it) {
                     is Result.Cache -> TODO()
                     is Result.Failure -> downloadDocumentFailure(it.error)
-                    is Result.Loading -> documentDownloadLoading.value = true
+                    is Result.Loading -> documentActionLoading.value = true
                     is Result.Success -> downloadDocumentSuccess(it.data, documentId, name, type)
                 }
             }
@@ -189,8 +194,42 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     }
 
     private fun downloadDocumentFailure(error: Error) {
-        documentDownloadLoading.value = false
+        documentActionLoading.value = false
         unexpectedError(error)
+    }
+
+    fun deleteDocument(documentId: Int, ownerId: Int, filename: String, userRole: UserRole) {
+        val tripId = pointOverview.value?.tripId ?: return
+        val pointId = pointOverview.value?.id ?: return
+
+        viewModelScope.launch {
+            val userId = withIO { sessionManager.getUserId() }
+
+            if (userId != ownerId && userRole != UserRole.ADMIN) {
+                showSnackbar(SnackbarInfo.error(R.string.delete_document_restricted))
+                return@launch
+            }
+
+            val storedFilename = DownloadedFile.getDocumentName(documentId, filename)
+
+            withIO {
+                documentRepository.deleteDocument(tripId, pointId, documentId, pointType)
+                    .safeCollect(this) {
+                        when (it) {
+                            is Result.Cache -> TODO()
+                            is Result.Failure -> failure(it.error, documentActionLoading)
+                            is Result.Loading -> documentActionLoading.value = true
+                            is Result.Success -> deleteDocumentSuccess(tripId, pointId, storedFilename)
+                        }
+                    }
+            }
+        }
+    }
+
+    private suspend fun deleteDocumentSuccess(tripId: Int, pointId: Int, storedFilename: String) {
+        removeFile(storedFilename)
+        viewModelScope.launchIO { getDocuments(tripId, pointId, this) }
+        documentActionLoading.value = false
     }
 
     data class LocationBundle(
