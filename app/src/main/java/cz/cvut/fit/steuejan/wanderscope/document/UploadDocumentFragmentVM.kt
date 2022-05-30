@@ -124,6 +124,7 @@ class UploadDocumentFragmentVM(
 
             //last check of size
             if (fileBytes.size > Constants.DOCUMENT_MAX_SIZE) {
+                loading.postValue(false)
                 validateFilename.postValue(R.string.upload_document_too_large)
                 return@launchIO
             }
@@ -180,7 +181,6 @@ class UploadDocumentFragmentVM(
     }
 
     private fun uploadFileSuccess() {
-        //todo propagate result
         loading.value = false
         requestIsSuccess.publish()
     }

@@ -79,6 +79,14 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         }
     }
 
+    protected fun updateDocument(update: Boolean = true, onBackground: Boolean = false) {
+        if (onBackground) {
+            mainViewModel.updateDocument.postValue(update)
+        } else {
+            mainViewModel.updateDocument.value = update
+        }
+    }
+
     private fun listenToNavigate() {
         viewModel.navigateEvent.safeObserve {
             when (it) {

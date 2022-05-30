@@ -8,6 +8,7 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
+import cz.cvut.fit.steuejan.wanderscope.MainActivityVM
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.AlertDialogInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
@@ -30,6 +31,7 @@ import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentVM
 import kotlinx.coroutines.delay
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, TripOverviewFragmentVM>(
     R.layout.fragment_trip_overview,
@@ -38,6 +40,8 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
 
     override val content: View get() = binding.tripOverviewContent
     override val shimmer: ShimmerFrameLayout get() = binding.tripOverviewShimmer
+
+    private val mainVM by sharedViewModel<MainActivityVM>()
 
     private var tripOverview: TripResponse? = null
 
@@ -75,6 +79,12 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             viewLifecycleOwner.lifecycleScope.launchWhenResumed {
                 delay(250) //time to hide keyboard
                 it?.getUpdatingString()?.let(::showToast)
+            }
+        }
+        mainVM.updateDocument.safeObserve { update ->
+            if (update) {
+                getTripOverview(Load.DOCUMENTS)
+                Load.DOCUMENTS.getUpdatingString()?.let(::showToast)
             }
         }
     }

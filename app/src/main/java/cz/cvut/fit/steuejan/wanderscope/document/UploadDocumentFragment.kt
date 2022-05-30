@@ -30,6 +30,7 @@ class UploadDocumentFragment : MvvmFragment<
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         chooseFile()
+        handleSuccessRequest()
     }
 
     @Suppress("DEPRECATION")
@@ -47,6 +48,13 @@ class UploadDocumentFragment : MvvmFragment<
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_FILE_REQUEST && resultCode == Activity.RESULT_OK) {
             data?.data?.let(viewModel::analyzePickedFile)
+        }
+    }
+
+    private fun handleSuccessRequest() {
+        viewModel.requestIsSuccess.safeObserve {
+            updateDocument()
+            navigateBack()
         }
     }
 
