@@ -163,10 +163,6 @@
         <action
             android:id="@+id/action_homeFragment_to_addEditTripFragment"
             app:destination="@id/addEditTripFragment" />
-        <!--        todo remove-->
-        <action
-            android:id="@+id/action_homeFragment_to_uploadDocumentFragment"
-            app:destination="@id/uploadDocumentFragment" />
     </fragment>
 
     <fragment
@@ -253,6 +249,9 @@
         <action
             android:id="@+id/action_transportOverviewFragment_to_transportAddEditFragment"
             app:destination="@id/transportAddEditFragment" />
+        <action
+            android:id="@+id/action_transportOverviewFragment_to_uploadDocumentFragment"
+            app:destination="@id/uploadDocumentFragment" />
     </fragment>
 
     <fragment
@@ -266,6 +265,9 @@
         <action
             android:id="@+id/action_placeOverviewFragment_to_placeAddEditFragment"
             app:destination="@id/placeAddEditFragment" />
+        <action
+            android:id="@+id/action_placeOverviewFragment_to_uploadDocumentFragment"
+            app:destination="@id/uploadDocumentFragment" />
     </fragment>
 
     <fragment
@@ -279,6 +281,9 @@
         <action
             android:id="@+id/action_activityOverviewFragment_to_activityAddEditFragment"
             app:destination="@id/activityAddEditFragment" />
+        <action
+            android:id="@+id/action_activityOverviewFragment_to_uploadDocumentFragment"
+            app:destination="@id/uploadDocumentFragment" />
     </fragment>
 
     <fragment
@@ -292,6 +297,9 @@
         <action
             android:id="@+id/action_accommodationOverviewFragment_to_accommodationAddEditFragment"
             app:destination="@id/accommodationAddEditFragment" />
+        <action
+            android:id="@+id/action_accommodationOverviewFragment_to_uploadDocumentFragment"
+            app:destination="@id/uploadDocumentFragment" />
     </fragment>
 
     <fragment

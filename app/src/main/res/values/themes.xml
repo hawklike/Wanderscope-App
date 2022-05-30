@@ -302,6 +302,8 @@
         <item name="indicatorSize">18dp</item>
         <item name="trackThickness">2.5dp</item>
         <item name="indicatorColor">@color/colorText</item>
+        <item name="showAnimationBehavior">outward</item>
+        <item name="hideAnimationBehavior">inward</item>
     </style>
 
 </resources>

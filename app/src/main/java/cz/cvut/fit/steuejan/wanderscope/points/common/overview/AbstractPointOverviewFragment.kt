@@ -10,11 +10,13 @@ import androidx.databinding.ViewDataBinding
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textview.MaterialTextView
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
+import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.extension.addMarker
@@ -42,6 +44,8 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
     protected abstract val menuEditItem: Int
     protected abstract val menuDeleteItem: Int
 
+    protected abstract val addDocumentButton: MaterialTextView
+
     abstract fun setFragmentResult()
 
     private val abstractViewModel by lazy {
@@ -60,6 +64,7 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(pointOverview.title)
+        handleActionButtons()
         retrievePointOverview()
         waitUntilMapAndCoordinatesAreReady()
         prepareMap(savedInstanceState)
@@ -98,6 +103,10 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
     abstract fun editPoint(): Boolean
     abstract fun deletePoint(): Boolean
     abstract fun saveToCalendar(): Boolean
+
+    private fun handleActionButtons() {
+        addDocumentButton.visibleOrGone(pointOverview.userRole.canEdit())
+    }
 
     private fun prepareMap(savedInstanceState: Bundle?) {
         val mapViewBundle = savedInstanceState?.getBundle(MAP_BUNDLE_KEY)

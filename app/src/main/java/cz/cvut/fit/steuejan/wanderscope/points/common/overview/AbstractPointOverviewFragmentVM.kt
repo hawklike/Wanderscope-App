@@ -64,6 +64,8 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     val deleteIsSuccess = AnySingleLiveEvent()
     val deleteLoading = SingleLiveEvent<Int>()
 
+    val documentDownloadLoading = MutableLiveData<Boolean>()
+
     fun getPoint(tripId: Int, pointId: Int) {
         viewModelScope.launchIO { getPointOverview(tripId, pointId, this) }
         viewModelScope.launchIO { getDocuments(tripId, pointId, this) }

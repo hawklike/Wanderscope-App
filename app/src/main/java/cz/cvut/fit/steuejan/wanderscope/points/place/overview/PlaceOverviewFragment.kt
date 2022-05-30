@@ -7,6 +7,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.navArgs
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.maps.MapView
+import com.google.android.material.textview.MaterialTextView
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentPointPlaceOverviewBinding
@@ -28,6 +29,8 @@ class PlaceOverviewFragment : AbstractPointOverviewFragment<
     override val pointOverview by lazy { args.overviewBundle }
 
     override val map: MapView get() = binding.placeOverviewMap
+
+    override val addDocumentButton: MaterialTextView get() = binding.placeOverviewDocumentAdd
 
     override val menuEditItem = R.string.edit_place
     override val menuDeleteItem = R.string.delete_place

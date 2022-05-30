@@ -14,6 +14,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.AlertDialogInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
+import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
@@ -256,14 +257,9 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     }
 
     private fun showActionButtons(userRole: UserRole) {
-        val visibility = if (userRole.canEdit()) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
-        binding.tripOverviewAddButton.visibility = visibility
-        binding.tripOverviewManageTravellers.visibility = visibility
-        binding.tripOverviewDocumentAdd.visibility = visibility
+        binding.tripOverviewAddButton.visibleOrGone(userRole.canEdit())
+        binding.tripOverviewManageTravellers.visibleOrGone(userRole.canEdit())
+        binding.tripOverviewDocumentAdd.visibleOrGone(userRole.canEdit())
     }
 
     private fun hideActionButtons() {

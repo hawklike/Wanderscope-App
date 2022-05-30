@@ -360,6 +360,27 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/placeOverviewMapHolder" />
 
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:id="@+id/placeOverviewDocumentLoading"
+                            style="@style/Widget.Wanderscope.Loading.Documents"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:showLoading="@{vm.documentDownloadLoading}"
+                            app:layout_constraintBottom_toBottomOf="@id/placeOverviewDocumentsLabel"
+                            app:layout_constraintStart_toEndOf="@id/placeOverviewDocumentsLabel" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/placeOverviewDocumentAdd"
+                            style="@style/Widget.Wanderscope.ClickableText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:onClick="@{() -> vm.addDocument()}"
+                            android:text="@string/add"
+                            app:layout_constraintBottom_toBottomOf="@id/placeOverviewDocumentsLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/placeOverviewDocumentsLabel" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
