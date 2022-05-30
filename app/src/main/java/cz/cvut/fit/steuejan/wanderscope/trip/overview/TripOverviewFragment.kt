@@ -191,6 +191,13 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
                 }
             }
         }
+        listenToDocumentSuccessRequest()
+    }
+
+    private fun listenToDocumentSuccessRequest() {
+        viewModel.documentSuccessRequest.safeObserve {
+            binding.tripOverviewDocument.smoothScrollToPosition(0)
+        }
     }
 
     @SuppressLint("InflateParams")
@@ -358,12 +365,6 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     private fun listenToDeleteTrip() {
         viewModel.deleteTripSuccess.safeObserve {
             updateTrip()
-            showSnackbar(
-                SnackbarInfo(
-                    R.string.successfully_deleted,
-                    length = Snackbar.LENGTH_SHORT
-                )
-            )
             navigateBack()
         }
     }

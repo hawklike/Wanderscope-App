@@ -133,6 +133,13 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
                 }
             }
         }
+        listenToDocumentSuccessRequest()
+    }
+
+    private fun listenToDocumentSuccessRequest() {
+        abstractViewModel?.documentSuccessRequest?.safeObserve {
+            documentsRecycler.smoothScrollToPosition(0)
+        }
     }
 
     @SuppressLint("InflateParams")
@@ -165,8 +172,8 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
                     positiveButton = R.string.delete
                 ) { _, _ ->
                     abstractViewModel?.deleteDocument(item.id, item.ownerId, item.name, pointOverview.userRole)
-                    ?: showToast(R.string.unexpected_error_short)
-            })
+                        ?: showToast(R.string.unexpected_error_short)
+                })
         }
     }
 

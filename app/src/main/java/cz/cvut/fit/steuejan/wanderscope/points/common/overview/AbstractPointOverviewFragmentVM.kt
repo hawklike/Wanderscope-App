@@ -33,6 +33,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.repository.PointRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import org.koin.core.component.inject
@@ -55,6 +56,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
     val duration = MutableLiveData<DaysHoursMinutes?>()
 
     val documents = MutableLiveData<List<RecyclerItem>>()
+    val documentSuccessRequest = AnySingleLiveEvent()
 
     val pointOverview = MutableLiveData<Response>()
 
@@ -136,6 +138,8 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
         showUpdateToast(items, documents.value, R.string.documents_updated)
         documents.value = items.ifEmpty { listOf(EmptyItem.documents()) }
         documentsLoading.value = false
+        delay(100) //update the recycler meanwhile
+        documentSuccessRequest.publish()
     }
 
     protected fun failure(error: Error, loading: MutableLiveData<Boolean>) {

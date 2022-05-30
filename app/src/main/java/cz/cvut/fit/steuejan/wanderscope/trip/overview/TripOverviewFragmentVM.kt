@@ -34,6 +34,7 @@ import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDire
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
 import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 
@@ -55,6 +56,8 @@ class TripOverviewFragmentVM(
     val travellers = MutableLiveData<List<RecyclerItem>>()
 
     val tripOverview = MutableLiveData<TripResponse>()
+
+    val documentSuccessRequest = AnySingleLiveEvent()
 
     private val tripOverviewLoading = MutableLiveData<Boolean>()
     private val accommodationLoading = MutableLiveData<Boolean>()
@@ -239,6 +242,8 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.documents.map { it.toOverviewItem() } }
         documents.value = items.ifEmpty { listOf(EmptyItem.documents()) }
         documentsLoading.value = false
+        delay(100) //update the recycler meanwhile
+        documentSuccessRequest.publish()
     }
 
     private suspend fun getUsers(tripId: Int, scope: CoroutineScope) {
