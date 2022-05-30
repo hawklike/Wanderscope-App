@@ -88,6 +88,7 @@ ext {
     fab_speed_dial_version = '3.3.0'
     maps_sdk_version = '18.0.2'
     maps_ktx_version = '3.2.1'
+    jwt_decode_version = '2.0.1'
 }
 
 dependencies {
@@ -160,6 +161,9 @@ dependencies {
 
     //FAB Speed Dial
     implementation "com.leinardi.android:speed-dial:$fab_speed_dial_version"
+
+    //JWT Decode
+    implementation "com.auth0.android:jwtdecode:$jwt_decode_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

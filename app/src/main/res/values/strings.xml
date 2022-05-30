@@ -349,6 +349,11 @@
     <string name="download_document_message">It will take a few seconds. Next time the document will be ready immediately.</string>
     <string name="download">Download</string>
 
+    <string name="delete_document_title">Delete document?</string>
+    <string name="delete_document_message">The document will be deleted from your device too.</string>
+
+    <string name="delete_document_restricted">Only the document\'s owner or admin may delete the document</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>

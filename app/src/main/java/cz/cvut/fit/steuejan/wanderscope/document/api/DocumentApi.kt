@@ -69,4 +69,18 @@ interface DocumentApi {
         @Path("id") documentId: Int,
         @Header("Wanderscope-Document-Key") key: String? = null
     ): Response<ResponseBody>
+
+    @DELETE("/trip/{tripId}/document/{id}")
+    suspend fun deleteTripDocument(
+        @Path("tripId") tripId: Int,
+        @Path("id") id: Int
+    ): Response<Unit>
+
+    @DELETE("/trip/{tripId}/{pointType}/{pointId}/document/{id}")
+    suspend fun deleteTripPointDocument(
+        @Path("tripId") tripId: Int,
+        @Path("pointType") pointType: String,
+        @Path("pointId") pointId: Int,
+        @Path("id") documentId: Int
+    ): Response<Unit>
 }

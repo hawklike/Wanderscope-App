@@ -10,12 +10,14 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
 import cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle
@@ -30,11 +32,13 @@ import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDire
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
 import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 
 class TripOverviewFragmentVM(
     private val tripRepository: TripRepository,
-    private val documentRepository: DocumentRepository
+    private val documentRepository: DocumentRepository,
+    private val sessionManager: SessionManager
 ) : BaseViewModel() {
 
     val title = MutableLiveData<String>()
@@ -58,7 +62,7 @@ class TripOverviewFragmentVM(
     private val documentsLoading = MutableLiveData<Boolean>()
     private val travellersLoading = MutableLiveData<Boolean>()
 
-    val documentDownloadLoading = MutableLiveData<Boolean>()
+    val documentActionLoading = MutableLiveData<Boolean>()
 
     val loading = LoadingMediator(
         tripOverviewLoading,
@@ -326,8 +330,8 @@ class TripOverviewFragmentVM(
             documentRepository.getDocument(tripId, documentId).safeCollect(this) {
                 when (it) {
                     is Result.Cache -> TODO()
-                    is Result.Failure -> downloadDocumentFailure(it.error)
-                    is Result.Loading -> documentDownloadLoading.value = true
+                    is Result.Failure -> failure(it.error, documentActionLoading)
+                    is Result.Loading -> documentActionLoading.value = true
                     is Result.Success -> downloadDocumentSuccess(it.data, documentId, name, type)
                 }
             }
@@ -340,7 +344,7 @@ class TripOverviewFragmentVM(
     }
 
     private fun downloadDocumentFailure(error: Error) {
-        documentDownloadLoading.value = false
+        documentActionLoading.value = false
         unexpectedError(error)
     }
 
@@ -352,5 +356,34 @@ class TripOverviewFragmentVM(
                 )
             )
         )
+    }
+
+    fun deleteDocument(documentId: Int, ownerId: Int) {
+        viewModelScope.launch {
+            val userId = withIO { sessionManager.getUserId() }
+
+            if (userId != ownerId && tripOverview.value?.userRole != UserRole.ADMIN) {
+                showSnackbar(SnackbarInfo.error(R.string.delete_document_restricted))
+                return@launch
+            }
+
+            val tripId = tripOverview.value?.id ?: return@launch
+            withIO {
+                documentRepository.deleteDocument(tripId, documentId).safeCollect(this) {
+                    when (it) {
+                        is Result.Cache -> TODO()
+                        is Result.Failure -> failure(it.error, documentActionLoading)
+                        is Result.Loading -> documentActionLoading.value = true
+                        is Result.Success -> deleteDocumentSuccess(tripId)
+                    }
+                }
+            }
+        }
+    }
+
+    //todo remove from device
+    private fun deleteDocumentSuccess(tripId: Int) {
+        documentActionLoading.value = false
+        loadDocuments(tripId)
     }
 }

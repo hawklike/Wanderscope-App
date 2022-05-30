@@ -68,4 +68,19 @@ class DocumentRepository(private val documentApi: DocumentApi) {
         }
     }
 
+    suspend fun deleteDocument(tripId: Int, documentId: Int): Flow<Result<Unit>> {
+        return performCall { documentApi.deleteTripDocument(tripId, documentId) }.toUnitIfSuccess()
+    }
+
+    suspend fun deleteDocument(
+        tripId: Int,
+        pointId: Int,
+        documentId: Int,
+        pointType: TripPointType
+    ): Flow<Result<Unit>> {
+        return performCall {
+            documentApi.deleteTripPointDocument(tripId, pointType.toString(), pointId, documentId)
+        }.toUnitIfSuccess()
+    }
+
 }

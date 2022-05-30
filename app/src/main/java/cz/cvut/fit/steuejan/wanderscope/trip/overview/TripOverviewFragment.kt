@@ -12,6 +12,7 @@ import cz.cvut.fit.steuejan.wanderscope.MainActivityVM
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.AlertDialogInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
+import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
 import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
@@ -176,13 +177,26 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     }
 
     private fun handleDocumentsRecycler() {
-        setAdapterListener(binding.tripOverviewDocument) { item, _ ->
+        setAdapterListener(binding.tripOverviewDocument, onLongClickListener = ::deleteDocument) { item, _ ->
             if (item is DocumentMetadataItem) {
                 val filename = "${item.id}_${item.name}"
                 if (!FileManager(requireContext()).openFile(filename, item.type)) {
                     showDialogBeforeDownload(item.id, item.name, item.type)
                 }
             }
+        }
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun deleteDocument(item: RecyclerItem, position: Int) {
+        if (item is DocumentMetadataItem) {
+            showAlertDialog(AlertDialogInfo(
+                R.string.delete_document_title,
+                R.string.delete_document_message,
+                positiveButton = R.string.delete
+            ) { _, _ ->
+                viewModel.deleteDocument(item.id, item.ownerId)
+            })
         }
     }
 
@@ -199,13 +213,13 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     }
 
     override fun openFile(file: DownloadedFile, fileManager: FileManager, type: DocumentType?): Boolean {
-        viewModel.documentDownloadLoading.postValue(false)
+        viewModel.documentActionLoading.postValue(false)
         return super.openFile(file, fileManager, type)
     }
 
     override fun savingFileFailed() {
         super.savingFileFailed()
-        viewModel.documentDownloadLoading.postValue(false)
+        viewModel.documentActionLoading.postValue(false)
     }
 
     private fun goToTransport(item: TripPointOverviewItem) {
