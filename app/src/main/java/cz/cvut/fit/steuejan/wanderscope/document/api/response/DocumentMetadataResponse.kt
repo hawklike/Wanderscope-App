@@ -26,6 +26,7 @@ data class DocumentMetadataResponse(
         name,
         updated.toNiceString(),
         hasKey,
-        type.toIcon()
+        type.toIcon(),
+        type
     )
 }

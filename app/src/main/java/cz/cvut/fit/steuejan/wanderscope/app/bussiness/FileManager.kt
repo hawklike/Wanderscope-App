@@ -2,8 +2,10 @@ package cz.cvut.fit.steuejan.wanderscope.app.bussiness
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.core.content.FileProvider
 import cz.cvut.fit.steuejan.wanderscope.BuildConfig
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withIO
 import cz.cvut.fit.steuejan.wanderscope.app.util.runOrLogException
 import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
@@ -23,7 +25,7 @@ class FileManager(private val context: Context) {
         }
     }
 
-    fun openFile(filename: String): Boolean {
+    fun openFile(filename: String, type: DocumentType? = null): Boolean {
         val fileUri = runOrNull {
             val file = File(context.filesDir, filename)
             if (!file.exists()) {
@@ -34,7 +36,7 @@ class FileManager(private val context: Context) {
 
         val intent = Intent(Intent.ACTION_VIEW).apply {
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            setDataAndType(fileUri, context.contentResolver.getType(fileUri))
+            setDataAndType(fileUri, resolveType(fileUri, type))
         }
 
         return runOrNull {
@@ -43,8 +45,26 @@ class FileManager(private val context: Context) {
         } ?: false
     }
 
+    private fun resolveType(fileUri: Uri, type: DocumentType?): String {
+        val contentType = context.contentResolver.getType(fileUri)
+        return if (contentType == UNSPECIFIED_TYPE) {
+            when (type) {
+                DocumentType.TEXT -> TEXT
+                DocumentType.IMAGE -> IMAGE
+                DocumentType.DOCUMENT -> PDF
+                DocumentType.GPX -> ALL
+                null -> ALL
+            }
+        } else contentType ?: ALL
+    }
+
     companion object {
         private const val PROVIDER = ".fileprovider"
+        private const val UNSPECIFIED_TYPE = "application/octet-stream"
+        private const val ALL = "*/*"
+        private const val PDF = "application/pdf"
+        private const val IMAGE = "image/*"
+        private const val TEXT = "text/*"
     }
 
 }

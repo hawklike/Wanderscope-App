@@ -178,7 +178,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             if (item is DocumentMetadataItem) {
                 tripOverview?.id?.let {
                     val filename = "${item.id}_${item.name}"
-                    if (!FileManager(requireContext()).openFile(filename)) {
+                    if (!FileManager(requireContext()).openFile(filename, item.type)) {
                         showDialogBeforeDownload(it, item.id, item.name)
                     }
                 }
