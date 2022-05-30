@@ -340,12 +340,7 @@ class TripOverviewFragmentVM(
 
     private fun downloadDocumentSuccess(data: ResponseBody, documentId: Int, name: String, type: DocumentType) {
         val filename = "${documentId}_$name"
-        saveAndOpenFileEvent.value = DownloadedFile(data.source(), filename, type)
-    }
-
-    private fun downloadDocumentFailure(error: Error) {
-        documentActionLoading.value = false
-        unexpectedError(error)
+        saveAndOpenFile(DownloadedFile(data.source(), filename, type))
     }
 
     fun addDocument() {
@@ -358,7 +353,7 @@ class TripOverviewFragmentVM(
         )
     }
 
-    fun deleteDocument(documentId: Int, ownerId: Int) {
+    fun deleteDocument(documentId: Int, ownerId: Int, filename: String) {
         viewModelScope.launch {
             val userId = withIO { sessionManager.getUserId() }
 
@@ -368,22 +363,24 @@ class TripOverviewFragmentVM(
             }
 
             val tripId = tripOverview.value?.id ?: return@launch
+            val storedFilename = DownloadedFile.getDocumentName(documentId, filename)
+
             withIO {
                 documentRepository.deleteDocument(tripId, documentId).safeCollect(this) {
                     when (it) {
                         is Result.Cache -> TODO()
                         is Result.Failure -> failure(it.error, documentActionLoading)
                         is Result.Loading -> documentActionLoading.value = true
-                        is Result.Success -> deleteDocumentSuccess(tripId)
+                        is Result.Success -> deleteDocumentSuccess(tripId, storedFilename)
                     }
                 }
             }
         }
     }
 
-    //todo remove from device
-    private fun deleteDocumentSuccess(tripId: Int) {
-        documentActionLoading.value = false
+    private fun deleteDocumentSuccess(tripId: Int, storedFilename: String) {
+        removeFile(storedFilename)
         loadDocuments(tripId)
+        documentActionLoading.value = false
     }
 }

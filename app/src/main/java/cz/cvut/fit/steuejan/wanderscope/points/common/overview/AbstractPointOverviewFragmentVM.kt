@@ -185,7 +185,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
 
     private fun downloadDocumentSuccess(data: ResponseBody, documentId: Int, name: String, type: DocumentType) {
         val filename = "${documentId}_$name"
-        saveAndOpenFileEvent.value = DownloadedFile(data.source(), filename, type)
+        saveAndOpenFile(DownloadedFile(data.source(), filename, type))
     }
 
     private fun downloadDocumentFailure(error: Error) {

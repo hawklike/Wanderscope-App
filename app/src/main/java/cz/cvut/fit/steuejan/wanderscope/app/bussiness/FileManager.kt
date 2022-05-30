@@ -3,9 +3,7 @@ package cz.cvut.fit.steuejan.wanderscope.app.bussiness
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.provider.DocumentsContract
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 import cz.cvut.fit.steuejan.wanderscope.BuildConfig
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withIO
@@ -51,7 +49,7 @@ class FileManager(private val context: Context) {
         return withIO {
             runOrLogException {
                 val file = File(context.filesDir, filename)
-                DocumentsContract.deleteDocument(context.contentResolver, file.toUri())
+                file.delete()
             } ?: false
         }
     }

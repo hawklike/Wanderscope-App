@@ -119,7 +119,7 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
     private fun handleDocumentsRecycler() {
         setAdapterListener(documentsRecycler) { item, _ ->
             if (item is DocumentMetadataItem) {
-                val filename = "${item.id}_${item.name}"
+                val filename = DownloadedFile.getDocumentName(item.id, item.name)
                 if (!FileManager(requireContext()).openFile(filename, item.type)) {
                     showDialogBeforeDownload(item.id, item.name, item.type)
                 }

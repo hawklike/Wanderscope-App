@@ -42,6 +42,7 @@ abstract class BaseViewModel(
     val timePickerEvent = SingleLiveEvent<TimePickerInfo>()
     val showAlertDialogEvent = SingleLiveEvent<AlertDialogInfo>()
     val saveAndOpenFileEvent = SingleLiveEvent<DownloadedFile>()
+    val removeFileEvent = SingleLiveEvent<String>()
 
     protected fun navigateTo(event: NavigationEvent, onBackground: Boolean = false) {
         if (onBackground) {
@@ -120,6 +121,22 @@ abstract class BaseViewModel(
             showAlertDialogEvent.postValue(alertInfo)
         } else {
             showAlertDialogEvent.value = alertInfo
+        }
+    }
+
+    protected fun saveAndOpenFile(file: DownloadedFile, onBackground: Boolean = false) {
+        if (onBackground) {
+            saveAndOpenFileEvent.postValue(file)
+        } else {
+            saveAndOpenFileEvent.value = file
+        }
+    }
+
+    protected fun removeFile(filename: String, onBackground: Boolean = false) {
+        if (onBackground) {
+            removeFileEvent.postValue(filename)
+        } else {
+            removeFileEvent.value = filename
         }
     }
 

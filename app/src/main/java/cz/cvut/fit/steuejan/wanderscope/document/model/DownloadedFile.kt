@@ -7,4 +7,10 @@ data class DownloadedFile(
     val data: BufferedSource,
     val filename: String,
     val type: DocumentType? = null
-)
+) {
+    companion object {
+        fun getDocumentName(documentId: Int, documentName: String): String {
+            return "${documentId}_$documentName"
+        }
+    }
+}

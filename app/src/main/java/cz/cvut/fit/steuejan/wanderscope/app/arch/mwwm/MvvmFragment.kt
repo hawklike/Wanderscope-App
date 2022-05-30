@@ -57,6 +57,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         listenToTimePicker()
         listenToAlertDialog()
         saveAndOpenFile()
+        removeFile()
     }
 
     override fun onDestroy() {
@@ -179,6 +180,14 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun removeFile() {
+        viewModel.removeFileEvent.safeObserve { filename ->
+            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                FileManager(requireContext()).deleteFile(filename)
             }
         }
     }
