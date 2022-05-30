@@ -15,13 +15,6 @@
         android:layout_height="match_parent"
         tools:context=".home.HomeFragment">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="match_parent"
-            android:text="click here"
-            android:textSize="24sp"
-            android:onClick="@{() -> vm.onClick()}"
-            android:layout_height="wrap_content" />
-
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/homeShimmer"
             android:layout_width="match_parent"

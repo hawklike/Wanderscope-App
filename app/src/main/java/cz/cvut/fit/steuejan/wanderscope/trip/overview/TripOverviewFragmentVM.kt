@@ -17,6 +17,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
+import cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle
 import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
@@ -342,6 +343,12 @@ class TripOverviewFragmentVM(
     }
 
     fun addDocument() {
-        //todo
+        navigateTo(
+            Action(
+                TripPagerFragmentDirections.actionTripPagerFragmentToUploadDocumentFragment(
+                    UploadDocumentBundle(tripOverview.value?.id ?: return)
+                )
+            )
+        )
     }
 }

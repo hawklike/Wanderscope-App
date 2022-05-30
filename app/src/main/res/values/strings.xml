@@ -345,6 +345,10 @@
     <string name="save_file_error_document">Saving file failed. Check free space</string>
     <string name="open_document_fail">Unsupported type. Your device can\'t open the file.</string>
 
+    <string name="download_document_title">Download document?</string>
+    <string name="download_document_message">It will take a few seconds. Next time the document will be ready immediately.</string>
+    <string name="download">Download</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>

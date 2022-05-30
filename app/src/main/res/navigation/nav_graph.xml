@@ -123,6 +123,9 @@
         <action
             android:id="@+id/action_tripPagerFragment_to_tripUsersFragment"
             app:destination="@id/tripUsersFragment" />
+        <action
+            android:id="@+id/action_tripPagerFragment_to_uploadDocumentFragment"
+            app:destination="@id/uploadDocumentFragment" />
     </fragment>
 
     <fragment

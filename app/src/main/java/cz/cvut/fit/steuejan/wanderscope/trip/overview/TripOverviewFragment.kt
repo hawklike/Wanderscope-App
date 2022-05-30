@@ -59,7 +59,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         super.onViewCreated(view, savedInstanceState)
         setTitle()
         handleLoading()
-        handleActionButton()
+        handleActionButtons()
         handlePointsRecycler()
         handleDocumentsRecycler()
         listenToChanges()
@@ -89,12 +89,12 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
-    private fun handleActionButton() {
+    private fun handleActionButtons() {
         arguments?.getInt(TRIP_ID) ?: return
-        hideActionButton()
+        hideActionButtons()
         viewModel.tripOverview.safeObserve {
             tripOverview = it
-            showActionButton(it.userRole)
+            showActionButtons(it.userRole)
         }
     }
 
@@ -169,11 +169,23 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
                 tripOverview?.id?.let {
                     val filename = "${item.id}_${item.name}"
                     if (!FileManager(requireContext()).openFile(filename)) {
-                        viewModel.downloadDocument(it, item.id, item.name)
+                        showDialogBeforeDownload(it, item.id, item.name)
                     }
                 }
             }
         }
+    }
+
+    private fun showDialogBeforeDownload(tripId: Int, documentId: Int, filename: String) {
+        showAlertDialog(
+            AlertDialogInfo(
+                R.string.download_document_title,
+                R.string.download_document_message,
+                positiveButton = R.string.download
+            ) { _, _ ->
+                viewModel.downloadDocument(tripId, documentId, filename)
+            }
+        )
     }
 
     override fun openFile(file: DownloadedFile, fileManager: FileManager): Boolean {
@@ -233,7 +245,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         return PointOverviewBundle.create(trip.id, item.id, trip.userRole, item.name)
     }
 
-    private fun showActionButton(userRole: UserRole) {
+    private fun showActionButtons(userRole: UserRole) {
         val visibility = if (userRole.canEdit()) {
             View.VISIBLE
         } else {
@@ -241,11 +253,13 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
         binding.tripOverviewAddButton.visibility = visibility
         binding.tripOverviewManageTravellers.visibility = visibility
+        binding.tripOverviewDocumentAdd.visibility = visibility
     }
 
-    private fun hideActionButton() {
+    private fun hideActionButtons() {
         binding.tripOverviewAddButton.visibility = View.GONE
         binding.tripOverviewManageTravellers.visibility = View.GONE
+        binding.tripOverviewDocumentAdd.visibility = View.GONE
     }
 
     private fun editTrip(): Boolean {
