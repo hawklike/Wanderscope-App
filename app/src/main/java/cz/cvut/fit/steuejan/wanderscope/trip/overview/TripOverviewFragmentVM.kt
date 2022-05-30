@@ -9,6 +9,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
@@ -319,22 +320,23 @@ class TripOverviewFragmentVM(
     }
 
     //todo handle key
-    fun downloadDocument(tripId: Int, documentId: Int, name: String) {
+    fun downloadDocument(documentId: Int, name: String, type: DocumentType) {
+        val tripId = tripOverview.value?.id ?: return
         viewModelScope.launchIO {
             documentRepository.getDocument(tripId, documentId).safeCollect(this) {
                 when (it) {
                     is Result.Cache -> TODO()
                     is Result.Failure -> downloadDocumentFailure(it.error)
                     is Result.Loading -> documentDownloadLoading.value = true
-                    is Result.Success -> downloadDocumentSuccess(it.data, documentId, name)
+                    is Result.Success -> downloadDocumentSuccess(it.data, documentId, name, type)
                 }
             }
         }
     }
 
-    private fun downloadDocumentSuccess(data: ResponseBody, documentId: Int, name: String) {
+    private fun downloadDocumentSuccess(data: ResponseBody, documentId: Int, name: String, type: DocumentType) {
         val filename = "${documentId}_$name"
-        saveAndOpenFileEvent.value = DownloadedFile(data.source(), filename)
+        saveAndOpenFileEvent.value = DownloadedFile(data.source(), filename, type)
     }
 
     private fun downloadDocumentFailure(error: Error) {

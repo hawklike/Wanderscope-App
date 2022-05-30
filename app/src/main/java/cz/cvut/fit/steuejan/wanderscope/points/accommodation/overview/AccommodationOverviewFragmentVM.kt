@@ -9,13 +9,21 @@ import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import cz.cvut.fit.steuejan.wanderscope.app.util.callPhone
 import cz.cvut.fit.steuejan.wanderscope.app.util.sendEmail
 import cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle
+import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.AccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.repository.AccommodationRepository
 import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.AbstractPointOverviewFragmentVM
 
-class AccommodationOverviewFragmentVM(accommodationRepository: AccommodationRepository) :
-    AbstractPointOverviewFragmentVM<AccommodationResponse>(accommodationRepository) {
+class AccommodationOverviewFragmentVM(
+    accommodationRepository: AccommodationRepository,
+    documentRepository: DocumentRepository
+) : AbstractPointOverviewFragmentVM<AccommodationResponse>(
+    accommodationRepository,
+    documentRepository
+) {
+
+    override val pointType = TripPointType.ACCOMMODATION
 
     val phone = MutableLiveData<String?>()
     val email = MutableLiveData<String?>()

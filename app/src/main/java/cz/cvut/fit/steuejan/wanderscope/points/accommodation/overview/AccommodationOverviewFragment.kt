@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.maps.MapView
 import com.google.android.material.textview.MaterialTextView
@@ -31,6 +32,8 @@ class AccommodationOverviewFragment : AbstractPointOverviewFragment<
     override val map: MapView get() = binding.accommodationOverviewMap
 
     override val addDocumentButton: MaterialTextView get() = binding.accommodationOverviewDocumentAdd
+
+    override val documentsRecycler: RecyclerView get() = binding.accommodationOverviewDocuments
 
     override val menuEditItem = R.string.edit_accommodation
     override val menuDeleteItem = R.string.delete_accommodation

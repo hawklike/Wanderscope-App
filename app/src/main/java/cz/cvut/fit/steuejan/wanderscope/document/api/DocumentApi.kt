@@ -59,4 +59,14 @@ interface DocumentApi {
         @Path("id") id: Int,
         @Header("Wanderscope-Document-Key") key: String? = null
     ): Response<ResponseBody>
+
+    @Streaming
+    @GET("trip/{tripId}/{pointType}/{pointId}/document/{id}/data")
+    suspend fun getTripPointDocument(
+        @Path("tripId") tripId: Int,
+        @Path("pointType") pointType: String,
+        @Path("pointId") pointId: Int,
+        @Path("id") documentId: Int,
+        @Header("Wanderscope-Document-Key") key: String? = null
+    ): Response<ResponseBody>
 }

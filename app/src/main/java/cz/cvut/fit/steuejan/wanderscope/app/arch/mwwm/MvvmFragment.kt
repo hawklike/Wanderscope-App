@@ -19,6 +19,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withIO
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
@@ -170,7 +171,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
                     downloaded.data.use {
                         val fileManager = FileManager(requireContext())
                         if (fileManager.saveDataToFile(downloaded)) {
-                            if (!openFile(downloaded, fileManager)) {
+                            if (!openFile(downloaded, fileManager, downloaded.type)) {
                                 showSnackbar(SnackbarInfo.error(R.string.open_document_fail))
                             }
                         } else {
@@ -185,8 +186,12 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
     /**
      * Called on **IO thread**.
      */
-    protected open fun openFile(file: DownloadedFile, fileManager: FileManager): Boolean {
-        return fileManager.openFile(file.filename)
+    protected open fun openFile(
+        file: DownloadedFile,
+        fileManager: FileManager,
+        type: DocumentType?
+    ): Boolean {
+        return fileManager.openFile(file.filename, type)
     }
 
     /**

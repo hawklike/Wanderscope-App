@@ -333,7 +333,7 @@
     <string name="upload_document_extensions">Not supported file type</string>
     <string name="upload_document_too_large">The file must have a max of 10MB</string>
     <string name="upload_file">Upload file</string>
-    <string name="upload_document_subtitle">Only .png, .jpg, .jpeg, .gif, .pdf, .txt and .gpx files up to 10MB can be uploaded. You can set a key to protect your document.</string>
+    <string name="upload_document_subtitle">Only .png, .jpg, .jpeg, .gif, .pdf, .txt and .gpx files up to 10MB can be uploaded. You can set a key to protect your document or change the filename.</string>
     <string name="filename">Filename</string>
     <string name="name_of_the_file">Name of the file</string>
     <string name="choose_a_file">Choose a file</string>

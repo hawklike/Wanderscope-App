@@ -17,6 +17,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
 import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
@@ -177,31 +178,29 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     private fun handleDocumentsRecycler() {
         setAdapterListener(binding.tripOverviewDocument) { item, _ ->
             if (item is DocumentMetadataItem) {
-                tripOverview?.id?.let {
-                    val filename = "${item.id}_${item.name}"
-                    if (!FileManager(requireContext()).openFile(filename, item.type)) {
-                        showDialogBeforeDownload(it, item.id, item.name)
-                    }
+                val filename = "${item.id}_${item.name}"
+                if (!FileManager(requireContext()).openFile(filename, item.type)) {
+                    showDialogBeforeDownload(item.id, item.name, item.type)
                 }
             }
         }
     }
 
-    private fun showDialogBeforeDownload(tripId: Int, documentId: Int, filename: String) {
+    private fun showDialogBeforeDownload(documentId: Int, filename: String, type: DocumentType) {
         showAlertDialog(
             AlertDialogInfo(
                 R.string.download_document_title,
                 R.string.download_document_message,
                 positiveButton = R.string.download
             ) { _, _ ->
-                viewModel.downloadDocument(tripId, documentId, filename)
+                viewModel.downloadDocument(documentId, filename, type)
             }
         )
     }
 
-    override fun openFile(file: DownloadedFile, fileManager: FileManager): Boolean {
+    override fun openFile(file: DownloadedFile, fileManager: FileManager, type: DocumentType?): Boolean {
         viewModel.documentDownloadLoading.postValue(false)
-        return super.openFile(file, fileManager)
+        return super.openFile(file, fileManager, type)
     }
 
     override fun savingFileFailed() {

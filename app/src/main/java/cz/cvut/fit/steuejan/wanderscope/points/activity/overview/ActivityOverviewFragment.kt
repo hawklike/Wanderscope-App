@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.maps.MapView
 import com.google.android.material.textview.MaterialTextView
@@ -31,6 +32,8 @@ class ActivityOverviewFragment : AbstractPointOverviewFragment<
     override val map: MapView get() = binding.activityOverviewMap
 
     override val addDocumentButton: MaterialTextView get() = binding.activityOverviewDocumentAdd
+
+    override val documentsRecycler: RecyclerView get() = binding.activityOverviewDocuments
 
     override val menuEditItem = R.string.edit_activity
     override val menuDeleteItem = R.string.delete_activity

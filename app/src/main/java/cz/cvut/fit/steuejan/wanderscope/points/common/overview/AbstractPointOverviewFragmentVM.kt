@@ -12,6 +12,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
@@ -22,13 +23,20 @@ import cz.cvut.fit.steuejan.wanderscope.app.util.goToWebsite
 import cz.cvut.fit.steuejan.wanderscope.app.util.model.DaysHoursMinutes
 import cz.cvut.fit.steuejan.wanderscope.app.util.showMap
 import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
+import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
+import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
+import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.repository.PointRepository
 import kotlinx.coroutines.CoroutineScope
+import okhttp3.ResponseBody
 
 abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
-    protected val pointRepository: PointRepository<*, Response>
+    protected val pointRepository: PointRepository<*, Response>,
+    protected val documentRepository: DocumentRepository
 ) : BaseViewModel() {
+
+    abstract val pointType: TripPointType
 
     val startDate = MutableLiveData<String?>()
     val endDate = MutableLiveData<String?>()
@@ -157,6 +165,32 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
                 }
             }
         }
+    }
+
+    //todo handle key
+    fun downloadDocument(documentId: Int, name: String, type: DocumentType) {
+        val tripId = pointOverview.value?.tripId ?: return
+        val pointId = pointOverview.value?.id ?: return
+        viewModelScope.launchIO {
+            documentRepository.getDocument(tripId, pointId, documentId, pointType).safeCollect(this) {
+                when (it) {
+                    is Result.Cache -> TODO()
+                    is Result.Failure -> downloadDocumentFailure(it.error)
+                    is Result.Loading -> documentDownloadLoading.value = true
+                    is Result.Success -> downloadDocumentSuccess(it.data, documentId, name, type)
+                }
+            }
+        }
+    }
+
+    private fun downloadDocumentSuccess(data: ResponseBody, documentId: Int, name: String, type: DocumentType) {
+        val filename = "${documentId}_$name"
+        saveAndOpenFileEvent.value = DownloadedFile(data.source(), filename, type)
+    }
+
+    private fun downloadDocumentFailure(error: Error) {
+        documentDownloadLoading.value = false
+        unexpectedError(error)
     }
 
     data class LocationBundle(

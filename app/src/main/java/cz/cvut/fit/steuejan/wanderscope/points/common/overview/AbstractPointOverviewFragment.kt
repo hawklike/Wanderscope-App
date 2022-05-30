@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.material.snackbar.Snackbar
@@ -17,11 +18,15 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.extension.addMarker
 import cz.cvut.fit.steuejan.wanderscope.app.extension.adjustZoom
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
+import cz.cvut.fit.steuejan.wanderscope.document.DocumentMetadataItem
+import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
 import kotlin.reflect.KClass
@@ -46,6 +51,8 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
 
     protected abstract val addDocumentButton: MaterialTextView
 
+    protected abstract val documentsRecycler: RecyclerView
+
     abstract fun setFragmentResult()
 
     private val abstractViewModel by lazy {
@@ -65,6 +72,7 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
         super.onViewCreated(view, savedInstanceState)
         setTitle(pointOverview.title)
         handleActionButtons()
+        handleDocumentsRecycler()
         retrievePointOverview()
         waitUntilMapAndCoordinatesAreReady()
         prepareMap(savedInstanceState)
@@ -106,6 +114,40 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
 
     private fun handleActionButtons() {
         addDocumentButton.visibleOrGone(pointOverview.userRole.canEdit())
+    }
+
+    private fun handleDocumentsRecycler() {
+        setAdapterListener(documentsRecycler) { item, _ ->
+            if (item is DocumentMetadataItem) {
+                val filename = "${item.id}_${item.name}"
+                if (!FileManager(requireContext()).openFile(filename, item.type)) {
+                    showDialogBeforeDownload(item.id, item.name, item.type)
+                }
+            }
+        }
+    }
+
+    private fun showDialogBeforeDownload(documentId: Int, filename: String, type: DocumentType) {
+        showAlertDialog(
+            BaseViewModel.AlertDialogInfo(
+                R.string.download_document_title,
+                R.string.download_document_message,
+                positiveButton = R.string.download
+            ) { _, _ ->
+                abstractViewModel?.downloadDocument(documentId, filename, type)
+                    ?: showToast(R.string.unexpected_error_short)
+            }
+        )
+    }
+
+    override fun openFile(file: DownloadedFile, fileManager: FileManager, type: DocumentType?): Boolean {
+        abstractViewModel?.documentDownloadLoading?.postValue(false)
+        return super.openFile(file, fileManager, type)
+    }
+
+    override fun savingFileFailed() {
+        super.savingFileFailed()
+        abstractViewModel?.documentDownloadLoading?.postValue(false)
     }
 
     private fun prepareMap(savedInstanceState: Bundle?) {
