@@ -348,6 +348,8 @@
     <string name="download_document_title">Download document?</string>
     <string name="download_document_message">It will take a few seconds. Next time the document will be ready immediately.</string>
     <string name="download">Download</string>
+    <string name="download_document_with_key_message">It will take a few seconds. Next time the document will be ready immediately.\n\nThis document is protected with a key. Enter a valid key, please.</string>
+    <string name="document_key_wrong">The provided key is wrong</string>
 
     <string name="delete_document_title">Delete document?</string>
     <string name="delete_document_message">The document will be deleted from your device too.</string>

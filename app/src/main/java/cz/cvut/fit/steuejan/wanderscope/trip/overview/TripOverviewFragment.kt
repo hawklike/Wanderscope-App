@@ -1,13 +1,12 @@
 package cz.cvut.fit.steuejan.wanderscope.trip.overview
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.lifecycle.lifecycleScope
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import cz.cvut.fit.steuejan.wanderscope.MainActivityVM
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.AlertDialogInfo
@@ -184,23 +183,33 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             if (item is DocumentMetadataItem) {
                 val filename = DownloadedFile.getDocumentName(item.id, item.name)
                 if (!FileManager(requireContext()).openFile(filename, item.type)) {
-                    showDialogBeforeDownload(item.id, item.name, item.type)
+                    if (item.hasKey) {
+                        showDialogWithKeyInput(item.id, item.name, item.type)
+                    } else {
+                        showDialogBeforeDownload(item.id, item.name, item.type)
+                    }
                 }
             }
         }
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    private fun deleteDocument(item: RecyclerItem, position: Int) {
-        if (item is DocumentMetadataItem) {
-            showAlertDialog(AlertDialogInfo(
-                R.string.delete_document_title,
-                R.string.delete_document_message,
-                positiveButton = R.string.delete
-            ) { _, _ ->
-                viewModel.deleteDocument(item.id, item.ownerId, item.name)
+    @SuppressLint("InflateParams")
+    private fun showDialogWithKeyInput(documentId: Int, filename: String, type: DocumentType) {
+        val customView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.layout_dialog_with_password, null, false)
+        val keyInput = customView.findViewById<TextInputLayout>(R.id.dialogDocumentKey)
+
+        showAlertDialog(
+            customView,
+            AlertDialogInfo(
+                R.string.download_document_title,
+                R.string.download_document_with_key_message,
+                positiveButton = R.string.download
+            ) { dialog, _ ->
+                val key = keyInput.editText?.text?.toString()
+                dialog.dismiss()
+                viewModel.downloadDocument(documentId, filename, type, key)
             })
-        }
     }
 
     private fun showDialogBeforeDownload(documentId: Int, filename: String, type: DocumentType) {
@@ -213,6 +222,20 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
                 viewModel.downloadDocument(documentId, filename, type)
             }
         )
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun deleteDocument(item: RecyclerItem, position: Int) {
+        if (item is DocumentMetadataItem) {
+            showAlertDialog(
+                AlertDialogInfo(
+                    R.string.delete_document_title,
+                    R.string.delete_document_message,
+                    positiveButton = R.string.delete
+                ) { _, _ ->
+                    viewModel.deleteDocument(item.id, item.ownerId, item.name)
+            })
+        }
     }
 
     override fun openFile(file: DownloadedFile, fileManager: FileManager, type: DocumentType?): Boolean {

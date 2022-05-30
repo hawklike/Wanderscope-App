@@ -117,6 +117,16 @@ abstract class BaseFragment : Fragment() {
     }
 
     protected fun showAlertDialog(alertDialogInfo: BaseViewModel.AlertDialogInfo): AlertDialog {
+        return createAlertDialogBuilder(alertDialogInfo).show()
+    }
+
+    protected fun showAlertDialog(view: View, alertDialogInfo: BaseViewModel.AlertDialogInfo): AlertDialog {
+        return createAlertDialogBuilder(alertDialogInfo).setView(view).show()
+    }
+
+    private fun createAlertDialogBuilder(
+        alertDialogInfo: BaseViewModel.AlertDialogInfo
+    ): MaterialAlertDialogBuilder {
         return MaterialAlertDialogBuilder(requireContext()).apply {
             with(alertDialogInfo) {
                 title?.let(::setTitle)
@@ -124,7 +134,7 @@ abstract class BaseFragment : Fragment() {
                 setPositiveButton(positiveButton, onClickPositive)
                 negativeButton?.let { setNegativeButton(it, onClickNegative) }
             }
-        }.show()
+        }
     }
 
     @SuppressLint("ShowToast")

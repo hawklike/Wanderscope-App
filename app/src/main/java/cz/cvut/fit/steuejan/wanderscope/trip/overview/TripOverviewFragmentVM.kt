@@ -7,6 +7,7 @@ import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
@@ -17,6 +18,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Status
 import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
@@ -323,14 +325,14 @@ class TripOverviewFragmentVM(
         } ?: showToast(ToastInfo(R.string.unexpected_error_short))
     }
 
-    //todo handle key
-    fun downloadDocument(documentId: Int, name: String, type: DocumentType) {
+    fun downloadDocument(documentId: Int, name: String, type: DocumentType, key: String? = null) {
         val tripId = tripOverview.value?.id ?: return
+        validateKey(key) ?: return
         viewModelScope.launchIO {
-            documentRepository.getDocument(tripId, documentId).safeCollect(this) {
+            documentRepository.getDocument(tripId, documentId, key).safeCollect(this) {
                 when (it) {
                     is Result.Cache -> TODO()
-                    is Result.Failure -> failure(it.error, documentActionLoading)
+                    is Result.Failure -> downloadDocumentFailure(it.error)
                     is Result.Loading -> documentActionLoading.value = true
                     is Result.Success -> downloadDocumentSuccess(it.data, documentId, name, type)
                 }
@@ -338,9 +340,28 @@ class TripOverviewFragmentVM(
         }
     }
 
+    private fun validateKey(key: String?): Unit? {
+        key ?: return Unit
+        val validation = validator.validateDocumentKey(key.getOrNullIfBlank() ?: " ")
+        if (validation != OK) {
+            showSnackbar(SnackbarInfo.error(validation))
+            return null
+        }
+        return Unit
+    }
+
     private fun downloadDocumentSuccess(data: ResponseBody, documentId: Int, name: String, type: DocumentType) {
         val filename = "${documentId}_$name"
         saveAndOpenFile(DownloadedFile(data.source(), filename, type))
+    }
+
+    private fun downloadDocumentFailure(error: Error) {
+        documentActionLoading.value = false
+        if (error.reason?.status == Status.FORBIDDEN) {
+            showSnackbar(SnackbarInfo.error(R.string.document_key_wrong))
+        } else {
+            unexpectedError(error)
+        }
     }
 
     fun addDocument() {

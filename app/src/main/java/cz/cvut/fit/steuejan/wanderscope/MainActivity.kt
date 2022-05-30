@@ -5,6 +5,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -78,7 +79,9 @@ class MainActivity : MvvmActivity<ActivityMainBinding, MainActivityVM>(
     }
 
     override fun showSnackbar(snackbar: Snackbar) {
-        snackbar.anchorView = binding.bottomNavigation
+        if (binding.bottomNavigation.isVisible) {
+            snackbar.anchorView = binding.bottomNavigation
+        }
         snackbar.show()
     }
 
