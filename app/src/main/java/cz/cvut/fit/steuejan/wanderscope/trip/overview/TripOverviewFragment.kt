@@ -20,6 +20,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripOverviewBinding
 import cz.cvut.fit.steuejan.wanderscope.document.DocumentMetadataItem
+import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
 import cz.cvut.fit.steuejan.wanderscope.points.TripPointOverviewItem
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
@@ -173,6 +174,16 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
                 }
             }
         }
+    }
+
+    override fun openFile(file: DownloadedFile, fileManager: FileManager): Boolean {
+        viewModel.documentDownloadLoading.postValue(false)
+        return super.openFile(file, fileManager)
+    }
+
+    override fun savingFileFailed() {
+        super.savingFileFailed()
+        viewModel.documentDownloadLoading.postValue(false)
     }
 
     private fun goToTransport(item: TripPointOverviewItem) {

@@ -179,7 +179,15 @@ abstract class BaseViewModel(
         val length: Int = Snackbar.LENGTH_LONG,
         val actionText: Int = android.R.string.ok,
         val action: ((Snackbar) -> Unit)? = null
-    )
+    ) {
+        companion object {
+            fun error(@StringRes message: Int) = SnackbarInfo(
+                message,
+                length = Constants.UNEXPECTED_ERROR_SNACKBAR_LENGTH,
+                action = {}
+            )
+        }
+    }
 
     data class DatePickerInfo(
         @StringRes val title: Int? = R.string.datepicker_title_default,

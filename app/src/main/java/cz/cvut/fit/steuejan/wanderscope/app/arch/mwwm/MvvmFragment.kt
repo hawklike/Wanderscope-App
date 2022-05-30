@@ -13,8 +13,10 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import cz.cvut.fit.steuejan.wanderscope.BR
+import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseFragment
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
+import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withIO
@@ -160,7 +162,11 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
                     downloaded.data.use {
                         val fileManager = FileManager(requireContext())
                         if (fileManager.saveDataToFile(downloaded)) {
-                            openFile(downloaded, fileManager)
+                            if (!openFile(downloaded, fileManager)) {
+                                showSnackbar(SnackbarInfo.error(R.string.open_document_fail))
+                            }
+                        } else {
+                            showSnackbar(SnackbarInfo.error(R.string.save_file_error_document))
                         }
                     }
                 }
@@ -168,7 +174,17 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         }
     }
 
-    protected fun openFile(file: DownloadedFile, fileManager: FileManager): Boolean {
+    /**
+     * Called on **IO thread**.
+     */
+    protected open fun openFile(file: DownloadedFile, fileManager: FileManager): Boolean {
         return fileManager.openFile(file.filename)
+    }
+
+    /**
+     * Called on **IO thread**.
+     */
+    protected open fun savingFileFailed() {
+        showSnackbar(SnackbarInfo.error(R.string.save_file_error_document))
     }
 }

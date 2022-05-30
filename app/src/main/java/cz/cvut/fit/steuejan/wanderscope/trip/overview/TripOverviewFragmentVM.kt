@@ -15,7 +15,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
-import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
 import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
 import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
@@ -56,6 +55,8 @@ class TripOverviewFragmentVM(
     private val activitiesLoading = MutableLiveData<Boolean>()
     private val documentsLoading = MutableLiveData<Boolean>()
     private val travellersLoading = MutableLiveData<Boolean>()
+
+    val documentDownloadLoading = MutableLiveData<Boolean>()
 
     val loading = LoadingMediator(
         tripOverviewLoading,
@@ -297,13 +298,7 @@ class TripOverviewFragmentVM(
 
     private fun leaveTripFailure(error: Error) {
         if (error.reason?.customCode == 1) {
-            showSnackbar(
-                SnackbarInfo(
-                    R.string.cannot_leave_error_message,
-                    length = Constants.UNEXPECTED_ERROR_SNACKBAR_LENGTH,
-                    action = {}
-                )
-            )
+            showSnackbar(SnackbarInfo.error(R.string.cannot_leave_error_message))
         } else {
             unexpectedError()
         }
@@ -322,13 +317,14 @@ class TripOverviewFragmentVM(
         } ?: showToast(ToastInfo(R.string.unexpected_error_short))
     }
 
+    //todo handle key
     fun downloadDocument(tripId: Int, documentId: Int, name: String) {
         viewModelScope.launchIO {
             documentRepository.getDocument(tripId, documentId).safeCollect(this) {
                 when (it) {
                     is Result.Cache -> TODO()
                     is Result.Failure -> downloadDocumentFailure(it.error)
-                    is Result.Loading -> doNothing //todo
+                    is Result.Loading -> documentDownloadLoading.value = true
                     is Result.Success -> downloadDocumentSuccess(it.data, documentId, name)
                 }
             }
@@ -340,8 +336,12 @@ class TripOverviewFragmentVM(
         saveAndOpenFileEvent.value = DownloadedFile(data.source(), filename)
     }
 
-    //todo stop loading
     private fun downloadDocumentFailure(error: Error) {
+        documentDownloadLoading.value = false
         unexpectedError(error)
+    }
+
+    fun addDocument() {
+        //todo
     }
 }

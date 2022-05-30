@@ -340,6 +340,10 @@
     <string name="protect_your_document">Protect your document</string>
     <string name="key">Key</string>
     <string name="unknown_extension">Unknown file type</string>
+    <string name="add">Add</string>
+
+    <string name="save_file_error_document">Saving file failed. Check free space</string>
+    <string name="open_document_fail">Unsupported type. Your device can\'t open the file.</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
