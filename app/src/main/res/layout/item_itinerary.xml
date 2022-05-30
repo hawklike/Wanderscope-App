@@ -12,6 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        app:bottomMargin="@{item.lastItem ? @dimen/margin_24 : @dimen/margin_0}"
         android:layout_height="wrap_content">
 
         <View

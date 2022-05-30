@@ -173,6 +173,7 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
         abstractViewModel?.deleteIsSuccess?.safeObserve {
             deleteSnackbar?.dismiss()
             updateTripPoint()
+            updateDocument()
             setFragmentResult()
             navigateBack()
         }
