@@ -55,15 +55,15 @@ class DocumentRepository(private val documentApi: DocumentApi) {
         return performCall { documentApi.getTripDocument(tripId, documentId, key) }
     }
 
-    //todo add key
     suspend fun getDocument(
         tripId: Int,
         pointId: Int,
         documentId: Int,
-        pointType: TripPointType
+        pointType: TripPointType,
+        key: String?
     ): Flow<Result<ResponseBody>> {
         return performCall {
-            documentApi.getTripPointDocument(tripId, pointType.toString(), pointId, documentId)
+            documentApi.getTripPointDocument(tripId, pointType.toString(), pointId, documentId, key)
         }
     }
 

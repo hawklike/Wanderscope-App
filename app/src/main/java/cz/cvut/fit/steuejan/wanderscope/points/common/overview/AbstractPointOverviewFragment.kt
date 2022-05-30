@@ -1,16 +1,15 @@
 package cz.cvut.fit.steuejan.wanderscope.points.common.overview
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
@@ -126,21 +125,46 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
             if (item is DocumentMetadataItem) {
                 val filename = DownloadedFile.getDocumentName(item.id, item.name)
                 if (!FileManager(requireContext()).openFile(filename, item.type)) {
-                    showDialogBeforeDownload(item.id, item.name, item.type)
+                    if (item.hasKey) {
+                        showDialogWithKeyInput(item.id, item.name, item.type)
+                    } else {
+                        showDialogBeforeDownload(item.id, item.name, item.type)
+                    }
                 }
             }
         }
     }
 
+    @SuppressLint("InflateParams")
+    private fun showDialogWithKeyInput(documentId: Int, filename: String, type: DocumentType) {
+        val customView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.layout_dialog_with_password, null, false)
+        val keyInput = customView.findViewById<TextInputLayout>(R.id.dialogDocumentKey)
+
+        showAlertDialog(
+            customView,
+            AlertDialogInfo(
+                R.string.download_document_title,
+                R.string.download_document_with_key_message,
+                positiveButton = R.string.download
+            ) { dialog, _ ->
+                val key = keyInput.editText?.text?.toString()
+                dialog.dismiss()
+                abstractViewModel?.downloadDocument(documentId, filename, type, key)
+                    ?: showToast(R.string.unexpected_error_short)
+            })
+    }
+
     @Suppress("UNUSED_PARAMETER")
     private fun deleteDocument(item: RecyclerItem, position: Int) {
         if (item is DocumentMetadataItem) {
-            showAlertDialog(AlertDialogInfo(
-                R.string.delete_document_title,
-                R.string.delete_document_message,
-                positiveButton = R.string.delete
-            ) { _, _ ->
-                abstractViewModel?.deleteDocument(item.id, item.ownerId, item.name, pointOverview.userRole)
+            showAlertDialog(
+                AlertDialogInfo(
+                    R.string.delete_document_title,
+                    R.string.delete_document_message,
+                    positiveButton = R.string.delete
+                ) { _, _ ->
+                    abstractViewModel?.deleteDocument(item.id, item.ownerId, item.name, pointOverview.userRole)
                     ?: showToast(R.string.unexpected_error_short)
             })
         }

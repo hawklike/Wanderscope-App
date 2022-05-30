@@ -9,6 +9,7 @@ import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
@@ -20,6 +21,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.PairMediatorLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Status
 import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
 import cz.cvut.fit.steuejan.wanderscope.app.util.goToWebsite
 import cz.cvut.fit.steuejan.wanderscope.app.util.model.DaysHoursMinutes
@@ -172,20 +174,31 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
         }
     }
 
-    //todo handle key
-    fun downloadDocument(documentId: Int, name: String, type: DocumentType) {
+    fun downloadDocument(documentId: Int, name: String, type: DocumentType, key: String? = null) {
         val tripId = pointOverview.value?.tripId ?: return
         val pointId = pointOverview.value?.id ?: return
+        validateKey(key) ?: return
         viewModelScope.launchIO {
-            documentRepository.getDocument(tripId, pointId, documentId, pointType).safeCollect(this) {
-                when (it) {
-                    is Result.Cache -> TODO()
-                    is Result.Failure -> downloadDocumentFailure(it.error)
-                    is Result.Loading -> documentActionLoading.value = true
-                    is Result.Success -> downloadDocumentSuccess(it.data, documentId, name, type)
+            documentRepository.getDocument(tripId, pointId, documentId, pointType, key)
+                .safeCollect(this) {
+                    when (it) {
+                        is Result.Cache -> TODO()
+                        is Result.Failure -> downloadDocumentFailure(it.error)
+                        is Result.Loading -> documentActionLoading.value = true
+                        is Result.Success -> downloadDocumentSuccess(it.data, documentId, name, type)
+                    }
                 }
-            }
         }
+    }
+
+    private fun validateKey(key: String?): Unit? {
+        key ?: return Unit
+        val validation = validator.validateDocumentKey(key.getOrNullIfBlank() ?: " ")
+        if (validation != InputValidator.OK) {
+            showSnackbar(SnackbarInfo.error(validation))
+            return null
+        }
+        return Unit
     }
 
     private fun downloadDocumentSuccess(data: ResponseBody, documentId: Int, name: String, type: DocumentType) {
@@ -195,7 +208,11 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
 
     private fun downloadDocumentFailure(error: Error) {
         documentActionLoading.value = false
-        unexpectedError(error)
+        if (error.reason?.status == Status.FORBIDDEN) {
+            showSnackbar(SnackbarInfo.error(R.string.document_key_wrong))
+        } else {
+            unexpectedError(error)
+        }
     }
 
     fun deleteDocument(documentId: Int, ownerId: Int, filename: String, userRole: UserRole) {
