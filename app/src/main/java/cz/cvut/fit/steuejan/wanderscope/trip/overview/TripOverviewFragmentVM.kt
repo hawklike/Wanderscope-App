@@ -2,7 +2,6 @@ package cz.cvut.fit.steuejan.wanderscope.trip.overview
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
@@ -89,6 +88,7 @@ class TripOverviewFragmentVM(
 
     val leaveTripLoading = AnySingleLiveEvent()
     val leaveTripSuccess = AnySingleLiveEvent()
+    val deleteTripLoading = AnySingleLiveEvent()
     val deleteTripSuccess = AnySingleLiveEvent()
 
     fun getTrip(tripId: Int, whatToLoad: Load) {
@@ -327,20 +327,11 @@ class TripOverviewFragmentVM(
                 when (it) {
                     is Result.Cache -> TODO()
                     is Result.Failure -> unexpectedError(it.error)
-                    is Result.Loading -> deleteTripLoading()
+                    is Result.Loading -> deleteTripLoading.publish()
                     is Result.Success -> deleteTripSuccess.publish()
                 }
             }
         }
-    }
-
-    private fun deleteTripLoading() {
-        showSnackbar(
-            SnackbarInfo(
-                R.string.deleting_trip,
-                length = Snackbar.LENGTH_INDEFINITE
-            )
-        )
     }
 
     fun leaveTrip(tripId: Int) {

@@ -380,9 +380,21 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
+    private var deleteTripSnackbar: Snackbar? = null
+
     private fun listenToDeleteTrip() {
+        viewModel.deleteTripLoading.safeObserve {
+            deleteTripSnackbar = showSnackbar(
+                SnackbarInfo(
+                    R.string.deleting_trip,
+                    length = Snackbar.LENGTH_INDEFINITE
+                )
+            )
+        }
+
         viewModel.deleteTripSuccess.safeObserve {
             updateTrip()
+            deleteTripSnackbar?.dismiss()
             navigateBack()
         }
     }
