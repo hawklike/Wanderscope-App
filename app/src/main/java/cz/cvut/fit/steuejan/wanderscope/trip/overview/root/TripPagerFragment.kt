@@ -57,6 +57,7 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
         viewPager.apply {
             isUserInputEnabled = false
             this.adapter = adapter
+            offscreenPageLimit = 2
         }
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -91,7 +92,7 @@ class TripPagerFragment : MvvmFragment<FragmentTripPagerBinding, TripPagerFragme
             return when (position) {
                 TripItineraryFragment.POSITION -> TripItineraryFragment.newInstance(tripId, userRole)
                 TripOverviewFragment.POSITION -> TripOverviewFragment.newInstance(tripId, userRole)
-                TripExpensesFragment.POSITION -> TripExpensesFragment.newInstance()
+                TripExpensesFragment.POSITION -> TripExpensesFragment.newInstance(tripId, userRole)
                 else -> TripItineraryFragment.newInstance(tripId, userRole)
             }
         }

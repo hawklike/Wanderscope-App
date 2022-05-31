@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.ExpenseRoomAddEditFragmentVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
+        tools:context=".auth.forgot_password.ForgotPasswordFragment">
+
+        <ScrollView
+            android:id="@+id/expenseRoomAddScroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/app_text_input_margin"
+            app:layout_constraintBottom_toTopOf="@id/expenseRoomAddButton"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/expenseRoomAddImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/image_expenses"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/expenseRoomAddTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Create room"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/expenseRoomAddImage" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/expenseRoomAddSubtitle"
+                    style="@style/Widget.Wanderscope.LessImportantText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_subtitle_margin"
+                    android:text="Create a new room where you can share expenses with other members of this room."
+                    app:layout_constraintTop_toBottomOf="@id/expenseRoomAddTitle" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/expenseRoomAddNameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_layout_first_item_margin"
+                    android:text="@string/name"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/expenseRoomAddSubtitle" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/expenseRoomAddName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:errorText="@{vm.validateName}"
+                    app:layout_constraintTop_toBottomOf="@id/expenseRoomAddNameLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Name the room"
+                        android:inputType="text"
+                        android:text="@={vm.name}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/expenseRoomAddCurrencyLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="Currency"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/expenseRoomAddName" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/expenseRoomAddCurrency"
+                    style="@style/Widget.Wanderscope.TextInput.DropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:layout_constraintTop_toBottomOf="@id/expenseRoomAddCurrencyLabel">
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Select currency"
+                        android:inputType="none"
+                        android:popupElevation="1dp"
+                        app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
+                        app:onItemClick="@{(p, v, position, id) -> vm.selectCurrency(position)}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/expenseRoomAddMembersLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="Members"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/expenseRoomAddCurrency" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/expenseRoomAddMembers"
+                    style="@style/Widget.Wanderscope.TextInput.Add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:endDrawableEnabled="@{vm.enableAddMember}"
+                    app:errorText="@{vm.validateMember}"
+                    app:layout_constraintTop_toBottomOf="@id/expenseRoomAddMembersLabel"
+                    app:onEndDrawableClick="@{() -> vm.addMember()}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_car_by_clicking_on_the_icon"
+                        android:inputType="textCapSentences"
+                        android:maxLength="@integer/car_seat_max_len"
+                        android:text="@={vm.member}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/expenseRoomAddMembersGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    app:addChip="@{vm.memberChip}"
+                    app:layout_constraintTop_toBottomOf="@id/expenseRoomAddMembers"
+                    app:visibleOrGone="@{vm.showMembers}"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/expenseRoomAddButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/app_button_bottom_margin"
+            android:onClick="@{() -> vm.addExpenseRoom()}"
+            android:text="@string/sign_up"
+            app:isEnabled="@{vm.enableSubmit}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:showProgress="@{vm.loading}"
+            app:textAfterProgress="@{@string/sign_up}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

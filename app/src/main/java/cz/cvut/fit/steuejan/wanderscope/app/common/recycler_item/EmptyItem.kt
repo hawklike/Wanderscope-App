@@ -75,5 +75,12 @@ open class EmptyItem(
             R.drawable.image_not_found,
             marginTop = R.dimen.app_first_item_overview_margin
         )
+
+        fun expenseRooms() = EmptyItem(
+            R.string.expense_rooms_empty,
+            R.drawable.image_expenses_empty,
+            R.string.expense_rooms_empty_subtitle,
+            marginTop = R.dimen.app_first_item_overview_margin
+        )
     }
 }

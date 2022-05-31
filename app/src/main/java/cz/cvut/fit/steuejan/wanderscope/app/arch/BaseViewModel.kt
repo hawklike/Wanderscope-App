@@ -17,6 +17,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
@@ -43,6 +44,7 @@ abstract class BaseViewModel(
     val showAlertDialogEvent = SingleLiveEvent<AlertDialogInfo>()
     val saveAndOpenFileEvent = SingleLiveEvent<DownloadedFile>()
     val removeFileEvent = SingleLiveEvent<String>()
+    val hideKeyboardEvent = AnySingleLiveEvent()
 
     protected fun navigateTo(event: NavigationEvent, onBackground: Boolean = false) {
         if (onBackground) {
@@ -137,6 +139,14 @@ abstract class BaseViewModel(
             removeFileEvent.postValue(filename)
         } else {
             removeFileEvent.value = filename
+        }
+    }
+
+    protected fun hideKeyboard(onBackground: Boolean = false) {
+        if (onBackground) {
+            hideKeyboardEvent.publishOnBackground()
+        } else {
+            hideKeyboardEvent.publish()
         }
     }
 

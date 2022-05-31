@@ -10,6 +10,7 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
+import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.Purpose
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
@@ -73,12 +74,7 @@ class TripUsersFragment : MvvmFragment<
 
     private fun handleActionButton() {
         listenToAddUserClick()
-        val visibility = if (args.userRole.canEdit()) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
-        binding.manageUsersAdd.visibility = visibility
+        binding.manageUsersAdd.visibleOrGone(args.userRole.canEdit())
     }
 
     private fun handleSwipeRefresh() {

@@ -356,6 +356,11 @@
 
     <string name="delete_document_restricted">Only the document\'s owner or admin may delete the document</string>
 
+    <string name="expense_room_member_invalid">Cannot contain character ;</string>
+
+    <string name="expense_rooms_empty">You have no rooms yet</string>
+    <string name="expense_rooms_empty_subtitle">Create a new room where you can share expenses</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>

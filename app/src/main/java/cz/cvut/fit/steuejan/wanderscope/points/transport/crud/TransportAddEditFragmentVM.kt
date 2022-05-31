@@ -13,7 +13,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
-import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
@@ -50,9 +49,6 @@ class TransportAddEditFragmentVM(
 
     val from = MutableLiveData<String?>(null)
     val to = MutableLiveData<String?>(null)
-
-    val extractCarsEvent = AnySingleLiveEvent()
-    val extractSeatsEvent = AnySingleLiveEvent()
 
     val submitEvent = SingleLiveEvent<TransportRequest>()
 
@@ -121,8 +117,7 @@ class TransportAddEditFragmentVM(
     private fun addCarChip(car: String) {
         carChip.value = ChipInfo(car, true, textColor = R.color.colorPrimary)
         showCars.value = true
-        hideKeyboardEvent.publish()
-        extractCarsEvent.publish()
+        hideKeyboard()
         this.car.value = null
     }
 
@@ -136,8 +131,7 @@ class TransportAddEditFragmentVM(
     private fun addSeatChip(seat: String) {
         seatChip.value = ChipInfo(seat, true, textColor = R.color.colorPrimary)
         showSeats.value = true
-        hideKeyboardEvent.publish()
-        extractSeatsEvent.publish()
+        hideKeyboard()
         this.seat.value = null
     }
 

@@ -14,6 +14,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.launchIO
 import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
+import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
 import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 
@@ -33,7 +34,7 @@ class TripUsersFragmentVM(
             tripRepository.getUsers(tripId).safeCollect(this) {
                 when (it) {
                     is Result.Cache -> TODO()
-                    is Result.Failure -> unexpectedError(it.error)
+                    is Result.Failure -> loadUserFailure(it.error)
                     is Result.Loading -> usersLoading.value = true
                     is Result.Success -> loadUsersSuccess(it.data, userRole)
                 }
@@ -49,6 +50,11 @@ class TripUsersFragmentVM(
         }
         users.value = items
         usersLoading.value = false
+    }
+
+    private fun loadUserFailure(error: Error) {
+        usersLoading.value = false
+        unexpectedError(error)
     }
 
     fun addUser() {

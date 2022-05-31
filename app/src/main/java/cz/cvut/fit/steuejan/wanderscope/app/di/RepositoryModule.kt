@@ -7,6 +7,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.accommodation.repository.Accommod
 import cz.cvut.fit.steuejan.wanderscope.points.activity.repository.ActivityRepository
 import cz.cvut.fit.steuejan.wanderscope.points.place.repository.PlaceRepository
 import cz.cvut.fit.steuejan.wanderscope.points.transport.repository.TransportRepository
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.repository.ExpenseRepository
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.repository.ItineraryRepository
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
 import cz.cvut.fit.steuejan.wanderscope.trip.users.repository.TripUserRepository
@@ -26,4 +27,5 @@ val repositoryModule = module {
     singleOf(::ItineraryRepository)
     singleOf(::TripUserRepository)
     singleOf(::DocumentRepository)
+    singleOf(::ExpenseRepository)
 }

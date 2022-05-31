@@ -57,6 +57,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         listenToDatePicker()
         listenToTimePicker()
         listenToAlertDialog()
+        listenToHideKeyboard()
         saveAndOpenFile()
         removeFile()
         prepareMap(savedInstanceState)
@@ -174,6 +175,12 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
     private fun listenToSnackbar() {
         viewModel.snackbarEvent.safeObserve { snackbar ->
             showSnackbar(snackbar)
+        }
+    }
+
+    private fun listenToHideKeyboard() {
+        viewModel.hideKeyboardEvent.safeObserve {
+            hideKeyboard()
         }
     }
 

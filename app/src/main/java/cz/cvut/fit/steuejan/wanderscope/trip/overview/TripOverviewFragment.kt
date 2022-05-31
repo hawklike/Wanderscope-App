@@ -473,7 +473,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     private fun addCoordinatesToMap(
         googleMap: GoogleMap,
         coordinates: List<LatLngBundle>,
-        color: Float = BitmapDescriptorFactory.HUE_RED
+        color: Float
     ) {
         var marker: Marker? = null
         coordinates.forEach {

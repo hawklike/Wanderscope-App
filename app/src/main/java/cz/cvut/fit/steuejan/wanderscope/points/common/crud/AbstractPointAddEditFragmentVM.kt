@@ -47,7 +47,6 @@ abstract class AbstractPointAddEditFragmentVM<
     protected var pointId: Int? = null
 
     val findAccommodationEvent = SingleLiveEvent<String?>()
-    val hideKeyboardEvent = AnySingleLiveEvent()
     val requestIsSuccess = AnySingleLiveEvent()
 
     protected var placeName: String? = null
