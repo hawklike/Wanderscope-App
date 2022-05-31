@@ -199,6 +199,23 @@
                             tools:itemCount="3"
                             tools:listitem="@layout/item_trip_point_overview" />
 
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/tripOverviewMapHolder"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintTop_toBottomOf="@id/tripOverviewActivity"
+                            tools:backgroundTint="@color/colorOnSecondary">
+
+                            <cz.cvut.fit.steuejan.wanderscope.app.view.AnchoredMapView
+                                android:id="@+id/tripOverviewMap"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                        </androidx.cardview.widget.CardView>
+
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tripOverviewDocumentLabel"
                             android:layout_width="wrap_content"
@@ -208,7 +225,7 @@
                             android:text="@string/documents"
                             android:textAppearance="@style/TextAppearance.Wanderscope.H3"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tripOverviewActivity" />
+                            app:layout_constraintTop_toBottomOf="@id/tripOverviewMapHolder" />
 
                         <com.google.android.material.progressindicator.CircularProgressIndicator
                             android:id="@+id/tripOverviewDocumentLoading"

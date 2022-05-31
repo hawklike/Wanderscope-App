@@ -2,7 +2,6 @@ package cz.cvut.fit.steuejan.wanderscope.trip.overview
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.android.material.snackbar.Snackbar
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
@@ -12,6 +11,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
+import cz.cvut.fit.steuejan.wanderscope.app.common.map.LatLngBundle
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
@@ -26,7 +26,9 @@ import cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle
 import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
+import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlacesResponse
+import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportsResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
@@ -55,6 +57,11 @@ class TripOverviewFragmentVM(
     val documents = MutableLiveData<List<RecyclerItem>>()
     val travellers = MutableLiveData<List<RecyclerItem>>()
 
+    val transportCoordinates = MutableLiveData<List<LatLngBundle>>()
+    val accommodationCoordinates = MutableLiveData<List<LatLngBundle>>()
+    val placeCoordinates = MutableLiveData<List<LatLngBundle>>()
+    val activityCoordinates = MutableLiveData<List<LatLngBundle>>()
+
     val tripOverview = MutableLiveData<TripResponse>()
 
     val documentSuccessRequest = AnySingleLiveEvent()
@@ -81,6 +88,7 @@ class TripOverviewFragmentVM(
 
     val leaveTripLoading = AnySingleLiveEvent()
     val leaveTripSuccess = AnySingleLiveEvent()
+    val deleteTripLoading = AnySingleLiveEvent()
     val deleteTripSuccess = AnySingleLiveEvent()
 
     fun getTrip(tripId: Int, whatToLoad: Load) {
@@ -174,6 +182,10 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.accommodation.map { it.toOverviewItem() } }
         accommodation.value = items.ifEmpty { listOf(EmptyItem.accommodation()) }
         accommodationLoading.value = false
+        viewModelScope.launch {
+            val coordinates = extractCoordinates(data.accommodation)
+            placeCoordinates.value = coordinates
+        }
     }
 
     private suspend fun getTransport(tripId: Int, scope: CoroutineScope) {
@@ -191,6 +203,23 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.transports.map { it.toOverviewItem() } }
         transport.value = items.ifEmpty { listOf(EmptyItem.transport()) }
         transportLoading.value = false
+        viewModelScope.launch {
+            val fromCoordinates = extractCoordinates(data.transports)
+            val toCoordinates = extractTransportCoordinates(data.transports)
+            transportCoordinates.value = fromCoordinates + toCoordinates
+        }
+    }
+
+    private suspend fun extractTransportCoordinates(
+        transport: List<TransportResponse>
+    ): List<LatLngBundle> {
+        return withDefault {
+            transport.fold(emptyList()) { acc, transport ->
+                transport.toCoordinates.toLatLng()?.let {
+                    acc + LatLngBundle(it, transport.name)
+                } ?: acc
+            }
+        }
     }
 
     private suspend fun getActivities(tripId: Int, scope: CoroutineScope) {
@@ -208,6 +237,10 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.activities.map { it.toOverviewItem() } }
         activities.value = items.ifEmpty { listOf(EmptyItem.activities()) }
         activitiesLoading.value = false
+        viewModelScope.launch {
+            val coordinates = extractCoordinates(data.activities)
+            placeCoordinates.value = coordinates
+        }
     }
 
     private suspend fun getPlaces(tripId: Int, scope: CoroutineScope) {
@@ -225,6 +258,20 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.places.map { it.toOverviewItem() } }
         places.value = items.ifEmpty { listOf(EmptyItem.places()) }
         placesLoading.value = false
+        viewModelScope.launch {
+            val coordinates = extractCoordinates(data.places)
+            placeCoordinates.value = coordinates
+        }
+    }
+
+    private suspend fun extractCoordinates(points: List<PointResponse>): List<LatLngBundle> {
+        return withDefault {
+            points.fold(emptyList()) { acc, point ->
+                point.coordinates.toLatLng()?.let {
+                    acc + LatLngBundle(it, point.name)
+                } ?: acc
+            }
+        }
     }
 
     private suspend fun getDocuments(tripId: Int, scope: CoroutineScope) {
@@ -280,20 +327,11 @@ class TripOverviewFragmentVM(
                 when (it) {
                     is Result.Cache -> TODO()
                     is Result.Failure -> unexpectedError(it.error)
-                    is Result.Loading -> deleteTripLoading()
+                    is Result.Loading -> deleteTripLoading.publish()
                     is Result.Success -> deleteTripSuccess.publish()
                 }
             }
         }
-    }
-
-    private fun deleteTripLoading() {
-        showSnackbar(
-            SnackbarInfo(
-                R.string.deleting_trip,
-                length = Snackbar.LENGTH_INDEFINITE
-            )
-        )
     }
 
     fun leaveTrip(tripId: Int) {

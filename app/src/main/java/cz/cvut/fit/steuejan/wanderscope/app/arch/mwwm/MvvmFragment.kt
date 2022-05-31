@@ -20,6 +20,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
+import cz.cvut.fit.steuejan.wanderscope.app.common.map.WithMap
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withIO
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
@@ -58,11 +59,70 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         listenToAlertDialog()
         saveAndOpenFile()
         removeFile()
+        prepareMap(savedInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (this is WithMap) {
+            val mapBundle = outState.getBundle(MAP_BUNDLE_KEY) ?: run {
+                val bundle = Bundle()
+                outState.putBundle(MAP_BUNDLE_KEY, bundle)
+                bundle
+            }
+            map.onSaveInstanceState(mapBundle)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (this is WithMap) {
+            map.onResume()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (this is WithMap) {
+            map.onStart()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (this is WithMap) {
+            map.onStop()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (this is WithMap) {
+            map.onPause()
+        }
     }
 
     override fun onDestroy() {
         lifecycle.removeObserver(viewModel)
+        if (this is WithMap) {
+            map.onDestroy()
+        }
         super.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        if (this is WithMap) {
+            map.onLowMemory()
+        }
+    }
+
+    private fun prepareMap(savedInstanceState: Bundle?) {
+        if (this is WithMap) {
+            val mapViewBundle = savedInstanceState?.getBundle(MAP_BUNDLE_KEY)
+            map.onCreate(mapViewBundle)
+            map.getMapAsync(::onMapReady)
+        }
     }
 
     protected fun updateTrip(update: Boolean = true, onBackground: Boolean = false) {
@@ -208,5 +268,9 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
      */
     protected open fun savingFileFailed() {
         showSnackbar(SnackbarInfo.error(R.string.save_file_error_document))
+    }
+
+    companion object {
+        protected const val MAP_BUNDLE_KEY = "mapBundleKey"
     }
 }

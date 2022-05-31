@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.transport.overview
 
 import androidx.lifecycle.MutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.common.map.LocationBundle
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.TripleMediatorLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
