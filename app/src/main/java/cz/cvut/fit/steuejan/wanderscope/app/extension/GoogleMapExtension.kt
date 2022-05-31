@@ -6,10 +6,7 @@ import androidx.annotation.RawRes
 import androidx.core.view.doOnLayout
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.*
 import com.google.maps.android.ktx.addMarker
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 
@@ -35,11 +32,19 @@ fun GoogleMap.addMarker(
     hue: Float = BitmapDescriptorFactory.HUE_RED
 ): Marker? {
     return coordinates?.toLatLng()?.let {
-        addMarker {
-            position(it)
-            title(title)
-            icon(BitmapDescriptorFactory.defaultMarker(hue))
-        }
+        addMarker(it, title, hue)
+    }
+}
+
+fun GoogleMap.addMarker(
+    latLng: LatLng,
+    title: String? = null,
+    hue: Float = BitmapDescriptorFactory.HUE_RED
+): Marker? {
+    return addMarker {
+        position(latLng)
+        title(title)
+        icon(BitmapDescriptorFactory.defaultMarker(hue))
     }
 }
 

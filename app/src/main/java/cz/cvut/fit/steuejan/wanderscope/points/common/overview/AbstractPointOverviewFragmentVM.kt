@@ -12,9 +12,9 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
-import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
+import cz.cvut.fit.steuejan.wanderscope.app.common.map.LocationBundle
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
@@ -252,9 +252,4 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
         viewModelScope.launchIO { getDocuments(tripId, pointId, this) }
         documentActionLoading.value = false
     }
-
-    data class LocationBundle(
-        val coordinates: Coordinates?,
-        val title: String?
-    )
 }

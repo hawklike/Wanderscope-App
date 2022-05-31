@@ -19,8 +19,8 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
-import cz.cvut.fit.steuejan.wanderscope.app.common.WithMap
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
+import cz.cvut.fit.steuejan.wanderscope.app.common.map.WithMap
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withIO
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
@@ -50,7 +50,6 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        prepareMap(savedInstanceState)
         listenToNavigate()
         listenToToast()
         listenToSnackbar()
@@ -60,6 +59,7 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         listenToAlertDialog()
         saveAndOpenFile()
         removeFile()
+        prepareMap(savedInstanceState)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

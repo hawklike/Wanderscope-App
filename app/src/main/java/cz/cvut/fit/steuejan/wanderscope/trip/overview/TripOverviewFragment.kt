@@ -3,8 +3,13 @@ package cz.cvut.fit.steuejan.wanderscope.trip.overview
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import cz.cvut.fit.steuejan.wanderscope.MainActivityVM
@@ -19,6 +24,10 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
+import cz.cvut.fit.steuejan.wanderscope.app.common.map.LatLngBundle
+import cz.cvut.fit.steuejan.wanderscope.app.common.map.WithMap
+import cz.cvut.fit.steuejan.wanderscope.app.extension.addMarker
+import cz.cvut.fit.steuejan.wanderscope.app.extension.adjustZoom
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripOverviewBinding
@@ -38,10 +47,12 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, TripOverviewFragmentVM>(
     R.layout.fragment_trip_overview,
     TripOverviewFragmentVM::class
-), WithLoading, WithRecycler, WithAddPointActionButton {
+), WithLoading, WithRecycler, WithAddPointActionButton, WithMap {
 
     override val content: View get() = binding.tripOverviewContent
     override val shimmer: ShimmerFrameLayout get() = binding.tripOverviewShimmer
+
+    override val map: MapView get() = binding.tripOverviewMap
 
     private val mainVM by sharedViewModel<MainActivityVM>()
 
@@ -426,6 +437,37 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         arguments?.getInt(TRIP_ID)?.let {
             navigateTo(TripPagerFragmentDirections.actionTripPagerFragmentToPlaceAddEditFragment(it))
         }
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        retrieveCoordinates(viewModel.accommodationCoordinates, googleMap, BitmapDescriptorFactory.HUE_AZURE)
+        retrieveCoordinates(viewModel.transportCoordinates, googleMap, BitmapDescriptorFactory.HUE_VIOLET)
+        retrieveCoordinates(viewModel.placeCoordinates, googleMap, BitmapDescriptorFactory.HUE_RED)
+        retrieveCoordinates(viewModel.activityCoordinates, googleMap, BitmapDescriptorFactory.HUE_ORANGE)
+    }
+
+    private fun retrieveCoordinates(
+        coordinates: LiveData<List<LatLngBundle>>,
+        googleMap: GoogleMap,
+        color: Float
+    ) {
+        coordinates.safeObserve {
+            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                addCoordinatesToMap(googleMap, it, color)
+            }
+        }
+    }
+
+    private fun addCoordinatesToMap(
+        googleMap: GoogleMap,
+        coordinates: List<LatLngBundle>,
+        color: Float = BitmapDescriptorFactory.HUE_RED
+    ) {
+        var marker: Marker? = null
+        coordinates.forEach {
+            marker = googleMap.addMarker(it.latLng, it.title, hue = color)
+        }
+        marker?.let { googleMap.adjustZoom(map, it, zoomLevel = 4f) }
     }
 
     companion object {

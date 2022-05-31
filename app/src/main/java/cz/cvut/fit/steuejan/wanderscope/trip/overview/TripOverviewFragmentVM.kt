@@ -10,9 +10,9 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
-import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
+import cz.cvut.fit.steuejan.wanderscope.app.common.map.LatLngBundle
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
@@ -27,7 +27,9 @@ import cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle
 import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
+import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlacesResponse
+import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportsResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
 import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
@@ -56,10 +58,10 @@ class TripOverviewFragmentVM(
     val documents = MutableLiveData<List<RecyclerItem>>()
     val travellers = MutableLiveData<List<RecyclerItem>>()
 
-    val transportCoordinates = MutableLiveData<List<Coordinates>>()
-    val accommodationCoordinates = MutableLiveData<List<Coordinates>>()
-    val placeCoordinates = MutableLiveData<List<Coordinates>>()
-    val activityCoordinates = MutableLiveData<List<Coordinates>>()
+    val transportCoordinates = MutableLiveData<List<LatLngBundle>>()
+    val accommodationCoordinates = MutableLiveData<List<LatLngBundle>>()
+    val placeCoordinates = MutableLiveData<List<LatLngBundle>>()
+    val activityCoordinates = MutableLiveData<List<LatLngBundle>>()
 
     val tripOverview = MutableLiveData<TripResponse>()
 
@@ -180,9 +182,9 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.accommodation.map { it.toOverviewItem() } }
         accommodation.value = items.ifEmpty { listOf(EmptyItem.accommodation()) }
         accommodationLoading.value = false
-        viewModelScope.launchDefault {
-            val coordinates = data.accommodation.map { it.coordinates }
-            accommodationCoordinates.postValue(coordinates)
+        viewModelScope.launch {
+            val coordinates = extractCoordinates(data.accommodation)
+            placeCoordinates.value = coordinates
         }
     }
 
@@ -201,10 +203,22 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.transports.map { it.toOverviewItem() } }
         transport.value = items.ifEmpty { listOf(EmptyItem.transport()) }
         transportLoading.value = false
-        viewModelScope.launchDefault {
-            val fromCoordinates = data.transports.map { it.coordinates }
-            val toCoordinates = data.transports.map { it.toCoordinates }
-            transportCoordinates.postValue(fromCoordinates + toCoordinates)
+        viewModelScope.launch {
+            val fromCoordinates = extractCoordinates(data.transports)
+            val toCoordinates = extractTransportCoordinates(data.transports)
+            transportCoordinates.value = fromCoordinates + toCoordinates
+        }
+    }
+
+    private suspend fun extractTransportCoordinates(
+        transport: List<TransportResponse>
+    ): List<LatLngBundle> {
+        return withDefault {
+            transport.fold(emptyList()) { acc, transport ->
+                transport.toCoordinates.toLatLng()?.let {
+                    acc + LatLngBundle(it, transport.name)
+                } ?: acc
+            }
         }
     }
 
@@ -223,9 +237,9 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.activities.map { it.toOverviewItem() } }
         activities.value = items.ifEmpty { listOf(EmptyItem.activities()) }
         activitiesLoading.value = false
-        viewModelScope.launchDefault {
-            val coordinates = data.activities.map { it.coordinates }
-            activityCoordinates.postValue(coordinates)
+        viewModelScope.launch {
+            val coordinates = extractCoordinates(data.activities)
+            placeCoordinates.value = coordinates
         }
     }
 
@@ -244,9 +258,19 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.places.map { it.toOverviewItem() } }
         places.value = items.ifEmpty { listOf(EmptyItem.places()) }
         placesLoading.value = false
-        viewModelScope.launchDefault {
-            val coordinates = data.places.map { it.coordinates }
-            placeCoordinates.postValue(coordinates)
+        viewModelScope.launch {
+            val coordinates = extractCoordinates(data.places)
+            placeCoordinates.value = coordinates
+        }
+    }
+
+    private suspend fun extractCoordinates(points: List<PointResponse>): List<LatLngBundle> {
+        return withDefault {
+            points.fold(emptyList()) { acc, point ->
+                point.coordinates.toLatLng()?.let {
+                    acc + LatLngBundle(it, point.name)
+                } ?: acc
+            }
         }
     }
 

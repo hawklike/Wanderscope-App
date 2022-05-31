@@ -21,9 +21,9 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
-import cz.cvut.fit.steuejan.wanderscope.app.common.WithMap
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
+import cz.cvut.fit.steuejan.wanderscope.app.common.map.WithMap
 import cz.cvut.fit.steuejan.wanderscope.app.extension.addMarker
 import cz.cvut.fit.steuejan.wanderscope.app.extension.adjustZoom
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
