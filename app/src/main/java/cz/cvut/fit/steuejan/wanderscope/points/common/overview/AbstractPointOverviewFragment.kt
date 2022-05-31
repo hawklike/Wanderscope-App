@@ -21,6 +21,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
+import cz.cvut.fit.steuejan.wanderscope.app.common.WithMap
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.extension.addMarker
@@ -38,14 +39,14 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
 ) : MvvmFragment<B, VM>(
     layoutId,
     viewModelClass
-), WithLoading, WithRecycler {
+), WithLoading, WithRecycler, WithMap {
 
     override val hasBottomNavigation = false
     override val hasTitle = false
 
     protected abstract val pointOverview: PointOverviewBundle
 
-    protected abstract val map: MapView?
+    abstract override val map: MapView
 
     protected abstract val menuEditItem: Int
     protected abstract val menuDeleteItem: Int
@@ -76,7 +77,6 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
         handleDocumentsRecycler()
         retrievePointOverview()
         waitUntilMapAndCoordinatesAreReady()
-        prepareMap(savedInstanceState)
         goToWebsiteIntent()
         launchMapIntent()
         handleLoadingDelete()
@@ -200,12 +200,6 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
         abstractViewModel?.documentActionLoading?.postValue(false)
     }
 
-    private fun prepareMap(savedInstanceState: Bundle?) {
-        val mapViewBundle = savedInstanceState?.getBundle(MAP_BUNDLE_KEY)
-        map?.onCreate(mapViewBundle)
-        map?.getMapAsync(::onMapReady)
-    }
-
     private var deleteSnackbar: Snackbar? = null
 
     private fun handleLoadingDelete() {
@@ -229,46 +223,6 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        val mapBundle = outState.getBundle(MAP_BUNDLE_KEY) ?: run {
-            val bundle = Bundle()
-            outState.putBundle(MAP_BUNDLE_KEY, bundle)
-            bundle
-        }
-        map?.onSaveInstanceState(mapBundle)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        map?.onResume()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        map?.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        map?.onStop()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        map?.onPause()
-    }
-
-    override fun onDestroy() {
-        map?.onDestroy()
-        super.onDestroy()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        map?.onLowMemory()
-    }
-
     protected fun pleaseWait(): Boolean {
         showToast(R.string.please_wait)
         return true
@@ -290,14 +244,14 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
         }
     }
 
-    protected open fun onMapReady(googleMap: GoogleMap) {
+    override fun onMapReady(googleMap: GoogleMap) {
         abstractViewModel?.mapReady?.value = googleMap
     }
 
     protected open fun waitUntilMapAndCoordinatesAreReady() {
         abstractViewModel?.mapAndCoordinatesReady?.safeObserve { (googleMap, location) ->
             val marker = googleMap?.addMarker(location?.coordinates, location?.title)
-            googleMap?.adjustZoom(map ?: return@safeObserve, marker)
+            googleMap?.adjustZoom(map, marker)
         }
     }
 
@@ -307,9 +261,5 @@ abstract class AbstractPointOverviewFragment<B : ViewDataBinding, VM : BaseViewM
 
     private fun launchMapIntent() {
         abstractViewModel?.launchMap?.safeObserve(::startActivitySafe)
-    }
-
-    companion object {
-        const val MAP_BUNDLE_KEY = "ostrava je region razovity"
     }
 }

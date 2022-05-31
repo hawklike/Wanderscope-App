@@ -27,4 +27,10 @@
         android:orderInCategory="4"
         android:title="@string/leave_trip"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_trip_travellers"
+        android:orderInCategory="5"
+        android:title="@string/travellers"
+        app:showAsAction="never" />
 </menu>

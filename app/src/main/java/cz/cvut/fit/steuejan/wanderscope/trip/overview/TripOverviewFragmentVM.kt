@@ -10,6 +10,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
@@ -54,6 +55,11 @@ class TripOverviewFragmentVM(
     val activities = MutableLiveData<List<RecyclerItem>>()
     val documents = MutableLiveData<List<RecyclerItem>>()
     val travellers = MutableLiveData<List<RecyclerItem>>()
+
+    val transportCoordinates = MutableLiveData<List<Coordinates>>()
+    val accommodationCoordinates = MutableLiveData<List<Coordinates>>()
+    val placeCoordinates = MutableLiveData<List<Coordinates>>()
+    val activityCoordinates = MutableLiveData<List<Coordinates>>()
 
     val tripOverview = MutableLiveData<TripResponse>()
 
@@ -174,6 +180,10 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.accommodation.map { it.toOverviewItem() } }
         accommodation.value = items.ifEmpty { listOf(EmptyItem.accommodation()) }
         accommodationLoading.value = false
+        viewModelScope.launchDefault {
+            val coordinates = data.accommodation.map { it.coordinates }
+            accommodationCoordinates.postValue(coordinates)
+        }
     }
 
     private suspend fun getTransport(tripId: Int, scope: CoroutineScope) {
@@ -191,6 +201,11 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.transports.map { it.toOverviewItem() } }
         transport.value = items.ifEmpty { listOf(EmptyItem.transport()) }
         transportLoading.value = false
+        viewModelScope.launchDefault {
+            val fromCoordinates = data.transports.map { it.coordinates }
+            val toCoordinates = data.transports.map { it.toCoordinates }
+            transportCoordinates.postValue(fromCoordinates + toCoordinates)
+        }
     }
 
     private suspend fun getActivities(tripId: Int, scope: CoroutineScope) {
@@ -208,6 +223,10 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.activities.map { it.toOverviewItem() } }
         activities.value = items.ifEmpty { listOf(EmptyItem.activities()) }
         activitiesLoading.value = false
+        viewModelScope.launchDefault {
+            val coordinates = data.activities.map { it.coordinates }
+            activityCoordinates.postValue(coordinates)
+        }
     }
 
     private suspend fun getPlaces(tripId: Int, scope: CoroutineScope) {
@@ -225,6 +244,10 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.places.map { it.toOverviewItem() } }
         places.value = items.ifEmpty { listOf(EmptyItem.places()) }
         placesLoading.value = false
+        viewModelScope.launchDefault {
+            val coordinates = data.places.map { it.coordinates }
+            placeCoordinates.postValue(coordinates)
+        }
     }
 
     private suspend fun getDocuments(tripId: Int, scope: CoroutineScope) {

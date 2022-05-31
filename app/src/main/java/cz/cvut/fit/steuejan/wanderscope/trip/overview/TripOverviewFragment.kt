@@ -148,8 +148,15 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             R.id.action_trip_delete -> deleteTrip()
             R.id.action_trip_save_to_calendar -> saveToCalendar()
             R.id.action_trip_leave -> leaveTrip()
+            R.id.action_trip_travellers -> goToTravellers()
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun goToTravellers(): Boolean {
+        tripOverview ?: return pleaseWait()
+        viewModel.manageUsers()
+        return true
     }
 
     private fun handlePointsRecycler() {
@@ -241,7 +248,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
                     positiveButton = R.string.delete
                 ) { _, _ ->
                     viewModel.deleteDocument(item.id, item.ownerId, item.name)
-            })
+                })
         }
     }
 
