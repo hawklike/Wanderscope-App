@@ -7,15 +7,23 @@ import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.LoadingMediator
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
 import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
-import cz.cvut.fit.steuejan.wanderscope.document.response.DocumentsMetadataResponse
+import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Status
+import cz.cvut.fit.steuejan.wanderscope.app.session.SessionManager
+import cz.cvut.fit.steuejan.wanderscope.document.api.response.DocumentsMetadataResponse
+import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
+import cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle
+import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlacesResponse
@@ -26,9 +34,14 @@ import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDire
 import cz.cvut.fit.steuejan.wanderscope.trip.repository.TripRepository
 import cz.cvut.fit.steuejan.wanderscope.user.api.response.UsersResponse
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 
 class TripOverviewFragmentVM(
-    private val tripRepository: TripRepository
+    private val tripRepository: TripRepository,
+    private val documentRepository: DocumentRepository,
+    private val sessionManager: SessionManager
 ) : BaseViewModel() {
 
     val title = MutableLiveData<String>()
@@ -44,6 +57,8 @@ class TripOverviewFragmentVM(
 
     val tripOverview = MutableLiveData<TripResponse>()
 
+    val documentSuccessRequest = AnySingleLiveEvent()
+
     private val tripOverviewLoading = MutableLiveData<Boolean>()
     private val accommodationLoading = MutableLiveData<Boolean>()
     private val transportLoading = MutableLiveData<Boolean>()
@@ -51,6 +66,8 @@ class TripOverviewFragmentVM(
     private val activitiesLoading = MutableLiveData<Boolean>()
     private val documentsLoading = MutableLiveData<Boolean>()
     private val travellersLoading = MutableLiveData<Boolean>()
+
+    val documentActionLoading = MutableLiveData<Boolean>()
 
     val loading = LoadingMediator(
         tripOverviewLoading,
@@ -225,6 +242,8 @@ class TripOverviewFragmentVM(
         val items = withDefault { data.documents.map { it.toOverviewItem() } }
         documents.value = items.ifEmpty { listOf(EmptyItem.documents()) }
         documentsLoading.value = false
+        delay(100) //update the recycler meanwhile
+        documentSuccessRequest.publish()
     }
 
     private suspend fun getUsers(tripId: Int, scope: CoroutineScope) {
@@ -292,13 +311,7 @@ class TripOverviewFragmentVM(
 
     private fun leaveTripFailure(error: Error) {
         if (error.reason?.customCode == 1) {
-            showSnackbar(
-                SnackbarInfo(
-                    R.string.cannot_leave_error_message,
-                    length = Constants.UNEXPECTED_ERROR_SNACKBAR_LENGTH,
-                    action = {}
-                )
-            )
+            showSnackbar(SnackbarInfo.error(R.string.cannot_leave_error_message))
         } else {
             unexpectedError()
         }
@@ -315,5 +328,85 @@ class TripOverviewFragmentVM(
                 )
             )
         } ?: showToast(ToastInfo(R.string.unexpected_error_short))
+    }
+
+    fun downloadDocument(documentId: Int, name: String, type: DocumentType, key: String? = null) {
+        val tripId = tripOverview.value?.id ?: return
+        validateKey(key) ?: return
+        viewModelScope.launchIO {
+            documentRepository.getDocument(tripId, documentId, key).safeCollect(this) {
+                when (it) {
+                    is Result.Cache -> TODO()
+                    is Result.Failure -> downloadDocumentFailure(it.error)
+                    is Result.Loading -> documentActionLoading.value = true
+                    is Result.Success -> downloadDocumentSuccess(it.data, documentId, name, type)
+                }
+            }
+        }
+    }
+
+    private fun validateKey(key: String?): Unit? {
+        key ?: return Unit
+        val validation = validator.validateDocumentKey(key.getOrNullIfBlank() ?: " ")
+        if (validation != OK) {
+            showSnackbar(SnackbarInfo.error(validation))
+            return null
+        }
+        return Unit
+    }
+
+    private fun downloadDocumentSuccess(data: ResponseBody, documentId: Int, name: String, type: DocumentType) {
+        val filename = "${documentId}_$name"
+        saveAndOpenFile(DownloadedFile(data.source(), filename, type))
+    }
+
+    private fun downloadDocumentFailure(error: Error) {
+        documentActionLoading.value = false
+        if (error.reason?.status == Status.FORBIDDEN) {
+            showSnackbar(SnackbarInfo.error(R.string.document_key_wrong))
+        } else {
+            unexpectedError(error)
+        }
+    }
+
+    fun addDocument() {
+        navigateTo(
+            Action(
+                TripPagerFragmentDirections.actionTripPagerFragmentToUploadDocumentFragment(
+                    UploadDocumentBundle(tripOverview.value?.id ?: return)
+                )
+            )
+        )
+    }
+
+    fun deleteDocument(documentId: Int, ownerId: Int, filename: String) {
+        viewModelScope.launch {
+            val userId = withIO { sessionManager.getUserId() }
+
+            if (userId != ownerId && tripOverview.value?.userRole != UserRole.ADMIN) {
+                showSnackbar(SnackbarInfo.error(R.string.delete_document_restricted))
+                return@launch
+            }
+
+            val tripId = tripOverview.value?.id ?: return@launch
+            val storedFilename = DownloadedFile.getDocumentName(documentId, filename)
+
+            withIO {
+                documentRepository.deleteDocument(tripId, documentId).safeCollect(this) {
+                    when (it) {
+                        is Result.Cache -> TODO()
+                        is Result.Failure -> failure(it.error, documentActionLoading)
+                        is Result.Loading -> documentActionLoading.value = true
+                        is Result.Success -> deleteDocumentSuccess(tripId, storedFilename)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun deleteDocumentSuccess(tripId: Int, storedFilename: String) {
+        removeFile(storedFilename)
+        loadDocuments(tripId)
+        documentActionLoading.value = false
     }
 }

@@ -21,6 +21,7 @@ class MainActivityVM(
 
     val updateTrip = SingleLiveEvent<Boolean>()
     val updateTripPoint = SingleLiveEvent<Boolean>()
+    val updateDocument = SingleLiveEvent<Boolean>()
 
     val splashScreenAfterProcessDeath = liveData {
         val splashScreenState = withIO {

@@ -18,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="150dp"
+            android:layout_height="160dp"
             android:paddingHorizontal="@dimen/app_trip_overview_item_padding_horizontal"
             android:paddingVertical="@dimen/app_trip_overview_item_padding_vertical"
             tools:background="@color/colorSurface">
@@ -75,7 +75,9 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@{item.updated}"
+                app:layout_constraintVertical_bias="1"
                 android:textColor="@color/colorText"
+                android:layout_marginBottom="@dimen/margin_4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/itemDocumentMetadataTitle"

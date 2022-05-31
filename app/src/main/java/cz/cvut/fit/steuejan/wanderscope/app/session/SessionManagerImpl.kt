@@ -7,6 +7,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.auth0.android.jwt.JWT
+import cz.cvut.fit.steuejan.wanderscope.app.util.runOrLogException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -55,6 +57,13 @@ class SessionManagerImpl(private val context: Context) : SessionManager {
             it[LOGOUT_USER] ?: false
         }.catch {
             Timber.w(it)
+        }
+    }
+
+    override fun getUserId(): Int? {
+        return getAccessToken()?.let {
+            val jwt = runOrLogException { JWT(it) } ?: return null
+            jwt.subject?.toIntOrNull()
         }
     }
 

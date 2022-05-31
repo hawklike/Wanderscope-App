@@ -91,9 +91,10 @@
                 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                     android:id="@+id/homeSwipeRefresh"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginTop="@dimen/margin_8"
                     app:layout_constraintTop_toBottomOf="@id/homeSeeMore"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:progressColor="@{@color/colorPrimary}"
                     app:refreshing="@{vm.itineraryLoading}">
 

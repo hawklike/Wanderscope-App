@@ -1,23 +1,29 @@
 package cz.cvut.fit.steuejan.wanderscope.trip.overview
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.lifecycle.lifecycleScope
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
+import cz.cvut.fit.steuejan.wanderscope.MainActivityVM
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.AlertDialogInfo
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel.SnackbarInfo
+import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.RecyclerItem
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
+import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
+import cz.cvut.fit.steuejan.wanderscope.app.bussiness.FileManager
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
+import cz.cvut.fit.steuejan.wanderscope.app.common.data.DocumentType
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.app.util.saveEventToCalendar
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripOverviewBinding
+import cz.cvut.fit.steuejan.wanderscope.document.DocumentMetadataItem
+import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
 import cz.cvut.fit.steuejan.wanderscope.points.TripPointOverviewItem
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.bundle.PointOverviewBundle
 import cz.cvut.fit.steuejan.wanderscope.trip.api.response.TripResponse
@@ -27,6 +33,7 @@ import cz.cvut.fit.steuejan.wanderscope.trip.model.Load
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentDirections
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentVM
 import kotlinx.coroutines.delay
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, TripOverviewFragmentVM>(
     R.layout.fragment_trip_overview,
@@ -35,6 +42,8 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
 
     override val content: View get() = binding.tripOverviewContent
     override val shimmer: ShimmerFrameLayout get() = binding.tripOverviewShimmer
+
+    private val mainVM by sharedViewModel<MainActivityVM>()
 
     private var tripOverview: TripResponse? = null
 
@@ -56,8 +65,9 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         super.onViewCreated(view, savedInstanceState)
         setTitle()
         handleLoading()
-        handleActionButton()
+        handleActionButtons()
         handlePointsRecycler()
+        handleDocumentsRecycler()
         listenToChanges()
         listenToLeaveTrip()
         listenToDeleteTrip()
@@ -73,6 +83,12 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
                 it?.getUpdatingString()?.let(::showToast)
             }
         }
+        mainVM.updateDocument.safeObserve { update ->
+            if (update) {
+                getTripOverview(Load.DOCUMENTS)
+                Load.DOCUMENTS.getUpdatingString()?.let(::showToast)
+            }
+        }
     }
 
     private fun handleLoading() {
@@ -85,12 +101,12 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
-    private fun handleActionButton() {
+    private fun handleActionButtons() {
         arguments?.getInt(TRIP_ID) ?: return
-        hideActionButton()
+        hideActionButtons()
         viewModel.tripOverview.safeObserve {
             tripOverview = it
-            showActionButton(it.userRole)
+            showActionButtons(it.userRole)
         }
     }
 
@@ -159,6 +175,86 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         }
     }
 
+    private fun handleDocumentsRecycler() {
+        setAdapterListener(
+            binding.tripOverviewDocument,
+            onLongClickListener = ::deleteDocument
+        ) { item, _ ->
+            if (item is DocumentMetadataItem) {
+                val filename = DownloadedFile.getDocumentName(item.id, item.name)
+                if (!FileManager(requireContext()).openFile(filename, item.type)) {
+                    if (item.hasKey) {
+                        showDialogWithKeyInput(item.id, item.name, item.type)
+                    } else {
+                        showDialogBeforeDownload(item.id, item.name, item.type)
+                    }
+                }
+            }
+        }
+        listenToDocumentSuccessRequest()
+    }
+
+    private fun listenToDocumentSuccessRequest() {
+        viewModel.documentSuccessRequest.safeObserve {
+            binding.tripOverviewDocument.smoothScrollToPosition(0)
+        }
+    }
+
+    @SuppressLint("InflateParams")
+    private fun showDialogWithKeyInput(documentId: Int, filename: String, type: DocumentType) {
+        val customView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.layout_dialog_with_password, null, false)
+        val keyInput = customView.findViewById<TextInputLayout>(R.id.dialogDocumentKey)
+
+        showAlertDialog(
+            customView,
+            AlertDialogInfo(
+                R.string.download_document_title,
+                R.string.download_document_with_key_message,
+                positiveButton = R.string.download
+            ) { dialog, _ ->
+                val key = keyInput.editText?.text?.toString()
+                dialog.dismiss()
+                viewModel.downloadDocument(documentId, filename, type, key)
+            })
+    }
+
+    private fun showDialogBeforeDownload(documentId: Int, filename: String, type: DocumentType) {
+        showAlertDialog(
+            AlertDialogInfo(
+                R.string.download_document_title,
+                R.string.download_document_message,
+                positiveButton = R.string.download
+            ) { _, _ ->
+                viewModel.downloadDocument(documentId, filename, type)
+            }
+        )
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun deleteDocument(item: RecyclerItem, position: Int) {
+        if (item is DocumentMetadataItem) {
+            showAlertDialog(
+                AlertDialogInfo(
+                    R.string.delete_document_title,
+                    R.string.delete_document_message,
+                    positiveButton = R.string.delete
+                ) { _, _ ->
+                    viewModel.deleteDocument(item.id, item.ownerId, item.name)
+            })
+        }
+    }
+
+    override fun openFile(file: DownloadedFile, fileManager: FileManager, type: DocumentType?): Boolean {
+        viewModel.documentActionLoading.postValue(false)
+        return super.openFile(file, fileManager, type)
+    }
+
+    override fun savingFileFailed() {
+        super.savingFileFailed()
+        viewModel.documentActionLoading.postValue(false)
+    }
+
     private fun goToTransport(item: TripPointOverviewItem) {
         val trip = tripOverview ?: return showToast(R.string.unexpected_error_short)
         navigateTo(
@@ -206,19 +302,16 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         return PointOverviewBundle.create(trip.id, item.id, trip.userRole, item.name)
     }
 
-    private fun showActionButton(userRole: UserRole) {
-        val visibility = if (userRole.canEdit()) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
-        binding.tripOverviewAddButton.visibility = visibility
-        binding.tripOverviewManageTravellers.visibility = visibility
+    private fun showActionButtons(userRole: UserRole) {
+        binding.tripOverviewAddButton.visibleOrGone(userRole.canEdit())
+        binding.tripOverviewManageTravellers.visibleOrGone(userRole.canEdit())
+        binding.tripOverviewDocumentAdd.visibleOrGone(userRole.canEdit())
     }
 
-    private fun hideActionButton() {
+    private fun hideActionButtons() {
         binding.tripOverviewAddButton.visibility = View.GONE
         binding.tripOverviewManageTravellers.visibility = View.GONE
+        binding.tripOverviewDocumentAdd.visibility = View.GONE
     }
 
     private fun editTrip(): Boolean {
@@ -272,12 +365,6 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
     private fun listenToDeleteTrip() {
         viewModel.deleteTripSuccess.safeObserve {
             updateTrip()
-            showSnackbar(
-                SnackbarInfo(
-                    R.string.successfully_deleted,
-                    length = Snackbar.LENGTH_SHORT
-                )
-            )
             navigateBack()
         }
     }

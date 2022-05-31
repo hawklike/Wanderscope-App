@@ -6,4 +6,5 @@
     <integer name="phone_max_len">31</integer>
     <integer name="lon_lat_max_len">15</integer>
     <integer name="car_seat_max_len">30</integer>
+    <integer name="password_max_len">50</integer>
 </resources>

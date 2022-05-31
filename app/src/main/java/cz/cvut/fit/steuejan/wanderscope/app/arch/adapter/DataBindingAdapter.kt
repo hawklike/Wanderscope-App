@@ -18,6 +18,7 @@ abstract class DataBindingAdapter<T : RecyclerItem>(
     constructor(@IdRes onClickView: Int? = null) : this(RecyclerItem.RecyclerItemlDiffUtil(), onClickView)
 
     private var onItemClickListener: ((item: T, position: Int) -> Unit)? = null
+    private var onItemLongClickListener: ((item: T, position: Int) -> Unit)? = null
 
     class DataBindingViewHolder<T>(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: T) {
@@ -42,10 +43,18 @@ abstract class DataBindingAdapter<T : RecyclerItem>(
         val root = holder.binding.root
         val view = onClickView?.let { root.findViewById(it) ?: root } ?: root
         view.setOnClickListener { onItemClickListener?.invoke(data, position) }
+        root.setOnLongClickListener {
+            onItemLongClickListener?.invoke(data, position)
+            true
+        }
     }
 
     fun setOnClickListener(onClick: (item: T, position: Int) -> Unit) {
         onItemClickListener = onClick
+    }
+
+    fun setOnLongClickListener(onLongClick: (item: T, position: Int) -> Unit) {
+        onItemLongClickListener = onLongClick
     }
 
     class UniversalAdapter(@IdRes onClickView: Int? = null) : DataBindingAdapter<RecyclerItem>(onClickView)

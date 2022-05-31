@@ -4,13 +4,21 @@ import androidx.lifecycle.MutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.mediator.TripleMediatorLiveData
+import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.util.showDirections
+import cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle
+import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.AbstractPointOverviewFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.repository.TransportRepository
 
-class TransportOverviewFragmentVM(transportRepository: TransportRepository) :
-    AbstractPointOverviewFragmentVM<TransportResponse>(transportRepository) {
+class TransportOverviewFragmentVM(
+    transportRepository: TransportRepository
+) : AbstractPointOverviewFragmentVM<TransportResponse>(
+    transportRepository
+) {
+
+    override val pointType = TripPointType.TRANSPORT
 
     val from = MutableLiveData<String?>()
     val to = MutableLiveData<String?>()
@@ -80,6 +88,19 @@ class TransportOverviewFragmentVM(transportRepository: TransportRepository) :
                         R.string.deleting_transport
                     )
                 }
+            )
+        )
+    }
+
+    fun addDocument() {
+        val tripId = pointOverview.value?.tripId ?: return
+        val pointId = pointOverview.value?.id ?: return
+        navigateTo(
+            Action(
+                TransportOverviewFragmentDirections
+                    .actionTransportOverviewFragmentToUploadDocumentFragment(
+                        UploadDocumentBundle(tripId, pointId, TripPointType.TRANSPORT)
+                    )
             )
         )
     }

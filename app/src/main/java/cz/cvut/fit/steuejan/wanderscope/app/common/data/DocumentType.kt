@@ -14,4 +14,15 @@ enum class DocumentType : WithIcon {
             GPX -> R.drawable.ic_file_other
         }
     }
+
+    companion object {
+        fun fromExtension(extension: String?): DocumentType {
+            return when (extension?.lowercase()) {
+                "pdf" -> DOCUMENT
+                "jpg", "jpeg", "png", "gif" -> IMAGE
+                "txt" -> TEXT
+                else -> GPX
+            }
+        }
+    }
 }

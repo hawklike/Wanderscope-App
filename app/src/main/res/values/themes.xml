@@ -296,4 +296,14 @@
         <item name="colorSecondary">@color/colorPrimary</item>
     </style>
 
+    <style name="Widget.Wanderscope.Loading.Documents" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="android:indeterminate">true</item>
+        <item name="android:layout_marginStart">@dimen/margin_12</item>
+        <item name="indicatorSize">18dp</item>
+        <item name="trackThickness">2.5dp</item>
+        <item name="indicatorColor">@color/colorText</item>
+        <item name="showAnimationBehavior">outward</item>
+        <item name="hideAnimationBehavior">inward</item>
+    </style>
+
 </resources>

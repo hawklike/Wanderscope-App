@@ -9,9 +9,13 @@ interface WithRecycler {
     fun <T : RecyclerItem> setCustomAdapter(
         recyclerView: RecyclerView,
         adapter: DataBindingAdapter<T>,
-        onClickListener: ((item: T, position: Int) -> Unit)? = null
+        onClickListener: ((item: T, position: Int) -> Unit)? = null,
+        onLongClickListener: ((item: T, position: Int) -> Unit)? = null
     ): DataBindingAdapter<T> {
-        adapter.apply { onClickListener?.let(::setOnClickListener) }
+        adapter.apply {
+            onClickListener?.let(::setOnClickListener)
+            onLongClickListener?.let(::setOnLongClickListener)
+        }
         recyclerView.adapter = adapter
         return adapter
     }
@@ -19,10 +23,14 @@ interface WithRecycler {
     fun setAdapterListener(
         recyclerView: RecyclerView,
         @IdRes onClickView: Int? = null,
+        onLongClickListener: ((item: RecyclerItem, position: Int) -> Unit)? = null,
         onClickListener: (item: RecyclerItem, position: Int) -> Unit
     ): DataBindingAdapter<RecyclerItem> {
         val adapter = DataBindingAdapter.UniversalAdapter(onClickView)
-        adapter.setOnClickListener(onClickListener)
+            .apply {
+                setOnClickListener(onClickListener)
+                onLongClickListener?.let(::setOnLongClickListener)
+            }
         recyclerView.adapter = adapter
         return adapter
     }

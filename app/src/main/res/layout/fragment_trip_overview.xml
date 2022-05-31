@@ -210,6 +210,28 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tripOverviewActivity" />
 
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:id="@+id/tripOverviewDocumentLoading"
+                            style="@style/Widget.Wanderscope.Loading.Documents"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:showLoading="@{vm.documentActionLoading}"
+                            app:layout_constraintBottom_toBottomOf="@id/tripOverviewDocumentLabel"
+                            app:layout_constraintStart_toEndOf="@id/tripOverviewDocumentLabel" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tripOverviewDocumentAdd"
+                            style="@style/Widget.Wanderscope.ClickableText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/app_layout_main_horizontal_padding"
+                            android:gravity="end"
+                            android:onClick="@{() -> vm.addDocument()}"
+                            android:text="@string/add"
+                            app:layout_constraintBottom_toBottomOf="@id/tripOverviewDocumentLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tripOverviewDocumentLabel" />
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/tripOverviewDocument"
                             android:layout_width="match_parent"
@@ -272,8 +294,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_marginBottom="@dimen/margin_4"
                 android:layout_marginEnd="@dimen/margin_4"
+                android:layout_marginBottom="@dimen/margin_4"
                 app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
                 app:sdMainFabClosedBackgroundColor="@color/colorPrimary"
                 app:sdMainFabClosedSrc="@drawable/ic_add"

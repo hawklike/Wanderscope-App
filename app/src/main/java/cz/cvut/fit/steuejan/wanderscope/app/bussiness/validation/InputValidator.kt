@@ -79,6 +79,37 @@ class InputValidator {
         } ?: OK
     }
 
+    fun validateExtension(extension: String?): Int {
+        return when {
+            extension == null -> {
+                R.string.unknown_extension
+            }
+            extension.lowercase() !in listOf("pdf", "png", "jpg", "jpeg", "gif", "gpx") -> {
+                R.string.upload_document_extensions
+            }
+            else -> {
+                OK
+            }
+        }
+    }
+
+    fun validateDocumentSize(size: Int?): Int {
+        return if (size ?: 0 > Constants.DOCUMENT_MAX_SIZE) {
+            R.string.upload_document_too_large
+        } else {
+            OK
+        }
+    }
+
+    fun validateDocumentKey(key: String): Int {
+        return when {
+            key.isNotEmpty() && key.isBlank() -> R.string.validation_document_key_blank
+            key.isNotEmpty() && key.length < Constants.DOCUMENT_KEY_MIN -> R.string.validation_document_key_short
+            key.length > Constants.DOCUMENT_KEY_MAX -> R.string.validation_document_key_long
+            else -> OK
+        }
+    }
+
     private fun String.isNameAllowed(): Boolean {
         val regex = Regex("^[^\r\n;~]+$")
         return this matches regex

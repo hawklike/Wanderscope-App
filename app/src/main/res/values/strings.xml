@@ -38,6 +38,11 @@
     <string name="validation_displayname_long">Display name should have 30 or less characters</string>
     <string name="validation_displayname_invalid">Display name cannot contain newline, \'~\' and \';\' characters</string>
 
+    <string name="validation_document_key_short">Key should have at least 3 characters</string>
+    <string name="validation_document_key_long">Key should have 50 or less characters</string>
+    <string name="validation_document_key_blank">Key cannot be blank</string>
+
+
     <string name="validation_blank">The field cannot be blank</string>
     <string name="validation_too_long">Maximum length exceeded</string>
 
@@ -325,6 +330,31 @@
     <string name="see_overview">See overview</string>
     <string name="home_screen_empty_title">Your upcoming trip</string>
     <string name="home_screen_empty_item_title">You have no upcoming trip yet</string>
+    <string name="upload_document_extensions">Not supported file type</string>
+    <string name="upload_document_too_large">The file must have a max of 10MB</string>
+    <string name="upload_file">Upload file</string>
+    <string name="upload_document_subtitle">Only .png, .jpg, .jpeg, .gif, .pdf, .txt and .gpx files up to 10MB can be uploaded. You can set a key to protect your document or change the filename.</string>
+    <string name="filename">Filename</string>
+    <string name="name_of_the_file">Name of the file</string>
+    <string name="choose_a_file">Choose a file</string>
+    <string name="protect_your_document">Protect your document</string>
+    <string name="key">Key</string>
+    <string name="unknown_extension">Unknown file type</string>
+    <string name="add">Add</string>
+
+    <string name="save_file_error_document">Saving file failed. Check free space</string>
+    <string name="open_document_fail">Unsupported type. Your device can\'t open the file.</string>
+
+    <string name="download_document_title">Download document?</string>
+    <string name="download_document_message">It will take a few seconds. Next time the document will be ready immediately.</string>
+    <string name="download">Download</string>
+    <string name="download_document_with_key_message">It will take a few seconds. Next time the document will be ready immediately.\n\nThis document is protected with a key. Enter a valid key, please.</string>
+    <string name="document_key_wrong">The provided key is wrong</string>
+
+    <string name="delete_document_title">Delete document?</string>
+    <string name="delete_document_message">The document will be deleted from your device too.</string>
+
+    <string name="delete_document_restricted">Only the document\'s owner or admin may delete the document</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

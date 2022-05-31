@@ -1,14 +1,12 @@
 package cz.cvut.fit.steuejan.wanderscope.trip.users.crud
 
 import androidx.annotation.IdRes
-import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMediator
-import cz.cvut.fit.steuejan.wanderscope.app.common.Constants
 import cz.cvut.fit.steuejan.wanderscope.app.common.Purpose
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
@@ -167,25 +165,15 @@ class TripUsersAddEditFragmentVM(
     private fun changeRoleFailure(error: Error) {
         loading.value = false
         when (error.reason?.customCode) {
-            1 -> showLongSnackbar(R.string.change_role_error_1)
-            2 -> showLongSnackbar(R.string.change_role_error_2)
+            1 -> showSnackbar(SnackbarInfo.error(R.string.change_role_error_1))
+            2 -> showSnackbar(SnackbarInfo.error(R.string.change_role_error_2))
             else -> {
                 if (error.reason?.status == Status.NOT_FOUND) {
-                    showLongSnackbar(R.string.user_not_found_error2)
+                    showSnackbar(SnackbarInfo.error(R.string.change_role_error_2))
                 } else {
                     unexpectedError()
                 }
             }
         }
-    }
-
-    private fun showLongSnackbar(@StringRes message: Int) {
-        showSnackbar(
-            SnackbarInfo(
-                message,
-                length = Constants.UNEXPECTED_ERROR_SNACKBAR_LENGTH,
-                action = {}
-            )
-        )
     }
 }

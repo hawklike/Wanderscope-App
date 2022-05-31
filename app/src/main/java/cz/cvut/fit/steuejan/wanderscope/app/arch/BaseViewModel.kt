@@ -20,6 +20,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
+import cz.cvut.fit.steuejan.wanderscope.document.model.DownloadedFile
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.koin.core.component.KoinComponent
@@ -40,6 +41,8 @@ abstract class BaseViewModel(
     val datePickerEvent = SingleLiveEvent<DatePickerInfo>()
     val timePickerEvent = SingleLiveEvent<TimePickerInfo>()
     val showAlertDialogEvent = SingleLiveEvent<AlertDialogInfo>()
+    val saveAndOpenFileEvent = SingleLiveEvent<DownloadedFile>()
+    val removeFileEvent = SingleLiveEvent<String>()
 
     protected fun navigateTo(event: NavigationEvent, onBackground: Boolean = false) {
         if (onBackground) {
@@ -121,6 +124,22 @@ abstract class BaseViewModel(
         }
     }
 
+    protected fun saveAndOpenFile(file: DownloadedFile, onBackground: Boolean = false) {
+        if (onBackground) {
+            saveAndOpenFileEvent.postValue(file)
+        } else {
+            saveAndOpenFileEvent.value = file
+        }
+    }
+
+    protected fun removeFile(filename: String, onBackground: Boolean = false) {
+        if (onBackground) {
+            removeFileEvent.postValue(filename)
+        } else {
+            removeFileEvent.value = filename
+        }
+    }
+
     protected open fun unexpectedError(error: Error? = null, retry: () -> Unit = {}) {
         error?.reason?.let {
             Timber.e(it.message)
@@ -177,7 +196,15 @@ abstract class BaseViewModel(
         val length: Int = Snackbar.LENGTH_LONG,
         val actionText: Int = android.R.string.ok,
         val action: ((Snackbar) -> Unit)? = null
-    )
+    ) {
+        companion object {
+            fun error(@StringRes message: Int) = SnackbarInfo(
+                message,
+                length = Constants.UNEXPECTED_ERROR_SNACKBAR_LENGTH,
+                action = {}
+            )
+        }
+    }
 
     data class DatePickerInfo(
         @StringRes val title: Int? = R.string.datepicker_title_default,

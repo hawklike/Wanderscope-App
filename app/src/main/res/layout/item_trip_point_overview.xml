@@ -18,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="184dp"
+            android:layout_height="180dp"
             android:paddingHorizontal="@dimen/app_trip_overview_item_padding_horizontal"
             android:paddingVertical="@dimen/app_trip_overview_item_padding_vertical"
             tools:background="@color/colorSurface">
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/margin_4"
                 app:layout_constraintVertical_bias="1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -10,4 +10,5 @@ interface SessionManager {
     fun isUserLoggedIn(): Boolean
     suspend fun requestLogout()
     fun shouldLogoutUser(): Flow<Boolean>
+    fun getUserId(): Int?
 }

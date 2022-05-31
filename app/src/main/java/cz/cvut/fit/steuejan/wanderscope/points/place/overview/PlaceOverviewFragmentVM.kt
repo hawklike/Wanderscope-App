@@ -5,14 +5,22 @@ import android.content.res.Resources
 import androidx.lifecycle.MutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
+import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.app.util.showMap
+import cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle
+import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.AbstractPointOverviewFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlaceResponse
 import cz.cvut.fit.steuejan.wanderscope.points.place.repository.PlaceRepository
 
-class PlaceOverviewFragmentVM(placeRepository: PlaceRepository) :
-    AbstractPointOverviewFragmentVM<PlaceResponse>(placeRepository) {
+class PlaceOverviewFragmentVM(
+    placeRepository: PlaceRepository
+) : AbstractPointOverviewFragmentVM<PlaceResponse>(
+    placeRepository
+) {
+
+    override val pointType = TripPointType.PLACE
 
     val latitude = MutableLiveData<String?>()
     val longitude = MutableLiveData<String?>()
@@ -54,6 +62,19 @@ class PlaceOverviewFragmentVM(placeRepository: PlaceRepository) :
                         R.string.deleting_place
                     )
                 }
+            )
+        )
+    }
+
+    fun addDocument() {
+        val tripId = pointOverview.value?.tripId ?: return
+        val pointId = pointOverview.value?.id ?: return
+        navigateTo(
+            NavigationEvent.Action(
+                PlaceOverviewFragmentDirections
+                    .actionPlaceOverviewFragmentToUploadDocumentFragment(
+                        UploadDocumentBundle(tripId, pointId, TripPointType.PLACE)
+                    )
             )
         )
     }

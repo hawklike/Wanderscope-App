@@ -80,14 +80,15 @@ ext {
     lifecycle_version = '2.4.1'
     datastore_preferences_version = '1.0.0'
     apache_commons_validator_version = '1.7'
-    apache_commons_email_version= '1.5'
+    apache_commons_io_version = '2.11.0'
     joda_time_version = '2.10.14'
     splashscreen_version = '1.0.0-rc01'
     shimmer_version = '0.5.0'
     places_sdk_version = '2.6.0'
     fab_speed_dial_version = '3.3.0'
-    maps_sdk_version='18.0.2'
-    maps_ktx_version='3.2.1'
+    maps_sdk_version = '18.0.2'
+    maps_ktx_version = '3.2.1'
+    jwt_decode_version = '2.0.1'
 }
 
 dependencies {
@@ -142,6 +143,9 @@ dependencies {
     //Apache Commons Validator
     implementation "commons-validator:commons-validator:$apache_commons_validator_version"
 
+    //Apache Commons IO
+    implementation "commons-io:commons-io:$apache_commons_io_version"
+
     //Splash Screen
     implementation "androidx.core:core-splashscreen:$splashscreen_version"
 
@@ -157,6 +161,9 @@ dependencies {
 
     //FAB Speed Dial
     implementation "com.leinardi.android:speed-dial:$fab_speed_dial_version"
+
+    //JWT Decode
+    implementation "com.auth0.android:jwtdecode:$jwt_decode_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
