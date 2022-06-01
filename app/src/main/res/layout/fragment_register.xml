@@ -179,11 +179,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/app_button_bottom_margin"
             android:onClick="@{() -> vm.register()}"
-            android:text="@string/sign_up"
+            android:text="@string/register_button"
             app:isEnabled="@{vm.enableSignUp}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:showProgress="@{vm.signupLoading}"
-            app:textAfterProgress="@{@string/sign_up}" />
+            app:textAfterProgress="@{@string/register_button}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
