@@ -18,6 +18,8 @@ data class UserItem(
     }
 
     override fun hasSameContent(other: RecyclerItem): Boolean {
-        return other is UserItem && name == other.name && role == other.role
+        return other is UserItem && name == other.name &&
+                role == other.role &&
+                hasMenu == other.hasMenu
     }
 }

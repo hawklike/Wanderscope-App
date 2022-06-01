@@ -34,15 +34,18 @@ class TripUsersFragment : MvvmFragment<
 
     private val args: TripUsersFragmentArgs by navArgs()
 
+    private var userRole: UserRole? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupFragmentResultListener()
-        viewModel.loadUsers(args.tripId, args.userRole)
+        viewModel.loadUsers(args.tripId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleLoading()
+        listenToUserRole()
         handleActionButton()
         handleRecyclerOnClick()
         handleSwipeRefresh()
@@ -53,13 +56,20 @@ class TripUsersFragment : MvvmFragment<
             val result = bundle.getParcelable<Load>(USERS_UPDATED_RESULT_BUNDLE)
                 ?: return@setFragmentResultListener
             if (result == Load.USERS) {
-                viewModel.loadUsers(args.tripId, args.userRole)
+                viewModel.loadUsers(args.tripId)
                 showToast(R.string.updating_users)
                 setFragmentResult(
                     TripPagerFragment.TRIP_UPDATED_REQUEST_KEY,
                     bundleOf(TripPagerFragment.TRIP_UPDATED_RESULT_BUNDLE to result)
                 )
             }
+        }
+    }
+
+    private fun listenToUserRole() {
+        viewModel.userRole.safeObserve {
+            this.userRole = it
+            handleActionButton()
         }
     }
 
@@ -73,13 +83,14 @@ class TripUsersFragment : MvvmFragment<
     }
 
     private fun handleActionButton() {
+        val role = userRole ?: args.userRole
+        binding.manageUsersAdd.visibleOrGone(role.canEdit())
         listenToAddUserClick()
-        binding.manageUsersAdd.visibleOrGone(args.userRole.canEdit())
     }
 
     private fun handleSwipeRefresh() {
         binding.manageUsersSwipeRefresh.setOnRefreshListener {
-            viewModel.loadUsers(args.tripId, args.userRole)
+            viewModel.loadUsers(args.tripId)
         }
     }
 
@@ -88,7 +99,7 @@ class TripUsersFragment : MvvmFragment<
             navigateTo(
                 TripUsersFragmentDirections
                     .actionTripUsersFragmentToTripUsersAddEditFragment(
-                        args.tripId, args.userRole, purpose
+                        args.tripId, userRole ?: args.userRole, purpose
                     )
             )
         }
@@ -96,7 +107,7 @@ class TripUsersFragment : MvvmFragment<
 
     private fun handleRecyclerOnClick() {
         setAdapterListener(binding.manageUsersRecycler) { user, _ ->
-            if (args.userRole == UserRole.ADMIN && user is UserItem) {
+            if (user is UserItem && user.hasMenu) {
                 navigateTo(
                     TripUsersFragmentDirections
                         .actionTripUsersFragmentToTripUsersAddEditFragment(
