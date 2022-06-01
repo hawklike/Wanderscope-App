@@ -412,6 +412,12 @@
     <string name="website_hint">Website</string>
     <string name="email_hint">Email address</string>
 
+    <string name="czech">Czech</string>
+    <string name="english">English</string>
+    <string name="change_language">Change language</string>
+    <string name="app">App</string>
+    <string name="change">Change</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>

@@ -26,6 +26,7 @@ class AccountFragmentVM(
     val email = MutableLiveData<String>()
     val displayName = MutableLiveData<String?>()
     val acronym = MutableLiveData<String>()
+    val language = MutableLiveData<Int>()
 
     val logoutEvent = AnySingleLiveEvent()
 

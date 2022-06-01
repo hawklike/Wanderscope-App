@@ -12,7 +12,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.data.Contact
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
-import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
@@ -34,8 +33,6 @@ class PlaceAddEditFragmentVM(
     val website = MutableLiveData<String?>()
     val latitude = MutableLiveData<String?>()
     val longitude = MutableLiveData<String?>()
-
-    val showSecretToast = SingleLiveEvent<String>()
 
     override fun setupEdit(point: PlaceResponse, title: Int) {
         super.setupEdit(point, title)

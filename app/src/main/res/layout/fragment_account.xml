@@ -123,9 +123,9 @@
                             style="@style/Widget.Wanderscope.ClickableText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:onClick="@{() -> vm.changePassword()}"
                             android:drawableEnd="@drawable/ic_arrow_forward_16"
                             android:drawableTint="@color/colorPrimary"
+                            android:onClick="@{() -> vm.changePassword()}"
                             android:text="@string/change_password"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -144,25 +144,11 @@
                             android:id="@+id/accountDisplayNameOnClick"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:onClick="@{() -> vm.setDisplayName()}"
                             android:drawableEnd="@drawable/ic_arrow_forward_16"
                             android:drawableTint="@color/colorPrimary"
+                            android:onClick="@{() -> vm.setDisplayName()}"
                             app:layout_constraintTop_toBottomOf="@id/accountDisplayNameLabel"
                             app:layout_constraintTop_toTopOf="@id/accountDisplayNameLabel" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/accountDelete"
-                            style="@style/Widget.Wanderscope.ClickableText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:drawableEnd="@drawable/ic_error_16"
-                            android:drawableTint="@color/colorTextError"
-                            android:text="@string/delete_account"
-                            android:onClick="@{() -> vm.deleteAccount()}"
-                            android:textColor="@color/colorTextError"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/accountDisplayNameLabel" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/accountDisplayName"
@@ -181,6 +167,78 @@
                             app:layout_constraintStart_toEndOf="@id/accountDisplayNameLabel"
                             tools:text="Tomas Zacatecnik" />
 
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accountDelete"
+                            style="@style/Widget.Wanderscope.ClickableText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:drawableEnd="@drawable/ic_error_16"
+                            android:drawableTint="@color/colorTextError"
+                            android:onClick="@{() -> vm.deleteAccount()}"
+                            android:text="@string/delete_account"
+                            android:textColor="@color/colorTextError"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/accountDisplayNameLabel" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/accountAppLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/app"
+                        android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                        app:layout_constraintTop_toBottomOf="@id/accountAccountLayout" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/accountAppLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/shape_rounded_8"
+                        android:backgroundTint="@color/colorSurface"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/accountAppLabel">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accountChangeLanguageLabel"
+                            style="@style/Widget.Wanderscope.ClickableText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:text="@string/change_language"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accountChangeLanguageOnClick"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableEnd="@drawable/ic_arrow_forward_16"
+                            android:drawableTint="@color/colorPrimary"
+                            app:layout_constraintTop_toBottomOf="@id/accountChangeLanguageLabel"
+                            app:layout_constraintTop_toTopOf="@id/accountChangeLanguageLabel" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accountChangeLanguage"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="32dp"
+                            android:clickable="false"
+                            android:ellipsize="end"
+                            android:gravity="end"
+                            android:maxLines="1"
+                            android:text="@{vm.language}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            app:layout_constraintBottom_toBottomOf="@id/accountChangeLanguageLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/accountChangeLanguageLabel"
+                            tools:text="Tomas Zacatecnik" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <com.google.android.material.textview.MaterialTextView
@@ -190,7 +248,7 @@
                         android:layout_marginTop="24dp"
                         android:text="@string/security"
                         android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
-                        app:layout_constraintTop_toBottomOf="@id/accountAccountLayout" />
+                        app:layout_constraintTop_toBottomOf="@id/accountAppLayout" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/accountSecuritytLayout"
@@ -234,10 +292,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
-                        app:showVersion="@{true}"
                         android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
-                        tools:text="Version 1.0"
-                        app:layout_constraintTop_toBottomOf="@id/accountSecuritytLayout" />
+                        app:layout_constraintTop_toBottomOf="@id/accountSecuritytLayout"
+                        app:showVersion="@{true}"
+                        tools:text="Version 1.0" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

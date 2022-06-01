@@ -1,8 +1,10 @@
 package cz.cvut.fit.steuejan.wanderscope.app.util
 
 import cz.cvut.fit.steuejan.wanderscope.BuildConfig
+import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.common.Flavor
 import timber.log.Timber
+import java.util.*
 
 inline fun <T> runOrLogException(call: () -> T): T? {
     return runCatching(call).getOrElse {
@@ -21,6 +23,13 @@ inline fun <T1 : Any, T2 : Any, R : Any> multipleLet(p1: T1?, p2: T2?, block: (T
 
 fun isDebuggable(): Boolean {
     return BuildConfig.DEBUG && BuildConfig.FLAVOR == Flavor.STAGING.env
+}
+
+fun getLanguage(): Int {
+    return when (Locale.getDefault().language) {
+        "cs" -> R.string.czech
+        else -> R.string.english
+    }
 }
 
 val doNothing = {}

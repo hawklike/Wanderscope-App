@@ -59,7 +59,7 @@
     <string name="upcoming_trips">Nadcházející cesty</string>
     <string name="passwords_same_as_current">Heslo je stejné jako aktuální</string>
     <string name="passwords_same_as_new">Heslo je stejné jako nově zadané</string>
-    <string name="entered_password_is_wrong">Zadané heslo je špatné</string>
+    <string name="entered_password_is_wrong">Zadané heslo je chybné</string>
     <string name="password_changed">Heslo změněno</string>
     <string name="display_name_subtitle">Zobrazované jméno bude viditelné pro ostatní uživatele místo vašeho uživatelského jména. Pokud chcete vaše zobrazované jméno smazat, nechte políčko prázdné.</string>
     <string name="change_display_name">Změňte zobrazované jméno</string>
@@ -302,8 +302,8 @@
     <string name="download_document_title">Stáhnout dokument?</string>
     <string name="download_document_message">Pár vteřin to potrvá. Přiště bude tento dokument dostupný ihned.</string>
     <string name="download">Stáhnout</string>
-    <string name="download_document_with_key_message">"Pár vteřin to potrvá. Přiště bude tento dokument dostupný ihned.\n\nTento dokument je chráněn klíčem. Zadejte prosím správný klíč. "</string>
-    <string name="document_key_wrong">Zadaný klíč je špatný</string>
+    <string name="download_document_with_key_message">"Pár vteřin to potrvá. Přiště bude tento dokument dostupný ihned.\n\nTento dokument je chráněn klíčem. Zadejte prosím platný klíč. "</string>
+    <string name="document_key_wrong">Zadaný klíč je chybný</string>
     <string name="delete_document_title">Smazat dokument?</string>
     <string name="delete_document_message">Dokument bude smazán i z paměti vašeho zařízení.</string>
     <string name="delete_document_restricted">Pouze vlastník dokumentu nebo admin může smazat tento dokument</string>
@@ -368,4 +368,9 @@
     <string name="public_transport_overview">Hromadnou dopravou</string>
     <string name="other_transport_overview">Jinak</string>
     <string name="activity_overview_other">Jiná aktivita</string>
+    <string name="czech">Čeština</string>
+    <string name="english">Angličtina</string>
+    <string name="change_language">Změnit jazyk</string>
+    <string name="app">Aplikace</string>
+    <string name="change">Změnit</string>
 </resources>
