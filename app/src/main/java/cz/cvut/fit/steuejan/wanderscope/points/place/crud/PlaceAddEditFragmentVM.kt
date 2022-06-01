@@ -1,15 +1,18 @@
 package cz.cvut.fit.steuejan.wanderscope.points.place.crud
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.places.api.model.Place
+import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.common.Result
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Address
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Contact
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Duration
 import cz.cvut.fit.steuejan.wanderscope.app.extension.getOrNullIfBlank
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.CreatedResponse
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
 import cz.cvut.fit.steuejan.wanderscope.points.common.crud.AbstractPointAddEditFragmentVM
@@ -31,6 +34,8 @@ class PlaceAddEditFragmentVM(
     val website = MutableLiveData<String?>()
     val latitude = MutableLiveData<String?>()
     val longitude = MutableLiveData<String?>()
+
+    val showSecretToast = SingleLiveEvent<String>()
 
     override fun setupEdit(point: PlaceResponse, title: Int) {
         super.setupEdit(point, title)
@@ -65,6 +70,7 @@ class PlaceAddEditFragmentVM(
 
     override fun createRequest(): PlaceRequest? {
         val name = name.value ?: return null
+        doSecret(description.value)
         return PlaceRequest(
             name = name,
             duration = Duration(startDateTime, endDateTime),
@@ -80,5 +86,17 @@ class PlaceAddEditFragmentVM(
     private fun getTypeFromSelectedItem(): PlaceType {
         return PlaceType.values().getOrNull(selectedTypePosition ?: -1)
             ?: PlaceType.OTHER
+    }
+
+    private fun doSecret(description: String?) {
+        val safeDescription = description?.lowercase() ?: return
+        if (safeDescription == UP_DOWN || safeDescription == UP_DOWN_CS) {
+            showToast(ToastInfo(R.string.you_will_see, Toast.LENGTH_LONG))
+        }
+    }
+
+    companion object {
+        const val UP_DOWN = "up up down down left right left right b a"
+        const val UP_DOWN_CS = "nahoru nahoru dolu dolu doleva doprava doleva doprava b a"
     }
 }

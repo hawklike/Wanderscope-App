@@ -375,6 +375,8 @@
     <string name="expenses_beta_version_dialog_text">This app is still in beta. You can manage and split bills among other travellers in a future release. Thank you for being patient. Jan Steuer, author of the app.</string>
     <string name="understand">Understand</string>
 
+    <string name="you_will_see">🎉 Activated! Your trip will be special 🎉</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
