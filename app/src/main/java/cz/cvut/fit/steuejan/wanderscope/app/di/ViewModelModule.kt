@@ -9,6 +9,7 @@ import cz.cvut.fit.steuejan.wanderscope.auth.login.LoginFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.auth.register.RegisterFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.document.UploadDocumentFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.home.HomeFragmentVM
+import cz.cvut.fit.steuejan.wanderscope.map.MapFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.crud.AccommodationAddEditFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.overview.AccommodationOverviewFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.activity.crud.ActivityAddEditFragmentVM
@@ -56,4 +57,5 @@ val viewModelModule = module {
     viewModelOf(::DisplayNameFragmentVM)
     viewModelOf(::UploadDocumentFragmentVM)
     viewModelOf(::ExpenseRoomAddEditFragmentVM)
+    viewModelOf(::MapFragmentVM)
 }

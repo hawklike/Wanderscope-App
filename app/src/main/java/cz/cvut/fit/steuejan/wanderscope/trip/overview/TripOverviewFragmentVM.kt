@@ -16,6 +16,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString
 import cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem
 import cz.cvut.fit.steuejan.wanderscope.app.extension.*
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.nav.NavigationEvent.Action
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Status
@@ -26,6 +27,7 @@ import cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle
 import cz.cvut.fit.steuejan.wanderscope.document.repository.DocumentRepository
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.api.response.MultipleAccommodationResponse
 import cz.cvut.fit.steuejan.wanderscope.points.activity.api.response.ActivitiesResponse
+import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.api.response.PointResponse
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlacesResponse
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.response.TransportResponse
@@ -61,6 +63,8 @@ class TripOverviewFragmentVM(
     val accommodationCoordinates = MutableLiveData<List<LatLngBundle>>()
     val placeCoordinates = MutableLiveData<List<LatLngBundle>>()
     val activityCoordinates = MutableLiveData<List<LatLngBundle>>()
+
+    val allCoordinates = SingleLiveEvent<List<LatLngBundle>>()
 
     val tripOverview = MutableLiveData<TripResponse>()
 
@@ -183,7 +187,7 @@ class TripOverviewFragmentVM(
         accommodation.value = items.ifEmpty { listOf(EmptyItem.accommodation()) }
         accommodationLoading.value = false
         viewModelScope.launch {
-            val coordinates = extractCoordinates(data.accommodation)
+            val coordinates = extractCoordinates(data.accommodation, TripPointType.ACCOMMODATION)
             accommodationCoordinates.value = coordinates
         }
     }
@@ -204,19 +208,20 @@ class TripOverviewFragmentVM(
         transport.value = items.ifEmpty { listOf(EmptyItem.transport()) }
         transportLoading.value = false
         viewModelScope.launch {
-            val fromCoordinates = extractCoordinates(data.transports)
-            val toCoordinates = extractTransportCoordinates(data.transports)
+            val fromCoordinates = extractCoordinates(data.transports, TripPointType.TRANSPORT)
+            val toCoordinates = extractTransportCoordinates(data.transports, TripPointType.TRANSPORT)
             transportCoordinates.value = fromCoordinates + toCoordinates
         }
     }
 
     private suspend fun extractTransportCoordinates(
-        transport: List<TransportResponse>
+        transport: List<TransportResponse>,
+        pointType: TripPointType
     ): List<LatLngBundle> {
         return withDefault {
             transport.fold(emptyList()) { acc, transport ->
                 transport.toCoordinates.toLatLng()?.let {
-                    acc + LatLngBundle(it, transport.name)
+                    acc + LatLngBundle(it, transport.name, pointType)
                 } ?: acc
             }
         }
@@ -238,7 +243,7 @@ class TripOverviewFragmentVM(
         activities.value = items.ifEmpty { listOf(EmptyItem.activities()) }
         activitiesLoading.value = false
         viewModelScope.launch {
-            val coordinates = extractCoordinates(data.activities)
+            val coordinates = extractCoordinates(data.activities, TripPointType.ACTIVITY)
             activityCoordinates.value = coordinates
         }
     }
@@ -259,16 +264,19 @@ class TripOverviewFragmentVM(
         places.value = items.ifEmpty { listOf(EmptyItem.places()) }
         placesLoading.value = false
         viewModelScope.launch {
-            val coordinates = extractCoordinates(data.places)
+            val coordinates = extractCoordinates(data.places, TripPointType.PLACE)
             placeCoordinates.value = coordinates
         }
     }
 
-    private suspend fun extractCoordinates(points: List<PointResponse>): List<LatLngBundle> {
+    private suspend fun extractCoordinates(
+        points: List<PointResponse>,
+        pointType: TripPointType
+    ): List<LatLngBundle> {
         return withDefault {
             points.fold(emptyList()) { acc, point ->
                 point.coordinates.toLatLng()?.let {
-                    acc + LatLngBundle(it, point.name)
+                    acc + LatLngBundle(it, point.name, pointType)
                 } ?: acc
             }
         }
@@ -446,5 +454,21 @@ class TripOverviewFragmentVM(
         removeFile(storedFilename)
         loadDocuments(tripId)
         documentActionLoading.value = false
+    }
+
+    fun prepareCoordinates() {
+        viewModelScope.launch {
+            allCoordinates.value = mergeAllCoordinates()
+        }
+    }
+
+    private suspend fun mergeAllCoordinates(): List<LatLngBundle> {
+        return withDefault {
+            val accommodation = accommodationCoordinates.value ?: emptyList()
+            val place = placeCoordinates.value ?: emptyList()
+            val transport = transportCoordinates.value ?: emptyList()
+            val activity = activityCoordinates.value ?: emptyList()
+            accommodation + place + transport + activity
+        }
     }
 }

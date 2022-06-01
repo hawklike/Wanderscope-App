@@ -360,6 +360,7 @@
 
     <string name="expense_rooms_empty">You have no rooms yet</string>
     <string name="expense_rooms_empty_subtitle">Create a new room where you can share expenses</string>
+    <string name="map">Map</string>
 
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>

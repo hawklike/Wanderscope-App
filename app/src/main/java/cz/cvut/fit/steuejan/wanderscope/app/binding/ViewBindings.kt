@@ -24,6 +24,11 @@ fun View.visibleOrInvisible(any: Any?): Any? {
     return any
 }
 
+@BindingAdapter("visibleOrInvisible")
+fun View.visibleOrInvisible(visible: Boolean) {
+    visibility = if (visible) View.VISIBLE else View.INVISIBLE
+}
+
 @BindingAdapter("backgroundTintResource")
 fun View.setBackgroundTint(@ColorRes tintColor: Int) {
     background.setTint(ContextCompat.getColor(context, tintColor))
