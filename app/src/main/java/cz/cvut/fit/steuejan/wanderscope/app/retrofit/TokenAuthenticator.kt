@@ -32,7 +32,9 @@ class TokenAuthenticator(
                 saveTokens(result.payload)
                 accessToken = result.payload.accessToken
             } else {
-                sessionManager.requestLogout()
+                if (result is ApiResult.Failure && result.error.reason != null) {
+                    sessionManager.requestLogout()
+                }
                 return@runBlocking null
             }
             createNewRequest(response, accessToken)

@@ -46,19 +46,12 @@ abstract class AbstractPointAddEditFragment<B : ViewDataBinding, VM : BaseViewMo
         prepareDropdownMenu()
         initViewModel()
         findPlace()
-        hideKeyboard()
         handleSuccess()
     }
 
     protected open fun findPlace() {
         abstractViewModel?.findAccommodationEvent?.safeObserve {
             showPlacesAutocomplete(fields, it)
-        }
-    }
-
-    override fun hideKeyboard() {
-        abstractViewModel?.hideKeyboardEvent?.safeObserve {
-            super.hideKeyboard()
         }
     }
 

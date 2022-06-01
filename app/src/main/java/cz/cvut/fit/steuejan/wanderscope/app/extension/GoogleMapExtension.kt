@@ -1,6 +1,9 @@
 package cz.cvut.fit.steuejan.wanderscope.app.extension
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Criteria
+import android.location.LocationManager
 import android.view.View
 import androidx.annotation.RawRes
 import androidx.core.view.doOnLayout
@@ -82,4 +85,19 @@ fun GoogleMap.adjustZoom(
             this.animateCamera(camera)
         }
     }
+}
+
+@SuppressLint("MissingPermission")
+fun GoogleMap.zoomToCurrentLocation(context: Context, zoomLevel: Float): Boolean {
+    val locationManager = context
+        .getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+    val criteria = Criteria()
+    val location = locationManager?.getBestProvider(criteria, false)
+        ?.let { locationManager.getLastKnownLocation(it) }
+    location?.let {
+        val latLng = LatLng(it.latitude, it.longitude)
+        this.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel))
+        return true
+    }
+    return false
 }

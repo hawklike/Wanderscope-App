@@ -11,6 +11,7 @@ import cz.cvut.fit.steuejan.wanderscope.app.extension.capitalize
 import cz.cvut.fit.steuejan.wanderscope.app.util.model.DaysHoursMinutes
 import cz.cvut.fit.steuejan.wanderscope.app.util.model.FullDuration
 import cz.cvut.fit.steuejan.wanderscope.app.util.model.Nights
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.model.Currency
 
 @BindingAdapter("duration")
 fun TextView.setDuration(duration: DurationString?) {
@@ -109,4 +110,10 @@ fun TextView.showVersion(show: Boolean) {
     } else {
         null
     }
+}
+
+@BindingAdapter("currency")
+fun TextView.setCurrency(currency: Currency?) {
+    visibleOrGone(currency) ?: return
+    this.text = currency!!.getCode()
 }

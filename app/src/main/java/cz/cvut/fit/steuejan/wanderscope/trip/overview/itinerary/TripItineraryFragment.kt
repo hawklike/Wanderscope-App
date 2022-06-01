@@ -7,6 +7,7 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
+import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.app.util.multipleLet
@@ -74,12 +75,8 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
     }
 
     private fun handleActionButton() {
-        val visibility = if (userRole?.canEdit() == true) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
-        binding.tripItineraryAddButton.visibility = visibility
+        val canEdit = userRole?.canEdit() == true
+        binding.tripItineraryAddButton.visibleOrGone(canEdit)
     }
 
     private fun handleSwipeRefresh() {

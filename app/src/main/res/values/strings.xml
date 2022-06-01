@@ -356,6 +356,25 @@
 
     <string name="delete_document_restricted">Only the document\'s owner or admin may delete the document</string>
 
+    <string name="expense_room_member_invalid">Cannot contain character ;</string>
+
+    <string name="expense_rooms_empty">You have no rooms yet</string>
+    <string name="expense_rooms_empty_subtitle">Create a new room where you can share expenses</string>
+    <string name="map">Map</string>
+
+    <string name="member_must_be_unique">Member must be unique</string>
+    <string name="add_member_by_clicking_on_the_icon">Add member by clicking on the icon</string>
+    <string name="members">Members</string>
+    <string name="select_currency">Select currency</string>
+    <string name="create_room">Create room</string>
+    <string name="create_room_subtitle">Create a new room where you can share expenses with other members of this room.</string>
+    <string name="name_the_room">Name the room</string>
+    <string name="currency">Currency</string>
+
+    <string name="stay_tuned">Stay tuned!</string>
+    <string name="expenses_beta_version_dialog_text">This app is still in beta. You can manage and split bills among other travellers in a future release. Thank you for being patient. Jan Steuer, author of the app.</string>
+    <string name="understand">Understand</string>
+
     <plurals name="days_between_two_dates">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>

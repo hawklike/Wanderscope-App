@@ -20,6 +20,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.activity.api.ActivityApi
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.PlaceApi
 import cz.cvut.fit.steuejan.wanderscope.points.transport.api.TransportApi
 import cz.cvut.fit.steuejan.wanderscope.trip.api.TripApi
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.api.ExpenseApi
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.api.ItineraryApi
 import cz.cvut.fit.steuejan.wanderscope.trip.users.api.TripUserApi
 import cz.cvut.fit.steuejan.wanderscope.trips.api.TripsApi
@@ -62,6 +63,7 @@ val networkModule = module {
     single { provideApi<DocumentApi>(get()) }
     single { provideApi<ItineraryApi>(get()) }
     single { provideApi<TripUserApi>(get()) }
+    single { provideApi<ExpenseApi>(get()) }
 }
 
 private fun provideRetrofitBuilder(converterFactory: retrofit2.Converter.Factory): Retrofit.Builder {

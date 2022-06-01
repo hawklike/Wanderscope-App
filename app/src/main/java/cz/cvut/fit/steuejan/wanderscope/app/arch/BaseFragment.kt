@@ -101,7 +101,7 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    protected open fun hideKeyboard() {
+    protected fun hideKeyboard() {
         requireActivity().currentFocus?.let { view ->
             val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(view.windowToken, 0)

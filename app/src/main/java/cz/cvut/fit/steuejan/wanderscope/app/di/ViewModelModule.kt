@@ -9,6 +9,7 @@ import cz.cvut.fit.steuejan.wanderscope.auth.login.LoginFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.auth.register.RegisterFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.document.UploadDocumentFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.home.HomeFragmentVM
+import cz.cvut.fit.steuejan.wanderscope.map.MapFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.crud.AccommodationAddEditFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.accommodation.overview.AccommodationOverviewFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.activity.crud.ActivityAddEditFragmentVM
@@ -20,6 +21,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.transport.overview.TransportOverv
 import cz.cvut.fit.steuejan.wanderscope.trip.crud.AddEditTripFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.TripOverviewFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.TripExpensesFragmentVM
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.crud.ExpenseRoomAddEditFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.TripItineraryFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trip.users.TripUsersFragmentVM
@@ -54,4 +56,6 @@ val viewModelModule = module {
     viewModelOf(::ChangePasswordFragmentVM)
     viewModelOf(::DisplayNameFragmentVM)
     viewModelOf(::UploadDocumentFragmentVM)
+    viewModelOf(::ExpenseRoomAddEditFragmentVM)
+    viewModelOf(::MapFragmentVM)
 }

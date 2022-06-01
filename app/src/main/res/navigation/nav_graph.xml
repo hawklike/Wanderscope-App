@@ -126,6 +126,12 @@
         <action
             android:id="@+id/action_tripPagerFragment_to_uploadDocumentFragment"
             app:destination="@id/uploadDocumentFragment" />
+        <action
+            android:id="@+id/action_tripPagerFragment_to_expenseRoomAddEditFragment"
+            app:destination="@id/expenseRoomAddEditFragment" />
+        <action
+            android:id="@+id/action_tripPagerFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
 
     <fragment
@@ -368,6 +374,33 @@
         <argument
             android:name="bundle"
             app:argType="cz.cvut.fit.steuejan.wanderscope.document.model.UploadDocumentBundle" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/expenseRoomAddEditFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.crud.ExpenseRoomAddEditFragment"
+        tools:layout="@layout/fragment_expense_room_add_edit"
+        android:label="">
+        <argument
+            android:name="tripId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.map.MapFragment"
+        tools:layout="@layout/fragment_map"
+        android:label="">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="duration"
+            app:nullable="true"
+            app:argType="cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.DurationString" />
+        <argument
+            android:name="hasBottomNavigation"
+            app:argType="boolean" />
     </fragment>
 
 </navigation>

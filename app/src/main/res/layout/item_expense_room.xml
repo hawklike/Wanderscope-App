@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.ExpenseRoomItem" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Wanderscope.CardView.RecyclerItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:topMargin="@{item.firstItem ? @dimen/app_first_item_overview_margin : @dimen/margin_0}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/margin_16"
+            android:paddingTop="@dimen/margin_16"
+            android:paddingBottom="@dimen/margin_12"
+            tools:background="@color/colorSurface">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/itemExpenseRoomGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/itemExpenseRoomTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{item.name}"
+                android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                app:layout_constraintEnd_toStartOf="@id/itemExpenseRoomGuideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="sdksjsjdksjkdj" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/itemExpenseRoomPersons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_12"
+                app:addChips="@{item.persons}"
+                app:layout_constraintTop_toBottomOf="@id/itemExpenseRoomTitle" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/itemExpenseRoomCurrency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:drawableStart="@drawable/ic_cryptocurrency_16"
+                android:text="@{item.currency}"
+                android:drawablePadding="@dimen/margin_4"
+                android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toEndOf="@id/itemExpenseRoomGuideline"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="CZK" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -17,15 +17,15 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_trip_save_to_calendar"
+        android:id="@+id/action_trip_leave"
         android:orderInCategory="3"
-        android:title="@string/save_to_calendar"
+        android:title="@string/leave_trip"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_trip_leave"
+        android:id="@+id/action_trip_save_to_calendar"
         android:orderInCategory="4"
-        android:title="@string/leave_trip"
+        android:title="@string/save_to_calendar"
         app:showAsAction="never" />
 
     <item
@@ -33,4 +33,13 @@
         android:orderInCategory="5"
         android:title="@string/travellers"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_trip_map"
+        android:orderInCategory="6"
+        android:title="@string/map"
+        android:icon="@drawable/ic_map"
+        app:showAsAction="ifRoom" />
+
+
 </menu>
