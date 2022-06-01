@@ -9,7 +9,6 @@ import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripExpensesBinding
-import timber.log.Timber
 
 class TripExpensesFragment : ViewPagerFragment<FragmentTripExpensesBinding, TripExpensesFragmentVM>(
     R.layout.fragment_trip_expenses,
@@ -29,7 +28,6 @@ class TripExpensesFragment : ViewPagerFragment<FragmentTripExpensesBinding, Trip
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.d("userRole: $userRole")
         viewModel.loadRooms(tripId ?: return)
     }
 
@@ -37,6 +35,7 @@ class TripExpensesFragment : ViewPagerFragment<FragmentTripExpensesBinding, Trip
         super.onViewCreated(view, savedInstanceState)
         handleLoading()
         handleActionButton()
+        handleSwipeRefresh()
     }
 
     private fun handleLoading() {
@@ -51,6 +50,12 @@ class TripExpensesFragment : ViewPagerFragment<FragmentTripExpensesBinding, Trip
     private fun handleActionButton() {
         val canEdit = userRole?.canEdit() == true
         binding.tripExpensesAdd.visibleOrGone(canEdit)
+    }
+
+    private fun handleSwipeRefresh() {
+        binding.tripExpensesSwipeRefresh.setOnRefreshListener {
+            viewModel.loadRooms(tripId ?: return@setOnRefreshListener)
+        }
     }
 
     companion object {

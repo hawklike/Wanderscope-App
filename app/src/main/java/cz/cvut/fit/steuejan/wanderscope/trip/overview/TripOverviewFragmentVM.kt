@@ -184,7 +184,7 @@ class TripOverviewFragmentVM(
         accommodationLoading.value = false
         viewModelScope.launch {
             val coordinates = extractCoordinates(data.accommodation)
-            placeCoordinates.value = coordinates
+            accommodationCoordinates.value = coordinates
         }
     }
 
@@ -239,7 +239,7 @@ class TripOverviewFragmentVM(
         activitiesLoading.value = false
         viewModelScope.launch {
             val coordinates = extractCoordinates(data.activities)
-            placeCoordinates.value = coordinates
+            activityCoordinates.value = coordinates
         }
     }
 

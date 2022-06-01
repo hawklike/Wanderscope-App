@@ -1,4 +1,4 @@
-package cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room
+package cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.crud
 
 import androidx.lifecycle.MutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.R
@@ -17,12 +17,17 @@ class ExpenseRoomAddEditFragmentVM(
 ) : BaseViewModel() {
 
     val name = MutableLiveData<String>()
+    val currency = MutableLiveData(DEFAULT_CURRENCY.getCode())
 
     val member = MutableLiveData<String?>(null)
     val memberChip = MutableLiveData<ChipInfo?>()
     val showMembers = MutableLiveData<Boolean>()
 
     val validateName = name.switchMapSuspend {
+        validator.validateIfNotEmpty(it)
+    }
+
+    val validateCurrency = currency.switchMapSuspend {
         validator.validateIfNotEmpty(it)
     }
 
@@ -34,7 +39,8 @@ class ExpenseRoomAddEditFragmentVM(
 
     val enableSubmit = ValidationMediator(
         validateName,
-        validateMember
+        validateMember,
+        validateCurrency
     )
 
     val loading = LoadingMutableLiveData()
@@ -73,10 +79,14 @@ class ExpenseRoomAddEditFragmentVM(
 
     private fun getSelectedCurrency(): Currency {
         return Currency.values().getOrNull(selectedCurrencyPos ?: -1)
-            ?: Currency.EURO
+            ?: DEFAULT_CURRENCY
     }
 
     fun submit(request: ExpenseRoomRequest) {
         //todo
+    }
+
+    companion object {
+        private val DEFAULT_CURRENCY = Currency.EURO
     }
 }

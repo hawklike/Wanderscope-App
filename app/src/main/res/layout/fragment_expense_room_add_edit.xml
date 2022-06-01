@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.ExpenseRoomAddEditFragmentVM" />
+            type="cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.crud.ExpenseRoomAddEditFragmentVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -105,6 +105,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Select currency"
                         android:inputType="none"
+                        android:text="@={vm.currency}"
                         android:popupElevation="1dp"
                         app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
                         app:onItemClick="@{(p, v, position, id) -> vm.selectCurrency(position)}" />

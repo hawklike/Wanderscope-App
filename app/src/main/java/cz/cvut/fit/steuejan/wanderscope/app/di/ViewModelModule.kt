@@ -20,7 +20,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.transport.overview.TransportOverv
 import cz.cvut.fit.steuejan.wanderscope.trip.crud.AddEditTripFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.TripOverviewFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.TripExpensesFragmentVM
-import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.ExpenseRoomAddEditFragmentVM
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.crud.ExpenseRoomAddEditFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.itinerary.TripItineraryFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.root.TripPagerFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.trip.users.TripUsersFragmentVM

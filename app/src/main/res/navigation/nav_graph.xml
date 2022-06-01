@@ -374,7 +374,7 @@
     </fragment>
     <fragment
         android:id="@+id/expenseRoomAddEditFragment"
-        android:name="cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.ExpenseRoomAddEditFragment"
+        android:name="cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.crud.ExpenseRoomAddEditFragment"
         tools:layout="@layout/fragment_expense_room_add_edit"
         android:label="">
         <argument

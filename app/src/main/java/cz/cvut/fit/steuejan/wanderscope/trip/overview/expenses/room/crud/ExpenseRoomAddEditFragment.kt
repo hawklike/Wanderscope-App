@@ -1,4 +1,4 @@
-package cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room
+package cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.crud
 
 import android.os.Bundle
 import android.view.View

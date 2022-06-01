@@ -28,12 +28,13 @@ class TokenAuthenticator(
             val result = refreshToken()
             val accessToken: String
 
-            //todo dont logout when no error response code
             if (result is ApiResult.Success) {
                 saveTokens(result.payload)
                 accessToken = result.payload.accessToken
             } else {
-                sessionManager.requestLogout()
+                if (result is ApiResult.Failure && result.error.reason != null) {
+                    sessionManager.requestLogout()
+                }
                 return@runBlocking null
             }
             createNewRequest(response, accessToken)
