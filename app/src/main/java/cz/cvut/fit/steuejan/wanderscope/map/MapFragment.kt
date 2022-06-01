@@ -60,6 +60,7 @@ class MapFragment : MvvmFragment<FragmentMapBinding, MapFragmentVM>(
 
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
+        setupUI(googleMap)
         enableMyLocation()
         viewModel.coordinates.safeObserve { coordinates ->
             var marker: Marker? = null
@@ -78,6 +79,13 @@ class MapFragment : MvvmFragment<FragmentMapBinding, MapFragmentVM>(
             TripPointType.ACTIVITY -> BitmapDescriptorFactory.HUE_ORANGE
             TripPointType.PLACE -> BitmapDescriptorFactory.HUE_RED
             TripPointType.TRANSPORT -> BitmapDescriptorFactory.HUE_VIOLET
+        }
+    }
+
+    private fun setupUI(googleMap: GoogleMap) {
+        googleMap.uiSettings.apply {
+            isTiltGesturesEnabled = false
+            isZoomControlsEnabled = true
         }
     }
 
