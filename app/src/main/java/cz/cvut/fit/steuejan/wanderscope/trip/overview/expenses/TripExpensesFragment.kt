@@ -5,17 +5,21 @@ import android.view.View
 import com.facebook.shimmer.ShimmerFrameLayout
 import cz.cvut.fit.steuejan.wanderscope.MainActivityVM
 import cz.cvut.fit.steuejan.wanderscope.R
+import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
+import cz.cvut.fit.steuejan.wanderscope.app.arch.adapter.WithRecycler
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
 import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
+import cz.cvut.fit.steuejan.wanderscope.app.util.doNothing
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripExpensesBinding
+import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.ExpenseRoomItem
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class TripExpensesFragment : ViewPagerFragment<FragmentTripExpensesBinding, TripExpensesFragmentVM>(
     R.layout.fragment_trip_expenses,
     TripExpensesFragmentVM::class
-), WithLoading {
+), WithLoading, WithRecycler {
 
     override val content: View get() = binding.tripExpensesContent
     override val shimmer: ShimmerFrameLayout get() = binding.tripExpensesShimmer
@@ -41,6 +45,7 @@ class TripExpensesFragment : ViewPagerFragment<FragmentTripExpensesBinding, Trip
         handleActionButton()
         handleSwipeRefresh()
         listenToChanges()
+        handleRecyclerOnClick()
     }
 
     private fun handleLoading() {
@@ -67,6 +72,18 @@ class TripExpensesFragment : ViewPagerFragment<FragmentTripExpensesBinding, Trip
         mainVM.updateExpenseRoom.safeObserve { update ->
             if (update) {
                 viewModel.loadRooms(tripId ?: return@safeObserve)
+            }
+        }
+    }
+
+    private fun handleRecyclerOnClick() {
+        setAdapterListener(binding.tripExpensesRecycler) { item, _ ->
+            if (item is ExpenseRoomItem) {
+                showAlertDialog(BaseViewModel.AlertDialogInfo(
+                    R.string.stay_tuned,
+                    R.string.expenses_beta_version_dialog_text,
+                    positiveButton = R.string.understand
+                ) { _, _ -> doNothing })
             }
         }
     }
