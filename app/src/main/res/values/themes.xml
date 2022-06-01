@@ -119,6 +119,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextAppearance.Wanderscope.Medium1" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_m1_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextAppearance.Wanderscope.Bold" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">@dimen/app_default_text_size</item>
         <item name="android:textStyle">bold</item>
@@ -126,6 +131,10 @@
 
     <style name="TextAppearance.Wanderscope.Regular" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">@dimen/app_default_text_size</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.Small1" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_default_text_small1_size</item>
     </style>
 
     <style name="TextAppearance.Wanderscope.Item.Title" parent="Widget.MaterialComponents.TextView">

@@ -41,7 +41,7 @@
                     android:id="@+id/expenseRoomAddTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Create room"
+                    android:text="@string/create_room"
                     android:textAppearance="@style/TextAppearance.Wanderscope.H1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/expenseRoomAddImage" />
@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_subtitle_margin"
-                    android:text="Create a new room where you can share expenses with other members of this room."
+                    android:text="@string/create_room_subtitle"
                     app:layout_constraintTop_toBottomOf="@id/expenseRoomAddTitle" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -76,7 +76,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Name the room"
+                        android:hint="@string/name_the_room"
                         android:inputType="text"
                         android:text="@={vm.name}" />
 
@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="Currency"
+                    android:text="@string/currency"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/expenseRoomAddName" />
@@ -103,7 +103,7 @@
                     <AutoCompleteTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Select currency"
+                        android:hint="@string/select_currency"
                         android:inputType="none"
                         android:text="@={vm.currency}"
                         android:popupElevation="1dp"
@@ -117,7 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_margin"
-                    android:text="Members"
+                    android:text="@string/members"
                     android:textAppearance="@style/TextAppearance.Wanderscope.Label"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/expenseRoomAddCurrency" />
@@ -136,7 +136,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/add_car_by_clicking_on_the_icon"
+                        android:hint="@string/add_member_by_clicking_on_the_icon"
                         android:inputType="textCapSentences"
                         android:maxLength="@integer/car_seat_max_len"
                         android:text="@={vm.member}" />
@@ -163,11 +163,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/app_button_bottom_margin"
             android:onClick="@{() -> vm.addExpenseRoom()}"
-            android:text="@string/sign_up"
+            android:text="@string/submit"
             app:isEnabled="@{vm.enableSubmit}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:showProgress="@{vm.loading}"
-            app:textAfterProgress="@{@string/sign_up}" />
+            app:textAfterProgress="@{@string/submit}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

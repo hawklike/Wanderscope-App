@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmFragment
 import cz.cvut.fit.steuejan.wanderscope.app.common.WithChipGroup
@@ -22,10 +23,13 @@ class ExpenseRoomAddEditFragment : MvvmFragment<
     override val hasTitle = false
     override val hasBottomNavigation = false
 
+    private val args: ExpenseRoomAddEditFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prepareCurrencyMenu()
         handleSubmit()
+        listenToSuccess()
     }
 
     private fun prepareCurrencyMenu() {
@@ -43,8 +47,15 @@ class ExpenseRoomAddEditFragment : MvvmFragment<
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 val members = extractChips(binding.expenseRoomAddMembersGroup).takeIf { it.isNotEmpty() }
                 val request = it.copy(persons = members ?: emptyList())
-                viewModel.submit(request)
+                viewModel.submit(request, args.tripId)
             }
+        }
+    }
+
+    private fun listenToSuccess() {
+        viewModel.requestIsSuccess.safeObserve {
+            updateExpenseRoom()
+            navigateBack()
         }
     }
 

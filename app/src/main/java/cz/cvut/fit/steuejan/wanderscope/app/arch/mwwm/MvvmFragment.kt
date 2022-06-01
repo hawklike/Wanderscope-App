@@ -150,6 +150,15 @@ abstract class MvvmFragment<B : ViewDataBinding, VM : BaseViewModel>(
         }
     }
 
+
+    protected fun updateExpenseRoom(update: Boolean = true, onBackground: Boolean = false) {
+        if (onBackground) {
+            mainViewModel.updateExpenseRoom.postValue(update)
+        } else {
+            mainViewModel.updateExpenseRoom.value = update
+        }
+    }
+
     private fun listenToNavigate() {
         viewModel.navigateEvent.safeObserve {
             when (it) {

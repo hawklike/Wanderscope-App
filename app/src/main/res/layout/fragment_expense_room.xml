@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="cz.cvut.fit.steuejan.wanderscope.trip.users.TripUsersFragmentVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/expenseRoomTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+            android:layout_marginTop="@dimen/app_title_empty_toolbar_margin"
+            android:text="@string/travellers"
+            android:textAppearance="@style/TextAppearance.Wanderscope.H1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/expenseRoomShimmer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/app_layout_first_item_margin"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/expenseRoomTitle"
+            tools:visibility="gone">
+
+            <include layout="@layout/layout_shimmer_placeholder" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/expenseRoomContent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/app_layout_first_item_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/expenseRoomTitle">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/expenseRoomSwipeRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:progressColor="@{@color/colorPrimary}"
+                app:refreshing="@{vm.loading}">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/expenseRoomRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:recyclerItems="@{vm.users}"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_trip_user" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/expenseRoomAddButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="@dimen/app_fab_margin"
+                android:layout_marginBottom="@dimen/app_fab_margin"
+                android:onClick="@{() -> vm.addUser()}"
+                android:src="@drawable/ic_add"
+                app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

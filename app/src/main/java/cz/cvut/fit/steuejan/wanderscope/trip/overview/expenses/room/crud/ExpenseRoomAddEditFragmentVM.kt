@@ -1,16 +1,23 @@
 package cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.room.crud
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator.Companion.OK
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.ValidationMediator
+import cz.cvut.fit.steuejan.wanderscope.app.common.Result
+import cz.cvut.fit.steuejan.wanderscope.app.extension.safeCollect
 import cz.cvut.fit.steuejan.wanderscope.app.extension.switchMapSuspend
+import cz.cvut.fit.steuejan.wanderscope.app.extension.withDefault
+import cz.cvut.fit.steuejan.wanderscope.app.livedata.AnySingleLiveEvent
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.LoadingMutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
+import cz.cvut.fit.steuejan.wanderscope.app.retrofit.response.Error
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.api.request.ExpenseRoomRequest
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.model.Currency
 import cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses.repository.ExpenseRepository
+import kotlinx.coroutines.launch
 
 class ExpenseRoomAddEditFragmentVM(
     private val expenseRepository: ExpenseRepository
@@ -22,6 +29,7 @@ class ExpenseRoomAddEditFragmentVM(
     val member = MutableLiveData<String?>(null)
     val memberChip = MutableLiveData<ChipInfo?>()
     val showMembers = MutableLiveData<Boolean>()
+    private val members = mutableSetOf<String>()
 
     val validateName = name.switchMapSuspend {
         validator.validateIfNotEmpty(it)
@@ -46,6 +54,7 @@ class ExpenseRoomAddEditFragmentVM(
     val loading = LoadingMutableLiveData()
 
     val submitEvent = SingleLiveEvent<ExpenseRoomRequest>()
+    val requestIsSuccess = AnySingleLiveEvent()
 
     private var selectedCurrencyPos: Int? = null
 
@@ -56,7 +65,14 @@ class ExpenseRoomAddEditFragmentVM(
     fun addMember() {
         val memberValue = member.value
         if (!memberValue.isNullOrBlank()) {
-            addMemberChip(memberValue)
+            viewModelScope.launch {
+                val added = withDefault { members.add(memberValue) }
+                if (!added) {
+                    validateMember.postValue(R.string.member_must_be_unique)
+                } else {
+                    addMemberChip(memberValue)
+                }
+            }
         }
     }
 
@@ -82,8 +98,22 @@ class ExpenseRoomAddEditFragmentVM(
             ?: DEFAULT_CURRENCY
     }
 
-    fun submit(request: ExpenseRoomRequest) {
-        //todo
+    fun submit(request: ExpenseRoomRequest, tripId: Int) {
+        viewModelScope.launch {
+            expenseRepository.createExpenseRoom(tripId, request).safeCollect(this) {
+                when (it) {
+                    is Result.Cache -> TODO()
+                    is Result.Failure -> createRoomFailure(it.error)
+                    is Result.Loading -> loading.value = true
+                    is Result.Success -> requestIsSuccess.publish()
+                }
+            }
+        }
+    }
+
+    private fun createRoomFailure(error: Error) {
+        loading.value = false
+        unexpectedError(error)
     }
 
     companion object {

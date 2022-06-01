@@ -33,7 +33,9 @@ data class ExpenseRoomResponse(
                 ChipInfo(
                     it,
                     isCloseIconVisible = false,
-                    textColor = R.color.colorPrimary
+                    textColor = R.color.colorPrimary,
+                    backgroundTint = R.color.colorSecondaryVariant,
+                    textAppearance = R.style.TextAppearance_Wanderscope_Small1
                 )
             }
         }

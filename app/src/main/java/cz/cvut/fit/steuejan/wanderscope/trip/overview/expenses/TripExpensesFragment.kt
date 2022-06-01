@@ -3,12 +3,14 @@ package cz.cvut.fit.steuejan.wanderscope.trip.overview.expenses
 import android.os.Bundle
 import android.view.View
 import com.facebook.shimmer.ShimmerFrameLayout
+import cz.cvut.fit.steuejan.wanderscope.MainActivityVM
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.arch.viewpager.ViewPagerFragment
 import cz.cvut.fit.steuejan.wanderscope.app.binding.visibleOrGone
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.loading.WithLoading
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.UserRole
 import cz.cvut.fit.steuejan.wanderscope.databinding.FragmentTripExpensesBinding
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class TripExpensesFragment : ViewPagerFragment<FragmentTripExpensesBinding, TripExpensesFragmentVM>(
     R.layout.fragment_trip_expenses,
@@ -17,6 +19,8 @@ class TripExpensesFragment : ViewPagerFragment<FragmentTripExpensesBinding, Trip
 
     override val content: View get() = binding.tripExpensesContent
     override val shimmer: ShimmerFrameLayout get() = binding.tripExpensesShimmer
+
+    private val mainVM by sharedViewModel<MainActivityVM>()
 
     private val userRole: UserRole? by lazy {
         arguments?.getSerializable(USER_ROLE) as? UserRole
@@ -36,6 +40,7 @@ class TripExpensesFragment : ViewPagerFragment<FragmentTripExpensesBinding, Trip
         handleLoading()
         handleActionButton()
         handleSwipeRefresh()
+        listenToChanges()
     }
 
     private fun handleLoading() {
@@ -55,6 +60,14 @@ class TripExpensesFragment : ViewPagerFragment<FragmentTripExpensesBinding, Trip
     private fun handleSwipeRefresh() {
         binding.tripExpensesSwipeRefresh.setOnRefreshListener {
             viewModel.loadRooms(tripId ?: return@setOnRefreshListener)
+        }
+    }
+
+    private fun listenToChanges() {
+        mainVM.updateExpenseRoom.safeObserve { update ->
+            if (update) {
+                viewModel.loadRooms(tripId ?: return@safeObserve)
+            }
         }
     }
 
