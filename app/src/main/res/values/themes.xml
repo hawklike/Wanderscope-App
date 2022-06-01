@@ -28,7 +28,7 @@
         <item name="snackbarButtonStyle">@style/Widget.Wanderscope.Snackbar.Button</item>
         <item name="tabStyle">@style/Widget.Wanderscope.TabLayout</item>
         <item name="materialTimePickerTheme">@style/Widget.Wanderscope.TimePicker</item>
-        <item name="materialAlertDialogTheme">@style/Widget.Wandercope.AlertDialog</item>
+        <item name="materialAlertDialogTheme">@style/Widget.Wanderscope.AlertDialog</item>
         <item name="radioButtonStyle">@style/Widget.Wanderscope.RadioButton</item>
     </style>
 
@@ -272,7 +272,7 @@
         <item name="cornerSize">@dimen/alert_dialog_corner_size</item>
     </style>
 
-    <style name="Widget.Wandercope.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="Widget.Wanderscope.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.AlertDialog</item>
         <item name="materialAlertDialogTitleTextStyle">@style/AlertDialog.Wanderscope.Title.Text</item>
         <item name="materialAlertDialogBodyTextStyle">@style/AlertDialog.Wanderscope.Body.Text</item>
@@ -313,6 +313,12 @@
         <item name="indicatorColor">@color/colorText</item>
         <item name="showAnimationBehavior">outward</item>
         <item name="hideAnimationBehavior">inward</item>
+    </style>
+
+    <style name="Widget.Wanderscope.AlertDialog.Confirmation">
+        <item name="android:textColorPrimary">@color/colorText</item>
+        <item name="android:colorControlNormal">@color/colorTextLessImportant</item>
+        <item name="android:colorControlActivated">@color/colorPrimary</item>
     </style>
 
 </resources>

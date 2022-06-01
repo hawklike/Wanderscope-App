@@ -39,4 +39,20 @@ enum class PlaceType : PointType {
             OTHER -> R.string.other
         }
     }
+
+    override fun toStringOverviewRes(): Int {
+        return when (this) {
+            PARKING -> R.string.parking_overview
+            RESTAURANT -> R.string.restaurant_overview
+            COUNTRYSIDE -> R.string.countryside_overview
+            CITY -> R.string.city_overview
+            MUSEUM -> R.string.museum_overview
+            ZOO -> R.string.zoo_overview
+            PARK -> R.string.park_overview
+            MONUMENT -> R.string.monument_overview
+            MOUNTAINS -> R.string.mountains_overview
+            CASTLE -> R.string.castle_overview
+            OTHER -> R.string.place_overview_other
+        }
+    }
 }

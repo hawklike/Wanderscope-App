@@ -35,4 +35,18 @@ enum class TransportType : PointType {
             OTHER -> R.string.other
         }
     }
+
+    override fun toStringOverviewRes(): Int {
+        return when (this) {
+            WALK -> R.string.walk_overview
+            BIKE -> R.string.bike_overview
+            CAR -> R.string.car_overview
+            BUS -> R.string.bus_overview
+            TRAIN -> R.string.train_overview
+            FERRY -> R.string.ferry_overview
+            PUBLIC -> R.string.public_transport_overview
+            PLANE -> R.string.plane_overview
+            OTHER -> R.string.other_transport_overview
+        }
+    }
 }

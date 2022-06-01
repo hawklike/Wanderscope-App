@@ -234,7 +234,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/website"
+                        android:hint="@string/website_hint"
                         android:inputType="text"
                         android:maxLength="@integer/other_max_len"
                         android:text="@={vm.website}" />

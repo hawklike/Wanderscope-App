@@ -31,4 +31,16 @@ enum class AccommodationType : PointType {
             OTHER -> R.string.other
         }
     }
+
+    override fun toStringOverviewRes(): Int {
+        return when (this) {
+            HOTEL -> R.string.hotel_overview
+            HOSTEL -> R.string.hostel_overview
+            PENSION -> R.string.pension_overview
+            CAMP -> R.string.camp_overview
+            OUTDOOR -> R.string.outdoor_overview
+            AIRBNB -> R.string.airbnb_overview
+            OTHER -> R.string.accommodation_other_overview
+        }
+    }
 }
