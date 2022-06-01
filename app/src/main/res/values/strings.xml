@@ -190,6 +190,15 @@
     <string name="outdoor">Outdoor</string>
     <string name="airbnb" translatable="false">Airbnb</string>
 
+    <string name="hotel_overview">Hotel</string>
+    <string name="hostel_overview">Hostel</string>
+    <string name="pension_overview">Pension</string>
+    <string name="camp_overview">Camp</string>
+    <string name="outdoor_overview">Outdoor</string>
+    <string name="airbnb_overview" translatable="false">Airbnb</string>
+    <string name="accommodation_other_overview">Other</string>
+    <string name="other_overview">Other</string>
+
     <string name="parking">Parking</string>
     <string name="restaurant">Restaurant</string>
     <string name="countryside">Countryside</string>
@@ -201,6 +210,18 @@
     <string name="mountains">Mountains</string>
     <string name="castle">Castle</string>
 
+    <string name="parking_overview">Parking</string>
+    <string name="restaurant_overview">Restaurant</string>
+    <string name="countryside_overview">Countryside</string>
+    <string name="city_overview">City</string>
+    <string name="museum_overview">Museum</string>
+    <string name="zoo_overview">Zoo</string>
+    <string name="park_overview">Park</string>
+    <string name="monument_overview">Monument</string>
+    <string name="mountains_overview">Mountains</string>
+    <string name="castle_overview">Castle</string>
+    <string name="place_overview_other">Other</string>
+
     <string name="walk">Walk</string>
     <string name="bike">Bike</string>
     <string name="car">Car</string>
@@ -209,6 +230,19 @@
     <string name="ferry">Ferry</string>
     <string name="plane">Plane</string>
     <string name="public_transport">Public</string>
+
+    <string name="walk_overview">Walk</string>
+    <string name="bike_overview">Bike</string>
+    <string name="car_overview">Car</string>
+    <string name="bus_overview">Bus</string>
+    <string name="train_overview">Train</string>
+    <string name="ferry_overview">Ferry</string>
+    <string name="plane_overview">Plane</string>
+    <string name="public_transport_overview">Public</string>
+    <string name="other_transport_overview">Other</string>
+
+    <string name="activity_overview_other">Other</string>
+
     <string name="describe_the_place">Describe the place</string>
     <string name="from">From</string>
     <string name="to">To</string>

@@ -104,7 +104,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
         pointOverview.value = data
         startDate.value = data.duration.startDate?.toNiceString()
         endDate.value = data.duration.endDate?.toNiceString()
-        type.value = data.type.toStringRes()
+        type.value = data.type.toStringOverviewRes()
         icon.value = data.type.toIcon()
         description.value = data.description
         address.value = data.address.name

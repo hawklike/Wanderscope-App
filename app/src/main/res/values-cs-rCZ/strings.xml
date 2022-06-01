@@ -265,7 +265,7 @@
     <string name="user_not_found_error2">Uživatel již opustil cestu</string>
     <string name="log_out">Odhlásit se</string>
     <string name="log_out_dialog_title">Chcete se odhlásit?</string>
-    <string name="security">Bezpečnost</string>
+    <string name="security">Zabezpečení</string>
     <string name="log_out_from_all_devices">Odhlásit se ze všech zařízení</string>
     <string name="change_password">Změnit heslo</string>
     <string name="display_name">Zobrazované jméno</string>
@@ -339,4 +339,33 @@
         <item quantity="many">% nocí</item>
         <item quantity="other">%d nocí</item>
     </plurals>
+
+    <string name="hotel_overview">Hotelu</string>
+    <string name="hostel_overview">Hostelu</string>
+    <string name="pension_overview">Penzionu</string>
+    <string name="camp_overview">Kempu</string>
+    <string name="outdoor_overview">Spacáku</string>
+    <string name="accommodation_other_overview">Jinde</string>
+    <string name="other_overview">Jinak</string>
+    <string name="parking_overview">Parkoviště</string>
+    <string name="restaurant_overview">Restauraci</string>
+    <string name="countryside_overview">Přírodu nebo venkov</string>
+    <string name="city_overview">Město</string>
+    <string name="museum_overview">Muzeum</string>
+    <string name="zoo_overview">Zoo</string>
+    <string name="park_overview">Park</string>
+    <string name="monument_overview">Památku</string>
+    <string name="mountains_overview">Hory</string>
+    <string name="castle_overview">Hrad nebo zámek</string>
+    <string name="place_overview_other">Něco jiného</string>
+    <string name="walk_overview">Pěšky</string>
+    <string name="bike_overview">Na kole</string>
+    <string name="car_overview">Autem</string>
+    <string name="bus_overview">Autobusem</string>
+    <string name="train_overview">Vlakem</string>
+    <string name="ferry_overview">Lodí nebo trajektem</string>
+    <string name="plane_overview">Letadlem</string>
+    <string name="public_transport_overview">Hromadnou dopravou</string>
+    <string name="other_transport_overview">Jinak</string>
+    <string name="activity_overview_other">Jiná aktivita</string>
 </resources>
