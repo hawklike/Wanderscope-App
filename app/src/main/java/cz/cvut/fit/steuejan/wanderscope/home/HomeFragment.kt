@@ -107,7 +107,7 @@ class HomeFragment : MvvmFragment<FragmentHomeBinding, HomeFragmentVM>(
 
     private fun handleSwipeRefresh() {
         binding.homeSwipeRefresh.setOnRefreshListener {
-            viewModel.getItinerary(tripOverview?.id ?: return@setOnRefreshListener)
+            viewModel.getRecommendedTrip(tripEmptyTitle)
         }
     }
 

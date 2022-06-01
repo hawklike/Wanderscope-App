@@ -108,6 +108,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         hideActionButtons()
         viewModel.tripOverview.safeObserve {
             tripOverview = it
+            requireActivity().invalidateOptionsMenu()
             showActionButtons(it.userRole)
         }
     }
@@ -129,7 +130,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        when (userRole) {
+        when (tripOverview?.userRole ?: userRole) {
             UserRole.ADMIN -> {
                 doNothing
             }
