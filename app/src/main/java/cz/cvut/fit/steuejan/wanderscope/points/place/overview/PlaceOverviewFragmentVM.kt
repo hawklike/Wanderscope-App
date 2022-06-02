@@ -1,7 +1,6 @@
 package cz.cvut.fit.steuejan.wanderscope.points.place.overview
 
 import android.content.Intent
-import android.content.res.Resources
 import androidx.lifecycle.MutableLiveData
 import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.livedata.SingleLiveEvent
@@ -13,6 +12,7 @@ import cz.cvut.fit.steuejan.wanderscope.points.common.TripPointType
 import cz.cvut.fit.steuejan.wanderscope.points.common.overview.AbstractPointOverviewFragmentVM
 import cz.cvut.fit.steuejan.wanderscope.points.place.api.response.PlaceResponse
 import cz.cvut.fit.steuejan.wanderscope.points.place.repository.PlaceRepository
+import java.util.*
 
 class PlaceOverviewFragmentVM(
     placeRepository: PlaceRepository
@@ -36,10 +36,10 @@ class PlaceOverviewFragmentVM(
     }
 
     private fun setWikipedia(data: PlaceResponse) {
-        when (Resources.getSystem().configuration.locales.get(0).language) {
+        when (Locale.getDefault().language) {
             "en" -> data.wikiBrief
             "cs" -> data.wikiBriefCzech
-            else -> null
+            else -> data.wikiBrief
         }.also { wikipedia.value = it }
     }
 
