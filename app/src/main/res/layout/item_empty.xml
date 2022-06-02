@@ -14,6 +14,7 @@
         style="@style/Widget.Wanderscope.CardView.RecyclerItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:allowClick="@{item.clickable}"
         app:bottomMargin="@{item.marginBottom}"
         app:endMargin="@{item.marginEnd}"
         app:startMargin="@{item.marginStart}"

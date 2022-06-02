@@ -2,6 +2,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.transport.crud
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.R
@@ -65,6 +66,14 @@ class TransportAddEditFragmentVM(
             fromName = null
         }
         validateAddress(it)
+    }
+
+    val searchIconFromActive = from.map {
+        !it.isNullOrBlank()
+    }
+
+    val searchIconToActive = to.map {
+        !it.isNullOrBlank()
     }
 
     val validateTo = to.switchMapSuspend {

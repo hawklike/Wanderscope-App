@@ -54,6 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:endDrawableActive="@{vm.searchIconActive}"
                     app:errorText="@{vm.validateAddress}"
                     app:layout_constraintTop_toBottomOf="@id/addAccommodationAddressLabel"
                     app:onEndDrawableClick="@{() -> vm.find()}">
@@ -181,9 +182,9 @@
                         android:hint="@string/select_the_accommodation"
                         android:inputType="none"
                         android:popupElevation="@dimen/app_autocomplete_elevation"
-                        app:textRes="@{vm.type}"
                         app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
-                        app:onItemClick="@{(p, v, position, id) -> vm.selectType(position)}" />
+                        app:onItemClick="@{(p, v, position, id) -> vm.selectType(position)}"
+                        app:textRes="@{vm.type}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

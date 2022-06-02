@@ -4,7 +4,9 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
+import cz.cvut.fit.steuejan.wanderscope.R
 import cz.cvut.fit.steuejan.wanderscope.app.bussiness.validation.InputValidator
+import timber.log.Timber
 
 @BindingAdapter("errorText")
 fun TextInputLayout.setError(@StringRes message: Int?) {
@@ -33,4 +35,13 @@ fun TextInputLayout.onEndDrawableClick(listener: View.OnClickListener) {
 @BindingAdapter("endDrawableEnabled")
 fun TextInputLayout.isEndDrawableEnabled(enable: Boolean?) {
     this.isEndIconVisible = enable == true
+}
+
+@BindingAdapter("endDrawableActive")
+fun TextInputLayout.isEndDrawableActive(enable: Boolean) {
+    Timber.d("here: $enable")
+    val activeColor = context.getColor(R.color.colorPrimary)
+    val inactiveColor = context.getColor(R.color.colorTextInputIcon)
+    val color = if (enable) activeColor else inactiveColor
+    this.endIconDrawable?.setTint(color)
 }

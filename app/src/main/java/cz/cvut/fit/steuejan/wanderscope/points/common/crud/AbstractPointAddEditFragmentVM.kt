@@ -3,6 +3,7 @@ package cz.cvut.fit.steuejan.wanderscope.points.common.crud
 import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.places.api.model.Place
 import cz.cvut.fit.steuejan.wanderscope.app.arch.BaseViewModel
@@ -114,6 +115,10 @@ abstract class AbstractPointAddEditFragmentVM<
             placeName = null
         }
         validateAddress(it)
+    }
+
+    val searchIconActive = address.map {
+        !it.isNullOrBlank()
     }
 
     val validateDates = PairMediatorLiveData(startDate, endDate).switchMapSuspend { (start, end) ->

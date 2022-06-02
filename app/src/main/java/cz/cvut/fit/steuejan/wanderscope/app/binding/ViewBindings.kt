@@ -89,3 +89,9 @@ fun View.setEndMargin(dimen: Float) {
         requestLayout()
     }
 }
+
+@BindingAdapter("allowClick")
+fun View.allowClick(enabled: Boolean) {
+    this.isClickable = enabled
+    this.isEnabled = enabled
+}

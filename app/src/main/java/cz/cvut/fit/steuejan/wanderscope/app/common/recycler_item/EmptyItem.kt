@@ -17,6 +17,8 @@ open class EmptyItem(
     @StringRes val buttonText: Int? = null
 ) : RecyclerItem {
 
+    val clickable = buttonText != null
+
     override val layoutId = R.layout.item_empty
 
     override fun isSameItem(other: RecyclerItem): Boolean {
