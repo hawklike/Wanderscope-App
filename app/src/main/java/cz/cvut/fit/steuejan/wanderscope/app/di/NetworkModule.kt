@@ -38,7 +38,6 @@ private const val WITHOUT_AUTH = "noAuth"
 val networkModule = module {
     singleOf(::SessionManagerImpl) { bind<SessionManager>() }
     singleOf(::AuthInterceptor)
-    singleOf(::provideChucker)
 
     singleOf(::provideMoshiConverterFactory)
     singleOf(::provideRetrofitBuilder)
@@ -76,19 +75,16 @@ private fun provideMoshiConverterFactory(serializer: Serializer<Moshi>): retrofi
     return MoshiConverterFactory.create(serializer.getSerializer()).asLenient()
 }
 
-private fun provideChucker(context: Context): ChuckerInterceptor? {
-    if (isDebuggable()) {
-        return ChuckerInterceptor.Builder(context)
+fun provideOkHttpClientBuilder(context: Context): OkHttpClient.Builder {
+    val chucker = if (isDebuggable()) {
+        ChuckerInterceptor.Builder(context)
             .collector(ChuckerCollector(context))
             .maxContentLength(250000L)
             .redactHeaders(emptySet())
             .alwaysReadResponseBody(false)
             .build()
-    }
-    return null
-}
+    } else null
 
-fun provideOkHttpClientBuilder(chucker: ChuckerInterceptor?): OkHttpClient.Builder {
     return OkHttpClient.Builder()
         .readTimeout(Constants.API_TIMEOUT_SECONDS, TimeUnit.SECONDS)
         .writeTimeout(Constants.API_TIMEOUT_SECONDS, TimeUnit.SECONDS)
