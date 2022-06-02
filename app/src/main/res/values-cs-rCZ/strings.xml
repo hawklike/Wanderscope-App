@@ -62,8 +62,8 @@
     <string name="entered_password_is_wrong">Zadané heslo je chybné</string>
     <string name="password_changed">Heslo změněno</string>
     <string name="display_name_subtitle">Zobrazované jméno bude viditelné pro ostatní uživatele místo vašeho uživatelského jména. Pokud chcete vaše zobrazované jméno smazat, nechte políčko prázdné.</string>
-    <string name="change_display_name">Změňte zobrazované jméno</string>
-    <string name="set_display_name">Nastavte si zobrazované jméno</string>
+    <string name="change_display_name">Změna zobrazovaného jména</string>
+    <string name="set_display_name">Nastavení zobrazovaného jméno</string>
     <string name="updating_display_name">Aktualizuji zobrazované jméno</string>
     <string name="duration_days_hours_minutes">%1$dd %2$dh %3$dm</string>
     <string name="duration_hours_minutes">%1$dh %2$dm</string>
@@ -245,9 +245,9 @@
     <string name="date_not_specified">Datum nespecifikováno</string>
     <string name="itinerary_empty">Váš itinerář je zatím prázdný</string>
     <string name="updating_itinerary">Aktualizuji itinerář</string>
-    <string name="leave_trip">Opustit cestu</string>
+    <string name="leave_trip">Opustit výpravu</string>
     <string name="cannot_leave_error_message">Nemůžete odejít. Prvně zvolte jiného admina</string>
-    <string name="leaving_trip">Opouštíte cestu…</string>
+    <string name="leaving_trip">Opouštíte výpravu…</string>
     <string name="none_delete">Žádná (smazat)</string>
     <string name="add_your_travel_mate">Přidejte vašeho parťáka</string>
     <string name="add_user_subtitle">Ve více lidech se to lépe táhne. Zadejte prosím uživatelské jméno vaší nové parťačky či parťáka a zvolte její/jeho roli.</string>
@@ -257,8 +257,8 @@
     <string name="user_not_found_error">Uživatel s tímto jménem nenalezen</string>
     <string name="user_is_already_member">Uživatel je již členem</string>
     <string name="the_mate_s_username">Uživatelské jméno nového člena</string>
-    <string name="leave_trip_dialog_title">Opustit cestu?</string>
-    <string name="leave_trip_dialog_message">Jste si opravdu jist/á, že chcete opustit tuto cestu?</string>
+    <string name="leave_trip_dialog_title">Opustit výpravu?</string>
+    <string name="leave_trip_dialog_message">Jste si opravdu jist/á, že chcete opustit tuto výpravu?</string>
     <string name="leave">Opustit</string>
     <string name="change_role_error_1">Nemůžete odejít. Prvně zvolte jiného admina</string>
     <string name="change_role_error_2">V této cestě musí alespoň jeden admin zůstat</string>

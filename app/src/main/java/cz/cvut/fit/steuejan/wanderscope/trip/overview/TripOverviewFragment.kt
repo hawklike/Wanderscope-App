@@ -174,7 +174,7 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
             val title = tripOverview?.name ?: return@safeObserve
             val duration = tripOverview?.duration ?: return@safeObserve
             setSharedData(it)
-            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
                 navigateTo(
                     TripPagerFragmentDirections.actionTripPagerFragmentToMapFragment(
                         title,
