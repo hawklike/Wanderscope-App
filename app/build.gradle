@@ -45,13 +45,17 @@ android {
     flavorDimensions "env"
     productFlavors {
         staging {
+            applicationId "cz.cvut.fit.steuejan.wanderscope.dev"
             dimension "env"
             buildConfigField "String", "BASE_URL", '"https://wanderscope-staging.herokuapp.com/"'
+            resValue "string", "app_name", "Wanderscope Dev"
         }
 
         production {
+            applicationId "cz.cvut.fit.steuejan.wanderscope"
             dimension "env"
             buildConfigField "String", "BASE_URL", '"https://wanderscope.herokuapp.com/"'
+            resValue "string", "app_name", "Wanderscope"
         }
     }
 
@@ -75,7 +79,7 @@ ext {
     firebase_version = '29.3.1'
     retrofit_version = '2.9.0'
     moshi_version = '1.13.0'
-    security_crypto_version = '1.1.0-alpha03'
+    security_crypto_version = '1.1.0-alpha01'
     chucker_version = '3.5.2'
     lifecycle_version = '2.4.1'
     datastore_preferences_version = '1.0.0'
@@ -107,7 +111,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
     //Jetpack Security
-    implementation "androidx.security:security-crypto-ktx:$security_crypto_version"
+    //newer version crashes, see: https://stackoverflow.com/q/63597398/9723204
+    //and this https://github.com/google/tink/issues/413
+    //noinspection GradleDependency
+    implementation "androidx.security:security-crypto:$security_crypto_version"
 
     //Jetpack Preferences Datastore
     implementation "androidx.datastore:datastore-preferences:$datastore_preferences_version"
