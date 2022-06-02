@@ -25,9 +25,12 @@ class TokenAuthenticator(
     @Synchronized
     private fun authenticateWithRefreshToken(response: Response): Request? {
         return runBlocking {
-            val result = refreshToken()
-            val accessToken: String
+            val result = refreshToken() ?: run {
+                sessionManager.requestLogout()
+                return@runBlocking null
+            }
 
+            val accessToken: String
             if (result is ApiResult.Success) {
                 saveTokens(result.payload)
                 accessToken = result.payload.accessToken
@@ -47,9 +50,9 @@ class TokenAuthenticator(
         ).build()
     }
 
-    private suspend fun refreshToken(): ApiResult<AuthResponse, Error> {
-        val refreshToken = withIO { sessionManager.getRefreshToken() } ?: return ApiResult.Failure()
-        return safeApiCall { authApi.refreshToken(RefreshTokenRequest(refreshToken)) } ?: ApiResult.Failure()
+    private suspend fun refreshToken(): ApiResult<AuthResponse, Error>? {
+        val refreshToken = withIO { sessionManager.getRefreshToken() } ?: return null
+        return safeApiCall { authApi.refreshToken(RefreshTokenRequest(refreshToken)) }
     }
 
     private suspend fun saveTokens(tokens: AuthResponse?) {
