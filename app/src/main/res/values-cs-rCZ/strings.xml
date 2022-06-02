@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Wanderscope</string>
     <string name="your_trip">Váš výlet</string>
     <string name="action_settings">Nastavení</string>
     <string name="unexpected_error_short">Něco se pokazilo</string>

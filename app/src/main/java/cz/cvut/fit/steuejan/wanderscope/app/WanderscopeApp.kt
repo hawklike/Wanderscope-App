@@ -3,7 +3,6 @@ package cz.cvut.fit.steuejan.wanderscope.app
 import android.app.Application
 import com.yariksoffice.lingver.Lingver
 import cz.cvut.fit.steuejan.wanderscope.app.di.initKoin
-import cz.cvut.fit.steuejan.wanderscope.app.log.initFirebaseCrashlytics
 import cz.cvut.fit.steuejan.wanderscope.app.log.initTimber
 import java.util.*
 
@@ -14,7 +13,6 @@ class WanderscopeApp : Application() {
         super.onCreate()
 
         setLanguage()
-        initFirebaseCrashlytics()
         initTimber()
         initKoin(this)
     }
