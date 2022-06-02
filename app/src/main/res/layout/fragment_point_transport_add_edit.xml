@@ -54,6 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:endDrawableActive="@{vm.searchIconFromActive}"
                     app:errorText="@{vm.validateFrom}"
                     app:layout_constraintTop_toBottomOf="@id/addTransportAddressFromLabel"
                     app:onEndDrawableClick="@{() -> vm.findFrom()}">
@@ -83,6 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:endDrawableActive="@{vm.searchIconToActive}"
                     app:errorText="@{vm.validateTo}"
                     app:layout_constraintTop_toBottomOf="@id/addTransportAddressToLabel"
                     app:onEndDrawableClick="@{() -> vm.findTo()}">
@@ -209,10 +211,10 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/select_the_transport"
                         android:inputType="none"
-                        app:textRes="@{vm.type}"
                         android:popupElevation="1dp"
                         app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
-                        app:onItemClick="@{(p, v, position, id) -> vm.selectType(position)}" />
+                        app:onItemClick="@{(p, v, position, id) -> vm.selectType(position)}"
+                        app:textRes="@{vm.type}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -249,12 +251,12 @@
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/addTransportCarsGroup"
-                    app:visibleOrGone="@{vm.showCars}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
                     app:addChip="@{vm.carChip}"
                     app:layout_constraintTop_toBottomOf="@id/addTransportCars"
+                    app:visibleOrGone="@{vm.showCars}"
                     tools:visibility="visible" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -336,8 +338,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/app_button_bottom_margin"
-            android:text="@string/submit"
             android:onClick="@{() -> vm.submit()}"
+            android:text="@string/submit"
             app:isEnabled="@{vm.enableSubmit}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:showProgress="@{vm.submitLoading}"

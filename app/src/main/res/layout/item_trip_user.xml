@@ -14,7 +14,8 @@
         style="@style/Widget.Wanderscope.CardView.RecyclerItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/app_trip_user_item_bottom_margin">
+        android:layout_marginBottom="@dimen/app_trip_user_item_bottom_margin"
+        app:allowClick="@{item.hasMenu}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -84,13 +85,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/app_trip_overview_item_padding_vertical"
-                android:clickable="false"
                 android:background="@drawable/ic_menu"
                 android:backgroundTint="@color/colorOnSecondary"
+                android:clickable="false"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:visibleOrGone="@{item.hasMenu}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:visibleOrGone="@{item.hasMenu}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

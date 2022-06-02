@@ -288,7 +288,7 @@
     <string name="upload_document_extensions">Nepodporovaný typ</string>
     <string name="upload_document_too_large">Soubor musí mít maximálně 10 MB</string>
     <string name="upload_file">Nahrát soubor</string>
-    <string name="upload_document_subtitle">Pouze .png, .jpg, .jpeg, .gif, .pdf, .txt a .gpx  soubory do 10 MB mohou být nahrány. Abyste zabezpečili váš dokument, můžete jej zaheslovat klíčem. Také můžeze změnit jeho název.</string>
+    <string name="upload_document_subtitle">Nahrány mohou být pouze soubory .png, .jpg, .jpeg, .gif, .pdf, .txt a .gpx do 10 MB. Abyste zabezpečili váš dokument, můžete jej zaheslovat klíčem. Také můžete změnit jeho název.</string>
     <string name="filename">Název souboru</string>
     <string name="name_of_the_file">Název souboru</string>
     <string name="choose_a_file">Vyberte soubor</string>
