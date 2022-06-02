@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="cz.cvut.fit.steuejan.wanderscope.trip.crud.AddEditTripFragmentVM" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
+
+        <ScrollView
+            android:id="@+id/addTripScroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/app_text_input_margin"
+            app:layout_constraintBottom_toTopOf="@id/addTripButton"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addTripTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_title_empty_toolbar_margin"
+                    android:text="@{vm.title}"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/add_trip" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addTripNameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_layout_first_item_margin"
+                    android:text="@string/name"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addTripTitle" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addTripName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/name_max_len"
+                    app:errorText="@{vm.validateName}"
+                    app:layout_constraintTop_toBottomOf="@id/addTripNameLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/name_your_trip_mandatory"
+                        android:inputType="textCapSentences"
+                        android:maxLength="@integer/name_max_len"
+                        android:text="@={vm.name}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addTripStartDateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/start_date"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addTripName" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addTripStartDate"
+                    style="@style/Widget.Wanderscope.TextInput.Cancellable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:cancellable="@{true}"
+                    app:errorText="@{vm.validateDates}"
+                    app:layout_constraintTop_toBottomOf="@id/addTripStartDateLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Wanderscope.EditText.OnClick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/when_your_trip_starts"
+                        android:onClick="@{() -> vm.startDatePicker()}"
+                        android:text="@={vm.startDate}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addTripEndDateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/end_date"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addTripStartDate" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addTripEndDate"
+                    style="@style/Widget.Wanderscope.TextInput.Cancellable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:cancellable="@{true}"
+                    app:errorText="@{vm.validateDates}"
+                    app:layout_constraintTop_toBottomOf="@id/addTripEndDateLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Wanderscope.EditText.OnClick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/when_your_trip_ends"
+                        android:onClick="@{() -> vm.endDatePicker()}"
+                        android:text="@={vm.endDate}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addTripDescriptionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/description"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addTripEndDate" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addTripDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/description_max_len"
+                    app:layout_constraintTop_toBottomOf="@id/addTripDescriptionLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Wanderscope.EditText.MultiLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/describe_your_trip"
+                        android:maxLength="@integer/description_max_len"
+                        android:text="@={vm.description}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addTripButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/app_button_bottom_margin"
+            android:onClick="@{() -> vm.submit()}"
+            android:text="@string/submit"
+            app:isEnabled="@{vm.enableSubmit}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:showProgress="@{vm.submitLoading}"
+            app:textAfterProgress="@{@string/submit}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

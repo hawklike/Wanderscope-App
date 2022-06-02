@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2b54ef</color>
+    <color name="colorPrimaryVariant">@color/colorPrimary</color>
+    <color name="colorOnPrimary">@color/colorBackground</color>
+    <color name="colorSecondary">#f4f8fb</color>
+    <color name="colorSecondaryVariant">#edf4fa</color>
+    <color name="colorOnSecondary">#c9cee0</color>
+    <color name="colorBackground">#ffffff</color>
+    <color name="colorSurface">@color/colorSecondary</color>
+    <color name="colorText">#000000</color>
+    <color name="colorTextSecondary">#000000</color>
+    <color name="colorError">#ffff4444</color>
+    <color name="colorTextError">#EF3F3F</color>
+    <color name="colorTextLessImportant">#747d90</color>
+    <color name="colorSnackbar">#000000</color>
+    <color name="colorSnackbarText">#ffffff</color>
+    <color name="colorTextInputIcon">#80747D90</color>
+    <color name="colorShimmer">#DADEEA</color>
+    <color name="colorDrawableBackground">#e0ebf4</color>
+    <color name="colorTextHighlight">#97F3F1</color>
+</resources>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="cz.cvut.fit.steuejan.wanderscope.map.MapFragmentVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mapTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+            android:layout_marginTop="@dimen/app_title_empty_toolbar_margin"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{vm.title}"
+            android:textAppearance="@style/TextAppearance.Wanderscope.H1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Barcelona" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mapDurarion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+            app:duration="@{vm.duration}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mapTitle"
+            tools:text="Nov 10, 2022 - Nov 14, 2022" />
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapMap"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/app_point_overview_type_label_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mapDurarion" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

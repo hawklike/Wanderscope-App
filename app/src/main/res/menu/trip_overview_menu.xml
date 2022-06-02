@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="cz.cvut.fit.steuejan.wanderscope.MainActivity">
+
+    <item
+        android:id="@+id/action_trip_edit"
+        android:orderInCategory="1"
+        android:title="@string/edit_trip"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_trip_delete"
+        android:orderInCategory="2"
+        android:title="@string/delete_trip"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_trip_leave"
+        android:orderInCategory="3"
+        android:title="@string/leave_trip"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_trip_save_to_calendar"
+        android:orderInCategory="4"
+        android:title="@string/save_to_calendar"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_trip_travellers"
+        android:orderInCategory="5"
+        android:title="@string/travellers"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_trip_map"
+        android:orderInCategory="6"
+        android:title="@string/map"
+        android:icon="@drawable/ic_map"
+        app:showAsAction="ifRoom" />
+
+
+</menu>

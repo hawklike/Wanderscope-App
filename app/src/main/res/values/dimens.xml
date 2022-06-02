@@ -1,3 +1,78 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="status_bar_height">24dp</dimen>
+
+    <dimen name="app_trip_overview_image_width">108dp</dimen>
+    <dimen name="app_trip_overview_image_height">111dp</dimen>
+
+    <dimen name="app_default_text_size">16sp</dimen>
+    <dimen name="app_default_text_small1_size">14sp</dimen>
+    <dimen name="app_bigger_text_size">20sp</dimen>
+    <dimen name="app_text_input_text_size">16sp</dimen>
+    <dimen name="app_text_input_label_text_size">18sp</dimen>
+    <dimen name="app_button_text_size">16sp</dimen>
+    <dimen name="app_h1_text_size">28sp</dimen>
+    <dimen name="app_h2_text_size">24sp</dimen>
+    <dimen name="app_h3_text_size">22sp</dimen>
+    <dimen name="app_m1_text_size">20sp</dimen>
+
+    <dimen name="app_recycler_item_corner_radius">8dp</dimen>
+    <dimen name="app_text_input_corner_size">8dp</dimen>
+    <dimen name="app_date_picker_corner_size">8dp</dimen>
+    <dimen name="alert_dialog_corner_size">8dp</dimen>
+    <dimen name="app_button_corner_radius">30dp</dimen>
+
+    <dimen name="app_layout_main_horizontal_padding">32dp</dimen>
+    <dimen name="app_recycler_item_end_padding">8dp</dimen>
+    <dimen name="app_button_vertical_padding">15dp</dimen>
+
+    <dimen name="padding_0">0dp</dimen>
+    <dimen name="padding_4">4dp</dimen>
+    <dimen name="padding_8">8dp</dimen>
+    <dimen name="padding_16">16dp</dimen>
+
+    <dimen name="app_text_input_label_margin">8dp</dimen>
+    <dimen name="app_text_input_margin">16dp</dimen>
+    <dimen name="app_layout_first_item_margin">24dp</dimen>
+    <dimen name="app_layout_solitery_item_margin">24dp</dimen>
+    <dimen name="app_layout_last_item_margin">24dp</dimen>
+    <dimen name="app_space_margin">4dp</dimen>
+    <dimen name="app_subtitle_margin">12dp</dimen>
+    <dimen name="app_button_bottom_margin">12dp</dimen>
+    <dimen name="app_no_toolbar_first_item">32dp</dimen>
+    <dimen name="app_recycler_item_bottom_margin">16dp</dimen>
+    <dimen name="login_logo_horizontal_margin">64dp</dimen>
+    <dimen name="app_recycler_item_margin">4dp</dimen>
+    <dimen name="app_fab_margin">16dp</dimen>
+    <dimen name="app_item_after_recycler_margin">16dp</dimen>
+    <dimen name="app_h2_bottom_margin">24dp</dimen>
+    <dimen name="app_h3_bottom_margin">16dp</dimen>
+    <dimen name="app_title_empty_toolbar_margin">6dp</dimen>
+
+    <dimen name="margin_0">0dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_6">6dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
+    <dimen name="app_tab_layout_padding">16dp</dimen>
+    <dimen name="app_trip_overview_item_padding_vertical">8dp</dimen>
+    <dimen name="app_trip_overview_item_padding_horizontal">16dp</dimen>
+    <dimen name="app_trip_overview_item_image_holder_size">48dp</dimen>
+    <dimen name="app_trip_overview_item_image_size">28dp</dimen>
+    <dimen name="app_trip_overview_item_end_margin">16dp</dimen>
+    <dimen name="app_trip_overview_item_title_margin">16dp</dimen>
+    <dimen name="app_trip_user_item_bottom_margin">8dp</dimen>
+    <dimen name="app_autocomplete_elevation">1dp</dimen>
+    <dimen name="app_first_item_overview_margin">20dp</dimen>
+    <dimen name="app_point_overview_first_item_margin">12dp</dimen>
+    <dimen name="app_point_overview_address_end_margin">24dp</dimen>
+    <dimen name="app_point_overview_type_label_margin">24dp</dimen>
+    <dimen name="app_point_overview_type_label_horizontal_padding">16dp</dimen>
+    <dimen name="app_point_overview_type_label_vertical_padding">8dp</dimen>
+    <dimen name="app_point_overview_vertical_line_margin">12dp</dimen>
+    <dimen name="app_point_overview_icon_size">26dp</dimen>
+    <dimen name="app_point_overview_address_start_margin">5dp</dimen>
+    <dimen name="app_itinerary_date_horizontal_padding">10dp</dimen>
 </resources>

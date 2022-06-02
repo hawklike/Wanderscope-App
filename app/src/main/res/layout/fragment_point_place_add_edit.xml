@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="cz.cvut.fit.steuejan.wanderscope.points.place.crud.PlaceAddEditFragmentVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding">
+
+        <ScrollView
+            android:id="@+id/addPlaceScroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/app_text_input_margin"
+            app:layout_constraintBottom_toTopOf="@id/addPlaceButton"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addPlaceTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_title_empty_toolbar_margin"
+                    android:text="@{vm.title}"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.H1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Add place" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addPlaceAddressLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_layout_first_item_margin"
+                    android:text="@string/location"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceTitle" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addPlaceAddress"
+                    style="@style/Widget.Wanderscope.TextInput.Search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:errorText="@{vm.validateAddress}"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceAddressLabel"
+                    app:onEndDrawableClick="@{() -> vm.find()}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/search_by_clicking_on_the_icon"
+                        android:inputType="text"
+                        android:text="@={vm.address}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addPlaceNameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/name"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceAddress" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addPlaceName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/name_max_len"
+                    app:errorText="@{vm.validateName}"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceNameLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/name_the_place_mandatory"
+                        android:inputType="textCapSentences"
+                        android:maxLength="@integer/name_max_len"
+                        android:text="@={vm.name}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addPlaceStartDateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/start_date"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceName" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addPlaceStartDate"
+                    style="@style/Widget.Wanderscope.TextInput.Cancellable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:cancellable="@{true}"
+                    app:errorText="@{vm.validateDates}"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceStartDateLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Wanderscope.EditText.OnClick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/when_will_you_arrive"
+                        android:onClick="@{() -> vm.startTimePicker()}"
+                        android:text="@={vm.startDate}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addPlaceEndDateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/end_date"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceStartDate" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addPlaceEndDate"
+                    style="@style/Widget.Wanderscope.TextInput.Cancellable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:cancellable="@{true}"
+                    app:errorText="@{vm.validateDates}"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceEndDateLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Wanderscope.EditText.OnClick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/when_will_you_leave"
+                        android:onClick="@{() -> vm.endTimePicker()}"
+                        android:text="@={vm.endDate}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addPlaceTypeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/type"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceEndDate" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addPlaceType"
+                    style="@style/Widget.Wanderscope.TextInput.DropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceTypeLabel">
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/select_the_place"
+                        android:inputType="none"
+                        app:textRes="@{vm.type}"
+                        android:popupElevation="1dp"
+                        app:dropdownMenuDrawable="@{@drawable/shape_rounded_8}"
+                        app:onItemClick="@{(p, v, position, id) -> vm.selectType(position)}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addPlaceLatitudeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/latitude"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceType" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addPlaceLatitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceLatitudeLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/latitude"
+                        android:maxLength="@integer/lon_lat_max_len"
+                        android:text="@={vm.latitude}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addPlaceLongitudeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/longitude"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceLatitude" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addPlaceLongitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceLongitudeLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/longitude"
+                        android:maxLength="@integer/lon_lat_max_len"
+                        android:text="@={vm.longitude}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addPlaceWebsiteLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/website"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceLongitude" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addPlaceWebsite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceWebsiteLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/website_hint"
+                        android:inputType="text"
+                        android:text="@{vm.website}"
+                        android:maxLength="@integer/other_max_len" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/addPlaceDescriptionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_margin"
+                    android:text="@string/description"
+                    android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceWebsite" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addPlaceDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_text_input_label_margin"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/description_max_len"
+                    app:layout_constraintTop_toBottomOf="@id/addPlaceDescriptionLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Wanderscope.EditText.MultiLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/describe_the_place"
+                        android:maxLength="@integer/description_max_len"
+                        android:text="@={vm.description}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addPlaceButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/app_button_bottom_margin"
+            android:text="@string/submit"
+            android:onClick="@{() -> vm.submit()}"
+            app:isEnabled="@{vm.enableSubmit}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:showProgress="@{vm.submitLoading}"
+            app:textAfterProgress="@{@string/submit}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

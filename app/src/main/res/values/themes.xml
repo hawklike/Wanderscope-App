@@ -1,25 +1,324 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Wanderscope" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+    <style name="Theme.Wanderscope" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary color customization -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/colorBackground</item>
+        <item name="android:textColor">@color/colorText</item>
+        <!-- Secondary color customization -->
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="android:textColorHighlight">@color/colorTextHighlight</item>
+        <!-- Status and navigation bar color -->
+        <item name="android:statusBarColor">@color/colorBackground</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/colorBackground</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!-- Customize your theme here -->
+        <item name="fontFamily">@font/source_sans_pro</item>
+        <item name="textInputStyle">@style/Widget.Wanderscope.TextInput</item>
+        <item name="materialButtonStyle">@style/Widget.Wanderscope.Button</item>
+        <item name="floatingActionButtonStyle">@style/Widget.Wanderscope.FloatingActionButton</item>
+        <item name="materialCalendarTheme">@style/Widget.Wanderscope.DatePicker</item>
+        <item name="snackbarStyle">@style/Widget.Wanderscope.Snackbar</item>
+        <item name="snackbarTextViewStyle">@style/Widget.Wanderscope.Snackbar.Text</item>
+        <item name="snackbarButtonStyle">@style/Widget.Wanderscope.Snackbar.Button</item>
+        <item name="tabStyle">@style/Widget.Wanderscope.TabLayout</item>
+        <item name="materialTimePickerTheme">@style/Widget.Wanderscope.TimePicker</item>
+        <item name="materialAlertDialogTheme">@style/Widget.Wanderscope.AlertDialog</item>
+        <item name="radioButtonStyle">@style/Widget.Wanderscope.RadioButton</item>
     </style>
 
-    <style name="Theme.Wanderscope.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="Theme.Wanderscope.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/colorPrimary</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/image_logo_splashscreen</item>
+        <item name="postSplashScreenTheme">@style/Theme.Wanderscope</item>
     </style>
 
-    <style name="Theme.Wanderscope.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Wanderscope.Toolbar" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="Theme.Wanderscope.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Widget.Wanderscope.TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxBackgroundColor">@color/colorSurface</item>
+        <item name="errorEnabled">true</item>
+        <item name="errorIconDrawable">@drawable/ic_error</item>
+        <item name="android:textColorHint">@color/colorOnSecondary</item>
+        <item name="hintEnabled">false</item>
+        <item name="errorIconTint">@color/colorError</item>
+        <item name="errorTextColor">@color/colorTextError</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.TextInput</item>
+        <item name="android:textSize">@dimen/app_text_input_text_size</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TextInput.DropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxBackgroundColor">@color/colorSurface</item>
+        <item name="errorEnabled">true</item>
+        <item name="errorIconDrawable">@drawable/ic_error</item>
+        <item name="android:textColorHint">@color/colorOnSecondary</item>
+        <item name="hintEnabled">false</item>
+        <item name="errorIconTint">@color/colorError</item>
+        <item name="errorTextColor">@color/colorTextError</item>
+        <item name="endIconTint">@color/colorTextInputIcon</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.TextInput</item>
+        <item name="android:textSize">@dimen/app_text_input_text_size</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TextInput.Password">
+        <item name="passwordToggleEnabled">true</item>
+        <item name="passwordToggleTint">@color/colorTextInputIcon</item>
+        <item name="errorIconDrawable">@null</item>
+    </style>
+
+    <style name="Widget.Wanderscope.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:paddingVertical">@dimen/app_button_vertical_padding</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">@dimen/app_button_text_size</item>
+        <item name="cornerRadius">@dimen/app_button_corner_radius</item>
+    </style>
+
+    <style name="Widget.Wanderscope.Snackbar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="backgroundTint">@color/colorSnackbar</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="Widget.Wanderscope.Snackbar.Text" parent="Widget.MaterialComponents.Snackbar.TextView">
+        <item name="android:textColor">@color/colorSnackbarText</item>
+        <item name="android:textAppearance">@style/TextAppearance.Wanderscope.Regular</item>
+    </style>
+
+    <style name="Widget.Wanderscope.Snackbar.Button" parent="Widget.MaterialComponents.Button.TextButton.Snackbar">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="actionTextColorAlpha">1.0</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.H1" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_h1_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.H2" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_h2_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.H3" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_h3_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.Medium1" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_m1_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.Bold" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_default_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.Regular" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_default_text_size</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.Small1" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_default_text_small1_size</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.Item.Title" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_default_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.Wanderscope.LessImportantText" parent="TextAppearance.Wanderscope.Regular">
+        <item name="android:textColor">@color/colorTextLessImportant</item>
+    </style>
+
+    <style name="Widget.Wanderscope.ClickableText" parent="TextAppearance.Wanderscope.Regular">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.Label" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/app_text_input_label_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Wanderscope.TextInput" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/app_text_input_corner_size</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Wanderscope.DatePicker" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/app_date_picker_corner_size</item>
+    </style>
+
+    <style name="Widget.Wanderscope.CardView.RecyclerItem" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/colorSurface</item>
+        <item name="cardCornerRadius">@dimen/app_recycler_item_corner_radius</item>
+        <item name="cardElevation">0dp</item>
+        <item name="android:layout_marginBottom">@dimen/app_recycler_item_bottom_margin</item>
+    </style>
+
+    <style name="Widget.Wanderscope.CardView.RecyclerItem.Empty">
+        <item name="cardBackgroundColor">@color/colorBackground</item>
+        <item name="strokeColor">@color/colorSecondaryVariant</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <style name="Widget.Wanderscope.CardView.RecyclerItem.Itinerary" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/colorSurface</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.MaterialCardView.Itinerary</item>
+        <item name="cardElevation">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Wanderscope.MaterialCardView.Itinerary" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">30dp</item>
+        <item name="cornerSizeTopRight">@dimen/app_recycler_item_corner_radius</item>
+        <item name="cornerSizeBottomLeft">@dimen/app_recycler_item_corner_radius</item>
+        <item name="cornerSizeBottomRight">@dimen/app_recycler_item_corner_radius</item>
+    </style>
+
+    <style name="Widget.Wanderscope.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="borderWidth">0dp</item>
+        <item name="elevation">2dp</item>
+        <item name="tint">@color/colorBackground</item>
+        <item name="fabSize">normal</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+    </style>
+
+    <style name="Widget.Wanderscope.EditText.MultiLine" parent="Widget.MaterialComponents.TextView">
+        <item name="android:gravity">top|start</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:minLines">5</item>
+        <item name="android:textAppearance">@style/TextAppearance.Wanderscope.Regular</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TextInput.WithIcon">
+        <item name="endIconMode">custom</item>
+        <item name="errorIconDrawable">@null</item>
+        <item name="endIconTint">@color/colorTextInputIcon</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TextInput.Cancellable" parent="Widget.Wanderscope.TextInput.WithIcon">
+        <item name="endIconDrawable">@drawable/ic_close</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TextInput.Search" parent="Widget.Wanderscope.TextInput.WithIcon">
+        <item name="endIconDrawable">@drawable/ic_search</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TextInput.Add" parent="Widget.Wanderscope.TextInput.WithIcon">
+        <item name="endIconDrawable">@drawable/ic_add</item>
+    </style>
+
+    <style name="Widget.Wanderscope.EditText.OnClick" parent="Widget.MaterialComponents.TextView">
+        <item name="android:clickable">false</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:textAppearance">@style/TextAppearance.Wanderscope.Regular</item>
+    </style>
+
+    <style name="Widget.Wanderscope.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.DatePicker</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TimePicker" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.DatePicker</item>
+        <item name="materialClockStyle">@style/Widget.Wanderscope.TimePicker.Clock</item>
+        <item name="chipStyle">@style/Widget.Wanderscope.TimePicker.Chip</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TimePicker.Clock" parent="Widget.MaterialComponents.TimePicker.Clock">
+        <item name="clockFaceBackgroundColor">@color/colorSurface</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TimePicker.Chip" parent="Widget.MaterialComponents.TimePicker.Display">
+        <item name="android:backgroundTint">@color/timepicker_chip_color</item>
+    </style>
+
+    <style name="Widget.Wanderscope.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabBackground">@drawable/tab_background_selector</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabMode">scrollable</item>
+        <item name="tabRippleColor">@null</item>
+        <item name="tabPaddingStart">@dimen/app_tab_layout_padding</item>
+        <item name="tabPaddingEnd">@dimen/app_tab_layout_padding</item>
+        <item name="tabTextAppearance">@style/TextAppearance.Wanderscope.TabLayout</item>
+    </style>
+
+    <style name="TextAppearance.Wanderscope.TabLayout" parent="TextAppearance.Wanderscope.Regular">
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Wanderscope.AlertDialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/alert_dialog_corner_size</item>
+    </style>
+
+    <style name="Widget.Wanderscope.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Wanderscope.AlertDialog</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/AlertDialog.Wanderscope.Title.Text</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertDialog.Wanderscope.Body.Text</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AlertDialog.Wanderscope.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AlertDialog.Wanderscope.Button</item>
+    </style>
+
+    <style name="AlertDialog.Wanderscope.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textAppearance">@style/TextAppearance.Wanderscope.Label</item>
+    </style>
+
+    <style name="AlertDialog.Wanderscope.Body.Text" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="AlertDialog.Wanderscope.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="textAllCaps">true</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="Widget.Wanderscope.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Wanderscope.RadioButton</item>
+        <item name="android:textAppearance">@style/TextAppearance.Wanderscope.Regular</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="paddingStart">@dimen/margin_4</item>
+    </style>
+
+    <style name="ThemeOverlay.Wanderscope.RadioButton" parent="">
+        <item name="colorOnSurface">@color/colorTextLessImportant</item>
+        <item name="colorSecondary">@color/colorPrimary</item>
+    </style>
+
+    <style name="Widget.Wanderscope.Loading.Documents" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="android:indeterminate">true</item>
+        <item name="android:layout_marginStart">@dimen/margin_12</item>
+        <item name="indicatorSize">18dp</item>
+        <item name="trackThickness">2.5dp</item>
+        <item name="indicatorColor">@color/colorText</item>
+        <item name="showAnimationBehavior">outward</item>
+        <item name="hideAnimationBehavior">inward</item>
+    </style>
+
+    <style name="Widget.Wanderscope.AlertDialog.Confirmation">
+        <item name="android:textColorPrimary">@color/colorText</item>
+        <item name="android:colorControlNormal">@color/colorTextLessImportant</item>
+        <item name="android:colorControlActivated">@color/colorPrimary</item>
+    </style>
+
 </resources>

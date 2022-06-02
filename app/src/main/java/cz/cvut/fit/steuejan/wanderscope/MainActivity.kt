@@ -1,58 +1,110 @@
 package cz.cvut.fit.steuejan.wanderscope
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.isVisible
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.libraries.places.api.Places
 import com.google.android.material.snackbar.Snackbar
+import cz.cvut.fit.steuejan.wanderscope.app.arch.mwwm.MvvmActivity
+import cz.cvut.fit.steuejan.wanderscope.app.nav.WithBottomNavigationBar
+import cz.cvut.fit.steuejan.wanderscope.app.toolbar.WithToolbar
+import cz.cvut.fit.steuejan.wanderscope.auth.WithLogin
 import cz.cvut.fit.steuejan.wanderscope.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : MvvmActivity<ActivityMainBinding, MainActivityVM>(
+    R.layout.activity_main,
+    MainActivityVM::class
+), WithBottomNavigationBar, WithToolbar, WithLogin {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+        handleSplashScreen(splashScreen)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.navHostFragment) as? NavHostFragment ?: return
+
+        navController = navHostFragment.navController
+        binding.bottomNavigation.setupWithNavController(navController)
 
         setSupportActionBar(binding.toolbar)
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
+        val mainFragments = setOf(R.id.homeFragment, R.id.accountFragment, R.id.loginFragment, R.id.tripsFragment)
+        val appBarConfiguration = AppBarConfiguration(mainFragments)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        Places.initialize(applicationContext, BuildConfig.MAPS_API_KEY)
+        observeLogout()
+    }
+
+    private fun handleSplashScreen(splashScreen: SplashScreen) {
+        viewModel.showSplashScreen.safeObserve { show ->
+            splashScreen.setKeepOnScreenCondition {
+                return@setKeepOnScreenCondition show
+            }
+        }
+
+        viewModel.splashScreenAfterProcessDeath.safeObserve { show ->
+            if (show == false) {
+                viewModel.hideSplashScreen()
+            }
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+    private fun observeLogout() {
+        viewModel.shouldLogoutUser().safeObserve { shouldLogout ->
+            if (shouldLogout) {
+                logout()
+            }
         }
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    override fun showBottomNavigation() {
+        binding.bottomNavigation.visibility = VISIBLE
+    }
+
+    override fun hideBottomNavigation() {
+        binding.bottomNavigation.visibility = GONE
+    }
+
+    override fun showSnackbar(snackbar: Snackbar) {
+        if (binding.bottomNavigation.isVisible) {
+            snackbar.anchorView = binding.bottomNavigation
+        }
+        snackbar.show()
+    }
+
+    override fun showToolbar() {
+        binding.toolbar.visibility = VISIBLE
+    }
+
+    override fun hideToolbar() {
+        binding.toolbar.visibility = GONE
+    }
+
+    override fun setTitle(title: String?) {
+        binding.toolbar.title = title
+    }
+
+    override fun login() {
+        val startDestination = navController.graph.startDestinationId
+        navController.popBackStack(startDestination, true)
+        navigateTo(R.id.loginFragment)
+    }
+
+    override fun logout() {
+        viewModel.logout()
+        login()
     }
 }

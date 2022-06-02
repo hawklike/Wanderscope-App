@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="cz.cvut.fit.steuejan.wanderscope.auth.login.LoginFragmentVM" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/loginLogo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/login_logo_horizontal_margin"
+            android:layout_marginBottom="@dimen/status_bar_height"
+            android:adjustViewBounds="true"
+            android:maxHeight="200dp"
+            android:src="@drawable/image_logo_with_text_as_background"
+            app:layout_constraintBottom_toTopOf="@id/loginMain"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loginMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rounded_top_12"
+            android:paddingHorizontal="@dimen/app_layout_main_horizontal_padding"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:context=".auth.login.LoginFragment">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/loginEmailLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/app_layout_first_item_margin"
+                android:layout_marginBottom="@dimen/app_text_input_label_margin"
+                android:text="@string/email"
+                android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                app:layout_constraintBottom_toTopOf="@id/loginEmail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/loginEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/app_text_input_label_margin"
+                android:layout_marginBottom="@dimen/app_text_input_margin"
+                app:errorText="@{vm.validateEmail}"
+                app:layout_constraintBottom_toTopOf="@id/loginPasswordLabel">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="emailAddress"
+                    android:hint="@string/login_email_hint"
+                    android:inputType="textEmailAddress"
+                    android:text="@={vm.email}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/loginPasswordLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/app_text_input_label_margin"
+                android:text="@string/password"
+                android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                app:layout_constraintBottom_toTopOf="@id/loginPassword"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/loginPassword"
+                style="@style/Widget.Wanderscope.TextInput.Password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/app_text_input_label_margin"
+                app:errorEnabled="true"
+                app:errorText="@{vm.validatePassword}"
+                app:layout_constraintBottom_toTopOf="@id/loginForgotPassword">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="password"
+                    android:hint="@string/login_password_hint"
+                    android:inputType="textPassword"
+                    android:text="@={vm.password}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/loginForgotPassword"
+                style="@style/Widget.Wanderscope.ClickableText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/app_text_input_margin"
+                android:onClick="@{() -> vm.forgotPassword()}"
+                android:text="@string/login_password_forgot"
+                app:layout_constraintBottom_toTopOf="@id/loginButton"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/app_layout_solitery_item_margin"
+                android:onClick="@{() -> vm.login()}"
+                android:text="@string/sign_in"
+                app:isEnabled="@{vm.enableLogin}"
+                app:layout_constraintBottom_toTopOf="@id/loginRegisterLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:showProgress="@{vm.loginLoading}"
+                app:textAfterProgress="@{@string/sign_in}" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/loginRegisterLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/app_layout_last_item_margin"
+                android:onClick="@{() -> vm.register()}"
+                android:paddingVertical="@dimen/margin_8"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/loginRegisterText"
+                    style="@style/Widget.Wanderscope.LessImportantText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/new_to_wanderscope"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/loginRegister"
+                    style="@style/Widget.Wanderscope.ClickableText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/app_space_margin"
+                    android:text="@string/sign_up"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/loginRegisterText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

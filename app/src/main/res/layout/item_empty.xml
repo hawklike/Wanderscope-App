@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="cz.cvut.fit.steuejan.wanderscope.app.common.recycler_item.EmptyItem" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Wanderscope.CardView.RecyclerItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:bottomMargin="@{item.marginBottom}"
+        app:endMargin="@{item.marginEnd}"
+        app:startMargin="@{item.marginStart}"
+        app:topMargin="@{item.marginTop}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_16">
+
+            <ImageView
+                android:id="@+id/emptyItemImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                app:imageResource="@{item.image}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.8"
+                tools:src="@drawable/image_not_found" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/emptyItemTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{item.title}"
+                android:textAppearance="@style/TextAppearance.Wanderscope.Item.Title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/emptyItemImage"
+                tools:text="You have no upcoming trips" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/emptyItemSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/app_recycler_item_margin"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/emptyItemTitle"
+                app:textResOrGone="@{item.subtitle}"
+                tools:text="@string/no_past_trips_subtitle" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/emptyItemButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:clickable="false"
+                android:layout_marginTop="@dimen/margin_12"
+                app:layout_constraintTop_toBottomOf="@id/emptyItemSubtitle"
+                app:textResOrGone="@{item.buttonText}"
+                tools:text="Submit" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

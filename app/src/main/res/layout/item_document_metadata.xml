@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="cz.cvut.fit.steuejan.wanderscope.document.DocumentMetadataItem" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Wanderscope.CardView.RecyclerItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/app_trip_overview_item_end_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:paddingHorizontal="@dimen/app_trip_overview_item_padding_horizontal"
+            android:paddingVertical="@dimen/app_trip_overview_item_padding_vertical"
+            tools:background="@color/colorSurface">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/ic_lock"
+                android:backgroundTint="@color/colorOnSecondary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:visibleOrGone="@{item.hasKey}" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/itemDocumentMetadataImageHolder"
+                android:layout_width="@dimen/app_trip_overview_item_image_holder_size"
+                android:layout_height="@dimen/app_trip_overview_item_image_holder_size"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/colorDrawableBackground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/itemDocumentMetadataImage"
+                    android:layout_width="@dimen/app_trip_overview_item_image_size"
+                    android:layout_height="@dimen/app_trip_overview_item_image_size"
+                    app:imageResource="@{item.icon}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:background="@drawable/ic_file_other" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/itemDocumentMetadataTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/app_trip_overview_item_title_margin"
+                android:ellipsize="end"
+                android:maxWidth="180dp"
+                android:maxLines="2"
+                android:text="@{item.name}"
+                android:textAppearance="@style/TextAppearance.Wanderscope.Item.Title"
+                app:layout_constraintTop_toBottomOf="@id/itemDocumentMetadataImageHolder"
+                tools:text="krasnyobrazek.jpg" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/itemDocumentMetadataUpdated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{item.updated}"
+                app:layout_constraintVertical_bias="1"
+                android:textColor="@color/colorText"
+                android:layout_marginBottom="@dimen/margin_4"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/itemDocumentMetadataTitle"
+                tools:text="12.12.2022" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

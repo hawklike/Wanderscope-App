@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="cz.cvut.fit.steuejan.wanderscope.points.transport.overview.TransportOverviewFragmentVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/transportOverviewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+            android:layout_marginTop="@dimen/app_title_empty_toolbar_margin"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.Wanderscope.H1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Praha - Ostrava" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/transportOverviewShimmer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/app_layout_first_item_margin"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/transportOverviewTitle"
+            tools:visibility="gone">
+
+            <include layout="@layout/layout_shimmer_placeholder" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/transportOverviewContent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/transportOverviewTitle">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/transportOverviewMarginLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/transportOverviewStartDateLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_point_overview_first_item_margin"
+                            android:text="@string/departure"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/transportOverviewStartDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:gravity="end"
+                            android:maxLines="2"
+                            android:text="@{vm.startDate}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintBottom_toBottomOf="@+id/transportOverviewStartDateLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/transportOverviewStartDateLabel"
+                            tools:text="May 17, 2022 18:12" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/transportOverviewFrom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                            android:layout_marginEnd="@dimen/app_point_overview_address_end_margin"
+                            android:layout_marginStart="@dimen/app_point_overview_address_start_margin"
+                            android:drawableStart="@drawable/ic_location_16"
+                            android:drawablePadding="@dimen/margin_8"
+                            android:drawableTint="@color/colorText"
+                            android:gravity="center_vertical"
+                            android:onClick="@{() -> vm.launchMap()}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewStartDateLabel"
+                            app:textOrGone="@{vm.from}"
+                            tools:text="Wilsonova 80, Vinohrady, 120 00 Praha-Praha 2, Czechia" />
+
+                        <View
+                            android:id="@+id/transportOverviewVerticalLine"
+                            android:layout_width="1dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="@dimen/app_point_overview_vertical_line_margin"
+                            android:layout_marginTop="@dimen/app_point_overview_vertical_line_margin"
+                            android:layout_marginBottom="@dimen/app_point_overview_vertical_line_margin"
+                            android:background="@drawable/shape_vertical_dashed_line"
+                            android:backgroundTint="@color/colorPrimary"
+                            app:layout_constraintBottom_toTopOf="@id/transportOverviewEndDateLabel"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewFrom" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/transportOverviewTravelLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="@dimen/app_point_overview_type_label_margin"
+                            android:background="@drawable/shape_rounded_32"
+                            android:backgroundTint="@color/colorSurface"
+                            android:onClick="@{() -> vm.launchMapFromLabel()}"
+                            android:paddingHorizontal="@dimen/app_point_overview_type_label_horizontal_padding"
+                            android:paddingVertical="@dimen/app_point_overview_type_label_vertical_padding"
+                            app:layout_constraintStart_toEndOf="@id/transportOverviewVerticalLine"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewFrom">
+
+                            <ImageView
+                                android:id="@+id/transportOverviewIcon"
+                                android:layout_width="@dimen/app_point_overview_icon_size"
+                                android:layout_height="@dimen/app_point_overview_icon_size"
+                                app:imageResource="@{vm.icon}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:background="@drawable/ic_light_aircraft" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/transportOverviewTravelLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:text="@string/travel_by_label"
+                                android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                                android:textColor="@color/colorPrimary"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/transportOverviewIcon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/transportOverviewTravel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                                android:textColor="@color/colorPrimary"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/transportOverviewTravelLabel"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:textResOrGoneLowercase="@{vm.type}"
+                                tools:text="plane" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/transportOverviewDuration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/margin_12"
+                            android:drawableStart="@drawable/ic_clock_16"
+                            android:drawablePadding="@dimen/margin_8"
+                            android:drawableTint="@color/colorPrimary"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textColor="@color/colorPrimary"
+                            app:fullDuration="@{vm.duration}"
+                            app:layout_constraintStart_toStartOf="@id/transportOverviewTravelLayout"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewTravelLayout"
+                            tools:text="2d 1h 32m" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/transportOverviewEndDateLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_point_overview_type_label_margin"
+                            android:text="@string/arrival"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewDuration" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/transportOverviewEndDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:maxLines="2"
+                            android:text="@{vm.endDate}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintBottom_toBottomOf="@+id/transportOverviewEndDateLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/transportOverviewEndDateLabel"
+                            tools:text="May 17, 2022 18:12" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/transportOverviewTo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                            android:layout_marginEnd="@dimen/app_point_overview_address_end_margin"
+                            android:drawableStart="@drawable/ic_location_16"
+                            android:drawablePadding="@dimen/margin_8"
+                            android:layout_marginStart="@dimen/app_point_overview_address_start_margin"
+                            android:drawableTint="@color/colorText"
+                            android:gravity="center_vertical"
+                            android:onClick="@{() -> vm.launchMap()}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewEndDateLabel"
+                            app:textOrGone="@{vm.to}"
+                            tools:text="Wilsonova 80, Vinohrady, 120 00 Praha-Praha 2, Czechia" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/transportOverviewCarsLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="@string/cars"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewTo"
+                            app:visibleOrGone="@{vm.cars}" />
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/transportOverviewCars"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            app:addChips="@{vm.cars}"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewCarsLabel"
+                            app:visibleOrGone="@{vm.cars}"
+                            tools:visibility="visible" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/transportOverviewSeatsLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_margin"
+                            android:text="@string/seats"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewCars"
+                            app:visibleOrGone="@{vm.seats}" />
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/transportOverviewSeats"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            app:addChips="@{vm.seats}"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewSeatsLabel"
+                            app:visibleOrGone="@{vm.seats}"
+                            tools:visibility="visible" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/transportOverviewDescriptionLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_margin"
+                            android:text="@string/description"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewSeats"
+                            app:visibleOrGone="@{vm.description}" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/transportOverviewDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewDescriptionLabel"
+                            app:textOrGone="@{vm.description}"
+                            tools:text="This meta description generator uses machine learning (specifically GPT-3 from Open AI) to generate short description ideas for your articles. It has been trained specifically for pages with long content and is best suited for guides, how-to articles, articles with bulleted lists, etc." />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/transportOverviewMapHolder"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewDescription"
+                            app:visibleOrGone="@{vm.showMap}"
+                            tools:backgroundTint="@color/colorOnSecondary">
+
+                            <cz.cvut.fit.steuejan.wanderscope.app.view.AnchoredMapView
+                                android:id="@+id/transportOverviewMap"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/transportOverviewDocumentsLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_no_toolbar_first_item"
+                            android:text="@string/documents"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.H3"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/transportOverviewMapHolder" />
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:id="@+id/transportOverviewDocumentLoading"
+                            style="@style/Widget.Wanderscope.Loading.Documents"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:showLoading="@{vm.documentActionLoading}"
+                            app:layout_constraintBottom_toBottomOf="@id/transportOverviewDocumentsLabel"
+                            app:layout_constraintStart_toEndOf="@id/transportOverviewDocumentsLabel" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/transportOverviewDocumentAdd"
+                            style="@style/Widget.Wanderscope.ClickableText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:onClick="@{() -> vm.addDocument()}"
+                            android:text="@string/add"
+                            app:layout_constraintBottom_toBottomOf="@id/transportOverviewDocumentsLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/transportOverviewDocumentsLabel" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/transportOverviewDocuments"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/app_layout_main_horizontal_padding"
+                        android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                        android:nestedScrollingEnabled="true"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/transportOverviewMarginLayout"
+                        app:recyclerItems="@{vm.documents}"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_document_metadata" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

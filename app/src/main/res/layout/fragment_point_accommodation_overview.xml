@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="cz.cvut.fit.steuejan.wanderscope.points.accommodation.overview.AccommodationOverviewFragmentVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/accommodationOverviewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+            android:layout_marginTop="@dimen/app_title_empty_toolbar_margin"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.Wanderscope.H1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Praha - Ostrava" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/accommodationOverviewShimmer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/app_layout_first_item_margin"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewTitle"
+            tools:visibility="gone">
+
+            <include layout="@layout/layout_shimmer_placeholder" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/accommodationOverviewContent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewTitle">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/accommodationOverviewScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/accommodationOverviewMarginLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/app_layout_main_horizontal_padding"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewStartDateLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_point_overview_first_item_margin"
+                            android:text="@string/check_in"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewStartDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:gravity="end"
+                            android:maxLines="2"
+                            android:text="@{vm.startDate}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintBottom_toBottomOf="@+id/accommodationOverviewStartDateLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/accommodationOverviewStartDateLabel"
+                            tools:text="May 17, 2022 18:12" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_location_16"
+                            android:drawablePadding="@dimen/margin_8"
+                            android:layout_marginStart="@dimen/app_point_overview_address_start_margin"
+                            android:drawableTint="@color/colorText"
+                            android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                            android:layout_marginEnd="@dimen/app_point_overview_address_end_margin"
+                            android:gravity="center_vertical"
+                            android:onClick="@{() -> vm.launchMap()}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewStartDateLabel"
+                            app:textOrGone="@{vm.address}"
+                            tools:text="Wilsonova 80, Vinohrady, 120 00 Praha-Praha 2, Czechia" />
+
+                        <View
+                            android:id="@+id/accommodationOverviewVerticalLine"
+                            android:layout_width="1dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="@dimen/app_point_overview_vertical_line_margin"
+                            android:layout_marginTop="@dimen/app_point_overview_vertical_line_margin"
+                            android:layout_marginBottom="@dimen/app_point_overview_vertical_line_margin"
+                            android:background="@drawable/shape_vertical_dashed_line"
+                            android:backgroundTint="@color/colorPrimary"
+                            app:layout_constraintBottom_toTopOf="@id/accommodationOverviewEndDateLabel"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewAddress" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/accommodationOverviewTravelLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="@dimen/app_point_overview_type_label_margin"
+                            android:background="@drawable/shape_rounded_32"
+                            android:backgroundTint="@color/colorSurface"
+                            android:onClick="@{() -> vm.launchMapFromLabel()}"
+                            android:paddingHorizontal="@dimen/app_point_overview_type_label_horizontal_padding"
+                            android:paddingVertical="@dimen/app_point_overview_type_label_vertical_padding"
+                            app:layout_constraintStart_toEndOf="@id/accommodationOverviewVerticalLine"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewAddress">
+
+                            <ImageView
+                                android:id="@+id/accommodationOverviewIcon"
+                                android:layout_width="@dimen/app_point_overview_icon_size"
+                                android:layout_height="@dimen/app_point_overview_icon_size"
+                                app:imageResource="@{vm.icon}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:background="@drawable/ic_camp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/accommodationOverviewTravelLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:text="@string/sleep_at_label"
+                                android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                                android:textColor="@color/colorPrimary"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/accommodationOverviewIcon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/accommodationOverviewTravel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                                android:textColor="@color/colorPrimary"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/accommodationOverviewTravelLabel"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:textResOrGoneLowercase="@{vm.type}"
+                                tools:text="camp" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewDuration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/margin_12"
+                            android:drawableStart="@drawable/ic_clock_16"
+                            android:drawablePadding="@dimen/margin_8"
+                            android:drawableTint="@color/colorPrimary"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textColor="@color/colorPrimary"
+                            app:layout_constraintStart_toStartOf="@id/accommodationOverviewTravelLayout"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewTravelLayout"
+                            app:nights="@{vm.nights}"
+                            tools:text="1 night" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewEndDateLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_point_overview_type_label_margin"
+                            android:text="@string/check_out"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewDuration" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewEndDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:maxLines="2"
+                            android:text="@{vm.endDate}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintBottom_toBottomOf="@+id/accommodationOverviewEndDateLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/accommodationOverviewEndDateLabel"
+                            tools:text="May 17, 2022 18:12" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewWebsite"
+                            visibleOrGone="@{vm.website}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:drawableEnd="@drawable/ic_open_in_new_20"
+                            android:drawablePadding="@dimen/margin_4"
+                            android:drawableTint="@color/colorPrimary"
+                            android:onClick="@{() -> vm.goToWebsite()}"
+                            android:text="@string/go_to_the_website"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textColor="@color/colorPrimary"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewEndDateLabel" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewPhoneLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:onClick="@{() -> vm.launchPhoneCall()}"
+                            android:text="@string/phone"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewWebsite"
+                            app:visibleOrGone="@{vm.phone}" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewPhone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            android:onClick="@{() -> vm.launchPhoneCall()}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            android:drawableStart="@drawable/ic_phone_android_16"
+                            android:drawablePadding="@dimen/margin_4"
+                            android:drawableTint="@color/colorText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewPhoneLabel"
+                            app:textOrGone="@{vm.phone}"
+                            tools:text="+232 364 856 362" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewEmailLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_margin"
+                            android:onClick="@{() -> vm.sendEmail()}"
+                            android:text="@string/email"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewPhone"
+                            app:visibleOrGone="@{vm.email}" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            android:onClick="@{() -> vm.sendEmail()}"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            android:drawableStart="@drawable/ic_email_16"
+                            android:drawablePadding="@dimen/margin_4"
+                            android:drawableTint="@color/colorText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewEmailLabel"
+                            app:textOrGone="@{vm.email}"
+                            tools:text="hello@example.com" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewDescriptionLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_margin"
+                            android:text="@string/description"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Label"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewEmail"
+                            app:visibleOrGone="@{vm.description}" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_text_input_label_margin"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.Regular"
+                            android:textIsSelectable="true"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewDescriptionLabel"
+                            app:textOrGone="@{vm.description}"
+                            tools:text="This meta description generator uses machine learning (specifically GPT-3 from Open AI) to generate short description ideas for your articles. It has been trained specifically for pages with long content and is best suited for guides, how-to articles, articles with bulleted lists, etc." />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/accommodationOverviewMapHolder"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewDescription"
+                            app:visibleOrGone="@{vm.showMap}"
+                            tools:backgroundTint="@color/colorOnSecondary">
+
+                            <cz.cvut.fit.steuejan.wanderscope.app.view.AnchoredMapView
+                                android:id="@+id/accommodationOverviewMap"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewDocumentsLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/app_no_toolbar_first_item"
+                            android:text="@string/documents"
+                            android:textAppearance="@style/TextAppearance.Wanderscope.H3"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/accommodationOverviewMapHolder" />
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:id="@+id/accommodationOverviewDocumentLoading"
+                            style="@style/Widget.Wanderscope.Loading.Documents"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:showLoading="@{vm.documentActionLoading}"
+                            app:layout_constraintBottom_toBottomOf="@id/accommodationOverviewDocumentsLabel"
+                            app:layout_constraintStart_toEndOf="@id/accommodationOverviewDocumentsLabel" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/accommodationOverviewDocumentAdd"
+                            style="@style/Widget.Wanderscope.ClickableText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:onClick="@{() -> vm.addDocument()}"
+                            android:text="@string/add"
+                            app:layout_constraintBottom_toBottomOf="@id/accommodationOverviewDocumentsLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/accommodationOverviewDocumentsLabel" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/accommodationOverviewDocuments"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/app_layout_main_horizontal_padding"
+                        android:layout_marginTop="@dimen/app_h3_bottom_margin"
+                        android:nestedScrollingEnabled="true"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/accommodationOverviewMarginLayout"
+                        app:recyclerItems="@{vm.documents}"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_document_metadata" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
