@@ -55,6 +55,11 @@ class TripItineraryFragment : ViewPagerFragment<FragmentTripItineraryBinding, Tr
         handleSwipeRefresh()
     }
 
+    override fun onPause() {
+        super.onPause()
+        binding.tripItineraryAddButton.close()
+    }
+
     private fun listenToChanges() {
         parentViewModel?.tripItineraryResult?.safeObserve {
             viewModel.showItinerary(tripId ?: return@safeObserve)

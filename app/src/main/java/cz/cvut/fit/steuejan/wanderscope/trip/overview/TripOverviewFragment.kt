@@ -77,6 +77,11 @@ class TripOverviewFragment : ViewPagerFragment<FragmentTripOverviewBinding, Trip
         handleSwipeRefresh()
     }
 
+    override fun onPause() {
+        super.onPause()
+        binding.tripOverviewAddButton.close()
+    }
+
     private fun listenToChanges() {
         parentViewModel?.tripOverviewResult?.safeObserve {
             getTripOverview(it)
