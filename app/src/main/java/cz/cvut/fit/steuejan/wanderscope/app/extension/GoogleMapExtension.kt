@@ -7,11 +7,14 @@ import android.location.LocationManager
 import android.view.View
 import androidx.annotation.RawRes
 import androidx.core.view.doOnLayout
+import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.ktx.addMarker
 import cz.cvut.fit.steuejan.wanderscope.app.common.data.Coordinates
+import cz.cvut.fit.steuejan.wanderscope.app.util.runOrNull
+import kotlin.math.min
 
 @Suppress("unused")
 fun GoogleMap.setCustomStyle(context: Context, @RawRes mapStyle: Int): Boolean {
@@ -80,10 +83,22 @@ fun GoogleMap.adjustZoom(
         view.doOnLayout {
             val width: Int = it.measuredWidth
             val height = it.measuredHeight
-            val padding = (width * relativePadding).toInt()
-            val camera = CameraUpdateFactory.newLatLngBounds(builder.build(), width, height, padding)
+            val camera = applyPaddingSafe(builder.build(), width, height, relativePadding)
+                ?: CameraUpdateFactory.newLatLngZoom(safeMarkers.first().position, zoomLevel)
             this.animateCamera(camera)
         }
+    }
+}
+
+private fun applyPaddingSafe(
+    bounds: LatLngBounds,
+    width: Int,
+    height: Int,
+    relativePadding: Double
+): CameraUpdate? {
+    val padding = min(width, height) * relativePadding
+    return runOrNull {
+        CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding.toInt())
     }
 }
 
