@@ -9,3 +9,5 @@ fun String.capitalize(locale: Locale = Locale.getDefault()): String {
 }
 
 fun String?.getOrNullIfBlank() = takeUnless { it.isNullOrBlank() }
+
+fun String.toBase64(): String = Base64.getEncoder().encodeToString(this.toByteArray())
