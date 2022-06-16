@@ -255,6 +255,7 @@
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
                     app:addChip="@{vm.carChip}"
+                    app:addChips="@{vm.carChips}"
                     app:layout_constraintTop_toBottomOf="@id/addTransportCars"
                     app:visibleOrGone="@{vm.showCars}"
                     tools:visibility="visible" />
@@ -297,6 +298,7 @@
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
                     app:addChip="@{vm.seatChip}"
+                    app:addChips="@{vm.seatChips}"
                     app:layout_constraintTop_toBottomOf="@id/addTransportSeats"
                     tools:visibility="visible" />
 

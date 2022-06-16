@@ -35,10 +35,12 @@ class TransportAddEditFragmentVM(
     val car = MutableLiveData<String?>(null)
     val carChip = MutableLiveData<ChipInfo?>()
     val showCars = MutableLiveData<Boolean>()
+    val carChips = MutableLiveData<List<ChipInfo>?>(null)
 
     val seat = MutableLiveData<String?>(null)
     val seatChip = MutableLiveData<ChipInfo?>()
     val showSeats = MutableLiveData<Boolean>()
+    val seatChips = MutableLiveData<List<ChipInfo>?>(null)
 
     private var findOption: FindOption? = null
     private var fromName: String? = null
@@ -110,8 +112,14 @@ class TransportAddEditFragmentVM(
             }
             fromCoordinates = point.coordinates
             toCoordinates = point.toCoordinates
-            point.cars?.forEach(::addCarChip)
-            point.seats?.forEach(::addSeatChip)
+            point.cars?.let {
+                showCars.value = true
+                carChips.value = it.map(::createChip)
+            }
+            point.seats?.let {
+                showSeats.value = true
+                seatChips.value = it.map(::createChip)
+            }
             type.value = point.type.toStringRes()
         }
     }
@@ -124,7 +132,7 @@ class TransportAddEditFragmentVM(
     }
 
     private fun addCarChip(car: String) {
-        carChip.value = ChipInfo(car, true, textColor = R.color.colorPrimary)
+        carChip.value = createChip(car)
         showCars.value = true
         hideKeyboard()
         this.car.value = null
@@ -138,7 +146,7 @@ class TransportAddEditFragmentVM(
     }
 
     private fun addSeatChip(seat: String) {
-        seatChip.value = ChipInfo(seat, true, textColor = R.color.colorPrimary)
+        seatChip.value = createChip(seat)
         showSeats.value = true
         hideKeyboard()
         this.seat.value = null
@@ -212,4 +220,6 @@ class TransportAddEditFragmentVM(
     enum class FindOption {
         FROM, TO
     }
+
+    private fun createChip(name: String) = ChipInfo(name, true, textColor = R.color.colorPrimary)
 }
