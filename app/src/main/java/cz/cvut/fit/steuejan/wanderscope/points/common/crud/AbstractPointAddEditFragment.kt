@@ -87,6 +87,7 @@ abstract class AbstractPointAddEditFragment<B : ViewDataBinding, VM : BaseViewMo
 
     protected open fun placesSuccess(data: Intent?) {
         data?.let {
+            hideKeyboard()
             val place = Autocomplete.getPlaceFromIntent(data)
             abstractViewModel?.placeFound(place)
         }
