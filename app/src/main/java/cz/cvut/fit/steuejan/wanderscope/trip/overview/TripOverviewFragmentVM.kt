@@ -380,7 +380,7 @@ class TripOverviewFragmentVM(
         val tripId = tripOverview.value?.id ?: return
         validateKey(key) ?: return
         viewModelScope.launchIO {
-            documentRepository.getDocument(tripId, documentId, key).safeCollect(this) {
+            documentRepository.getDocument(tripId, documentId, key?.toBase64()).safeCollect(this) {
                 when (it) {
                     is Result.Cache -> TODO()
                     is Result.Failure -> downloadDocumentFailure(it.error)
