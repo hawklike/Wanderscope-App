@@ -183,7 +183,7 @@ abstract class AbstractPointOverviewFragmentVM<Response : PointResponse>(
         val pointId = pointOverview.value?.id ?: return
         validateKey(key) ?: return
         viewModelScope.launchIO {
-            documentRepository.getDocument(tripId, pointId, documentId, pointType, key)
+            documentRepository.getDocument(tripId, pointId, documentId, pointType, key?.toBase64())
                 .safeCollect(this) {
                     when (it) {
                         is Result.Cache -> TODO()
