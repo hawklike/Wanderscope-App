@@ -45,14 +45,13 @@ android {
     flavorDimensions "env"
     productFlavors {
         staging {
-            applicationId "cz.cvut.fit.steuejan.wanderscope.dev"
+            applicationIdSuffix ".dev"
             dimension "env"
             buildConfigField "String", "BASE_URL", '"https://wanderscope-staging.herokuapp.com/"'
             resValue "string", "app_name", "Wanderscope Dev"
         }
 
         production {
-            applicationId "cz.cvut.fit.steuejan.wanderscope"
             dimension "env"
             buildConfigField "String", "BASE_URL", '"https://wanderscope.herokuapp.com/"'
             resValue "string", "app_name", "Wanderscope"
