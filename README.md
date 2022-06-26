@@ -1,6 +1,6 @@
 # Wanderscope
 
-This diploma thesis deals with the development of a mobile application that provides users with an interface for group travel planning. The web service communicates with the mobile application using the REST architectural style and ensures the actual functionality of organizing and managing trips. In this work, the author describes step by step the various stages of development of both parts – the backend and the mobile application. The author also covers the design and implementation of user authentication accomplished by refreshing JWT tokens in this work. The output of this diploma thesis is a functional and user-tested mobile application that allows organizing trips in a group.
+This diploma thesis deals with the development of a mobile application that provides users with an interface for group travel planning. The [web service](https://github.com/hawklike/Wanderscope-API) communicates with the mobile application using the REST architectural style and ensures the actual functionality of organizing and managing trips. In this work, the author describes step by step the various stages of development of both parts – the backend and the mobile application. The author also covers the design and implementation of user authentication accomplished by refreshing JWT tokens in this work. The output of this diploma thesis is a functional and user-tested mobile application that allows organizing trips in a group.
 
 ## About 💡
 Wanderscope is a mobile app that allows organizing trips with other travelers. Wanderscope will create an itinerary according to your plans, help you with splitting group expenses and save your travel documents.
@@ -43,4 +43,4 @@ Download the project and replace your own `MAPS_API_KEY` in `local.properties`.
 
 ## Contributors 👷
 Made by Jan Steuer  
-Ilustrations by [@pch.vector](https:/www.freepik.com/author/pch-vector)
+Ilustrations by [@pch.vector](https://www.freepik.com/author/pch-vector)
